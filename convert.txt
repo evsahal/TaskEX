@@ -1,0 +1,6 @@
+pyside6-uic gui/ui_files/main.ui -o gui/generated/ui_main.py
+
+
+pyside6-rcc resources/resources.qrc -o resources/qrc_generated/resources_rc.py
+
+from resources.qrc_generated import resources_rc
