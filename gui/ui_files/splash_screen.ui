@@ -40,10 +40,10 @@
 }</string>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <widget class="QLabel" name="label_title_version">
        <property name="geometry">
@@ -67,7 +67,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;TaskEnforcerX &lt;span style=&quot; font-size:12pt;&quot;&gt;v&lt;/span&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;0.0.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_description">
@@ -92,7 +92,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Evony-TKR&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QProgressBar" name="progressBar">
@@ -108,7 +108,7 @@
         <string notr="true">QProgressBar {
 	
 	background-color: rgb(98, 114, 164);
-	color: rgb(200, 200, 200);
+	color: transparent;
 	border-style: none;
 	border-radius: 10px;
 	text-align: center;
@@ -144,7 +144,7 @@ QProgressBar::chunk{
         <string>Setting up TaskEnforcerX...</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="label_credits">
@@ -169,7 +169,7 @@ QProgressBar::chunk{
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;By: MwoNuZzz&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
        </property>
       </widget>
      </widget>

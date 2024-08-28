@@ -1,7 +1,8 @@
 import os
+import time
 from tkinter import font
 
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt, QSize, QTimer
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout, QLabel, QSizePolicy, QFrame, \
     QPushButton
@@ -16,13 +17,34 @@ from gui.generated.ui_main import Ui_MainWindow
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 class MainWindow(QMainWindow):
-    def __init__(self):
-        QMainWindow.__init__(self)
+    def __init__(self, splash_screen):
+        super(MainWindow, self).__init__()
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.widgets = self.ui
 
+        # Perform initialization and update splash screen
+        self.perform_initialization(splash_screen)
+
+    def perform_initialization(self, splash_screen):
+        # List of initialization steps with corresponding messages
+        init_steps = [
+            ("Loading UI Settings",self.load_ui_settings),
+            # ("Loading Configurations", self.load_configurations),
+            # ("Loading Settings", self.load_settings),
+            ("Initializing Instances", self.init_instance),
+            # ("Finalizing Setup", self.finalize_setup)
+        ]
+
+        splash_screen.ui.progressBar.setMaximum(len(init_steps))
+
+        for i, (message, function) in enumerate(init_steps):
+            QTimer.singleShot(i * 1000,
+                              lambda msg=message, func=function, idx=i + 1: self.load_step(splash_screen, msg, func,
+                                                                                           idx))
+
+    def load_ui_settings(self):
         # USE CUSTOM TITLE BAR | USE AS "False" FOR MAC OR LINUX
         # ///////////////////////////////////////////////////////////////
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
@@ -36,7 +58,6 @@ class MainWindow(QMainWindow):
         self.widgets.creditsLabel.setText(Settings.CREDITS)
         self.widgets.version.setText(Settings.VERSION)
 
-
         # Create a scroll area for the topMenu
         self.scroll_area = QScrollArea(self.widgets.leftMenuFrame)
         self.scroll_area.setWidgetResizable(True)
@@ -44,7 +65,6 @@ class MainWindow(QMainWindow):
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.scroll_area.setStyleSheet("background-color: rgb(37, 41, 48);")
         self.scroll_area.setWidget(self.widgets.topMenu)
-
 
         # Get the layout of leftMenuFrame
         layout = self.widgets.leftMenuFrame.layout()
@@ -55,16 +75,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.scroll_area)  # Scroll area next
         # layout.addStretch()
         layout.addWidget(self.widgets.bottomMenu)  # Instance Manager at the bottom
-
-        # Load Active Ports Config
-        # Call setup function in your main window initialization
-        setup_port_display_table(self)
-
-        # Populate the table with sample data
-        get_available_ports(self)
-
-        # Load the Default Instances
-        initialize_instances(self,1)
 
         # TOGGLE MENU
         # ///////////////////////////////////////////////////////////////
@@ -78,35 +88,48 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.widgets.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
-
         # LEFT MENUS
         # Connect buttons directly to click events
         connect_buttons(self)
 
-
         # EXTRA LEFT BOX
         def openCloseLeftBox():
             UIFunctions.toggleLeftBox(self, True)
+
         self.widgets.toggleLeftBox.clicked.connect(openCloseLeftBox)
         self.widgets.extraCloseColumnBtn.clicked.connect(openCloseLeftBox)
 
         # EXTRA RIGHT BOX
         def openCloseRightBox():
             UIFunctions.toggleRightBox(self, True)
+
         self.widgets.settingsTopBtn.clicked.connect(openCloseRightBox)
 
         # SCREEN SIZE
         UIFunctions.screen_size(self)
 
-        # SHOW APP
-        # ///////////////////////////////////////////////////////////////
-        self.show()
-
+        # Load Active Ports UI Setup
+        setup_port_display_table(self)
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
+
+    def init_instance(self):
+        # Load the Default Instances
+        initialize_instances(self, 1)
+
+    def load_step(self, splash_screen, message, function, index):
+        splash_screen.ui.progressBar.setValue(index)
+        splash_screen.ui.label_loading.setText(message)
+        function()  # Execute the initialization function
+
+        if index == splash_screen.ui.progressBar.maximum():
+            splash_screen.close()
+            # SHOW APP
+            # ///////////////////////////////////////////////////////////////
+            self.show()
 
 
     # RESIZE EVENTS

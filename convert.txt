@@ -1,4 +1,5 @@
 pyside6-uic gui/ui_files/main.ui -o gui/generated/ui_main.py
+pyside6-uic gui/ui_files/splash_screen.ui -o gui/generated/splash_screen.py
 
 
 pyside6-rcc resources/resources.qrc -o resources/qrc_generated/resources_rc.py

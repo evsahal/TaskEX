@@ -79,6 +79,7 @@ class UIFunctions():
     # ///////////////////////////////////////////////////////////////
     def toggleLeftBox(self, enable):
         if enable:
+            print("CP - 1")
             # GET WIDTH
             width = self.ui.extraLeftBox.width()
             widthRightBox = self.ui.extraRightBox.width()
