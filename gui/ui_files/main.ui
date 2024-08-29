@@ -1255,7 +1255,7 @@ Button */
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset resource="../../../ModernGUI/resources.qrc">
+                  <iconset resource="../../resources/resources.qrc">
                    <normaloff>:/icons/images/icons/icon_close.png</normaloff>:/icons/images/icons/icon_close.png</iconset>
                  </property>
                  <property name="iconSize">
@@ -1642,7 +1642,7 @@ QTableWidget::item {
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../ModernGUI/resources.qrc">
+                   <iconset resource="../../resources/resources.qrc">
                     <normaloff>:/icons/images/icons/icon_settings.png</normaloff>:/icons/images/icons/icon_settings.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1677,7 +1677,7 @@ QTableWidget::item {
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../ModernGUI/resources.qrc">
+                   <iconset resource="../../resources/resources.qrc">
                     <normaloff>:/icons/images/icons/icon_minimize.png</normaloff>:/icons/images/icons/icon_minimize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1721,7 +1721,7 @@ QTableWidget::item {
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../ModernGUI/resources.qrc">
+                   <iconset resource="../../resources/resources.qrc">
                     <normaloff>:/icons/images/icons/icon_maximize.png</normaloff>:/icons/images/icons/icon_maximize.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -1756,7 +1756,7 @@ QTableWidget::item {
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../../../ModernGUI/resources.qrc">
+                   <iconset resource="../../resources/resources.qrc">
                     <normaloff>:/icons/images/icons/icon_close.png</normaloff>:/icons/images/icons/icon_close.png</iconset>
                   </property>
                   <property name="iconSize">
@@ -2052,7 +2052,7 @@ background-repeat: no-repeat;</string>
                                      <string>Open</string>
                                     </property>
                                     <property name="icon">
-                                     <iconset resource="../../../ModernGUI/resources.qrc">
+                                     <iconset resource="../../resources/resources.qrc">
                                       <normaloff>:/icons/images/icons/cil-folder-open.png</normaloff>:/icons/images/icons/cil-folder-open.png</iconset>
                                     </property>
                                    </widget>
@@ -2274,7 +2274,7 @@ background-repeat: no-repeat;</string>
                                <string>Link Button</string>
                               </property>
                               <property name="icon">
-                               <iconset resource="../../../ModernGUI/resources.qrc">
+                               <iconset resource="../../resources/resources.qrc">
                                 <normaloff>:/icons/images/icons/cil-link.png</normaloff>:/icons/images/icons/cil-link.png</iconset>
                               </property>
                               <property name="description">
@@ -3031,7 +3031,7 @@ background-repeat: no-repeat;</string>
   </widget>
  </widget>
  <resources>
-  <include location="../../../ModernGUI/resources.qrc"/>
+  <include location="../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

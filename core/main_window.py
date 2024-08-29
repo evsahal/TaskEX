@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout
     QPushButton
 
 from core.app_settings import Settings
-from core.instance_manager import setup_port_display_table, get_available_ports
+from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from gui.generated.ui_main import Ui_MainWindow
@@ -24,10 +24,11 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.widgets = self.ui
 
-        # Perform initialization and update splash screen
-        self.perform_initialization(splash_screen)
+        # Connect the splash screen's guest login signal to a method to start initialization
+        splash_screen.load_signal.connect(lambda: self.perform_initialization(splash_screen))
 
     def perform_initialization(self, splash_screen):
+        print("Loading...")
         # List of initialization steps with corresponding messages
         init_steps = [
             ("Loading UI Settings",self.load_ui_settings),
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow):
         ]
 
         splash_screen.ui.progressBar.setMaximum(len(init_steps))
+
 
         for i, (message, function) in enumerate(init_steps):
             QTimer.singleShot(i * 1000,
@@ -111,6 +113,9 @@ class MainWindow(QMainWindow):
         # Load Active Ports UI Setup
         setup_port_display_table(self)
 
+        # Load Open Emulator Ports
+        reload_ports(self)
+
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
@@ -127,7 +132,7 @@ class MainWindow(QMainWindow):
 
         if index == splash_screen.ui.progressBar.maximum():
             splash_screen.close()
-            # SHOW APP
+            # SHOW MAIN APP
             # ///////////////////////////////////////////////////////////////
             self.show()
 

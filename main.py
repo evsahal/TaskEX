@@ -11,7 +11,6 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon("icon.ico"))
 
     splash = SplashScreen()  # Create and show the splash screen
-    splash.show()  # Display the splash screen
 
     window = MainWindow(splash)  # Pass the splash screen instance to the main window
     splash.show()  # Ensure the splash screen is on top during initialization

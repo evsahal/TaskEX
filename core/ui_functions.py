@@ -5,7 +5,6 @@ from PySide6.QtWidgets import QPushButton, QGraphicsDropShadowEffect, QSizeGrip,
 from core.app_settings import Settings
 from core.custom_grips import CustomGrip
 
-
 # GLOBALS
 # ///////////////////////////////////////////////////////////////
 GLOBAL_STATE = False
@@ -79,7 +78,6 @@ class UIFunctions():
     # ///////////////////////////////////////////////////////////////
     def toggleLeftBox(self, enable):
         if enable:
-            print("CP - 1")
             # GET WIDTH
             width = self.ui.extraLeftBox.width()
             widthRightBox = self.ui.extraRightBox.width()
