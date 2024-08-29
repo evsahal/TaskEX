@@ -131,7 +131,7 @@ class MainWindow(QMainWindow):
         function()  # Execute the initialization function
 
         if index == splash_screen.ui.progressBar.maximum():
-            splash_screen.close()
+            # splash_screen.close()
             # SHOW MAIN APP
             # ///////////////////////////////////////////////////////////////
             self.show()

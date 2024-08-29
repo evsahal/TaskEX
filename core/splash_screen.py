@@ -1,6 +1,7 @@
 import sys
 import time
 
+from PySide6 import QtCore
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QProgressBar, QMainWindow, QWidget
 from PySide6.QtCore import Qt, Signal, QPropertyAnimation, QPoint, QEasingCurve, QTimer, QSettings
 
@@ -28,13 +29,10 @@ class SplashScreen(QMainWindow):
         self.ui.label_title_version.setText(
             f'<html><head/><body><p>TaskEnforcerX <span style=" font-size:16pt;">{Settings.VERSION}</span></p></body></html>')
 
-
-
         # Check if the user has previously logged in as a guest
         self.logged_in = self.check_previous_login()
         # print(self.logged_in)
         if self.logged_in:
-
             self.hide_login_frame()
 
             # Emit signal after event loop starts
@@ -44,7 +42,7 @@ class SplashScreen(QMainWindow):
             self.ui.btn_login_guest.clicked.connect(self.login_as_guest)
             self.ui.btn_exit.clicked.connect(lambda: sys.exit())
             # Set Splash screen window height for login
-            self.setFixedHeight(450)
+            self.setFixedHeight(410)
 
         self.show()  # Display the splash screen
 
@@ -64,7 +62,18 @@ class SplashScreen(QMainWindow):
         self.ui.progress_frame.setMaximumHeight(16777215)
 
         # Set Splash screen window height
-        self.setFixedHeight(320)
+        self.setFixedHeight(380)
+
+        # Adjust the layout margin
+        layout = self.ui.header_frame.parentWidget().layout()
+
+        # Retrieve the current margins
+        left, top, right, bottom = layout.getContentsMargins()
+
+        # Update only the top margin (e.g., increase by 20 pixels)
+        new_top = top + 30
+
+        layout.setContentsMargins(left, new_top, right, bottom)
 
 
     def login_as_guest(self):
