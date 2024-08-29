@@ -151,7 +151,6 @@ class Ui_SplashScreen(object):
         self.login_frame.setObjectName(u"login_frame")
         sizePolicy1.setHeightForWidth(self.login_frame.sizePolicy().hasHeightForWidth())
         self.login_frame.setSizePolicy(sizePolicy1)
-        self.login_frame.setMinimumSize(QSize(0, 0))
         self.login_frame.setMaximumSize(QSize(16777215, 16777215))
         self.login_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.login_frame.setFrameShadow(QFrame.Shadow.Raised)
@@ -308,7 +307,7 @@ class Ui_SplashScreen(object):
     # setupUi
 
     def retranslateUi(self, SplashScreen):
-        SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"MainWindow", None))
+        SplashScreen.setWindowTitle(QCoreApplication.translate("SplashScreen", u"TaskEX - Login", None))
         self.label_title_version.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p>TaskEnforcerX <span style=\" font-size:12pt;\">v</span><span style=\" font-size:16pt;\">0.0.0</span></p></body></html>", None))
         self.label_description.setText(QCoreApplication.translate("SplashScreen", u"<html><head/><body><p>Ultimate Edition</p></body></html>", None))
         self.btn_login.setText(QCoreApplication.translate("SplashScreen", u"Login", None))

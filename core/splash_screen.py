@@ -20,14 +20,15 @@ class SplashScreen(QMainWindow):
 
         # Set up the central widget using the generated UI setup
         self.setCentralWidget(self.ui.centralwidget)
-        self.setWindowFlags(Qt.FramelessWindowHint)  # Optional: Hide the window frame for a splash effect
+
+        # Hide the window frame for a splash effect
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         # Set Splash Screen Version
         self.ui.label_title_version.setText(
             f'<html><head/><body><p>TaskEnforcerX <span style=" font-size:16pt;">{Settings.VERSION}</span></p></body></html>')
 
-        self.ui.btn_login_guest.clicked.connect(self.login_as_guest)
-        self.ui.btn_exit.clicked.connect(lambda: sys.exit())
+
 
         # Check if the user has previously logged in as a guest
         self.logged_in = self.check_previous_login()
@@ -40,6 +41,8 @@ class SplashScreen(QMainWindow):
             QTimer.singleShot(0, self.load_signal.emit)
 
         else:
+            self.ui.btn_login_guest.clicked.connect(self.login_as_guest)
+            self.ui.btn_exit.clicked.connect(lambda: sys.exit())
             # Set Splash screen window height for login
             self.setFixedHeight(450)
 
