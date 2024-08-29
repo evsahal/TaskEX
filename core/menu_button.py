@@ -1,6 +1,7 @@
+import sys
 from turtledemo.sorting_animate import ssort
 
-from PySide6.QtCore import QSize, Qt
+from PySide6.QtCore import QSize, Qt, QSettings
 from PySide6.QtGui import QIcon, QCursor, QFont
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
     QSpacerItem
@@ -47,6 +48,11 @@ def handle_button_click(main_window, btn):
         # Call function to add a new dynamic button
         add_new_menu_button(main_window)
 
+    # CALL LOGOUT FUNCTION
+    elif btnName == "btn_logout":
+        # Call function to add a new dynamic button
+        logout(main_window)
+
     # SHOW EMULATOR PAGE
     elif btnName.startswith("btn_emu_"):
         # Extract the number from the button name
@@ -77,6 +83,13 @@ def connect_buttons(main_window):
         lambda: handle_button_click(main_window, main_window.widgets.btn_collective))
     main_window.widgets.btn_add.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_add))
     main_window.widgets.btn_bot_manager.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_bot_manager))
+    main_window.widgets.btn_logout.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_logout))
+
+def logout(main_window):
+    settings = QSettings("TaskEnforceX", "TaskEX")
+    settings.setValue("logged_in", False)
+    sys.exit()
+
 
 def add_new_menu_button(main_window,selection = True):
     """

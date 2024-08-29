@@ -2,7 +2,7 @@ import sys
 import time
 
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QProgressBar, QMainWindow, QWidget
-from PySide6.QtCore import Qt, Signal, QPropertyAnimation, QPoint, QEasingCurve, QTimer
+from PySide6.QtCore import Qt, Signal, QPropertyAnimation, QPoint, QEasingCurve, QTimer, QSettings
 
 from core.app_settings import Settings
 from gui.generated.splash_screen import Ui_SplashScreen
@@ -29,9 +29,9 @@ class SplashScreen(QMainWindow):
         self.ui.btn_login_guest.clicked.connect(self.login_as_guest)
         self.ui.btn_exit.clicked.connect(lambda: sys.exit())
 
-        #  :: check and see if the option is remembered, so the login will be skipped
-        self.logged_in = True
-
+        # Check if the user has previously logged in as a guest
+        self.logged_in = self.check_previous_login()
+        # print(self.logged_in)
         if self.logged_in:
 
             self.hide_login_frame()
@@ -44,6 +44,14 @@ class SplashScreen(QMainWindow):
             self.setFixedHeight(450)
 
         self.show()  # Display the splash screen
+
+    def check_previous_login(self):
+        settings = QSettings("TaskEnforceX", "TaskEX")
+        return settings.value("logged_in", False, type=bool)
+
+    def save_login_state(self, state):
+        settings = QSettings("TaskEnforceX", "TaskEX")
+        settings.setValue("logged_in", state)
 
     def hide_login_frame(self):
         # Hide the login frame
@@ -60,6 +68,9 @@ class SplashScreen(QMainWindow):
         # print("Logged in as Guest")
 
         self.hide_login_frame()
+
+        # Update the login state in persistent storage
+        self.save_login_state(True)
 
         # Emit the signal to indicate guest login
         self.load_signal.emit()
