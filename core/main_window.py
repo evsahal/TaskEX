@@ -12,7 +12,7 @@ from core.instance_manager import setup_port_display_table, get_available_ports,
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from gui.generated.ui_main import Ui_MainWindow
-
+from utils.adb_utils import initialize_adb, connect_to_device_by_port, take_ss, swipe, tap, manage_app
 
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         init_steps = [
             ("Loading UI Settings",self.load_ui_settings),
             # ("Loading Configurations", self.load_configurations),
-            # ("Loading Settings", self.load_settings),
+            ("Initializing ADB", self.init_adb),
             ("Initializing Instances", self.init_instance),
             # ("Finalizing Setup", self.finalize_setup)
         ]
@@ -107,6 +107,9 @@ class MainWindow(QMainWindow):
 
         self.widgets.settingsTopBtn.clicked.connect(openCloseRightBox)
 
+        #Remove this
+        self.widgets.pushButton.clicked.connect(self.test)
+
         # SCREEN SIZE
         UIFunctions.screen_size(self)
 
@@ -120,6 +123,20 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
+
+    def init_adb(self):
+
+        # call the iniitializer for adb
+        initialize_adb()
+
+        # connect
+        self.device = connect_to_device_by_port('5585')
+
+
+    def test(self):
+        # zoom
+        manage_app(self.device,start=True)
+
 
     def init_instance(self):
         # Load the Default Instances
