@@ -60,7 +60,9 @@ def handle_button_click(main_window, btn):
         page_name = f"page_emu_{num}"  # Create the corresponding page name
 
         # Find the page by object name
-        page = main_window.findChild(QWidget, page_name)
+        page = getattr(main_window.widgets, page_name)
+        # page = main_window.findChild(QWidget, page_name)
+
 
         if page:
             # Set the corresponding page in the stackedWidget
@@ -141,6 +143,9 @@ def add_new_menu_button(main_window,selection = True):
 
     # Add the new page to the stackedWidget
     main_window.widgets.stackedWidget.addWidget(new_page)
+
+    # Register dynamically created widgets to main_window.widgets
+    setattr(main_window.widgets, new_page.objectName(), new_page)
 
     # Connect the new button to a click handler
     new_button.clicked.connect(lambda: handle_button_click(main_window, new_button))

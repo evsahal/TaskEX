@@ -136,9 +136,9 @@ class MainWindow(QMainWindow):
 
 
     def test(self):
-        # zoom
-        self.adb_instance.swipe(30,300,500,300)
-
+        # swipe
+        # self.adb_instance.swipe(30,300,500,300)
+        pass
 
     def init_instance(self):
         # Load the Default Instances
