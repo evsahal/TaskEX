@@ -32,14 +32,14 @@ def add_instance_controls(main_window,index):
     emu_line_edit.setObjectName(f"im_emu_{index}")
     emu_line_edit.setPlaceholderText(f"Emulator {index}")
     emu_line_edit.setText(f"Emulator {index}")
-    emu_line_edit.setFixedHeight(40)  # Set fixed height for line edit
+    emu_line_edit.setFixedHeight(39)  # Set fixed height for line edit
     emu_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Set width policy to expanding
 
     # 2. Create a QLineEdit for port number
     port_line_edit = QLineEdit()
     port_line_edit.setObjectName(f"im_port_{index}")
     port_line_edit.setPlaceholderText("Port No.")
-    port_line_edit.setFixedHeight(40)  # Set fixed height for line edit
+    port_line_edit.setFixedHeight(39)  # Set fixed height for line edit
     port_line_edit.setFixedWidth(80)
     port_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Set width policy to expanding
 
@@ -48,7 +48,7 @@ def add_instance_controls(main_window,index):
     play_button.setObjectName(f"im_run_{index}")
     play_button.setIcon(QIcon(":/icons/images/icons/cil-media-play.png"))  # Replace with actual path to run icon
     play_button.setToolTip("Run")
-    play_button.setFixedSize(40, 40)  # Set fixed size for the play button
+    play_button.setFixedSize(39, 39)  # Set fixed size for the play button
     play_button.setStyleSheet("""QPushButton{	border-radius: 5px;	border: 2px solid rgb(33, 37, 43);}
     QPushButton:hover { background-color: rgb(57, 65, 80); }
     QPushButton:pressed {	background-color: rgb(35, 40, 49); 	border: 2px solid rgb(43, 50, 61); }
