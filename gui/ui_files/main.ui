@@ -951,7 +951,7 @@ Button */
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="btn_collective">
+                 <widget class="QPushButton" name="btn_coordinate_manager">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -959,10 +959,10 @@ Button */
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">background-image: url(:/icons/images/icons/cil-cloudy.png);</string>
+                   <string notr="true">background-image: url(:/icons/images/icons/cil-map.png);</string>
                   </property>
                   <property name="text">
-                   <string>Collective</string>
+                   <string>Coordinate Manager</string>
                   </property>
                  </widget>
                 </item>
@@ -1854,7 +1854,7 @@ QTableWidget::item {
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>2</number>
+                      <number>1</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="styleSheet">
@@ -1863,7 +1863,7 @@ background-position: center;
 background-repeat: no-repeat;</string>
                       </property>
                      </widget>
-                     <widget class="QWidget" name="collective">
+                     <widget class="QWidget" name="coordinate_manager">
                       <layout class="QVBoxLayout" name="verticalLayout_21">
                        <item>
                         <widget class="QLabel" name="label_2">

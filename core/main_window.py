@@ -12,7 +12,7 @@ from core.instance_manager import setup_port_display_table, get_available_ports,
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from gui.generated.ui_main import Ui_MainWindow
-from utils.adb_utils import initialize_adb, connect_to_device_by_port, take_ss, swipe, tap, manage_app
+from utils.adb_manager import ADBManager
 
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
@@ -127,15 +127,17 @@ class MainWindow(QMainWindow):
     def init_adb(self):
 
         # call the iniitializer for adb
-        initialize_adb()
+        ADBManager.initialize_adb()
 
-        # connect
-        self.device = connect_to_device_by_port('5585')
+        # # connect
+        # self.adb_instance = ADBManager(port="5585")
+        # self.adb_instance.manage_evony_app(start=True)
+
 
 
     def test(self):
         # zoom
-        manage_app(self.device,start=True)
+        self.adb_instance.swipe(30,300,500,300)
 
 
     def init_instance(self):

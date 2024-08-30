@@ -741,12 +741,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_custom_task)
 
-        self.btn_collective = QPushButton(self.topMenu)
-        self.btn_collective.setObjectName(u"btn_collective")
-        self.btn_collective.setMinimumSize(QSize(0, 45))
-        self.btn_collective.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-cloudy.png);")
+        self.btn_coordinate_manager = QPushButton(self.topMenu)
+        self.btn_coordinate_manager.setObjectName(u"btn_coordinate_manager")
+        self.btn_coordinate_manager.setMinimumSize(QSize(0, 45))
+        self.btn_coordinate_manager.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-map.png);")
 
-        self.verticalLayout_8.addWidget(self.btn_collective)
+        self.verticalLayout_8.addWidget(self.btn_coordinate_manager)
 
         self.btn_add = QPushButton(self.topMenu)
         self.btn_add.setObjectName(u"btn_add")
@@ -1110,17 +1110,17 @@ class Ui_MainWindow(object):
 "background-position: center;\n"
 "background-repeat: no-repeat;")
         self.stackedWidget.addWidget(self.home)
-        self.collective = QWidget()
-        self.collective.setObjectName(u"collective")
-        self.verticalLayout_21 = QVBoxLayout(self.collective)
+        self.coordinate_manager = QWidget()
+        self.coordinate_manager.setObjectName(u"coordinate_manager")
+        self.verticalLayout_21 = QVBoxLayout(self.coordinate_manager)
         self.verticalLayout_21.setObjectName(u"verticalLayout_21")
-        self.label_2 = QLabel(self.collective)
+        self.label_2 = QLabel(self.coordinate_manager)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_21.addWidget(self.label_2)
 
-        self.stackedWidget.addWidget(self.collective)
+        self.stackedWidget.addWidget(self.coordinate_manager)
         self.custom_tasks = QWidget()
         self.custom_tasks.setObjectName(u"custom_tasks")
         self.custom_tasks.setStyleSheet(u"b")
@@ -1604,7 +1604,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1617,7 +1617,7 @@ class Ui_MainWindow(object):
         self.toggleButton.setText("")
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.btn_custom_task.setText(QCoreApplication.translate("MainWindow", u"Custom Tasks", None))
-        self.btn_collective.setText(QCoreApplication.translate("MainWindow", u"Collective", None))
+        self.btn_coordinate_manager.setText(QCoreApplication.translate("MainWindow", u"Coordinate Manager", None))
         self.btn_add.setText(QCoreApplication.translate("MainWindow", u"Create Instance", None))
         self.btn_bot_manager.setText(QCoreApplication.translate("MainWindow", u"Bot Manager", None))
         self.toggleLeftBox.setText(QCoreApplication.translate("MainWindow", u"Instance Manager", None))

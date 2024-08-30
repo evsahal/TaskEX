@@ -32,8 +32,8 @@ def handle_button_click(main_window, btn):
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
     # SHOW COLLECTIVE PAGE
-    if btnName == "btn_collective":
-        main_window.widgets.stackedWidget.setCurrentWidget(main_window.widgets.collective)
+    if btnName == "btn_coordinate_manager":
+        main_window.widgets.stackedWidget.setCurrentWidget(main_window.widgets.coordinate_manager)
         UIFunctions.resetStyle(main_window, btnName)
         btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
@@ -79,8 +79,8 @@ def connect_buttons(main_window):
     """
     main_window.widgets.btn_home.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_home))
     main_window.widgets.btn_custom_task.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_custom_task))
-    main_window.widgets.btn_collective.clicked.connect(
-        lambda: handle_button_click(main_window, main_window.widgets.btn_collective))
+    main_window.widgets.btn_coordinate_manager.clicked.connect(
+        lambda: handle_button_click(main_window, main_window.widgets.btn_coordinate_manager))
     main_window.widgets.btn_add.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_add))
     main_window.widgets.btn_bot_manager.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_bot_manager))
     main_window.widgets.btn_logout.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_logout))
