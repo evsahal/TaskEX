@@ -15,8 +15,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QSizePolicy, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QSizePolicy, QTabWidget,
+    QVBoxLayout, QWidget)
 
 class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
@@ -469,19 +469,45 @@ class Ui_InstancePage(object):
 "")
         self.verticalLayout = QVBoxLayout(InstancePage)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_ = QLabel(InstancePage)
+        self.tabWidget = QTabWidget(InstancePage)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.verticalLayout_2 = QVBoxLayout(self.tab)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label_ = QLabel(self.tab)
         self.label_.setObjectName(u"label_")
 
-        self.verticalLayout.addWidget(self.label_, 0, Qt.AlignmentFlag.AlignHCenter)
+        self.verticalLayout_2.addWidget(self.label_, 0, Qt.AlignmentFlag.AlignHCenter)
+
+        self.tabWidget.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.tabWidget.addTab(self.tab_2, "")
+        self.tab_3 = QWidget()
+        self.tab_3.setObjectName(u"tab_3")
+        self.tabWidget.addTab(self.tab_3, "")
+        self.tab_4 = QWidget()
+        self.tab_4.setObjectName(u"tab_4")
+        self.tabWidget.addTab(self.tab_4, "")
+
+        self.verticalLayout.addWidget(self.tabWidget)
 
 
         self.retranslateUi(InstancePage)
+
+        self.tabWidget.setCurrentIndex(0)
+
 
         QMetaObject.connectSlotsByName(InstancePage)
     # setupUi
 
     def retranslateUi(self, InstancePage):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
-        self.label_.setText(QCoreApplication.translate("InstancePage", u"New Instance", None))
+        self.label_.setText(QCoreApplication.translate("InstancePage", u"TextLabel", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("InstancePage", u"Run", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("InstancePage", u"General", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("InstancePage", u"Join Rally", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), QCoreApplication.translate("InstancePage", u"More Activities", None))
     # retranslateUi
 

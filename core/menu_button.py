@@ -163,7 +163,7 @@ def add_new_instance_page(main_window,index):
     # Register dynamically created widgets to main_window.widgets
     setattr(main_window.widgets, new_page.objectName(), new_page)
 
-    # Loop through all the attributes in instance_ui that are widgets
+    # Loop through all the attributes in instance_ui that are widgets and update the object name
     for attr_name in dir(instance_ui):
         # Ignore special methods and attributes
         if not attr_name.startswith('__'):
@@ -172,14 +172,13 @@ def add_new_instance_page(main_window,index):
             if hasattr(widget, 'objectName'):
                 # Only update names that end with '_'
                 if widget.objectName().endswith('_'):
-                    print(widget.objectName())
+                    # print(widget.objectName())
                     new_name = f"{widget.objectName()}{index}"
                     widget.setObjectName(new_name)
                     # Register the renamed widget
-                    setattr(instance_ui, new_name, widget)
+                    setattr(main_window, new_name, widget)
+    getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
 
-    # Optionally, customize the new page (e.g., set labels, configure tabs)
-    getattr(instance_ui, f'label_{index}').setText(f"# This is Emulator {index} #")
 
 def initialize_instances(main_window, num_instances):
     """
