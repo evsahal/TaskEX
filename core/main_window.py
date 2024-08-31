@@ -28,14 +28,14 @@ class MainWindow(QMainWindow):
         splash_screen.load_signal.connect(lambda: self.perform_initialization(splash_screen))
 
     def perform_initialization(self, splash_screen):
-        print("Loading...")
+        # print("Loading...")
         # List of initialization steps with corresponding messages
         init_steps = [
             ("Loading UI Settings",self.load_ui_settings),
             # ("Loading Configurations", self.load_configurations),
             ("Initializing ADB", self.init_adb),
             ("Initializing Instances", self.init_instance),
-            # ("Finalizing Setup", self.finalize_setup)
+            ("Finalizing Setup", self.finalize_setup)
         ]
 
         splash_screen.ui.progressBar.setMaximum(len(init_steps))
@@ -118,7 +118,12 @@ class MainWindow(QMainWindow):
 
         # Load Open Emulator Ports
         reload_ports(self)
+        # SET HOME PAGE AND SELECT MENU
+        # ///////////////////////////////////////////////////////////////
+        self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
+        self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
 
+    def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
@@ -131,7 +136,7 @@ class MainWindow(QMainWindow):
 
         # # connect
         # self.adb_instance = ADBManager(port="5585")
-        # self.adb_instance.manage_evony_app(start=True)
+        # self.adb_instance.launch_evony(start=True)
 
 
 

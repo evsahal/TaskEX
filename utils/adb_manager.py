@@ -23,7 +23,7 @@ class ADBManager:
         try:
             # print("Starting ADB server...")
             subprocess.run(["adb", "start-server"], check=True)
-            # print("ADB server started.")
+            print("ADB server started.")
         except subprocess.CalledProcessError as e:
             # print(f"Failed to start ADB server: {e}")
             exit(1)

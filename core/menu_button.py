@@ -1,4 +1,5 @@
 import sys
+from operator import indexOf
 from turtledemo.sorting_animate import ssort
 
 from PySide6.QtCore import QSize, Qt, QSettings
@@ -8,6 +9,7 @@ from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLa
 
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
+from gui.generated.instance_page import Ui_InstancePage
 
 
 def handle_button_click(main_window, btn):
@@ -98,8 +100,10 @@ def add_new_menu_button(main_window,selection = True):
     Add a new menu button dynamically with a specific stylesheet.
     :param main_window: The instance of the main window to access widgets.
     """
-    # Create a new QPushButton
+    # Get the next index for adding the instance
     next_index = get_next_btn_emu_number(main_window)
+
+    # Create a new QPushButton
     new_button = QPushButton(f"Emulator {next_index}", main_window)
     new_button.setObjectName(f"btn_emu_{next_index}")
 
@@ -130,25 +134,11 @@ def add_new_menu_button(main_window,selection = True):
     layout = main_window.widgets.topMenu.layout()  # topMenu is the container for buttons
     layout.insertWidget(layout.indexOf(main_window.widgets.btn_add), new_button)
 
-
-    # Create a new page for the stackedWidget
-    new_page = QWidget()
-    new_page.setObjectName(f"page_emu_{next_index}")
-
-    # You can customize the new page here (e.g., add labels, input fields)
-    label = QLabel(f"This is Emulator {next_index} page", new_page)
-    label.setAlignment(Qt.AlignCenter)
-    new_page_layout = QVBoxLayout(new_page)
-    new_page_layout.addWidget(label)
-
-    # Add the new page to the stackedWidget
-    main_window.widgets.stackedWidget.addWidget(new_page)
-
-    # Register dynamically created widgets to main_window.widgets
-    setattr(main_window.widgets, new_page.objectName(), new_page)
-
     # Connect the new button to a click handler
     new_button.clicked.connect(lambda: handle_button_click(main_window, new_button))
+
+    # Setup a new instance page
+    add_new_instance_page(main_window,next_index)
 
     # Simulate a button click to trigger the event
     new_button.click()
@@ -156,6 +146,40 @@ def add_new_menu_button(main_window,selection = True):
         UIFunctions.resetStyle(main_window, '')
 
     add_instance_controls(main_window,next_index)
+
+def add_new_instance_page(main_window,index):
+
+    # Create a new page for the stackedWidget
+    new_page = QWidget()
+    new_page.setObjectName(f"page_emu_{index}")
+
+    # Initialize the instance page UI and set it up for the new_page
+    instance_ui = Ui_InstancePage()
+    instance_ui.setupUi(new_page)
+
+    # Add the new page to the stackedWidget
+    main_window.widgets.stackedWidget.addWidget(new_page)
+
+    # Register dynamically created widgets to main_window.widgets
+    setattr(main_window.widgets, new_page.objectName(), new_page)
+
+    # Loop through all the attributes in instance_ui that are widgets
+    for attr_name in dir(instance_ui):
+        # Ignore special methods and attributes
+        if not attr_name.startswith('__'):
+            widget = getattr(instance_ui, attr_name)
+            # Check if it's a QWidget with objectName
+            if hasattr(widget, 'objectName'):
+                # Only update names that end with '_'
+                if widget.objectName().endswith('_'):
+                    print(widget.objectName())
+                    new_name = f"{widget.objectName()}{index}"
+                    widget.setObjectName(new_name)
+                    # Register the renamed widget
+                    setattr(instance_ui, new_name, widget)
+
+    # Optionally, customize the new page (e.g., set labels, configure tabs)
+    getattr(instance_ui, f'label_{index}').setText(f"# This is Emulator {index} #")
 
 def initialize_instances(main_window, num_instances):
     """

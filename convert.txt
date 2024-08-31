@@ -1,4 +1,5 @@
 pyside6-uic gui/ui_files/main.ui -o gui/generated/ui_main.py
+pyside6-uic gui/ui_files/instance_page.ui -o gui/generated/instance_page.py
 pyside6-uic gui/ui_files/splash_screen.ui -o gui/generated/splash_screen.py
 
 

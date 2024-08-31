@@ -151,10 +151,6 @@ def get_available_ports(main_window):
         # print(f"Emulator Type: {emulator_type}, Port Number: {port_number}")
         add_row_to_port_display_table(main_window, emulator_type, port_number)
 
-    # add_row_to_port_display_table(main_window, "Bluestacks", 5554)
-    # add_row_to_port_display_table(main_window, "Memu", 5556)
-    # add_row_to_port_display_table(main_window, "Memu", 5557)
-    # add_row_to_port_display_table(main_window, "Bluestacks", 5558)
 
 def find_emulator_ports():
     emulator_ports = []
