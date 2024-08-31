@@ -1,6 +1,7 @@
 from zoneinfo import available_timezones
 
 import psutil
+from PySide6 import QtCore
 from PySide6.QtWidgets import QTableWidgetItem, QHeaderView, QPushButton, QToolTip, QApplication, QWidget, QVBoxLayout, \
     QLineEdit, QSizePolicy, QHBoxLayout
 from PySide6.QtGui import QIcon, QCursor
@@ -32,16 +33,19 @@ def add_instance_controls(main_window,index):
     emu_line_edit.setObjectName(f"im_emu_{index}")
     emu_line_edit.setPlaceholderText(f"Emulator {index}")
     emu_line_edit.setText(f"Emulator {index}")
-    emu_line_edit.setFixedHeight(39)  # Set fixed height for line edit
-    emu_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Set width policy to expanding
+    emu_line_edit.setFixedHeight(39)
+    emu_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+    setattr(main_window.widgets, emu_line_edit.objectName(), emu_line_edit)
+    print(emu_line_edit.objectName())
 
     # 2. Create a QLineEdit for port number
     port_line_edit = QLineEdit()
     port_line_edit.setObjectName(f"im_port_{index}")
     port_line_edit.setPlaceholderText("Port No.")
-    port_line_edit.setFixedHeight(39)  # Set fixed height for line edit
+    port_line_edit.setFixedHeight(39)
     port_line_edit.setFixedWidth(80)
-    port_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Set width policy to expanding
+    port_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+    setattr(main_window.widgets, port_line_edit.objectName(), port_line_edit)
 
     # 3. Create a "Play" button with a run icon
     play_button = QPushButton()
@@ -53,6 +57,7 @@ def add_instance_controls(main_window,index):
     QPushButton:hover { background-color: rgb(57, 65, 80); }
     QPushButton:pressed {	background-color: rgb(35, 40, 49); 	border: 2px solid rgb(43, 50, 61); }
     """)
+    setattr(main_window.widgets, play_button.objectName(), play_button)
 
 
     # Create a widget container to hold these elements horizontally
@@ -72,10 +77,9 @@ def add_instance_controls(main_window,index):
     content_widget.adjustSize()
     scroll_area.update()
 
-
 def setup_port_display_table(main_window):
     # Reference to the table
-    table = main_window.widgets.port_display_table  # Ensure this matches the name set in Qt Creator
+    table = main_window.widgets.port_display_table
 
     table.horizontalHeader().setDefaultAlignment(Qt.AlignCenter)
 
@@ -84,7 +88,7 @@ def setup_port_display_table(main_window):
     table.setHorizontalHeaderLabels(["Emulator Name", "Port No.", ""])
 
     # Create a reload icon item for the 'Actions' header
-    reload_icon = QIcon(":/icons/images/icons/cil-reload.png")  # Replace with the actual path to your reload icon
+    reload_icon = QIcon(":/icons/images/icons/cil-reload.png")
     reload_header_item = QTableWidgetItem()
     reload_header_item.setIcon(reload_icon)
     table.setHorizontalHeaderItem(2, reload_header_item)
@@ -92,8 +96,10 @@ def setup_port_display_table(main_window):
     # Connect the header click to the reload function
     table.horizontalHeader().sectionClicked.connect(lambda index: reload_ports(main_window) if index == 2 else None)
 
-    # Stretch the last column to fit the table
-    table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+    # Resize columns
+    table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+    table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+    table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
 
     # Adjust alignment for the other columns if needed
     table.horizontalHeaderItem(0).setTextAlignment(Qt.AlignCenter)
@@ -105,7 +111,6 @@ def reload_ports(main_window):
     table = main_window.widgets.port_display_table
     table.setRowCount(0)  # Clear existing rows
     get_available_ports(main_window)  # Repopulate table with updated data
-
 
 def add_row_to_port_display_table(main_window, emulator_type, port_number):
     table = main_window.widgets.port_display_table
@@ -150,7 +155,6 @@ def get_available_ports(main_window):
     for emulator_type, port_number in available_ports:
         # print(f"Emulator Type: {emulator_type}, Port Number: {port_number}")
         add_row_to_port_display_table(main_window, emulator_type, port_number)
-
 
 def find_emulator_ports():
     emulator_ports = []

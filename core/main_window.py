@@ -129,6 +129,9 @@ class MainWindow(QMainWindow):
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
 
+        # Test
+        # print(getattr(self.widgets, f"im_emu_1").text())
+
     def init_adb(self):
 
         # call the iniitializer for adb
