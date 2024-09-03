@@ -70,8 +70,8 @@ class SplashScreen(QMainWindow):
         # Retrieve the current margins
         left, top, right, bottom = layout.getContentsMargins()
 
-        # Update only the top margin (e.g., increase by 20 pixels)
-        new_top = top + 30
+        # Update only the top margin
+        new_top = top + 50
 
         layout.setContentsMargins(left, new_top, right, bottom)
 

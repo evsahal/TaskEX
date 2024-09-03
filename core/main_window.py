@@ -137,11 +137,6 @@ class MainWindow(QMainWindow):
         # call the iniitializer for adb
         ADBManager.initialize_adb()
 
-        # # connect
-        # self.adb_instance = ADBManager(port="5585")
-        # self.adb_instance.launch_evony(start=True)
-
-
 
     def test(self):
         # swipe
