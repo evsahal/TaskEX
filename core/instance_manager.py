@@ -36,7 +36,7 @@ def add_instance_controls(main_window,index):
     emu_line_edit.setFixedHeight(39)
     emu_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
     setattr(main_window.widgets, emu_line_edit.objectName(), emu_line_edit)
-    print(emu_line_edit.objectName())
+    # print(emu_line_edit.objectName())
 
     # 2. Create a QLineEdit for port number
     port_line_edit = QLineEdit()

@@ -22,7 +22,7 @@ class EmulatorThread(QThread):
         """
         try:
             # Connect to the port
-            self.adb_manager.connect_to_device()
+            self.device.connect_to_device()
 
             while self._running:
                 # Add your emulator-related operations here

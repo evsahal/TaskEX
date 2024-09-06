@@ -171,8 +171,8 @@ class MainWindow(QMainWindow):
         # SET DRAG POS WINDOW
         self.dragPos = event.globalPos()
 
-        # PRINT MOUSE EVENTS
-        if event.buttons() == Qt.LeftButton:
-            print('Mouse click: LEFT CLICK')
-        if event.buttons() == Qt.RightButton:
-            print('Mouse click: RIGHT CLICK')
+        # # PRINT MOUSE EVENTS
+        # if event.buttons() == Qt.LeftButton:
+        #     print('Mouse click: LEFT CLICK')
+        # if event.buttons() == Qt.RightButton:
+        #     print('Mouse click: RIGHT CLICK')

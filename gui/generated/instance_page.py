@@ -15,8 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QSizePolicy, QTabWidget,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
+    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
+    QHeaderView, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QTabWidget, QTableWidget, QTableWidgetItem,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
@@ -475,10 +478,294 @@ class Ui_InstancePage(object):
         self.tab.setObjectName(u"tab")
         self.verticalLayout_2 = QVBoxLayout(self.tab)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.label_ = QLabel(self.tab)
-        self.label_.setObjectName(u"label_")
+        self.run_main_frame = QFrame(self.tab)
+        self.run_main_frame.setObjectName(u"run_main_frame")
+        self.run_main_frame.setStyleSheet(u"")
+        self.run_main_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.run_main_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout = QGridLayout(self.run_main_frame)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_2 = QGroupBox(self.run_main_frame)
+        self.groupBox_2.setObjectName(u"groupBox_2")
 
-        self.verticalLayout_2.addWidget(self.label_, 0, Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout.addWidget(self.groupBox_2, 0, 1, 2, 1)
+
+        self.frame_4 = QFrame(self.run_main_frame)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_4)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.groupBox = QGroupBox(self.frame_4)
+        self.groupBox.setObjectName(u"groupBox")
+        self.verticalLayout_4 = QVBoxLayout(self.groupBox)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(11, 11, 11, 11)
+        self.textEdit = QTextEdit(self.groupBox)
+        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit.setStyleSheet(u"background-color: rgb(0,0,0);\n"
+"font: 9pt \"Source Code Pro\";\n"
+"border-radius: 5px;")
+
+        self.verticalLayout_4.addWidget(self.textEdit)
+
+
+        self.horizontalLayout_3.addWidget(self.groupBox)
+
+
+        self.gridLayout.addWidget(self.frame_4, 1, 0, 1, 1)
+
+        self.frame_3 = QFrame(self.run_main_frame)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.top_run_frame = QFrame(self.frame_3)
+        self.top_run_frame.setObjectName(u"top_run_frame")
+        self.top_run_frame.setStyleSheet(u"#top_run_frame{ border: 1px solid  rgb(255, 121, 198); border-radius: 5px; margin-top: 0.5em; }")
+        self.top_run_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.top_run_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_6 = QHBoxLayout(self.top_run_frame)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(5, 5, 5, 5)
+        self.frame_10 = QFrame(self.top_run_frame)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_8 = QHBoxLayout(self.frame_10)
+        self.horizontalLayout_8.setSpacing(8)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(7, 0, 0, 0)
+        self.lineEdit_2 = QLineEdit(self.frame_10)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_2.setMinimumSize(QSize(200, 45))
+        self.lineEdit_2.setMaximumSize(QSize(200, 16777215))
+
+        self.horizontalLayout_8.addWidget(self.lineEdit_2)
+
+        self.lineEdit = QLineEdit(self.frame_10)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setMinimumSize(QSize(0, 45))
+        self.lineEdit.setMaximumSize(QSize(100, 16777215))
+
+        self.horizontalLayout_8.addWidget(self.lineEdit)
+
+        self.pushButton_2 = QPushButton(self.frame_10)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setMinimumSize(QSize(45, 45))
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
+        self.pushButton_2.setIcon(icon)
+
+        self.horizontalLayout_8.addWidget(self.pushButton_2)
+
+
+        self.horizontalLayout_6.addWidget(self.frame_10, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.frame_11 = QFrame(self.top_run_frame)
+        self.frame_11.setObjectName(u"frame_11")
+        self.frame_11.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_9 = QHBoxLayout(self.frame_11)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.horizontalLayout_9.setContentsMargins(0, 0, 7, 0)
+        self.pushButton_5 = QPushButton(self.frame_11)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+        self.pushButton_5.setMinimumSize(QSize(140, 45))
+        self.pushButton_5.setStyleSheet(u"background:transparent;")
+
+        self.horizontalLayout_9.addWidget(self.pushButton_5)
+
+
+        self.horizontalLayout_6.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignRight)
+
+
+        self.verticalLayout_3.addWidget(self.top_run_frame)
+
+        self.frame_2 = QFrame(self.frame_3)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_3 = QGroupBox(self.frame_2)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        self.horizontalLayout_4 = QHBoxLayout(self.groupBox_3)
+        self.horizontalLayout_4.setSpacing(7)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.frame_7 = QFrame(self.groupBox_3)
+        self.frame_7.setObjectName(u"frame_7")
+        self.frame_7.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_7.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_8 = QVBoxLayout(self.frame_7)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.frame_9 = QFrame(self.frame_7)
+        self.frame_9.setObjectName(u"frame_9")
+        self.frame_9.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_9.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_9 = QVBoxLayout(self.frame_9)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.widget = QWidget(self.frame_9)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_7 = QHBoxLayout(self.widget)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.comboBox = QComboBox(self.widget)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(150, 45))
+        self.comboBox.setMaximumSize(QSize(16777215, 45))
+        self.comboBox.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+
+        self.horizontalLayout_7.addWidget(self.comboBox)
+
+        self.pushButton_4 = QPushButton(self.widget)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_4.setMinimumSize(QSize(45, 45))
+        self.pushButton_4.setMaximumSize(QSize(45, 45))
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
+        self.pushButton_4.setIcon(icon1)
+
+        self.horizontalLayout_7.addWidget(self.pushButton_4)
+
+        self.pushButton_3 = QPushButton(self.widget)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setMinimumSize(QSize(45, 45))
+        self.pushButton_3.setMaximumSize(QSize(45, 45))
+        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        self.pushButton_3.setIcon(icon2)
+
+        self.horizontalLayout_7.addWidget(self.pushButton_3)
+
+        self.pushButton = QPushButton(self.widget)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(45, 45))
+        self.pushButton.setMaximumSize(QSize(45, 45))
+        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
+        self.pushButton.setIcon(icon3)
+
+        self.horizontalLayout_7.addWidget(self.pushButton)
+
+
+        self.verticalLayout_9.addWidget(self.widget)
+
+
+        self.verticalLayout_8.addWidget(self.frame_9)
+
+        self.frame_5 = QFrame(self.frame_7)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.scheduler_table_ = QTableWidget(self.frame_5)
+        if (self.scheduler_table_.columnCount() < 2):
+            self.scheduler_table_.setColumnCount(2)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.scheduler_table_.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.scheduler_table_.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        self.scheduler_table_.setObjectName(u"scheduler_table_")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.scheduler_table_.sizePolicy().hasHeightForWidth())
+        self.scheduler_table_.setSizePolicy(sizePolicy)
+        self.scheduler_table_.setMouseTracking(False)
+        self.scheduler_table_.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
+        self.scheduler_table_.setAcceptDrops(True)
+        self.scheduler_table_.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.scheduler_table_.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.scheduler_table_.setDragEnabled(True)
+        self.scheduler_table_.setDefaultDropAction(Qt.DropAction.IgnoreAction)
+        self.scheduler_table_.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.scheduler_table_.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.scheduler_table_.setShowGrid(True)
+        self.scheduler_table_.setGridStyle(Qt.PenStyle.SolidLine)
+        self.scheduler_table_.horizontalHeader().setStretchLastSection(False)
+
+        self.horizontalLayout_2.addWidget(self.scheduler_table_)
+
+
+        self.verticalLayout_8.addWidget(self.frame_5)
+
+        self.verticalLayout_8.setStretch(0, 1)
+        self.verticalLayout_8.setStretch(1, 5)
+
+        self.horizontalLayout_4.addWidget(self.frame_7)
+
+        self.frame = QFrame(self.groupBox_3)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_5 = QVBoxLayout(self.frame)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.label = QLabel(self.frame)
+        self.label.setObjectName(u"label")
+
+        self.verticalLayout_5.addWidget(self.label, 0, Qt.AlignmentFlag.AlignHCenter)
+
+
+        self.horizontalLayout_4.addWidget(self.frame)
+
+        self.horizontalLayout_4.setStretch(0, 3)
+        self.horizontalLayout_4.setStretch(1, 3)
+
+        self.horizontalLayout_5.addWidget(self.groupBox_3)
+
+        self.groupBox_4 = QGroupBox(self.frame_2)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.verticalLayout_6 = QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.frame_8 = QFrame(self.groupBox_4)
+        self.frame_8.setObjectName(u"frame_8")
+        self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout = QHBoxLayout(self.frame_8)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+
+        self.verticalLayout_6.addWidget(self.frame_8)
+
+        self.frame_6 = QFrame(self.groupBox_4)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_7 = QVBoxLayout(self.frame_6)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.label_2 = QLabel(self.frame_6)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout_7.addWidget(self.label_2, 0, Qt.AlignmentFlag.AlignHCenter)
+
+
+        self.verticalLayout_6.addWidget(self.frame_6)
+
+
+        self.horizontalLayout_5.addWidget(self.groupBox_4)
+
+        self.horizontalLayout_5.setStretch(0, 4)
+        self.horizontalLayout_5.setStretch(1, 2)
+
+        self.verticalLayout_3.addWidget(self.frame_2)
+
+        self.verticalLayout_3.setStretch(0, 1)
+        self.verticalLayout_3.setStretch(1, 6)
+
+        self.gridLayout.addWidget(self.frame_3, 0, 0, 1, 1)
+
+        self.gridLayout.setRowStretch(0, 6)
+        self.gridLayout.setRowStretch(1, 3)
+        self.gridLayout.setColumnStretch(0, 6)
+        self.gridLayout.setColumnStretch(1, 2)
+
+        self.verticalLayout_2.addWidget(self.run_main_frame)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -497,6 +784,7 @@ class Ui_InstancePage(object):
         self.retranslateUi(InstancePage)
 
         self.tabWidget.setCurrentIndex(0)
+        self.comboBox.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(InstancePage)
@@ -504,7 +792,26 @@ class Ui_InstancePage(object):
 
     def retranslateUi(self, InstancePage):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
-        self.label_.setText(QCoreApplication.translate("InstancePage", u"TextLabel", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Panel", None))
+        self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
+        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Emulator Name", None))
+        self.lineEdit.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Port Number", None))
+        self.pushButton_2.setText("")
+        self.pushButton_5.setText(QCoreApplication.translate("InstancePage", u"Delete Instance", None))
+        self.groupBox_3.setTitle(QCoreApplication.translate("InstancePage", u"Scheduler", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("InstancePage", u"Main Preset", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt Preset", None))
+
+        self.comboBox.setCurrentText("")
+        self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Preset", None))
+        self.pushButton_4.setText("")
+        self.pushButton_3.setText("")
+        self.pushButton.setText("")
+        ___qtablewidgetitem = self.scheduler_table_.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("InstancePage", u"Tasks", None));
+        self.label.setText(QCoreApplication.translate("InstancePage", u"Scheduler Status", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("InstancePage", u"Game Settings", None))
+        self.label_2.setText(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("InstancePage", u"Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("InstancePage", u"General", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("InstancePage", u"Join Rally", None))

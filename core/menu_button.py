@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLa
 
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
+from gui.controllers.run_tab_controller import setup_scheduler_table
 from gui.generated.instance_page import Ui_InstancePage
 
 
@@ -176,8 +177,10 @@ def add_new_instance_page(main_window,index):
                     new_name = f"{widget.objectName()}{index}"
                     widget.setObjectName(new_name)
                     # Register the renamed widget
-                    setattr(main_window, new_name, widget)
-    getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
+                    setattr(main_window.widgets, new_name, widget)
+    # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
+
+    setup_scheduler_table(main_window,index)
 
 
 def initialize_instances(main_window, num_instances):
