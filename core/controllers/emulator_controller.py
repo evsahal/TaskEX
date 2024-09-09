@@ -93,9 +93,10 @@ def on_emulator_error(main_window: 'MainWindow', index: int, error: str) -> None
     print(f"Error in Emulator {index}: {error}")
 
 
-def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit) -> None:
+def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit, button: QPushButton = None) -> None:
     """
     Synchronize two QLineEdits so that changes in one are reflected in the other.
+    Optionally, update the button text when the name QLineEdit changes.
     """
     def update_lineedit2(text: str):
         # Block the signal to avoid an infinite loop
@@ -103,6 +104,9 @@ def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit) -> None:
             lineedit2.blockSignals(True)
             lineedit2.setText(text)
             lineedit2.blockSignals(False)
+        # Update the button text if provided and if the lineedit1 (name) was changed
+        if button:
+            button.setText(text)
 
     def update_lineedit1(text: str):
         # Block the signal to avoid an infinite loop

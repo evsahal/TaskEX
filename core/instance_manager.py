@@ -39,7 +39,7 @@ def add_instance_controls(main_window,index):
     setattr(main_window.widgets, emu_line_edit.objectName(), emu_line_edit)
     # print(emu_line_edit.objectName())
     # Sync instance manager emulator name and run tab emulator name
-    sync_lineedits(emu_line_edit, getattr(main_window.widgets, f"emu_name_{index}"))
+    sync_lineedits(emu_line_edit, getattr(main_window.widgets, f"emu_name_{index}"),getattr(main_window.widgets, f"btn_emu_{index}"))
 
     # Set default emulator name
     emu_line_edit.setText(f"Emulator {index}")
@@ -72,7 +72,9 @@ def add_instance_controls(main_window,index):
 
     # Create a widget container to hold these elements horizontally
     widget_container = QWidget()
+    widget_container.setObjectName(f"im_widget_{index}")
     layout = QHBoxLayout(widget_container)
+    setattr(main_window.widgets, widget_container.objectName(), widget_container)
 
     layout.addWidget(emu_line_edit)
     layout.addWidget(port_line_edit)

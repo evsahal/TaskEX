@@ -11,6 +11,7 @@ from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
 from gui.controllers.run_tab_controller import setup_scheduler_table
 from gui.generated.instance_page import Ui_InstancePage
+from utils.helper_utils import extract_number_from_string
 
 
 def handle_button_click(main_window, btn):
@@ -135,6 +136,8 @@ def add_new_menu_button(main_window,selection = True):
     layout = main_window.widgets.topMenu.layout()  # topMenu is the container for buttons
     layout.insertWidget(layout.indexOf(main_window.widgets.btn_add), new_button)
 
+    setattr(main_window.widgets, new_button.objectName(), new_button)
+
     # Connect the new button to a click handler
     new_button.clicked.connect(lambda: handle_button_click(main_window, new_button))
 
@@ -180,7 +183,61 @@ def add_new_instance_page(main_window,index):
                     setattr(main_window.widgets, new_name, widget)
     # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
 
+    # Connect delete instance button
+    getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance(main_window,index))
+
+    # Setup Scheduler table UI
     setup_scheduler_table(main_window,index)
+
+
+def delete_instance(main_window,index):
+
+    total_instance = count_btn_emu_instances(main_window)
+    if  total_instance == 1:
+        print("Dont allow to delete")
+        return None
+
+    # Remove the emulator button from the menu
+    remove_widget(getattr(main_window.widgets, f"btn_emu_{index}"))
+
+    # Remove emulator name, port, and run button from instance manager
+    remove_widget(getattr(main_window.widgets, f"im_widget_{index}"))
+
+    # Remove the instance page from the stacked widget
+    remove_widget(getattr(main_window.widgets, f"page_emu_{index}"))
+
+    # Select the Menu button
+    current_page = getattr(main_window.widgets, "stackedWidget").currentWidget()
+
+    if current_page:
+        # Get the object name of the current page
+        current_page_index = extract_number_from_string(current_page.objectName())
+        # print(current_page_index)
+        getattr(main_window.widgets, f"btn_emu_{current_page_index}").click()
+
+    # print(f"Emulator instance {index} deleted.")
+
+def remove_widget(widget):
+    """
+    Removes the given widget from its parent layout and calls deleteLater
+    to free up memory.
+
+    Args:
+        widget (QWidget): The widget to be removed and deleted.
+    """
+    if widget is not None:
+        # Remove the widget from its parent layout, if it exists
+        parent_layout = widget.parentWidget().layout() if widget.parentWidget() else None
+        if parent_layout:
+            parent_layout.removeWidget(widget)
+
+        # Delete the widget safely
+        widget.setParent(None)  # Unset parent so it's no longer managed by the layout
+        widget.deleteLater()    # Schedules the object for deletion
+        # print(f"Widget {widget.objectName()} removed.")
+    else:
+        # print("Widget is None, nothing to remove.")
+        pass
 
 
 def initialize_instances(main_window, num_instances):
@@ -209,3 +266,22 @@ def get_next_btn_emu_number(main_window):
                 pass  # Ignore buttons that don't have a number
 
     return max_number + 1
+
+def count_btn_emu_instances(main_window):
+    """
+    Counts the number of instances where the button object name starts with 'btn_emu_'.
+
+    Args:
+        main_window: The main window object containing the widgets.
+
+    Returns:
+        int: The number of buttons with object names that start with 'btn_emu_'.
+    """
+    count = 0
+    layout = main_window.widgets.topMenu.layout()  # Get the layout containing the buttons
+    for i in range(layout.count()):
+        widget = layout.itemAt(i).widget()
+        if widget and widget.objectName().startswith("btn_emu_"):
+            count += 1  # Increment the count for each valid btn_emu_ button
+
+    return count
