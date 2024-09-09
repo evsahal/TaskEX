@@ -5,12 +5,13 @@ from turtledemo.sorting_animate import ssort
 from PySide6.QtCore import QSize, Qt, QSettings
 from PySide6.QtGui import QIcon, QCursor, QFont
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
-    QSpacerItem
+    QSpacerItem, QMessageBox
 
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
 from gui.controllers.run_tab_controller import setup_scheduler_table
 from gui.generated.instance_page import Ui_InstancePage
+from utils.dialog_utils import show_error_dialog, show_confirmation_dialog
 from utils.helper_utils import extract_number_from_string
 
 
@@ -184,18 +185,21 @@ def add_new_instance_page(main_window,index):
     # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
 
     # Connect delete instance button
-    getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance(main_window,index))
+    getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
 
     # Setup Scheduler table UI
     setup_scheduler_table(main_window,index)
 
+def delete_instance_check(main_window,index):
+    total_instance = count_btn_emu_instances(main_window)
+    if total_instance == 1:
+        # print("Dont allow to delete")
+        show_error_dialog(main_window, "Error", "Last instance can't be deleted.")
+    else:
+        if show_confirmation_dialog(main_window):
+            delete_instance(main_window,index)
 
 def delete_instance(main_window,index):
-
-    total_instance = count_btn_emu_instances(main_window)
-    if  total_instance == 1:
-        print("Dont allow to delete")
-        return None
 
     # Remove the emulator button from the menu
     remove_widget(getattr(main_window.widgets, f"btn_emu_{index}"))
