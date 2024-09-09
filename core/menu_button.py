@@ -200,7 +200,7 @@ def delete_instance_check(main_window,index):
         # print("Dont allow to delete")
         show_error_dialog(main_window, "Error", "Last instance can't be deleted.")
     else:
-        if show_confirmation_dialog(main_window):
+        if show_confirmation_dialog(main_window,"confirm","Are you sure you want to delete this instance?"):
             delete_instance(main_window,index)
 
 def delete_instance(main_window,index):
