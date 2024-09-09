@@ -26,7 +26,7 @@ class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
         if not InstancePage.objectName():
             InstancePage.setObjectName(u"InstancePage")
-        InstancePage.resize(1130, 705)
+        InstancePage.resize(1130, 836)
         InstancePage.setStyleSheet(u"QComboBox{\n"
 "	background-color: rgb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
@@ -517,28 +517,28 @@ class Ui_InstancePage(object):
         self.horizontalLayout_8.setSpacing(8)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_8.setContentsMargins(7, 0, 0, 0)
-        self.lineEdit_2 = QLineEdit(self.frame_10)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
-        self.lineEdit_2.setMinimumSize(QSize(200, 45))
-        self.lineEdit_2.setMaximumSize(QSize(200, 16777215))
+        self.emu_name_ = QLineEdit(self.frame_10)
+        self.emu_name_.setObjectName(u"emu_name_")
+        self.emu_name_.setMinimumSize(QSize(200, 45))
+        self.emu_name_.setMaximumSize(QSize(200, 16777215))
 
-        self.horizontalLayout_8.addWidget(self.lineEdit_2)
+        self.horizontalLayout_8.addWidget(self.emu_name_)
 
-        self.lineEdit = QLineEdit(self.frame_10)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(0, 45))
-        self.lineEdit.setMaximumSize(QSize(100, 16777215))
+        self.emu_port_ = QLineEdit(self.frame_10)
+        self.emu_port_.setObjectName(u"emu_port_")
+        self.emu_port_.setMinimumSize(QSize(0, 45))
+        self.emu_port_.setMaximumSize(QSize(100, 16777215))
 
-        self.horizontalLayout_8.addWidget(self.lineEdit)
+        self.horizontalLayout_8.addWidget(self.emu_port_)
 
-        self.pushButton_2 = QPushButton(self.frame_10)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMinimumSize(QSize(45, 45))
-        self.pushButton_2.setStyleSheet(u"background:transparent;")
+        self.run_btn_ = QPushButton(self.frame_10)
+        self.run_btn_.setObjectName(u"run_btn_")
+        self.run_btn_.setMinimumSize(QSize(45, 45))
+        self.run_btn_.setStyleSheet(u"background:transparent;")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
-        self.pushButton_2.setIcon(icon)
+        self.run_btn_.setIcon(icon)
 
-        self.horizontalLayout_8.addWidget(self.pushButton_2)
+        self.horizontalLayout_8.addWidget(self.run_btn_)
 
 
         self.horizontalLayout_6.addWidget(self.frame_10, 0, Qt.AlignmentFlag.AlignLeft)
@@ -550,12 +550,12 @@ class Ui_InstancePage(object):
         self.horizontalLayout_9 = QHBoxLayout(self.frame_11)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(0, 0, 7, 0)
-        self.pushButton_5 = QPushButton(self.frame_11)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-        self.pushButton_5.setMinimumSize(QSize(140, 45))
-        self.pushButton_5.setStyleSheet(u"background:transparent;")
+        self.delete_instance_ = QPushButton(self.frame_11)
+        self.delete_instance_.setObjectName(u"delete_instance_")
+        self.delete_instance_.setMinimumSize(QSize(140, 45))
+        self.delete_instance_.setStyleSheet(u"background:transparent;")
 
-        self.horizontalLayout_9.addWidget(self.pushButton_5)
+        self.horizontalLayout_9.addWidget(self.delete_instance_)
 
 
         self.horizontalLayout_6.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignRight)
@@ -1000,10 +1000,10 @@ class Ui_InstancePage(object):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Panel", None))
         self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
-        self.lineEdit_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Emulator Name", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Port Number", None))
-        self.pushButton_2.setText("")
-        self.pushButton_5.setText(QCoreApplication.translate("InstancePage", u"Delete Instance", None))
+        self.emu_name_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Emulator Name", None))
+        self.emu_port_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Port Number", None))
+        self.run_btn_.setText("")
+        self.delete_instance_.setText(QCoreApplication.translate("InstancePage", u"Delete Instance", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("InstancePage", u"Scheduler", None))
         self.comboBox.setItemText(0, QCoreApplication.translate("InstancePage", u"Main Preset", None))
         self.comboBox.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt Preset", None))

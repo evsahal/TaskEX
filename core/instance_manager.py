@@ -49,7 +49,7 @@ def add_instance_controls(main_window,index):
 
     # 3. Create a "Play" button with a run icon
     play_button = QPushButton()
-    play_button.setObjectName(f"im_run_{index}")
+    play_button.setObjectName(f"im_run_btn_{index}")
     play_button.setIcon(QIcon(":/icons/images/icons/cil-media-play.png"))  # Replace with actual path to run icon
     play_button.setToolTip("Run")
     play_button.setFixedSize(39, 39)  # Set fixed size for the play button

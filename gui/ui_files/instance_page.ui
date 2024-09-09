@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1130</width>
-    <height>705</height>
+    <height>836</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -590,7 +590,7 @@ border-radius: 5px;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit_2">
+                    <widget class="QLineEdit" name="emu_name_">
                      <property name="minimumSize">
                       <size>
                        <width>200</width>
@@ -609,7 +609,7 @@ border-radius: 5px;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLineEdit" name="lineEdit">
+                    <widget class="QLineEdit" name="emu_port_">
                      <property name="minimumSize">
                       <size>
                        <width>0</width>
@@ -628,7 +628,7 @@ border-radius: 5px;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="pushButton_2">
+                    <widget class="QPushButton" name="run_btn_">
                      <property name="minimumSize">
                       <size>
                        <width>45</width>
@@ -671,7 +671,7 @@ border-radius: 5px;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QPushButton" name="pushButton_5">
+                    <widget class="QPushButton" name="delete_instance_">
                      <property name="minimumSize">
                       <size>
                        <width>140</width>
