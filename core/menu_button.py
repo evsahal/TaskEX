@@ -7,6 +7,7 @@ from PySide6.QtGui import QIcon, QCursor, QFont
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
     QSpacerItem, QMessageBox
 
+from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
 from gui.controllers.run_tab_controller import setup_scheduler_table
@@ -183,6 +184,9 @@ def add_new_instance_page(main_window,index):
                     # Register the renamed widget
                     setattr(main_window.widgets, new_name, widget)
     # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
+
+    # Connect run button
+    getattr(main_window.widgets, f"run_btn_{index}").clicked.connect(lambda: handle_run_button(main_window, index))
 
     # Connect delete instance button
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
