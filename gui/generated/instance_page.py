@@ -15,18 +15,49 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
-    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QAbstractSpinBox, QApplication,
+    QCheckBox, QComboBox, QFrame, QGridLayout,
+    QGroupBox, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QPushButton, QSizePolicy, QSpinBox,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTextEdit,
+    QTimeEdit, QVBoxLayout, QWidget)
 
 class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
         if not InstancePage.objectName():
             InstancePage.setObjectName(u"InstancePage")
         InstancePage.resize(1130, 705)
-        InstancePage.setStyleSheet(u"\n"
+        InstancePage.setStyleSheet(u"QComboBox{\n"
+"	background-color: rgb(27, 29, 35);\n"
+"	border-radius: 5px;\n"
+"	border: 2px solid rgb(33, 37, 43);\n"
+"	padding: 5px;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"QComboBox:hover{\n"
+"	border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"	subcontrol-origin: padding;\n"
+"	subcontrol-position: top right;\n"
+"	width: 25px; \n"
+"	border-left-width: 3px;\n"
+"	border-left-color: rgba(39, 44, 54, 150);\n"
+"	border-left-style: solid;\n"
+"	border-top-right-radius: 3px;\n"
+"	border-bottom-right-radius: 3px;	\n"
+"	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);\n"
+"	background-position: center;\n"
+"	background-repeat: no-reperat;\n"
+" }\n"
+"QComboBox QAbstractItemView {\n"
+"	color: rgb(255, 121, 198);	\n"
+"	background-color: rgb(33, 37, 43);\n"
+"	padding: 10px;\n"
+"	selection-background-color: rgb(39, 44, 54);\n"
+"}\n"
+"\n"
+"/*\n"
 "QWidget{\n"
 "	color: rgb(221, 221, 221);\n"
 "	font: 10pt \"Segoe UI\";\n"
@@ -34,7 +65,8 @@ class Ui_InstancePage(object):
 "\n"
 "QToolBox::tab {\n"
 "	border: 1px solid rgb(255, 121, 198);\n"
-"	 border-radius: 5px;\n"
+""
+                        "	 border-radius: 5px;\n"
 "                              \n"
 "                        }\n"
 "QToolBox::tab:selected {\n"
@@ -60,21 +92,20 @@ class Ui_InstancePage(object):
 "	selection-background-color: rgb(255, 121, 198);\n"
 "}\n"
 "\n"
+"\n"
 "QDoubleSpinBox {\n"
 "   background-color: rgba(40, 44, 52, 0.9);\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid rgb(33, 37, 43);\n"
-"	padding-left :"
-                        "10px;\n"
+"	padding-left :10px;\n"
 "selection-color: rgb(255, 255, 255);\n"
 "	selection-background-color: rgb(255, 121, 198);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"Tooltip */\n"
 "QToolTip {\n"
 "	color: #ffffff;\n"
-"	background-color: rgba(33, 37, 43, 180);\n"
+""
+                        "	background-color: rgba(33, 37, 43, 180);\n"
 "	border: 1px solid rgb(44, 49, 58);\n"
 "	background-image: none;\n"
 "	background-position: left center;\n"
@@ -87,7 +118,6 @@ class Ui_InstancePage(object):
 "}\n"
 "\n"
 "\n"
-"/* Toggle Button */\n"
 "#toggleButton {\n"
 "	background-position: left center;\n"
 "    background-repeat: no-repeat;\n"
@@ -102,13 +132,10 @@ class Ui_InstancePage(object):
 "	background-color: rgb(40, 44, 52);\n"
 "}\n"
 "#toggleButton:pressed {\n"
-"	backg"
-                        "round-color: rgb(189, 147, 249);\n"
+"	background-color: rgb(189, 147, 249);\n"
 "}\n"
 "\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"QTableWidget */\n"
 "QTableWidget {	\n"
 "	background-color: transparent;\n"
 "	padding: 10px;\n"
@@ -117,7 +144,8 @@ class Ui_InstancePage(object):
 "	border-bottom: 1px solid rgb(44, 49, 60);\n"
 "}\n"
 "QTableWidget::item{\n"
-"	border-color: rgb(44, 49, 60);\n"
+"	border-color: rgb(44, 49,"
+                        " 60);\n"
 "	padding-left: 5px;\n"
 "	padding-right: 5px;\n"
 "	gridline-color: rgb(44, 49, 60);\n"
@@ -138,8 +166,7 @@ class Ui_InstancePage(object):
 "}\n"
 "QHeaderView::section:horizontal\n"
 "{\n"
-"    border: 1px solid rgb(33, 37, 43"
-                        ");\n"
+"    border: 1px solid rgb(33, 37, 43);\n"
 "	background-color: rgb(33, 37, 43);\n"
 "	padding: 3px;\n"
 "	border-top-left-radius: 7px;\n"
@@ -150,14 +177,13 @@ class Ui_InstancePage(object):
 "    border: 1px solid rgb(44, 49, 60);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"LineEdit */\n"
 "QLineEdit {\n"
 "	background-color: rgb(33, 37, 43);\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid rgb(33, 37, 43);\n"
 "	padding-left: 10px;\n"
-"	selection-color: rgb(255, 255, 255);\n"
+"	selection-color: rgb(255, 255, 255)"
+                        ";\n"
 "	selection-background-color: rgb(255, 121, 198);\n"
 "}\n"
 "QLineEdit:hover {\n"
@@ -167,15 +193,12 @@ class Ui_InstancePage(object):
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"PlainTextEdit */\n"
 "QPlainTextEdit {\n"
 "	background-color: rgb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
 "	padding: 10px;\n"
 "	selection-color: rgb(255, 255, 255);\n"
-"	s"
-                        "election-background-color: rgb(255, 121, 198);\n"
+"	selection-background-color: rgb(255, 121, 198);\n"
 "}\n"
 "QPlainTextEdit  QScrollBar:vertical {\n"
 "    width: 8px;\n"
@@ -190,8 +213,7 @@ class Ui_InstancePage(object):
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"ScrollBars */\n"
+"\n"
 "QScrollBar:horizontal {\n"
 "    border: none;\n"
 "    background: rgb(52, 59, 72);\n"
@@ -204,15 +226,15 @@ class Ui_InstancePage(object):
 "    min-width: 25px;\n"
 "	border-radius: 4px\n"
 "}\n"
-"QScrollBar::add-line:horizontal {\n"
+"QScrollB"
+                        "ar::add-line:horizontal {\n"
 "    border: none;\n"
 "    background: rgb(55, 63, 77);\n"
 "    width: 20px;\n"
 "	border-top-right-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
 "    subcontrol-position: right;\n"
-"    subcontrol-ori"
-                        "gin: margin;\n"
+"    subcontrol-origin: margin;\n"
 "}\n"
 "QScrollBar::sub-line:horizontal {\n"
 "    border: none;\n"
@@ -241,7 +263,8 @@ class Ui_InstancePage(object):
 " QScrollBar::handle:vertical {	\n"
 "	background: rgb(189, 147, 249);\n"
 "    min-height: 25px;\n"
-"	border-radius: 4px\n"
+"	border-rad"
+                        "ius: 4px\n"
 " }\n"
 " QScrollBar::add-line:vertical {\n"
 "     border: none;\n"
@@ -249,8 +272,7 @@ class Ui_InstancePage(object):
 "     height: 20px;\n"
 "	border-bottom-left-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
-"     subcontrol-positi"
-                        "on: bottom;\n"
+"     subcontrol-position: bottom;\n"
 "     subcontrol-origin: margin;\n"
 " }\n"
 " QScrollBar::sub-line:vertical {\n"
@@ -270,8 +292,6 @@ class Ui_InstancePage(object):
 "     background: none;\n"
 " }\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"CheckBox */\n"
 "QCheckBox::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "	width: 15px;\n"
@@ -280,17 +300,16 @@ class Ui_InstancePage(object):
 "    background: rgb(44, 49, 60);\n"
 "}\n"
 "QCheckBox::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
+"    border: 3px solid rgb(58, 66, 8"
+                        "1);\n"
 "}\n"
 "QCheckBox::indicator:checked {\n"
 "    background: 3px solid rgb(52, 59, 72);\n"
-"	border: 3px solid rgb("
-                        "52, 59, 72);	\n"
+"	border: 3px solid rgb(52, 59, 72);	\n"
 "	background-image: url(:/icons/images/icons/cil-check-alt.png);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"RadioButton */\n"
+"\n"
 "QRadioButton::indicator {\n"
 "    border: 3px solid rgb(52, 59, 72);\n"
 "	width: 15px;\n"
@@ -306,41 +325,7 @@ class Ui_InstancePage(object):
 "	border: 3px solid rgb(52, 59, 72);	\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"ComboBox */\n"
-"QComboBox{\n"
-"	background-color: rgb(27, 29, 35);\n"
-"	border-radius: 5px;\n"
-"	border: 2px solid rgb(33, 37, 43);\n"
-"	padding: 5px;\n"
-"	padding-left: 10px;\n"
-"}\n"
-"QComboBox:hover{\n"
-"	border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QComboBox::drop-down {\n"
-"	subcontrol-orig"
-                        "in: padding;\n"
-"	subcontrol-position: top right;\n"
-"	width: 25px; \n"
-"	border-left-width: 3px;\n"
-"	border-left-color: rgba(39, 44, 54, 150);\n"
-"	border-left-style: solid;\n"
-"	border-top-right-radius: 3px;\n"
-"	border-bottom-right-radius: 3px;	\n"
-"	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);\n"
-"	background-position: center;\n"
-"	background-repeat: no-reperat;\n"
-" }\n"
-"QComboBox QAbstractItemView {\n"
-"	color: rgb(255, 121, 198);	\n"
-"	background-color: rgb(33, 37, 43);\n"
-"	padding: 10px;\n"
-"	selection-background-color: rgb(39, 44, 54);\n"
-"}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"Sliders */\n"
 "QSlider::groove:horizontal {\n"
 "    border-radius: 5px;\n"
 "    height: 10px;\n"
@@ -352,12 +337,12 @@ class Ui_InstancePage(object):
 "}\n"
 "QSlider::handle:horizontal {\n"
 "    background-color: rgb(189, 147, 249);\n"
-"    "
-                        "border: none;\n"
+"    border: none;\n"
 "    height: 10px;\n"
 "    width: 10px;\n"
 "    margin: 0px;\n"
-"	border-radius: 5px;\n"
+""
+                        "	border-radius: 5px;\n"
 "}\n"
 "QSlider::handle:horizontal:hover {\n"
 "    background-color: rgb(195, 155, 255);\n"
@@ -389,22 +374,20 @@ class Ui_InstancePage(object):
 "QSlider::handle:vertical:pressed {\n"
 "    background-color: rgb(255, 121, 198);\n"
 "}\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"QListWidget */\n"
-""
-                        "QListWidget{\n"
+"\n"
+"QListWidget{\n"
 "	border: none;\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"CommandLinkButton */\n"
+"\n"
 "QCommandLinkButton {	\n"
 "	color: rgb(255, 121, 198);\n"
 "	border-radius: 5px;\n"
 "	padding: 5px;\n"
 "	color: rgb(255, 170, 255);\n"
 "}\n"
-"QCommandLinkButton:hover {	\n"
+"QComman"
+                        "dLinkButton:hover {	\n"
 "	color: rgb(255, 170, 255);\n"
 "	background-color: rgb(44, 49, 60);\n"
 "}\n"
@@ -413,7 +396,6 @@ class Ui_InstancePage(object):
 "	background-color: rgb(52, 58, 71);\n"
 "}\n"
 "\n"
-"/* QTabBar */\n"
 "QTabWidget::pane {\n"
 "  border: 2px solid rgb(33, 37, 43);\n"
 "  top:-1px; \n"
@@ -423,15 +405,12 @@ class Ui_InstancePage(object):
 "\n"
 "QTabBar::tab {  \n"
 "	background-color: rgba(30, 35, 43, 0.9); \n"
-"   /* background-color: rgba(50, 55, 65, 0.9);*/\n"
 "    min-width: 140px; \n"
 "    min-height:28px;\n"
 "    padding: 0px  0px; \n"
-"    /*color: #aaa;*/\n"
 "	color: rgb(255, 121, 198);\n"
 " 	border: 2px solid rgb(33, 37, 43);\n"
-"    bord"
-                        "er-radius: 5px;\n"
+"    border-radius: 5px;\n"
 "	margin-left:2px;\n"
 "    margin-right:2px;\n"
 "}\n"
@@ -441,20 +420,17 @@ class Ui_InstancePage(object):
 "    margin-top: 0px;\n"
 "}\n"
 "QTabBar::tab:hover {  \n"
-"    /*color: rgb(161, 110, 235);*/\n"
 "	color: #aaa;\n"
 "	background-color: rgb(40, 44, 52);\n"
-"   /* background-color: rgba(255, 255, 255, 100);*/\n"
 "    margin-top: 0px;\n"
 "}\n"
 "\n"
-"/* QGroupBox */\n"
-"QGroupBox { border: 1px solid  rgb(255, 121, 198); border-radius: 5px; margin-top: 0.5em; }\n"
+"\n"
+"QGroupBox { border: 1px solid  rgb(255, 121, 198); border-radius: 5px; marg"
+                        "in-top: 0.5em; }\n"
 "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }\n"
 "QGroupBox::title { color: rgb(161, 110, 235); }\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"Button */\n"
 " QPushButton {\n"
 "	border: 2px solid rgb(52, 59, 72);\n"
 "	border-radius: 5px;	\n"
@@ -462,14 +438,13 @@ class Ui_InstancePage(object):
 "}\n"
 "QPushButton:hover {\n"
 "	background-color: rgb(57, 65, 80);\n"
-"	border: 2px soli"
-                        "d rgb(61, 70, 86);\n"
+"	border: 2px solid rgb(61, 70, 86);\n"
 "}\n"
 "QPushButton:pressed {	\n"
 "	background-color: rgb(35, 40, 49);\n"
 "	border: 2px solid rgb(43, 50, 61);\n"
 "}\n"
-"")
+"*/")
         self.verticalLayout = QVBoxLayout(InstancePage)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.tabWidget = QTabWidget(InstancePage)
@@ -488,6 +463,8 @@ class Ui_InstancePage(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.groupBox_2 = QGroupBox(self.run_main_frame)
         self.groupBox_2.setObjectName(u"groupBox_2")
+        self.horizontalLayout_10 = QHBoxLayout(self.groupBox_2)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
 
         self.gridLayout.addWidget(self.groupBox_2, 0, 1, 2, 1)
 
@@ -557,6 +534,7 @@ class Ui_InstancePage(object):
         self.pushButton_2 = QPushButton(self.frame_10)
         self.pushButton_2.setObjectName(u"pushButton_2")
         self.pushButton_2.setMinimumSize(QSize(45, 45))
+        self.pushButton_2.setStyleSheet(u"background:transparent;")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
         self.pushButton_2.setIcon(icon)
 
@@ -629,6 +607,7 @@ class Ui_InstancePage(object):
         self.pushButton_4.setObjectName(u"pushButton_4")
         self.pushButton_4.setMinimumSize(QSize(45, 45))
         self.pushButton_4.setMaximumSize(QSize(45, 45))
+        self.pushButton_4.setStyleSheet(u"background:transparent;")
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
         self.pushButton_4.setIcon(icon1)
 
@@ -638,6 +617,7 @@ class Ui_InstancePage(object):
         self.pushButton_3.setObjectName(u"pushButton_3")
         self.pushButton_3.setMinimumSize(QSize(45, 45))
         self.pushButton_3.setMaximumSize(QSize(45, 45))
+        self.pushButton_3.setStyleSheet(u"background:transparent;")
         icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
         self.pushButton_3.setIcon(icon2)
 
@@ -647,6 +627,7 @@ class Ui_InstancePage(object):
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setMinimumSize(QSize(45, 45))
         self.pushButton.setMaximumSize(QSize(45, 45))
+        self.pushButton.setStyleSheet(u"background:transparent;")
         icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
         self.pushButton.setIcon(icon3)
 
@@ -726,10 +707,93 @@ class Ui_InstancePage(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.frame_8 = QFrame(self.groupBox_4)
         self.frame_8.setObjectName(u"frame_8")
+        self.frame_8.setMaximumSize(QSize(16777215, 16777215))
         self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout = QHBoxLayout(self.frame_8)
+        self.verticalLayout_11 = QVBoxLayout(self.frame_8)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.frame_15 = QFrame(self.frame_8)
+        self.frame_15.setObjectName(u"frame_15")
+        self.frame_15.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_15.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout = QHBoxLayout(self.frame_15)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.label_5 = QLabel(self.frame_15)
+        self.label_5.setObjectName(u"label_5")
+
+        self.horizontalLayout.addWidget(self.label_5)
+
+        self.spinBox = QSpinBox(self.frame_15)
+        self.spinBox.setObjectName(u"spinBox")
+        self.spinBox.setMinimumSize(QSize(120, 40))
+        self.spinBox.setValue(5)
+
+        self.horizontalLayout.addWidget(self.spinBox)
+
+
+        self.verticalLayout_11.addWidget(self.frame_15, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.frame_12 = QFrame(self.frame_8)
+        self.frame_12.setObjectName(u"frame_12")
+        self.frame_12.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_10 = QVBoxLayout(self.frame_12)
+        self.verticalLayout_10.setSpacing(0)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.frame_13 = QFrame(self.frame_12)
+        self.frame_13.setObjectName(u"frame_13")
+        self.frame_13.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_13.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_11 = QHBoxLayout(self.frame_13)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.checkBox = QCheckBox(self.frame_13)
+        self.checkBox.setObjectName(u"checkBox")
+
+        self.horizontalLayout_11.addWidget(self.checkBox)
+
+
+        self.verticalLayout_10.addWidget(self.frame_13)
+
+        self.frame_14 = QFrame(self.frame_12)
+        self.frame_14.setObjectName(u"frame_14")
+        self.frame_14.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_14.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_2 = QGridLayout(self.frame_14)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setContentsMargins(0, 5, 0, 0)
+        self.timeEdit = QTimeEdit(self.frame_14)
+        self.timeEdit.setObjectName(u"timeEdit")
+        self.timeEdit.setMinimumSize(QSize(110, 40))
+        self.timeEdit.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
+
+        self.gridLayout_2.addWidget(self.timeEdit, 1, 3, 1, 1)
+
+        self.timeEdit_2 = QTimeEdit(self.frame_14)
+        self.timeEdit_2.setObjectName(u"timeEdit_2")
+        self.timeEdit_2.setMinimumSize(QSize(110, 40))
+        self.timeEdit_2.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
+
+        self.gridLayout_2.addWidget(self.timeEdit_2, 1, 1, 1, 1)
+
+        self.label_3 = QLabel(self.frame_14)
+        self.label_3.setObjectName(u"label_3")
+
+        self.gridLayout_2.addWidget(self.label_3, 1, 0, 1, 1)
+
+        self.label_4 = QLabel(self.frame_14)
+        self.label_4.setObjectName(u"label_4")
+
+        self.gridLayout_2.addWidget(self.label_4, 1, 2, 1, 1)
+
+
+        self.verticalLayout_10.addWidget(self.frame_14)
+
+
+        self.verticalLayout_11.addWidget(self.frame_12)
+
 
         self.verticalLayout_6.addWidget(self.frame_8)
 
@@ -739,14 +803,155 @@ class Ui_InstancePage(object):
         self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_7 = QVBoxLayout(self.frame_6)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.label_2 = QLabel(self.frame_6)
+        self.frame_16 = QFrame(self.frame_6)
+        self.frame_16.setObjectName(u"frame_16")
+        self.frame_16.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_16.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_12 = QHBoxLayout(self.frame_16)
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.label_2 = QLabel(self.frame_16)
         self.label_2.setObjectName(u"label_2")
 
-        self.verticalLayout_7.addWidget(self.label_2, 0, Qt.AlignmentFlag.AlignHCenter)
+        self.horizontalLayout_12.addWidget(self.label_2)
 
+        self.comboBox_2 = QComboBox(self.frame_16)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setMinimumSize(QSize(0, 45))
+
+        self.horizontalLayout_12.addWidget(self.comboBox_2)
+
+        self.horizontalLayout_12.setStretch(0, 1)
+        self.horizontalLayout_12.setStretch(1, 3)
+
+        self.verticalLayout_7.addWidget(self.frame_16, 0, Qt.AlignmentFlag.AlignTop)
+
+        self.frame_17 = QFrame(self.frame_6)
+        self.frame_17.setObjectName(u"frame_17")
+        self.frame_17.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_17.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_17)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.profile_settings = QGroupBox(self.frame_17)
+        self.profile_settings.setObjectName(u"profile_settings")
+        self.profile_settings.setStyleSheet(u"#profile_settings{\n"
+"/*border: 1px solid  rgb(29, 33, 38); */\n"
+"border: 1px solid rgb(94, 106, 130);\n"
+"}")
+        self.verticalLayout_12 = QVBoxLayout(self.profile_settings)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.frame_18 = QFrame(self.profile_settings)
+        self.frame_18.setObjectName(u"frame_18")
+        self.frame_18.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_18.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_14 = QHBoxLayout(self.frame_18)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.label_6 = QLabel(self.frame_18)
+        self.label_6.setObjectName(u"label_6")
+
+        self.horizontalLayout_14.addWidget(self.label_6)
+
+        self.comboBox_3 = QComboBox(self.frame_18)
+        self.comboBox_3.addItem("")
+        self.comboBox_3.addItem("")
+        self.comboBox_3.setObjectName(u"comboBox_3")
+        self.comboBox_3.setMinimumSize(QSize(0, 45))
+
+        self.horizontalLayout_14.addWidget(self.comboBox_3)
+
+        self.pushButton_6 = QPushButton(self.frame_18)
+        self.pushButton_6.setObjectName(u"pushButton_6")
+        self.pushButton_6.setMaximumSize(QSize(45, 45))
+        self.pushButton_6.setStyleSheet(u"background:transparent;")
+        self.pushButton_6.setIcon(icon3)
+
+        self.horizontalLayout_14.addWidget(self.pushButton_6)
+
+        self.horizontalLayout_14.setStretch(0, 1)
+        self.horizontalLayout_14.setStretch(1, 3)
+        self.horizontalLayout_14.setStretch(2, 1)
+
+        self.verticalLayout_12.addWidget(self.frame_18)
+
+        self.frame_19 = QFrame(self.profile_settings)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_3 = QGridLayout(self.frame_19)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.label_8 = QLabel(self.frame_19)
+        self.label_8.setObjectName(u"label_8")
+
+        self.gridLayout_3.addWidget(self.label_8, 3, 0, 1, 1)
+
+        self.pushButton_7 = QPushButton(self.frame_19)
+        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.pushButton_7.setMinimumSize(QSize(45, 45))
+        self.pushButton_7.setMaximumSize(QSize(45, 45))
+        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
+        self.pushButton_7.setIcon(icon4)
+
+        self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
+
+        self.label_7 = QLabel(self.frame_19)
+        self.label_7.setObjectName(u"label_7")
+
+        self.gridLayout_3.addWidget(self.label_7, 0, 0, 1, 1)
+
+        self.pushButton_9 = QPushButton(self.frame_19)
+        self.pushButton_9.setObjectName(u"pushButton_9")
+        self.pushButton_9.setMinimumSize(QSize(45, 45))
+        self.pushButton_9.setMaximumSize(QSize(45, 45))
+        self.pushButton_9.setIcon(icon2)
+
+        self.gridLayout_3.addWidget(self.pushButton_9, 0, 4, 1, 1)
+
+        self.pushButton_8 = QPushButton(self.frame_19)
+        self.pushButton_8.setObjectName(u"pushButton_8")
+        self.pushButton_8.setMinimumSize(QSize(45, 45))
+        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
+        self.pushButton_8.setIcon(icon5)
+
+        self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)
+
+        self.comboBox_4 = QComboBox(self.frame_19)
+        self.comboBox_4.setObjectName(u"comboBox_4")
+        self.comboBox_4.setMinimumSize(QSize(0, 45))
+
+        self.gridLayout_3.addWidget(self.comboBox_4, 3, 1, 1, 3)
+
+        self.lineEdit_3 = QLineEdit(self.frame_19)
+        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_3.setMinimumSize(QSize(0, 45))
+
+        self.gridLayout_3.addWidget(self.lineEdit_3, 0, 1, 1, 2)
+
+
+        self.verticalLayout_12.addWidget(self.frame_19)
+
+        self.frame_20 = QFrame(self.profile_settings)
+        self.frame_20.setObjectName(u"frame_20")
+        self.frame_20.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.verticalLayout_12.addWidget(self.frame_20)
+
+        self.verticalLayout_12.setStretch(0, 1)
+        self.verticalLayout_12.setStretch(1, 5)
+
+        self.horizontalLayout_13.addWidget(self.profile_settings)
+
+
+        self.verticalLayout_7.addWidget(self.frame_17)
+
+        self.verticalLayout_7.setStretch(0, 1)
+        self.verticalLayout_7.setStretch(1, 7)
 
         self.verticalLayout_6.addWidget(self.frame_6)
 
+        self.verticalLayout_6.setStretch(0, 2)
+        self.verticalLayout_6.setStretch(1, 6)
 
         self.horizontalLayout_5.addWidget(self.groupBox_4)
 
@@ -785,6 +990,7 @@ class Ui_InstancePage(object):
 
         self.tabWidget.setCurrentIndex(0)
         self.comboBox.setCurrentIndex(-1)
+        self.comboBox_2.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(InstancePage)
@@ -811,7 +1017,26 @@ class Ui_InstancePage(object):
         ___qtablewidgetitem.setText(QCoreApplication.translate("InstancePage", u"Tasks", None));
         self.label.setText(QCoreApplication.translate("InstancePage", u"Scheduler Status", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("InstancePage", u"Game Settings", None))
-        self.label_2.setText(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
+        self.label_5.setText(QCoreApplication.translate("InstancePage", u"Kick & Reload", None))
+        self.spinBox.setSuffix(QCoreApplication.translate("InstancePage", u"  Mins", None))
+        self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break", None))
+        self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
+        self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
+        self.label_2.setText(QCoreApplication.translate("InstancePage", u"Select Profile", None))
+        self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
+
+        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
+        self.profile_settings.setTitle(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
+        self.label_6.setText(QCoreApplication.translate("InstancePage", u"Load Profile", None))
+        self.comboBox_3.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
+        self.comboBox_3.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt", None))
+
+        self.pushButton_6.setText("")
+        self.label_8.setText(QCoreApplication.translate("InstancePage", u"Copy Profile", None))
+        self.pushButton_7.setText("")
+        self.label_7.setText(QCoreApplication.translate("InstancePage", u"Profile Name", None))
+        self.pushButton_9.setText("")
+        self.pushButton_8.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("InstancePage", u"Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("InstancePage", u"General", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("InstancePage", u"Join Rally", None))

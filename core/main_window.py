@@ -86,9 +86,6 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         UIFunctions.uiDefinitions(self)
 
-        # QTableWidget PARAMETERS
-        # ///////////////////////////////////////////////////////////////
-        self.widgets.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         # LEFT MENUS
         # Connect buttons directly to click events
@@ -107,8 +104,6 @@ class MainWindow(QMainWindow):
 
         self.widgets.settingsTopBtn.clicked.connect(openCloseRightBox)
 
-        #Remove this
-        self.widgets.pushButton.clicked.connect(self.test)
 
         # SCREEN SIZE
         UIFunctions.screen_size(self)
