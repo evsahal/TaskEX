@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QTableWidgetItem, QHeaderView, QPushButton, QToolT
 from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtCore import Qt, QSize
 
+from core.controllers.emulator_controller import handle_run_button, sync_lineedits
+
 
 def add_instance_controls(main_window,index):
     """
@@ -30,22 +32,29 @@ def add_instance_controls(main_window,index):
 
     # 2. Create a QLineEdit for emulator name
     emu_line_edit = QLineEdit()
-    emu_line_edit.setObjectName(f"im_emu_{index}")
+    emu_line_edit.setObjectName(f"im_emu_name_{index}")
     emu_line_edit.setPlaceholderText(f"Emulator {index}")
-    emu_line_edit.setText(f"Emulator {index}")
     emu_line_edit.setFixedHeight(39)
     emu_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
     setattr(main_window.widgets, emu_line_edit.objectName(), emu_line_edit)
     # print(emu_line_edit.objectName())
+    # Sync instance manager emulator name and run tab emulator name
+    sync_lineedits(emu_line_edit, getattr(main_window.widgets, f"emu_name_{index}"))
+
+    # Set default emulator name
+    emu_line_edit.setText(f"Emulator {index}")
 
     # 2. Create a QLineEdit for port number
     port_line_edit = QLineEdit()
-    port_line_edit.setObjectName(f"im_port_{index}")
+    port_line_edit.setObjectName(f"im_emu_port_{index}")
     port_line_edit.setPlaceholderText("Port No.")
     port_line_edit.setFixedHeight(39)
     port_line_edit.setFixedWidth(80)
     port_line_edit.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
     setattr(main_window.widgets, port_line_edit.objectName(), port_line_edit)
+
+    # Sync instance manager emulator port and run tab emulator port
+    sync_lineedits(port_line_edit, getattr(main_window.widgets, f"emu_port_{index}"))
 
     # 3. Create a "Play" button with a run icon
     play_button = QPushButton()
@@ -59,6 +68,7 @@ def add_instance_controls(main_window,index):
     """)
     setattr(main_window.widgets, play_button.objectName(), play_button)
 
+    play_button.clicked.connect(lambda: handle_run_button(main_window, index))
 
     # Create a widget container to hold these elements horizontally
     widget_container = QWidget()
