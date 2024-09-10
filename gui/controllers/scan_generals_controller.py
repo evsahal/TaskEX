@@ -1,6 +1,7 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QVBoxLayout, QFrame, QScrollArea
 
+from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 
 
@@ -57,3 +58,23 @@ def init_scan_general_ui(main_window):
 
     # Set the layout to the sg_scan_type frame
     scan_filter_f.setLayout(frame_layout)
+
+    # Setup the Layout for generals
+    generals_list_frame = getattr(main_window.widgets, "generals_list_frame")
+
+    # Use the existing generals_list_frame as the container
+    flow_layout = FlowLayout(generals_list_frame)
+    flow_layout.setObjectName("generals_list_flow_layout")
+    setattr(main_window.widgets, flow_layout.objectName(), flow_layout)
+
+    # Set the flow layout to the container frame (generals_list_frame)
+    generals_list_frame.setLayout(flow_layout)
+
+    # # Create and add multiple frames in a loop
+    # for i in range(30):  # Adjust the number of frames as needed
+    #     frame = QFrame()
+    #     frame.setFixedSize(200, 200)  # Set the size (width, height)
+    #     frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
+    #     flow_layout.addWidget(frame)
+
+
