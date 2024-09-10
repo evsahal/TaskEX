@@ -900,7 +900,7 @@ class Ui_MainWindow(object):
 "	border: 1px solid black;\n"
 "}")
         self.port_display_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.port_display_table.setAlternatingRowColors(True)
+        self.port_display_table.setAlternatingRowColors(False)
         self.port_display_table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         self.port_display_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectItems)
         self.port_display_table.setTextElideMode(Qt.TextElideMode.ElideMiddle)
@@ -1263,7 +1263,7 @@ class Ui_MainWindow(object):
         self.toolBox.setObjectName(u"toolBox")
         self.page = QWidget()
         self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 1104, 362))
+        self.page.setGeometry(QRect(0, 0, 854, 362))
         self.toolBox.addItem(self.page, u"Boss Monsters")
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")

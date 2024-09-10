@@ -139,10 +139,9 @@ def add_row_to_port_display_table(main_window, emulator_type, port_number):
 
     # Add Copy button in Actions column and center-align it
     copy_button = QPushButton()
-    # copy_button.setIcon(QIcon(":/icons/images/icons/cil-task.png"))  # Replace with the actual path to your copy icon
+    copy_button.setIcon(QIcon(":/icons/images/icons/cil-clipboard.png"))
     copy_button.setToolTip("Copy")
-
-    copy_button.setIcon(QIcon.fromTheme("edit-copy"))
+    # copy_button.setIcon(QIcon.fromTheme("edit-copy"))
     copy_button.setStyleSheet("border: none;background-color: transparent;")
     # Create a QWidget to hold the button and set a layout to center it
     button_container = QWidget()
