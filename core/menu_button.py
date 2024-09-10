@@ -78,8 +78,6 @@ def handle_button_click(main_window, btn):
         UIFunctions.resetStyle(main_window, btnName)
         btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
-
-
 def connect_buttons(main_window):
     """
     Connect buttons directly to the `handle_button_click` function.
@@ -97,7 +95,6 @@ def logout(main_window):
     settings = QSettings("TaskEnforceX", "TaskEX")
     settings.setValue("logged_in", False)
     sys.exit()
-
 
 def add_new_menu_button(main_window,selection = True):
     """
@@ -246,7 +243,6 @@ def remove_widget(widget):
     else:
         # print("Widget is None, nothing to remove.")
         pass
-
 
 def initialize_instances(main_window, num_instances):
     """

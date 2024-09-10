@@ -11,6 +11,7 @@ from core.app_settings import Settings
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
+from gui.controllers.scan_generals_controller import init_scan_general_ui
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 
@@ -62,6 +63,8 @@ class MainWindow(QMainWindow):
 
         # Create a scroll area for the topMenu
         self.scroll_area = QScrollArea(self.widgets.leftMenuFrame)
+        self.scroll_area.setFrameShape(QFrame.NoFrame)
+        # self.scroll_area.setFrameShadow(QFrame.Plain)
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -126,6 +129,7 @@ class MainWindow(QMainWindow):
 
         # Test
         # print(getattr(self.widgets, f"im_emu_1").text())
+        init_scan_general_ui(self)
 
     def init_adb(self):
 
@@ -133,10 +137,7 @@ class MainWindow(QMainWindow):
         ADBManager.initialize_adb()
 
 
-    def test(self):
-        # swipe
-        # self.adb_instance.swipe(30,300,500,300)
-        pass
+
 
     def init_instance(self):
         # Load the Default Instances

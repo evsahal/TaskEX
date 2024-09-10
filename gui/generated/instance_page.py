@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'instance_page.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -535,7 +535,7 @@ class Ui_InstancePage(object):
         self.run_btn_.setObjectName(u"run_btn_")
         self.run_btn_.setMinimumSize(QSize(45, 45))
         self.run_btn_.setStyleSheet(u"background:transparent;")
-        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
+        icon = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::MediaPlaybackStart"))
         self.run_btn_.setIcon(icon)
 
         self.horizontalLayout_8.addWidget(self.run_btn_)
@@ -608,7 +608,7 @@ class Ui_InstancePage(object):
         self.pushButton_4.setMinimumSize(QSize(45, 45))
         self.pushButton_4.setMaximumSize(QSize(45, 45))
         self.pushButton_4.setStyleSheet(u"background:transparent;")
-        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
+        icon1 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSave"))
         self.pushButton_4.setIcon(icon1)
 
         self.horizontalLayout_7.addWidget(self.pushButton_4)
@@ -618,7 +618,7 @@ class Ui_InstancePage(object):
         self.pushButton_3.setMinimumSize(QSize(45, 45))
         self.pushButton_3.setMaximumSize(QSize(45, 45))
         self.pushButton_3.setStyleSheet(u"background:transparent;")
-        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        icon2 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditDelete"))
         self.pushButton_3.setIcon(icon2)
 
         self.horizontalLayout_7.addWidget(self.pushButton_3)
@@ -628,7 +628,7 @@ class Ui_InstancePage(object):
         self.pushButton.setMinimumSize(QSize(45, 45))
         self.pushButton.setMaximumSize(QSize(45, 45))
         self.pushButton.setStyleSheet(u"background:transparent;")
-        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
+        icon3 = QIcon(QIcon.fromTheme(u"edit-delete"))
         self.pushButton.setIcon(icon3)
 
         self.horizontalLayout_7.addWidget(self.pushButton)
@@ -864,7 +864,8 @@ class Ui_InstancePage(object):
         self.pushButton_6.setObjectName(u"pushButton_6")
         self.pushButton_6.setMaximumSize(QSize(45, 45))
         self.pushButton_6.setStyleSheet(u"background:transparent;")
-        self.pushButton_6.setIcon(icon3)
+        icon4 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::ListAdd"))
+        self.pushButton_6.setIcon(icon4)
 
         self.horizontalLayout_14.addWidget(self.pushButton_6)
 
@@ -889,8 +890,8 @@ class Ui_InstancePage(object):
         self.pushButton_7.setObjectName(u"pushButton_7")
         self.pushButton_7.setMinimumSize(QSize(45, 45))
         self.pushButton_7.setMaximumSize(QSize(45, 45))
-        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
-        self.pushButton_7.setIcon(icon4)
+        icon5 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSaveAs"))
+        self.pushButton_7.setIcon(icon5)
 
         self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
 
@@ -910,8 +911,8 @@ class Ui_InstancePage(object):
         self.pushButton_8 = QPushButton(self.frame_19)
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setMinimumSize(QSize(45, 45))
-        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
-        self.pushButton_8.setIcon(icon5)
+        icon6 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditCopy"))
+        self.pushButton_8.setIcon(icon6)
 
         self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)
 

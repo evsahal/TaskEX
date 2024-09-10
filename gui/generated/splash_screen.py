@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'splash_screen.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -116,8 +116,11 @@ class Ui_SplashScreen(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.header_frame = QFrame(self.dropShadowFrame)
         self.header_frame.setObjectName(u"header_frame")
-        sizePolicy1.setHeightForWidth(self.header_frame.sizePolicy().hasHeightForWidth())
-        self.header_frame.setSizePolicy(sizePolicy1)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.header_frame.sizePolicy().hasHeightForWidth())
+        self.header_frame.setSizePolicy(sizePolicy2)
         self.header_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.header_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_3 = QVBoxLayout(self.header_frame)
@@ -163,19 +166,19 @@ class Ui_SplashScreen(object):
 
         self.btn_login = QPushButton(self.login_frame)
         self.btn_login.setObjectName(u"btn_login")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.btn_login.sizePolicy().hasHeightForWidth())
-        self.btn_login.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.btn_login.sizePolicy().hasHeightForWidth())
+        self.btn_login.setSizePolicy(sizePolicy3)
         self.btn_login.setMinimumSize(QSize(180, 45))
 
         self.gridLayout_2.addWidget(self.btn_login, 3, 0, 1, 1)
 
         self.username = QLineEdit(self.login_frame)
         self.username.setObjectName(u"username")
-        sizePolicy2.setHeightForWidth(self.username.sizePolicy().hasHeightForWidth())
-        self.username.setSizePolicy(sizePolicy2)
+        sizePolicy3.setHeightForWidth(self.username.sizePolicy().hasHeightForWidth())
+        self.username.setSizePolicy(sizePolicy3)
         self.username.setMinimumSize(QSize(300, 45))
 
         self.gridLayout_2.addWidget(self.username, 0, 0, 1, 2, Qt.AlignmentFlag.AlignLeft)
@@ -202,7 +205,7 @@ class Ui_SplashScreen(object):
         self.line.setFrameShadow(QFrame.Shadow.Raised)
         self.line.setLineWidth(1)
         self.line.setMidLineWidth(0)
-        self.line.setFrameShape(QFrame.Shape.VLine)
+        self.line.setFrameShape(QFrame.VLine)
 
         self.gridLayout_2.addWidget(self.line, 0, 3, 4, 1)
 
@@ -232,11 +235,11 @@ class Ui_SplashScreen(object):
 
         self.progress_frame = QFrame(self.dropShadowFrame)
         self.progress_frame.setObjectName(u"progress_frame")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.progress_frame.sizePolicy().hasHeightForWidth())
-        self.progress_frame.setSizePolicy(sizePolicy3)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.progress_frame.sizePolicy().hasHeightForWidth())
+        self.progress_frame.setSizePolicy(sizePolicy4)
         self.progress_frame.setMaximumSize(QSize(16777215, 0))
         self.progress_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.progress_frame.setFrameShadow(QFrame.Shadow.Raised)
