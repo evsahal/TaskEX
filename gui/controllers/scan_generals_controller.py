@@ -8,10 +8,6 @@ from core.custom_widgets.QCheckComboBox import QCheckComboBox
 def init_scan_general_ui(main_window):
 
     # Set up scan type
-    scan_type_f = getattr(main_window.widgets, f"sg_scan_type")
-    # scan_type_f.setContentsMargins(0, 0, 0, 0)
-    # scan_type_f.setStyleSheet("border: 1px solid red;")
-
     # Create a vertical layout for the frame
     frame_layout = QVBoxLayout()
 
@@ -19,25 +15,21 @@ def init_scan_general_ui(main_window):
     cb = QCheckComboBox(placeholderText="Scan Type")
     cb.setMinimumWidth(180)
     cb.setMinimumHeight(45)
-    model = cb.model()
+    # model = cb.model()
     cb.addItem("Epic Historic")
     cb.setItemCheckState(0, Qt.Unchecked)
     cb.addItem("Legendary Historic")
     cb.setItemCheckState(1, Qt.Unchecked)
-    cb.show()
-    cb.raise_()
+    # cb.show()
+    # cb.raise_()
 
     # Add the MultiSelectComboBox to the frame layout
     frame_layout.addWidget(cb)
 
     # Set the layout to the sg_scan_type frame
-    scan_type_f.setLayout(frame_layout)
+    getattr(main_window.widgets, f"sg_scan_type").setLayout(frame_layout)
 
     # Set up scan filter
-    scan_filter_f = getattr(main_window.widgets, f"sg_scan_filter")
-    # scan_filter_f.setContentsMargins(0, 0, 0, 0)
-    # scan_filter_f.setStyleSheet("border: 1px solid red;")
-
     # Create a vertical layout for the frame
     frame_layout = QVBoxLayout()
 
@@ -45,21 +37,21 @@ def init_scan_general_ui(main_window):
     cb = QCheckComboBox(placeholderText="Scan Filter")
     cb.setMinimumWidth(130)
     cb.setMinimumHeight(45)
-    model = cb.model()
+    # model = cb.model()
     cb.addItem("Favorite")
     cb.setItemCheckState(0, Qt.Unchecked)
     cb.addItem("Idle")
     cb.setItemCheckState(1, Qt.Unchecked)
-    cb.show()
-    cb.raise_()
+    # cb.show()
+    # cb.raise_()
 
     # Add the MultiSelectComboBox to the frame layout
     frame_layout.addWidget(cb)
 
     # Set the layout to the sg_scan_type frame
-    scan_filter_f.setLayout(frame_layout)
+    getattr(main_window.widgets, f"sg_scan_filter").setLayout(frame_layout)
 
-    # Setup the Layout for generals
+    # Set up the Layout for generals
     generals_list_frame = getattr(main_window.widgets, "generals_list_frame")
 
     # Use the existing generals_list_frame as the container
@@ -71,10 +63,10 @@ def init_scan_general_ui(main_window):
     generals_list_frame.setLayout(flow_layout)
 
     # # Create and add multiple frames in a loop
-    # for i in range(30):  # Adjust the number of frames as needed
-    #     frame = QFrame()
-    #     frame.setFixedSize(200, 200)  # Set the size (width, height)
-    #     frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
-    #     flow_layout.addWidget(frame)
+    for i in range(30):  # Adjust the number of frames as needed
+        frame = QFrame()
+        frame.setFixedSize(200, 200)  # Set the size (width, height)
+        frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
+        flow_layout.addWidget(frame)
 
 
