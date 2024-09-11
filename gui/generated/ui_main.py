@@ -1156,6 +1156,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_7 = QHBoxLayout(self.frame_3)
+        self.horizontalLayout_7.setSpacing(12)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.comboBox = QComboBox(self.frame_3)
@@ -1203,22 +1204,22 @@ class Ui_MainWindow(object):
 
         self.frame_4 = QFrame(self.scan_generals)
         self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_4.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_18 = QVBoxLayout(self.frame_4)
         self.verticalLayout_18.setSpacing(7)
         self.verticalLayout_18.setObjectName(u"verticalLayout_18")
         self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
-        self.generals_scroll_area = QScrollArea(self.frame_4)
-        self.generals_scroll_area.setObjectName(u"generals_scroll_area")
-        self.generals_scroll_area.setStyleSheet(u"#generals_scroll_area{\n"
+        self.bm_generals_scroll_area = QScrollArea(self.frame_4)
+        self.bm_generals_scroll_area.setObjectName(u"bm_generals_scroll_area")
+        self.bm_generals_scroll_area.setStyleSheet(u"#bm_generals_scroll_area{\n"
 "	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
 "}")
-        self.generals_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
-        self.generals_scroll_area.setWidgetResizable(True)
+        self.bm_generals_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1116, 317))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1118, 318))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -1230,9 +1231,9 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.generals_list_frame)
 
-        self.generals_scroll_area.setWidget(self.scrollAreaWidgetContents)
+        self.bm_generals_scroll_area.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout_18.addWidget(self.generals_scroll_area)
+        self.verticalLayout_18.addWidget(self.bm_generals_scroll_area)
 
         self.scan_general_console_frame = QFrame(self.frame_4)
         self.scan_general_console_frame.setObjectName(u"scan_general_console_frame")
@@ -1308,21 +1309,21 @@ class Ui_MainWindow(object):
 
         self.frame_2 = QFrame(self.monsters)
         self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_12 = QHBoxLayout(self.frame_2)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.monsters_scroll_area = QScrollArea(self.frame_2)
-        self.monsters_scroll_area.setObjectName(u"monsters_scroll_area")
-        self.monsters_scroll_area.setStyleSheet(u"#monsters_scroll_area{\n"
-"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
+        self.bm_monsters_scroll_area = QScrollArea(self.frame_2)
+        self.bm_monsters_scroll_area.setObjectName(u"bm_monsters_scroll_area")
+        self.bm_monsters_scroll_area.setStyleSheet(u"#bm_monsters_scroll_area{\n"
+"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em \n"
 "}")
-        self.monsters_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
-        self.monsters_scroll_area.setWidgetResizable(True)
+        self.bm_monsters_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1116, 386))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1333,9 +1334,9 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.monsters_list_frame)
 
-        self.monsters_scroll_area.setWidget(self.scrollAreaWidgetContents_2)
+        self.bm_monsters_scroll_area.setWidget(self.scrollAreaWidgetContents_2)
 
-        self.horizontalLayout_12.addWidget(self.monsters_scroll_area)
+        self.horizontalLayout_12.addWidget(self.bm_monsters_scroll_area)
 
 
         self.verticalLayout_16.addWidget(self.frame_2)
@@ -1366,12 +1367,62 @@ class Ui_MainWindow(object):
         self.verticalLayout_16.setStretch(1, 10)
         self.verticalLayout_16.setStretch(2, 1)
         self.tabWidget.addTab(self.monsters, "")
-        self.tab = QWidget()
-        self.tab.setObjectName(u"tab")
-        self.tabWidget.addTab(self.tab, "")
-        self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
-        self.tabWidget.addTab(self.tab_2, "")
+        self.champions = QWidget()
+        self.champions.setObjectName(u"champions")
+        self.horizontalLayout_8 = QHBoxLayout(self.champions)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.frame_5 = QFrame(self.champions)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_22 = QVBoxLayout(self.frame_5)
+        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
+        self.verticalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.bm_champions_scroll_area = QScrollArea(self.frame_5)
+        self.bm_champions_scroll_area.setObjectName(u"bm_champions_scroll_area")
+        self.bm_champions_scroll_area.setStyleSheet(u"#bm_champions_scroll_area{\n"
+"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
+"}")
+        self.bm_champions_scroll_area.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_3 = QWidget()
+        self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
+        self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
+
+        self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
+
+
+        self.horizontalLayout_8.addWidget(self.frame_5)
+
+        self.tabWidget.addTab(self.champions, "")
+        self.black_market = QWidget()
+        self.black_market.setObjectName(u"black_market")
+        self.horizontalLayout_10 = QHBoxLayout(self.black_market)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.frame_6 = QFrame(self.black_market)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_23 = QVBoxLayout(self.frame_6)
+        self.verticalLayout_23.setObjectName(u"verticalLayout_23")
+        self.verticalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.bm_black_market_scroll_area = QScrollArea(self.frame_6)
+        self.bm_black_market_scroll_area.setObjectName(u"bm_black_market_scroll_area")
+        self.bm_black_market_scroll_area.setStyleSheet(u"#bm_black_market_scroll_area{\n"
+"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
+"}")
+        self.bm_black_market_scroll_area.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_4 = QWidget()
+        self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
+        self.bm_black_market_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
+
+        self.verticalLayout_23.addWidget(self.bm_black_market_scroll_area)
+
+
+        self.horizontalLayout_10.addWidget(self.frame_6)
+
+        self.tabWidget.addTab(self.black_market, "")
 
         self.verticalLayout_20.addWidget(self.tabWidget)
 
@@ -1506,7 +1557,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.comboBox.setCurrentIndex(-1)
 
 
@@ -1568,8 +1619,8 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Export", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monsters), QCoreApplication.translate("MainWindow", u"Monsters", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Champions", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Black Market", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.champions), QCoreApplication.translate("MainWindow", u"Champions", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.black_market), QCoreApplication.translate("MainWindow", u"Black Market", None))
         self.btn_support.setText(QCoreApplication.translate("MainWindow", u"Support", None))
         self.btn_logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: ", None))

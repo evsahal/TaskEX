@@ -25,6 +25,7 @@ def init_scan_general_ui(main_window):
 
     # Add the MultiSelectComboBox to the frame layout
     frame_layout.addWidget(cb)
+    frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
 
     # Set the layout to the sg_scan_type frame
     getattr(main_window.widgets, f"sg_scan_type").setFrameShape(QFrame.NoFrame)
@@ -48,6 +49,7 @@ def init_scan_general_ui(main_window):
 
     # Add the MultiSelectComboBox to the frame layout
     frame_layout.addWidget(cb)
+    frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
 
     # Set the layout to the sg_scan_type frame
     getattr(main_window.widgets, f"sg_scan_filter").setFrameShape(QFrame.NoFrame)
