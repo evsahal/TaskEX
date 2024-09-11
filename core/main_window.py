@@ -1,5 +1,6 @@
 import os
 import time
+from time import sleep
 from tkinter import font
 
 from PySide6.QtCore import Qt, QSize, QTimer
@@ -81,6 +82,9 @@ class MainWindow(QMainWindow):
         # layout.addStretch()
         layout.addWidget(self.widgets.bottomMenu)  # Instance Manager at the bottom
 
+        # Setup Scan Generals UI
+        init_scan_general_ui(self)
+
         # TOGGLE MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.toggleButton.clicked.connect(lambda: UIFunctions.toggleMenu(self, True))
@@ -127,17 +131,11 @@ class MainWindow(QMainWindow):
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
 
-        # Test
-        # print(getattr(self.widgets, f"im_emu_1").text())
-        init_scan_general_ui(self)
 
     def init_adb(self):
 
         # call the iniitializer for adb
         ADBManager.initialize_adb()
-
-
-
 
     def init_instance(self):
         # Load the Default Instances

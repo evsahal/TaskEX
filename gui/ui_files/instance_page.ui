@@ -806,7 +806,7 @@ border-radius: 5px;</string>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QPushButton" name="pushButton_4">
+                             <widget class="QPushButton" name="preset_save_btn_">
                               <property name="minimumSize">
                                <size>
                                 <width>45</width>
@@ -831,7 +831,7 @@ border-radius: 5px;</string>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QPushButton" name="pushButton_3">
+                             <widget class="QPushButton" name="preset_delete_btn_">
                               <property name="minimumSize">
                                <size>
                                 <width>45</width>
@@ -856,7 +856,7 @@ border-radius: 5px;</string>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QPushButton" name="pushButton">
+                             <widget class="QPushButton" name="preset_add_btn_">
                               <property name="minimumSize">
                                <size>
                                 <width>45</width>

@@ -3,9 +3,17 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView
 
 
-def setup_scheduler_table(self, index):
+def init_icons(main_window,index):
+    # run button
+    getattr(main_window.widgets, f"run_btn_{index}").setIcon(QIcon(":/icons/images/icons/cil-media-play.png"))
+    getattr(main_window.widgets, f"preset_save_btn_{index}").setIcon(QIcon(":/icons/images/icons/cil-save.png"))
+    getattr(main_window.widgets, f"preset_delete_btn_{index}").setIcon(QIcon(":/icons/images/icons/icon_delete_2.png"))
+    getattr(main_window.widgets, f"preset_add_btn_{index}").setIcon(QIcon(":/icons/images/icons/cil-plus.png"))
+
+
+def setup_scheduler_table(main_window, index):
     # Accessing the scheduler table
-    scheduler_table = getattr(self.widgets, f"scheduler_table_{index}")
+    scheduler_table = getattr(main_window.widgets, f"scheduler_table_{index}")
 
 
 

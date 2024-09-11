@@ -603,35 +603,35 @@ class Ui_InstancePage(object):
 
         self.horizontalLayout_7.addWidget(self.comboBox)
 
-        self.pushButton_4 = QPushButton(self.widget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setMinimumSize(QSize(45, 45))
-        self.pushButton_4.setMaximumSize(QSize(45, 45))
-        self.pushButton_4.setStyleSheet(u"background:transparent;")
+        self.preset_save_btn_ = QPushButton(self.widget)
+        self.preset_save_btn_.setObjectName(u"preset_save_btn_")
+        self.preset_save_btn_.setMinimumSize(QSize(45, 45))
+        self.preset_save_btn_.setMaximumSize(QSize(45, 45))
+        self.preset_save_btn_.setStyleSheet(u"background:transparent;")
         icon1 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSave"))
-        self.pushButton_4.setIcon(icon1)
+        self.preset_save_btn_.setIcon(icon1)
 
-        self.horizontalLayout_7.addWidget(self.pushButton_4)
+        self.horizontalLayout_7.addWidget(self.preset_save_btn_)
 
-        self.pushButton_3 = QPushButton(self.widget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(45, 45))
-        self.pushButton_3.setMaximumSize(QSize(45, 45))
-        self.pushButton_3.setStyleSheet(u"background:transparent;")
+        self.preset_delete_btn_ = QPushButton(self.widget)
+        self.preset_delete_btn_.setObjectName(u"preset_delete_btn_")
+        self.preset_delete_btn_.setMinimumSize(QSize(45, 45))
+        self.preset_delete_btn_.setMaximumSize(QSize(45, 45))
+        self.preset_delete_btn_.setStyleSheet(u"background:transparent;")
         icon2 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditDelete"))
-        self.pushButton_3.setIcon(icon2)
+        self.preset_delete_btn_.setIcon(icon2)
 
-        self.horizontalLayout_7.addWidget(self.pushButton_3)
+        self.horizontalLayout_7.addWidget(self.preset_delete_btn_)
 
-        self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(45, 45))
-        self.pushButton.setMaximumSize(QSize(45, 45))
-        self.pushButton.setStyleSheet(u"background:transparent;")
-        icon3 = QIcon(QIcon.fromTheme(u"edit-delete"))
-        self.pushButton.setIcon(icon3)
+        self.preset_add_btn_ = QPushButton(self.widget)
+        self.preset_add_btn_.setObjectName(u"preset_add_btn_")
+        self.preset_add_btn_.setMinimumSize(QSize(45, 45))
+        self.preset_add_btn_.setMaximumSize(QSize(45, 45))
+        self.preset_add_btn_.setStyleSheet(u"background:transparent;")
+        icon3 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::ListAdd"))
+        self.preset_add_btn_.setIcon(icon3)
 
-        self.horizontalLayout_7.addWidget(self.pushButton)
+        self.horizontalLayout_7.addWidget(self.preset_add_btn_)
 
 
         self.verticalLayout_9.addWidget(self.widget)
@@ -864,8 +864,7 @@ class Ui_InstancePage(object):
         self.pushButton_6.setObjectName(u"pushButton_6")
         self.pushButton_6.setMaximumSize(QSize(45, 45))
         self.pushButton_6.setStyleSheet(u"background:transparent;")
-        icon4 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::ListAdd"))
-        self.pushButton_6.setIcon(icon4)
+        self.pushButton_6.setIcon(icon3)
 
         self.horizontalLayout_14.addWidget(self.pushButton_6)
 
@@ -890,8 +889,8 @@ class Ui_InstancePage(object):
         self.pushButton_7.setObjectName(u"pushButton_7")
         self.pushButton_7.setMinimumSize(QSize(45, 45))
         self.pushButton_7.setMaximumSize(QSize(45, 45))
-        icon5 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSaveAs"))
-        self.pushButton_7.setIcon(icon5)
+        icon4 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSaveAs"))
+        self.pushButton_7.setIcon(icon4)
 
         self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
 
@@ -911,8 +910,8 @@ class Ui_InstancePage(object):
         self.pushButton_8 = QPushButton(self.frame_19)
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setMinimumSize(QSize(45, 45))
-        icon6 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditCopy"))
-        self.pushButton_8.setIcon(icon6)
+        icon5 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditCopy"))
+        self.pushButton_8.setIcon(icon5)
 
         self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)
 
@@ -1011,9 +1010,9 @@ class Ui_InstancePage(object):
 
         self.comboBox.setCurrentText("")
         self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Preset", None))
-        self.pushButton_4.setText("")
-        self.pushButton_3.setText("")
-        self.pushButton.setText("")
+        self.preset_save_btn_.setText("")
+        self.preset_delete_btn_.setText("")
+        self.preset_add_btn_.setText("")
         ___qtablewidgetitem = self.scheduler_table_.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("InstancePage", u"Tasks", None));
         self.label.setText(QCoreApplication.translate("InstancePage", u"Scheduler Status", None))
