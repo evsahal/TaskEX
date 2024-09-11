@@ -16,11 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
-    QGridLayout, QGroupBox, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QPlainTextEdit,
-    QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
-    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
-    QWidget)
+    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QPlainTextEdit, QPushButton,
+    QScrollArea, QSizePolicy, QStackedWidget, QTabWidget,
+    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 import resources_rc
 
 class Ui_MainWindow(object):
@@ -1210,33 +1209,30 @@ class Ui_MainWindow(object):
         self.verticalLayout_18.setSpacing(7)
         self.verticalLayout_18.setObjectName(u"verticalLayout_18")
         self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
-        self.groupBox = QGroupBox(self.frame_4)
-        self.groupBox.setObjectName(u"groupBox")
-        self.horizontalLayout_8 = QHBoxLayout(self.groupBox)
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.scrollArea = QScrollArea(self.groupBox)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
-        self.scrollArea.setWidgetResizable(True)
+        self.generals_scroll_area = QScrollArea(self.frame_4)
+        self.generals_scroll_area.setObjectName(u"generals_scroll_area")
+        self.generals_scroll_area.setStyleSheet(u"#generals_scroll_area{\n"
+"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
+"}")
+        self.generals_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1102, 324))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1116, 317))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
         self.generals_list_frame = QFrame(self.scrollAreaWidgetContents)
         self.generals_list_frame.setObjectName(u"generals_list_frame")
+        self.generals_list_frame.setStyleSheet(u"")
         self.generals_list_frame.setFrameShape(QFrame.Shape.NoFrame)
         self.generals_list_frame.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_9.addWidget(self.generals_list_frame)
 
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.generals_scroll_area.setWidget(self.scrollAreaWidgetContents)
 
-        self.horizontalLayout_8.addWidget(self.scrollArea)
-
-
-        self.verticalLayout_18.addWidget(self.groupBox)
+        self.verticalLayout_18.addWidget(self.generals_scroll_area)
 
         self.scan_general_console_frame = QFrame(self.frame_4)
         self.scan_general_console_frame.setObjectName(u"scan_general_console_frame")
@@ -1259,7 +1255,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_18.addWidget(self.scan_general_console_frame)
 
-        self.verticalLayout_18.setStretch(0, 10)
+        self.verticalLayout_18.setStretch(0, 7)
         self.verticalLayout_18.setStretch(1, 3)
 
         self.verticalLayout_17.addWidget(self.frame_4)
@@ -1317,34 +1313,29 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12 = QHBoxLayout(self.frame_2)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
         self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
-        self.groupBox_2 = QGroupBox(self.frame_2)
-        self.groupBox_2.setObjectName(u"groupBox_2")
-        self.horizontalLayout_10 = QHBoxLayout(self.groupBox_2)
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(-1, -1, -1, 11)
-        self.scrollArea_2 = QScrollArea(self.groupBox_2)
-        self.scrollArea_2.setObjectName(u"scrollArea_2")
-        self.scrollArea_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.scrollArea_2.setWidgetResizable(True)
+        self.monsters_scroll_area = QScrollArea(self.frame_2)
+        self.monsters_scroll_area.setObjectName(u"monsters_scroll_area")
+        self.monsters_scroll_area.setStyleSheet(u"#monsters_scroll_area{\n"
+"	border: 1px solid  rgb(255, 121, 198); border-radius: 5px;margin-top: 0.2em\n"
+"}")
+        self.monsters_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1102, 361))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1116, 386))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
         self.monsters_list_frame = QFrame(self.scrollAreaWidgetContents_2)
         self.monsters_list_frame.setObjectName(u"monsters_list_frame")
-        self.monsters_list_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.monsters_list_frame.setFrameShape(QFrame.Shape.NoFrame)
         self.monsters_list_frame.setFrameShadow(QFrame.Shadow.Raised)
 
         self.horizontalLayout_14.addWidget(self.monsters_list_frame)
 
-        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+        self.monsters_scroll_area.setWidget(self.scrollAreaWidgetContents_2)
 
-        self.horizontalLayout_10.addWidget(self.scrollArea_2)
-
-
-        self.horizontalLayout_12.addWidget(self.groupBox_2)
+        self.horizontalLayout_12.addWidget(self.monsters_scroll_area)
 
 
         self.verticalLayout_16.addWidget(self.frame_2)
@@ -1378,6 +1369,9 @@ class Ui_MainWindow(object):
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.tabWidget.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.tabWidget.addTab(self.tab_2, "")
 
         self.verticalLayout_20.addWidget(self.tabWidget)
 
@@ -1568,15 +1562,14 @@ class Ui_MainWindow(object):
         self.comboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Generals List", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.upload_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Upload Monsters", None))
         self.export_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Export Monsters", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Monsters List", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Export", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monsters), QCoreApplication.translate("MainWindow", u"Monsters", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Champions", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Black Market", None))
         self.btn_support.setText(QCoreApplication.translate("MainWindow", u"Support", None))
         self.btn_logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: ", None))
