@@ -12,7 +12,8 @@ from core.app_settings import Settings
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
-from gui.controllers.scan_generals_controller import init_scan_general_ui
+from gui.controllers.bm_monsters_controller import init_bm_monster_ui
+from gui.controllers.bm_scan_generals_controller import init_scan_general_ui
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 
@@ -84,6 +85,9 @@ class MainWindow(QMainWindow):
 
         # Setup Scan Generals UI
         init_scan_general_ui(self)
+
+        # Setup BM Monsters UI
+        init_bm_monster_ui(self)
 
         # TOGGLE MENU
         # ///////////////////////////////////////////////////////////////

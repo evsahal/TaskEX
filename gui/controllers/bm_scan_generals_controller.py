@@ -27,6 +27,7 @@ def init_scan_general_ui(main_window):
     frame_layout.addWidget(cb)
 
     # Set the layout to the sg_scan_type frame
+    getattr(main_window.widgets, f"sg_scan_type").setFrameShape(QFrame.NoFrame)
     getattr(main_window.widgets, f"sg_scan_type").setLayout(frame_layout)
 
     # Set up scan filter
@@ -49,6 +50,7 @@ def init_scan_general_ui(main_window):
     frame_layout.addWidget(cb)
 
     # Set the layout to the sg_scan_type frame
+    getattr(main_window.widgets, f"sg_scan_filter").setFrameShape(QFrame.NoFrame)
     getattr(main_window.widgets, f"sg_scan_filter").setLayout(frame_layout)
 
     # Set up the Layout for generals
@@ -63,7 +65,7 @@ def init_scan_general_ui(main_window):
     generals_list_frame.setLayout(flow_layout)
 
     # # Create and add multiple frames in a loop
-    for i in range(30):  # Adjust the number of frames as needed
+    for i in range(40):  # Adjust the number of frames as needed
         frame = QFrame()
         frame.setFixedSize(200, 200)  # Set the size (width, height)
         frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")

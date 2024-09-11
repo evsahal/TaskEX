@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'instance_page.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -517,17 +517,27 @@ class Ui_InstancePage(object):
         self.horizontalLayout_8.setSpacing(8)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_8.setContentsMargins(7, 0, 0, 0)
+        self.comboBox_2 = QComboBox(self.frame_10)
+        self.comboBox_2.addItem("")
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setMinimumSize(QSize(170, 45))
+
+        self.horizontalLayout_8.addWidget(self.comboBox_2)
+
         self.emu_name_ = QLineEdit(self.frame_10)
         self.emu_name_.setObjectName(u"emu_name_")
-        self.emu_name_.setMinimumSize(QSize(200, 45))
+        self.emu_name_.setMinimumSize(QSize(180, 45))
         self.emu_name_.setMaximumSize(QSize(200, 16777215))
+        self.emu_name_.setClearButtonEnabled(True)
 
         self.horizontalLayout_8.addWidget(self.emu_name_)
 
         self.emu_port_ = QLineEdit(self.frame_10)
         self.emu_port_.setObjectName(u"emu_port_")
         self.emu_port_.setMinimumSize(QSize(0, 45))
-        self.emu_port_.setMaximumSize(QSize(100, 16777215))
+        self.emu_port_.setMaximumSize(QSize(90, 16777215))
+        self.emu_port_.setMaxLength(10)
+        self.emu_port_.setClearButtonEnabled(True)
 
         self.horizontalLayout_8.addWidget(self.emu_port_)
 
@@ -535,7 +545,7 @@ class Ui_InstancePage(object):
         self.run_btn_.setObjectName(u"run_btn_")
         self.run_btn_.setMinimumSize(QSize(45, 45))
         self.run_btn_.setStyleSheet(u"background:transparent;")
-        icon = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::MediaPlaybackStart"))
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
         self.run_btn_.setIcon(icon)
 
         self.horizontalLayout_8.addWidget(self.run_btn_)
@@ -608,7 +618,7 @@ class Ui_InstancePage(object):
         self.preset_save_btn_.setMinimumSize(QSize(45, 45))
         self.preset_save_btn_.setMaximumSize(QSize(45, 45))
         self.preset_save_btn_.setStyleSheet(u"background:transparent;")
-        icon1 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSave"))
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
         self.preset_save_btn_.setIcon(icon1)
 
         self.horizontalLayout_7.addWidget(self.preset_save_btn_)
@@ -618,7 +628,7 @@ class Ui_InstancePage(object):
         self.preset_delete_btn_.setMinimumSize(QSize(45, 45))
         self.preset_delete_btn_.setMaximumSize(QSize(45, 45))
         self.preset_delete_btn_.setStyleSheet(u"background:transparent;")
-        icon2 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditDelete"))
+        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
         self.preset_delete_btn_.setIcon(icon2)
 
         self.horizontalLayout_7.addWidget(self.preset_delete_btn_)
@@ -628,7 +638,7 @@ class Ui_InstancePage(object):
         self.preset_add_btn_.setMinimumSize(QSize(45, 45))
         self.preset_add_btn_.setMaximumSize(QSize(45, 45))
         self.preset_add_btn_.setStyleSheet(u"background:transparent;")
-        icon3 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::ListAdd"))
+        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
         self.preset_add_btn_.setIcon(icon3)
 
         self.horizontalLayout_7.addWidget(self.preset_add_btn_)
@@ -803,29 +813,6 @@ class Ui_InstancePage(object):
         self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_7 = QVBoxLayout(self.frame_6)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.frame_16 = QFrame(self.frame_6)
-        self.frame_16.setObjectName(u"frame_16")
-        self.frame_16.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_16.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_12 = QHBoxLayout(self.frame_16)
-        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.label_2 = QLabel(self.frame_16)
-        self.label_2.setObjectName(u"label_2")
-
-        self.horizontalLayout_12.addWidget(self.label_2)
-
-        self.comboBox_2 = QComboBox(self.frame_16)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setMinimumSize(QSize(0, 45))
-
-        self.horizontalLayout_12.addWidget(self.comboBox_2)
-
-        self.horizontalLayout_12.setStretch(0, 1)
-        self.horizontalLayout_12.setStretch(1, 3)
-
-        self.verticalLayout_7.addWidget(self.frame_16, 0, Qt.AlignmentFlag.AlignTop)
-
         self.frame_17 = QFrame(self.frame_6)
         self.frame_17.setObjectName(u"frame_17")
         self.frame_17.setFrameShape(QFrame.Shape.NoFrame)
@@ -837,7 +824,7 @@ class Ui_InstancePage(object):
         self.profile_settings.setObjectName(u"profile_settings")
         self.profile_settings.setStyleSheet(u"#profile_settings{\n"
 "/*border: 1px solid  rgb(29, 33, 38); */\n"
-"border: 1px solid rgb(94, 106, 130);\n"
+"border: 1px solid #dddddd;\n"
 "}")
         self.verticalLayout_12 = QVBoxLayout(self.profile_settings)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
@@ -889,7 +876,7 @@ class Ui_InstancePage(object):
         self.pushButton_7.setObjectName(u"pushButton_7")
         self.pushButton_7.setMinimumSize(QSize(45, 45))
         self.pushButton_7.setMaximumSize(QSize(45, 45))
-        icon4 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::DocumentSaveAs"))
+        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
         self.pushButton_7.setIcon(icon4)
 
         self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
@@ -910,7 +897,7 @@ class Ui_InstancePage(object):
         self.pushButton_8 = QPushButton(self.frame_19)
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setMinimumSize(QSize(45, 45))
-        icon5 = QIcon(QIcon.fromTheme(u"QIcon::ThemeIcon::EditCopy"))
+        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
         self.pushButton_8.setIcon(icon5)
 
         self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)
@@ -945,8 +932,7 @@ class Ui_InstancePage(object):
 
         self.verticalLayout_7.addWidget(self.frame_17)
 
-        self.verticalLayout_7.setStretch(0, 1)
-        self.verticalLayout_7.setStretch(1, 7)
+        self.verticalLayout_7.setStretch(0, 7)
 
         self.verticalLayout_6.addWidget(self.frame_6)
 
@@ -989,8 +975,8 @@ class Ui_InstancePage(object):
         self.retranslateUi(InstancePage)
 
         self.tabWidget.setCurrentIndex(0)
-        self.comboBox.setCurrentIndex(-1)
         self.comboBox_2.setCurrentIndex(-1)
+        self.comboBox.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(InstancePage)
@@ -1000,8 +986,13 @@ class Ui_InstancePage(object):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Panel", None))
         self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
+        self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
+
+        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
         self.emu_name_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Emulator Name", None))
-        self.emu_port_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Port Number", None))
+        self.emu_port_.setInputMask("")
+        self.emu_port_.setText("")
+        self.emu_port_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Port No.", None))
         self.run_btn_.setText("")
         self.delete_instance_.setText(QCoreApplication.translate("InstancePage", u"Delete Instance", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("InstancePage", u"Scheduler", None))
@@ -1022,10 +1013,6 @@ class Ui_InstancePage(object):
         self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break", None))
         self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
         self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
-        self.label_2.setText(QCoreApplication.translate("InstancePage", u"Select Profile", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
-
-        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
         self.profile_settings.setTitle(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
         self.label_6.setText(QCoreApplication.translate("InstancePage", u"Load Profile", None))
         self.comboBox_3.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))

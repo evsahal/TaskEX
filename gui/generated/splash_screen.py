@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'splash_screen.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -205,7 +205,7 @@ class Ui_SplashScreen(object):
         self.line.setFrameShadow(QFrame.Shadow.Raised)
         self.line.setLineWidth(1)
         self.line.setMidLineWidth(0)
-        self.line.setFrameShape(QFrame.VLine)
+        self.line.setFrameShape(QFrame.Shape.VLine)
 
         self.gridLayout_2.addWidget(self.line, 0, 3, 4, 1)
 

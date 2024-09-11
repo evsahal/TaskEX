@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.3
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,8 +19,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFram
     QGridLayout, QGroupBox, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QPlainTextEdit,
     QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
-    QTabWidget, QTableWidget, QTableWidgetItem, QToolBox,
-    QVBoxLayout, QWidget)
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 import resources_rc
 
 class Ui_MainWindow(object):
@@ -53,6 +53,7 @@ class Ui_MainWindow(object):
 "	border-radius: 5px;\n"
 "}\n"
 "\n"
+"/*\n"
 "QSpinBox {\n"
 "   background-color: rgba(40, 44, 52, 0.9);\n"
 "	border-radius: 5px;\n"
@@ -75,11 +76,11 @@ class Ui_MainWindow(object):
 "   background-color: rgba(40, 44, 52, 0.9);\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid rgb(33, 37, 43);\n"
-"	padding-left :"
-                        "10px;\n"
+"	padding"
+                        "-left :10px;\n"
 "selection-color: rgb(255, 255, 255);\n"
 "	selection-background-color: rgb(255, 121, 198);\n"
-"}\n"
+"} */\n"
 "\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "Tooltip */\n"
@@ -109,8 +110,8 @@ class Ui_MainWindow(object):
 "#leftMenuBg {	\n"
 "	background-color: rgb(33, 37, 43);\n"
 "}\n"
-"#topLogo"
-                        " {\n"
+""
+                        "#topLogo {\n"
 "	background-color: rgb(33, 37, 43);\n"
 "	background-image: url(:/images/images/images/PyDracula.png);\n"
 "	background-position: centered;\n"
@@ -142,8 +143,8 @@ class Ui_MainWindow(object):
 "	border: none;\n"
 "	border-left: 20px solid transparent;\n"
 "	background-color:transparent;\n"
-"	text-align: l"
-                        "eft;\n"
+"	text-"
+                        "align: left;\n"
 "	padding-left: 44px;\n"
 "}\n"
 "#bottomMenu .QPushButton:hover {\n"
@@ -182,8 +183,8 @@ class Ui_MainWindow(object):
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "Extra Tab */\n"
 "#extraLeftBox {	\n"
-"	background-color: rgb(44,"
-                        " 49, 58);\n"
+"	background-color:"
+                        " rgb(44, 49, 58);\n"
 "}\n"
 "#extraTopBg{	\n"
 "	background-color: rgb(189, 147, 249)\n"
@@ -217,8 +218,8 @@ class Ui_MainWindow(object):
 "	background-color: rgb(33, 37, 43);\n"
 "}\n"
 "#contentBottom{\n"
-"	border-top"
-                        ": 3px solid rgb(44, 49, 58);\n"
+"	bo"
+                        "rder-top: 3px solid rgb(44, 49, 58);\n"
 "}\n"
 "\n"
 "/* Top Buttons */\n"
@@ -241,8 +242,8 @@ class Ui_MainWindow(object):
 "    background-repeat: no-repeat;\n"
 "	border: none;\n"
 "	border-left: 22px solid transparent;\n"
-"	background-color:"
-                        "transparent;\n"
+"	backgroun"
+                        "d-color:transparent;\n"
 "	text-align: left;\n"
 "	padding-left: 44px;\n"
 "}\n"
@@ -277,8 +278,8 @@ class Ui_MainWindow(object):
 "	max-width: 30px;\n"
 "	border: 1px solid rgb(44, 49, 58);\n"
 "	border-style: none;\n"
-"    border-bottom: 1px solid r"
-                        "gb(44, 49, 60);\n"
+"    border-bottom: 1px"
+                        " solid rgb(44, 49, 60);\n"
 "    border-right: 1px solid rgb(44, 49, 60);\n"
 "}\n"
 "QTableWidget::horizontalHeader {	\n"
@@ -314,8 +315,8 @@ class Ui_MainWindow(object):
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}\n"
 "\n"
-"/* ////////////////////////////////////"
-                        "/////////////////////////////////////////////////////////////\n"
+"/* ////////////////////////////"
+                        "/////////////////////////////////////////////////////////////////////\n"
 "PlainTextEdit */\n"
 "QPlainTextEdit {\n"
 "	background-color: rgb(27, 29, 35);\n"
@@ -351,8 +352,8 @@ class Ui_MainWindow(object):
 "    min-width: 25px;\n"
 "	border-radius: 4px\n"
 "}\n"
-"QScrollBar:"
-                        ":add-line:horizontal {\n"
+"QSc"
+                        "rollBar::add-line:horizontal {\n"
 "    border: none;\n"
 "    background: rgb(55, 63, 77);\n"
 "    width: 20px;\n"
@@ -388,8 +389,8 @@ class Ui_MainWindow(object):
 " QScrollBar::handle:vertical {	\n"
 "	background: rgb(189, 147, 249);\n"
 "    min-height: 25px;\n"
-"	border-radius"
-                        ": 4px\n"
+"	borde"
+                        "r-radius: 4px\n"
 " }\n"
 " QScrollBar::add-line:vertical {\n"
 "     border: none;\n"
@@ -423,8 +424,8 @@ class Ui_MainWindow(object):
 "    border: 3px solid rgb(52, 59, 72);\n"
 "	width: 15px;\n"
 "	height: 15px;\n"
-"	border-radius: 10p"
-                        "x;\n"
+"	border-rad"
+                        "ius: 10px;\n"
 "    background: rgb(44, 49, 60);\n"
 "}\n"
 "QCheckBox::indicator:hover {\n"
@@ -456,8 +457,8 @@ class Ui_MainWindow(object):
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "ComboBox */\n"
 "QComboBox{\n"
-"	background-color: rgb(27, 2"
-                        "9, 35);\n"
+"	background-color: r"
+                        "gb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid rgb(33, 37, 43);\n"
 "	padding: 5px;\n"
@@ -490,8 +491,8 @@ class Ui_MainWindow(object):
 "Sliders */\n"
 "QSlider::groove:horizontal {\n"
 "    border-radius: 5px;\n"
-"    height: 10px;"
-                        "\n"
+"    heigh"
+                        "t: 10px;\n"
 "	margin: 0px;\n"
 "	background-color: rgb(52, 59, 72);\n"
 "}\n"
@@ -531,8 +532,8 @@ class Ui_MainWindow(object):
 "	border-radius: 5px;\n"
 "}\n"
 "QSlider::handle:vertical:hover {\n"
-"    background-color: rgb(19"
-                        "5, 155, 255);\n"
+"    background-color"
+                        ": rgb(195, 155, 255);\n"
 "}\n"
 "QSlider::handle:vertical:pressed {\n"
 "    background-color: rgb(255, 121, 198);\n"
@@ -569,9 +570,9 @@ class Ui_MainWindow(object):
 "} \n"
 "\n"
 "QTabBar::tab {  \n"
-"	background-color: rgba(30, 35, 43, 0.9); \n"
-""
-                        "   /* background-color: rgba(50, 55, 65, 0.9);*/\n"
+"	background-color: rgba(30, 35, 43, 0.9"
+                        "); \n"
+"   /* background-color: rgba(50, 55, 65, 0.9);*/\n"
 "    min-width: 140px; \n"
 "    min-height:28px;\n"
 "    padding: 0px  0px; \n"
@@ -600,8 +601,8 @@ class Ui_MainWindow(object):
 "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }\n"
 "QGroupBox::title { color: rgb(161, 110, 235); }\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////"
-                        "////////\n"
+"/* /////////////////////////////////////////////////////////////////////////////////"
+                        "////////////////\n"
 "Button */\n"
 "#pagesContainer QPushButton {\n"
 "	border: 2px solid rgb(52, 59, 72);\n"
@@ -616,6 +617,7 @@ class Ui_MainWindow(object):
 "	background-color: rgb(35, 40, 49);\n"
 "	border: 2px solid rgb(43, 50, 61);\n"
 "}\n"
+"\n"
 "")
         self.appMargins = QVBoxLayout(self.styleSheet)
         self.appMargins.setSpacing(0)
@@ -704,7 +706,7 @@ class Ui_MainWindow(object):
         self.toggleButton.setSizePolicy(sizePolicy)
         self.toggleButton.setMinimumSize(QSize(0, 45))
         self.toggleButton.setFont(font)
-        self.toggleButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.toggleButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.toggleButton.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.toggleButton.setStyleSheet(u"background-image: url(:/icons/images/icons/icon_menu.png);")
 
@@ -727,7 +729,7 @@ class Ui_MainWindow(object):
         self.btn_home.setSizePolicy(sizePolicy)
         self.btn_home.setMinimumSize(QSize(0, 45))
         self.btn_home.setFont(font)
-        self.btn_home.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_home.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_home.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.btn_home.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-home.png);")
 
@@ -753,7 +755,7 @@ class Ui_MainWindow(object):
         self.btn_add.setSizePolicy(sizePolicy)
         self.btn_add.setMinimumSize(QSize(0, 45))
         self.btn_add.setFont(font)
-        self.btn_add.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_add.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_add.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.btn_add.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-plus.png)")
 
@@ -765,7 +767,7 @@ class Ui_MainWindow(object):
         self.btn_bot_manager.setSizePolicy(sizePolicy)
         self.btn_bot_manager.setMinimumSize(QSize(0, 45))
         self.btn_bot_manager.setFont(font)
-        self.btn_bot_manager.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_bot_manager.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_bot_manager.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.btn_bot_manager.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-equalizer.png);")
 
@@ -788,7 +790,7 @@ class Ui_MainWindow(object):
         self.toggleLeftBox.setSizePolicy(sizePolicy)
         self.toggleLeftBox.setMinimumSize(QSize(0, 45))
         self.toggleLeftBox.setFont(font)
-        self.toggleLeftBox.setCursor(QCursor(Qt.PointingHandCursor))
+        self.toggleLeftBox.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.toggleLeftBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.toggleLeftBox.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-clone.png);")
 
@@ -847,9 +849,9 @@ class Ui_MainWindow(object):
         self.extraCloseColumnBtn.setObjectName(u"extraCloseColumnBtn")
         self.extraCloseColumnBtn.setMinimumSize(QSize(28, 28))
         self.extraCloseColumnBtn.setMaximumSize(QSize(28, 28))
-        self.extraCloseColumnBtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.extraCloseColumnBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         icon = QIcon()
-        icon.addFile(u":/icons/images/icons/icon_close.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/icons/images/icons/icon_close.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.extraCloseColumnBtn.setIcon(icon)
         self.extraCloseColumnBtn.setIconSize(QSize(20, 20))
 
@@ -1023,9 +1025,9 @@ class Ui_MainWindow(object):
         self.settingsTopBtn.setObjectName(u"settingsTopBtn")
         self.settingsTopBtn.setMinimumSize(QSize(28, 28))
         self.settingsTopBtn.setMaximumSize(QSize(28, 28))
-        self.settingsTopBtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.settingsTopBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         icon1 = QIcon()
-        icon1.addFile(u":/icons/images/icons/icon_settings.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon1.addFile(u":/icons/images/icons/icon_settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.settingsTopBtn.setIcon(icon1)
         self.settingsTopBtn.setIconSize(QSize(20, 20))
 
@@ -1035,9 +1037,9 @@ class Ui_MainWindow(object):
         self.minimizeAppBtn.setObjectName(u"minimizeAppBtn")
         self.minimizeAppBtn.setMinimumSize(QSize(28, 28))
         self.minimizeAppBtn.setMaximumSize(QSize(28, 28))
-        self.minimizeAppBtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.minimizeAppBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         icon2 = QIcon()
-        icon2.addFile(u":/icons/images/icons/icon_minimize.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/icons/images/icons/icon_minimize.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.minimizeAppBtn.setIcon(icon2)
         self.minimizeAppBtn.setIconSize(QSize(20, 20))
 
@@ -1054,9 +1056,9 @@ class Ui_MainWindow(object):
         font4.setItalic(False)
         font4.setStyleStrategy(QFont.PreferDefault)
         self.maximizeRestoreAppBtn.setFont(font4)
-        self.maximizeRestoreAppBtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.maximizeRestoreAppBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         icon3 = QIcon()
-        icon3.addFile(u":/icons/images/icons/icon_maximize.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon3.addFile(u":/icons/images/icons/icon_maximize.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.maximizeRestoreAppBtn.setIcon(icon3)
         self.maximizeRestoreAppBtn.setIconSize(QSize(20, 20))
 
@@ -1066,7 +1068,7 @@ class Ui_MainWindow(object):
         self.closeAppBtn.setObjectName(u"closeAppBtn")
         self.closeAppBtn.setMinimumSize(QSize(28, 28))
         self.closeAppBtn.setMaximumSize(QSize(28, 28))
-        self.closeAppBtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.closeAppBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.closeAppBtn.setIcon(icon)
         self.closeAppBtn.setIconSize(QSize(20, 20))
 
@@ -1208,14 +1210,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_18.setSpacing(7)
         self.verticalLayout_18.setObjectName(u"verticalLayout_18")
         self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
-        self.generals_list_gb = QGroupBox(self.frame_4)
-        self.generals_list_gb.setObjectName(u"generals_list_gb")
-        self.horizontalLayout_8 = QHBoxLayout(self.generals_list_gb)
+        self.groupBox = QGroupBox(self.frame_4)
+        self.groupBox.setObjectName(u"groupBox")
+        self.horizontalLayout_8 = QHBoxLayout(self.groupBox)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.generals_list_sa = QScrollArea(self.generals_list_gb)
-        self.generals_list_sa.setObjectName(u"generals_list_sa")
-        self.generals_list_sa.setFrameShape(QFrame.Shape.NoFrame)
-        self.generals_list_sa.setWidgetResizable(True)
+        self.scrollArea = QScrollArea(self.groupBox)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1102, 324))
@@ -1229,12 +1231,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9.addWidget(self.generals_list_frame)
 
-        self.generals_list_sa.setWidget(self.scrollAreaWidgetContents)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.horizontalLayout_8.addWidget(self.generals_list_sa)
+        self.horizontalLayout_8.addWidget(self.scrollArea)
 
 
-        self.verticalLayout_18.addWidget(self.generals_list_gb)
+        self.verticalLayout_18.addWidget(self.groupBox)
 
         self.scan_general_console_frame = QFrame(self.frame_4)
         self.scan_general_console_frame.setObjectName(u"scan_general_console_frame")
@@ -1271,35 +1273,107 @@ class Ui_MainWindow(object):
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
         self.frame = QFrame(self.monsters)
         self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShape(QFrame.Shape.NoFrame)
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_11 = QHBoxLayout(self.frame)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.upload_monsters_btn = QPushButton(self.frame)
+        self.upload_monsters_btn.setObjectName(u"upload_monsters_btn")
+        self.upload_monsters_btn.setMinimumSize(QSize(150, 45))
+        self.upload_monsters_btn.setMaximumSize(QSize(16777215, 45))
 
-        self.verticalLayout_16.addWidget(self.frame)
+        self.horizontalLayout_11.addWidget(self.upload_monsters_btn)
+
+        self.export_monster_btn_frame = QFrame(self.frame)
+        self.export_monster_btn_frame.setObjectName(u"export_monster_btn_frame")
+        self.export_monster_btn_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.export_monster_btn_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.export_monster_btn_frame)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.export_monsters_btn = QPushButton(self.export_monster_btn_frame)
+        self.export_monsters_btn.setObjectName(u"export_monsters_btn")
+        self.export_monsters_btn.setMinimumSize(QSize(150, 45))
+        self.export_monsters_btn.setMaximumSize(QSize(16777215, 45))
+        self.export_monsters_btn.setStyleSheet(u"QPushButton:checked {\n"
+"        background-color: rgb(57, 65, 80);\n"
+"		border: 2px solid rgb(43, 50, 61);\n"
+"    }")
+        self.export_monsters_btn.setCheckable(True)
+        self.export_monsters_btn.setChecked(False)
+
+        self.horizontalLayout_13.addWidget(self.export_monsters_btn)
+
+
+        self.horizontalLayout_11.addWidget(self.export_monster_btn_frame)
+
+
+        self.verticalLayout_16.addWidget(self.frame, 0, Qt.AlignmentFlag.AlignLeft)
 
         self.frame_2 = QFrame(self.monsters)
         self.frame_2.setObjectName(u"frame_2")
         self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_6 = QHBoxLayout(self.frame_2)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.toolBox = QToolBox(self.frame_2)
-        self.toolBox.setObjectName(u"toolBox")
-        self.page = QWidget()
-        self.page.setObjectName(u"page")
-        self.page.setGeometry(QRect(0, 0, 1104, 362))
-        self.toolBox.addItem(self.page, u"Boss Monsters")
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.page_2.setGeometry(QRect(0, 0, 100, 30))
-        self.toolBox.addItem(self.page_2, u"Normal Monsters")
+        self.horizontalLayout_12 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_2 = QGroupBox(self.frame_2)
+        self.groupBox_2.setObjectName(u"groupBox_2")
+        self.horizontalLayout_10 = QHBoxLayout(self.groupBox_2)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(-1, -1, -1, 11)
+        self.scrollArea_2 = QScrollArea(self.groupBox_2)
+        self.scrollArea_2.setObjectName(u"scrollArea_2")
+        self.scrollArea_2.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_2 = QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1102, 361))
+        self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.monsters_list_frame = QFrame(self.scrollAreaWidgetContents_2)
+        self.monsters_list_frame.setObjectName(u"monsters_list_frame")
+        self.monsters_list_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.monsters_list_frame.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_6.addWidget(self.toolBox)
+        self.horizontalLayout_14.addWidget(self.monsters_list_frame)
+
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+
+        self.horizontalLayout_10.addWidget(self.scrollArea_2)
+
+
+        self.horizontalLayout_12.addWidget(self.groupBox_2)
 
 
         self.verticalLayout_16.addWidget(self.frame_2)
 
+        self.export_monster_confirm_frame = QFrame(self.monsters)
+        self.export_monster_confirm_frame.setObjectName(u"export_monster_confirm_frame")
+        self.export_monster_confirm_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.export_monster_confirm_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_6 = QHBoxLayout(self.export_monster_confirm_frame)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_4 = QPushButton(self.export_monster_confirm_frame)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_4.setMinimumSize(QSize(100, 45))
+
+        self.horizontalLayout_6.addWidget(self.pushButton_4)
+
+        self.pushButton_3 = QPushButton(self.export_monster_confirm_frame)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setMinimumSize(QSize(100, 45))
+
+        self.horizontalLayout_6.addWidget(self.pushButton_3)
+
+
+        self.verticalLayout_16.addWidget(self.export_monster_confirm_frame, 0, Qt.AlignmentFlag.AlignRight)
+
         self.verticalLayout_16.setStretch(0, 1)
-        self.verticalLayout_16.setStretch(1, 8)
+        self.verticalLayout_16.setStretch(1, 10)
+        self.verticalLayout_16.setStretch(2, 1)
         self.tabWidget.addTab(self.monsters, "")
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
@@ -1354,7 +1428,7 @@ class Ui_MainWindow(object):
         self.btn_support.setSizePolicy(sizePolicy)
         self.btn_support.setMinimumSize(QSize(0, 45))
         self.btn_support.setFont(font)
-        self.btn_support.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_support.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_support.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.btn_support.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-coffee.png);")
 
@@ -1366,7 +1440,7 @@ class Ui_MainWindow(object):
         self.btn_logout.setSizePolicy(sizePolicy)
         self.btn_logout.setMinimumSize(QSize(0, 45))
         self.btn_logout.setFont(font)
-        self.btn_logout.setCursor(QCursor(Qt.PointingHandCursor))
+        self.btn_logout.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.btn_logout.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.btn_logout.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-account-logout.png);")
 
@@ -1438,9 +1512,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.comboBox.setCurrentIndex(-1)
-        self.toolBox.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1495,10 +1568,13 @@ class Ui_MainWindow(object):
         self.comboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
-        self.generals_list_gb.setTitle(QCoreApplication.translate("MainWindow", u"Generals List", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Generals List", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page), QCoreApplication.translate("MainWindow", u"Boss Monsters", None))
-        self.toolBox.setItemText(self.toolBox.indexOf(self.page_2), QCoreApplication.translate("MainWindow", u"Normal Monsters", None))
+        self.upload_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Upload Monsters", None))
+        self.export_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Export Monsters", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Monsters List", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Export", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monsters), QCoreApplication.translate("MainWindow", u"Monsters", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Champions", None))
         self.btn_support.setText(QCoreApplication.translate("MainWindow", u"Support", None))

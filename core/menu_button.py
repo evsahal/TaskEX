@@ -3,7 +3,7 @@ from operator import indexOf
 from turtledemo.sorting_animate import ssort
 
 from PySide6.QtCore import QSize, Qt, QSettings
-from PySide6.QtGui import QIcon, QCursor, QFont
+from PySide6.QtGui import QIcon, QCursor, QFont, QPalette
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
     QSpacerItem, QMessageBox
 
@@ -182,6 +182,7 @@ def add_new_instance_page(main_window,index):
                     setattr(main_window.widgets, new_name, widget)
     # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
 
+
     # Connect run button
     getattr(main_window.widgets, f"run_btn_{index}").clicked.connect(lambda: handle_run_button(main_window, index))
 
@@ -189,7 +190,7 @@ def add_new_instance_page(main_window,index):
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
 
     # Setup Icons for Buttons
-    init_icons(main_window,index)
+    # init_icons(main_window,index)
 
     # Setup Scheduler table UI
     setup_scheduler_table(main_window,index)

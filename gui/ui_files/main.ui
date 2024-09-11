@@ -46,6 +46,7 @@ QToolBox::tab:selected {
 	border-radius: 5px;
 }
 
+/*
 QSpinBox {
    background-color: rgba(40, 44, 52, 0.9);
 	border-radius: 5px;
@@ -71,7 +72,7 @@ QDoubleSpinBox {
 	padding-left :10px;
 selection-color: rgb(255, 255, 255);
 	selection-background-color: rgb(255, 121, 198);
-}
+} */
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Tooltip */
@@ -593,6 +594,7 @@ Button */
 	background-color: rgb(35, 40, 49);
 	border: 2px solid rgb(43, 50, 61);
 }
+
 </string>
    </property>
    <layout class="QVBoxLayout" name="appMargins">
@@ -1923,7 +1925,7 @@ background-repeat: no-repeat;</string>
                           <string notr="true"/>
                          </property>
                          <property name="currentIndex">
-                          <number>0</number>
+                          <number>1</number>
                          </property>
                          <widget class="QWidget" name="scan_generals">
                           <property name="sizePolicy">
@@ -2087,13 +2089,13 @@ background-repeat: no-repeat;</string>
                                <number>0</number>
                               </property>
                               <item>
-                               <widget class="QGroupBox" name="generals_list_gb">
+                               <widget class="QGroupBox" name="groupBox">
                                 <property name="title">
                                  <string>Generals List</string>
                                 </property>
                                 <layout class="QHBoxLayout" name="horizontalLayout_8">
                                  <item>
-                                  <widget class="QScrollArea" name="generals_list_sa">
+                                  <widget class="QScrollArea" name="scrollArea">
                                    <property name="frameShape">
                                     <enum>QFrame::Shape::NoFrame</enum>
                                    </property>
@@ -2186,15 +2188,91 @@ border-radius: 5px;</string>
                           <attribute name="title">
                            <string>Monsters</string>
                           </attribute>
-                          <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,8">
-                           <item>
+                          <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,10,1">
+                           <item alignment="Qt::AlignmentFlag::AlignLeft">
                             <widget class="QFrame" name="frame">
                              <property name="frameShape">
-                              <enum>QFrame::Shape::StyledPanel</enum>
+                              <enum>QFrame::Shape::NoFrame</enum>
                              </property>
                              <property name="frameShadow">
                               <enum>QFrame::Shadow::Raised</enum>
                              </property>
+                             <layout class="QHBoxLayout" name="horizontalLayout_11">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="upload_monsters_btn">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>150</width>
+                                  <height>45</height>
+                                 </size>
+                                </property>
+                                <property name="maximumSize">
+                                 <size>
+                                  <width>16777215</width>
+                                  <height>45</height>
+                                 </size>
+                                </property>
+                                <property name="text">
+                                 <string>Upload Monsters</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QFrame" name="export_monster_btn_frame">
+                                <property name="frameShape">
+                                 <enum>QFrame::Shape::NoFrame</enum>
+                                </property>
+                                <property name="frameShadow">
+                                 <enum>QFrame::Shadow::Raised</enum>
+                                </property>
+                                <layout class="QHBoxLayout" name="horizontalLayout_13">
+                                 <item>
+                                  <widget class="QPushButton" name="export_monsters_btn">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>150</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="maximumSize">
+                                    <size>
+                                     <width>16777215</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="styleSheet">
+                                    <string notr="true">QPushButton:checked {
+        background-color: rgb(57, 65, 80);
+		border: 2px solid rgb(43, 50, 61);
+    }</string>
+                                   </property>
+                                   <property name="text">
+                                    <string>Export Monsters</string>
+                                   </property>
+                                   <property name="checkable">
+                                    <bool>true</bool>
+                                   </property>
+                                   <property name="checked">
+                                    <bool>false</bool>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                </layout>
+                               </widget>
+                              </item>
+                             </layout>
                             </widget>
                            </item>
                            <item>
@@ -2205,38 +2283,123 @@ border-radius: 5px;</string>
                              <property name="frameShadow">
                               <enum>QFrame::Shadow::Raised</enum>
                              </property>
-                             <layout class="QHBoxLayout" name="horizontalLayout_6">
+                             <layout class="QHBoxLayout" name="horizontalLayout_12">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
                               <item>
-                               <widget class="QToolBox" name="toolBox">
-                                <property name="currentIndex">
-                                 <number>0</number>
+                               <widget class="QGroupBox" name="groupBox_2">
+                                <property name="title">
+                                 <string>Monsters List</string>
                                 </property>
-                                <widget class="QWidget" name="page">
-                                 <property name="geometry">
-                                  <rect>
-                                   <x>0</x>
-                                   <y>0</y>
-                                   <width>1104</width>
-                                   <height>362</height>
-                                  </rect>
+                                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                                 <property name="bottomMargin">
+                                  <number>11</number>
                                  </property>
-                                 <attribute name="label">
-                                  <string>Boss Monsters</string>
-                                 </attribute>
-                                </widget>
-                                <widget class="QWidget" name="page_2">
-                                 <property name="geometry">
-                                  <rect>
-                                   <x>0</x>
-                                   <y>0</y>
-                                   <width>100</width>
-                                   <height>30</height>
-                                  </rect>
-                                 </property>
-                                 <attribute name="label">
-                                  <string>Normal Monsters</string>
-                                 </attribute>
-                                </widget>
+                                 <item>
+                                  <widget class="QScrollArea" name="scrollArea_2">
+                                   <property name="frameShape">
+                                    <enum>QFrame::Shape::NoFrame</enum>
+                                   </property>
+                                   <property name="widgetResizable">
+                                    <bool>true</bool>
+                                   </property>
+                                   <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                                    <property name="geometry">
+                                     <rect>
+                                      <x>0</x>
+                                      <y>0</y>
+                                      <width>1102</width>
+                                      <height>361</height>
+                                     </rect>
+                                    </property>
+                                    <layout class="QHBoxLayout" name="horizontalLayout_14">
+                                     <property name="leftMargin">
+                                      <number>0</number>
+                                     </property>
+                                     <property name="topMargin">
+                                      <number>0</number>
+                                     </property>
+                                     <property name="rightMargin">
+                                      <number>0</number>
+                                     </property>
+                                     <property name="bottomMargin">
+                                      <number>0</number>
+                                     </property>
+                                     <item>
+                                      <widget class="QFrame" name="monsters_list_frame">
+                                       <property name="frameShape">
+                                        <enum>QFrame::Shape::StyledPanel</enum>
+                                       </property>
+                                       <property name="frameShadow">
+                                        <enum>QFrame::Shadow::Raised</enum>
+                                       </property>
+                                      </widget>
+                                     </item>
+                                    </layout>
+                                   </widget>
+                                  </widget>
+                                 </item>
+                                </layout>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item alignment="Qt::AlignmentFlag::AlignRight">
+                            <widget class="QFrame" name="export_monster_confirm_frame">
+                             <property name="frameShape">
+                              <enum>QFrame::Shape::NoFrame</enum>
+                             </property>
+                             <property name="frameShadow">
+                              <enum>QFrame::Shadow::Raised</enum>
+                             </property>
+                             <layout class="QHBoxLayout" name="horizontalLayout_6">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="pushButton_4">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>100</width>
+                                  <height>45</height>
+                                 </size>
+                                </property>
+                                <property name="text">
+                                 <string>Cancel</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="pushButton_3">
+                                <property name="minimumSize">
+                                 <size>
+                                  <width>100</width>
+                                  <height>45</height>
+                                 </size>
+                                </property>
+                                <property name="text">
+                                 <string>Export</string>
+                                </property>
                                </widget>
                               </item>
                              </layout>
