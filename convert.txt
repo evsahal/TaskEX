@@ -1,5 +1,6 @@
 pyside6-uic gui/ui_files/main.ui -o gui/generated/ui_main.py
 pyside6-uic gui/ui_files/instance_page.ui -o gui/generated/instance_page.py
+pyside6-uic gui/ui_files/general_profile.ui -o gui/generated/general_profile.py
 pyside6-uic gui/ui_files/splash_screen.ui -o gui/generated/splash_screen.py
 
 

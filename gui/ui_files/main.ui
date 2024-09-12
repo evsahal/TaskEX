@@ -2075,22 +2075,7 @@ background-repeat: no-repeat;</string>
                              <property name="frameShadow">
                               <enum>QFrame::Shadow::Raised</enum>
                              </property>
-                             <layout class="QVBoxLayout" name="verticalLayout_18" stretch="7,3">
-                              <property name="spacing">
-                               <number>7</number>
-                              </property>
-                              <property name="leftMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="topMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="rightMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="bottomMargin">
-                               <number>0</number>
-                              </property>
+                             <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="8,2">
                               <item>
                                <widget class="QScrollArea" name="bm_generals_scroll_area">
                                 <property name="styleSheet">
@@ -2109,8 +2094,8 @@ background-repeat: no-repeat;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>318</height>
+                                   <width>869</width>
+                                   <height>444</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">

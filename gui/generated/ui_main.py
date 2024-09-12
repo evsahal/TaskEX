@@ -1206,10 +1206,8 @@ class Ui_MainWindow(object):
         self.frame_4.setObjectName(u"frame_4")
         self.frame_4.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_18 = QVBoxLayout(self.frame_4)
-        self.verticalLayout_18.setSpacing(7)
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_15 = QHBoxLayout(self.frame_4)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.bm_generals_scroll_area = QScrollArea(self.frame_4)
         self.bm_generals_scroll_area.setObjectName(u"bm_generals_scroll_area")
         self.bm_generals_scroll_area.setStyleSheet(u"#bm_generals_scroll_area{\n"
@@ -1219,7 +1217,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1118, 318))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 869, 444))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -1233,7 +1231,7 @@ class Ui_MainWindow(object):
 
         self.bm_generals_scroll_area.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout_18.addWidget(self.bm_generals_scroll_area)
+        self.horizontalLayout_15.addWidget(self.bm_generals_scroll_area)
 
         self.scan_general_console_frame = QFrame(self.frame_4)
         self.scan_general_console_frame.setObjectName(u"scan_general_console_frame")
@@ -1254,10 +1252,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_19.addWidget(self.plainTextEdit)
 
 
-        self.verticalLayout_18.addWidget(self.scan_general_console_frame)
+        self.horizontalLayout_15.addWidget(self.scan_general_console_frame)
 
-        self.verticalLayout_18.setStretch(0, 7)
-        self.verticalLayout_18.setStretch(1, 3)
+        self.horizontalLayout_15.setStretch(0, 8)
+        self.horizontalLayout_15.setStretch(1, 2)
 
         self.verticalLayout_17.addWidget(self.frame_4)
 

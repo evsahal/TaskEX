@@ -3,6 +3,8 @@ from PySide6.QtWidgets import QVBoxLayout, QFrame, QScrollArea
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
+from gui.generated.general_profile import Ui_General_Profile
+from gui.widgets.GeneralProfileWidget import GeneralProfileWidget
 
 
 def init_scan_general_ui(main_window):
@@ -66,11 +68,17 @@ def init_scan_general_ui(main_window):
     # Set the flow layout to the container frame (generals_list_frame)
     generals_list_frame.setLayout(flow_layout)
 
-    # # Create and add multiple frames in a loop
-    for i in range(40):  # Adjust the number of frames as needed
-        frame = QFrame()
-        frame.setFixedSize(200, 200)  # Set the size (width, height)
-        frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
-        flow_layout.addWidget(frame)
+    # Create and add multiple frames in a loop
+    # for i in range(40):  # Adjust the number of frames as needed
+    #     frame = QFrame()
+    #     frame.setFixedSize(200, 200)  # Set the size (width, height)
+    #     frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
+    #     flow_layout.addWidget(frame)
+
+    for i in range(40):
+        widget = GeneralProfileWidget()
+        # Set the size of the widget to its size hint
+        widget.setFixedSize(widget.sizeHint())
+        flow_layout.addWidget(widget)
 
 
