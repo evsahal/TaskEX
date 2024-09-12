@@ -19,6 +19,11 @@ class GeneralProfileWidget(QWidget):
         # Setup General LineEdit
         self.ui.edit_general.setText("Elektra")
         self.ui.edit_general.setStyleSheet("""QLineEdit, QLineEdit:hover, QLineEdit:focus {border: none;}""")
+        self.ui.edit_general.setObjectName(f"edit_general_") # add index here
+        # setattr(main_window.widgets, play_button.objectName(), play_button)
+
+        # Setup General Delete
+        self.ui.delete_general_btn.setObjectName(f"delete_general_") # add index here and connect to slot
 
 
 
