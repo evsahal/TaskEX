@@ -76,7 +76,7 @@ def init_scan_general_ui(main_window):
     #     flow_layout.addWidget(frame)
 
     for i in range(40):
-        widget = GeneralProfileWidget()
+        widget = GeneralProfileWidget(flow_layout=getattr(main_window.widgets, f"generals_list_flow_layout"))
         # Set the size of the widget to its size hint
         widget.setFixedSize(widget.sizeHint())
         flow_layout.addWidget(widget)

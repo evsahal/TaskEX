@@ -2,13 +2,16 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
 from gui.generated.general_profile import Ui_General_Profile
+from utils.dialog_utils import show_confirmation_dialog
 
 
 class GeneralProfileWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None,flow_layout=None):
         super(GeneralProfileWidget, self).__init__(parent)
         self.ui = Ui_General_Profile()
         self.ui.setupUi(self)
+
+        self.flow_layout = flow_layout
 
         # Setup General Preview
         pixmap = QPixmap(r"E:\Projects\PyCharmProjects\TaskEX\assets\540p\Generals\elektra.png")
@@ -24,7 +27,17 @@ class GeneralProfileWidget(QWidget):
 
         # Setup General Delete
         self.ui.delete_general_btn.setObjectName(f"delete_general_") # add index here and connect to slot
+        self.ui.delete_general_btn.clicked.connect(self.delete_general_profile)
 
+    def delete_general_profile(self):
+        """
+        Remove the current general profile widget from the layout and the UI.
+        """
+        if show_confirmation_dialog(self, "confirm", f"Are you sure you want to remove {self.ui.edit_general.text()}?"):
+
+            if self.flow_layout:
+                self.flow_layout.removeWidget(self)
+                self.deleteLater()
 
 
 
