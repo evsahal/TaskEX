@@ -1469,6 +1469,36 @@ border: 1px solid #dddddd;
        <string>Join Rally</string>
       </attribute>
      </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Monster Hunting</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="title">
+       <string>Resource Gathering</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_7">
+      <attribute name="title">
+       <string>World Map Scan</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_10">
+      <attribute name="title">
+       <string>Troops Training</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_8">
+      <attribute name="title">
+       <string>Black Market</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_9">
+      <attribute name="title">
+       <string>Patrol</string>
+      </attribute>
+     </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
        <string>More Activities</string>
