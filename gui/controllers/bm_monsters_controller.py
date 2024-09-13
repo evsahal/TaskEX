@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QFrame
 
 from core.custom_widgets.FlowLayout import FlowLayout
+from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 
 
 def init_bm_monster_ui(main_window):
@@ -21,11 +22,11 @@ def init_bm_monster_ui(main_window):
     monsters_list_frame.setLayout(flow_layout)
 
     # # Create and add multiple frames in a loop
-    for i in range(40):  # Adjust the number of frames as needed
-        frame = QFrame()
-        frame.setFixedSize(200, 200)  # Set the size (width, height)
-        frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
-        flow_layout.addWidget(frame)
+    for i in range(25):
+        widget = MonsterProfileWidget(flow_layout=getattr(main_window.widgets, f"monsters_list_flow_layout"))
+        # Set the size of the widget to its size hint
+        widget.setFixedSize(widget.sizeHint())
+        flow_layout.addWidget(widget)
 
 
 def toggle_frame(main_window):
