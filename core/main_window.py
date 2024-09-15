@@ -3,7 +3,7 @@ import time
 from time import sleep
 from tkinter import font
 
-from PySide6.QtCore import Qt, QSize, QTimer
+from PySide6.QtCore import Qt, QSize, QTimer, Signal
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout, QLabel, QSizePolicy, QFrame, \
     QPushButton
@@ -12,6 +12,8 @@ from core.app_settings import Settings
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
+from db.db_setup import init_db, get_session
+from db.models.general import GeneralType, General
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui
 from gui.generated.ui_main import Ui_MainWindow
@@ -35,7 +37,7 @@ class MainWindow(QMainWindow):
         # List of initialization steps with corresponding messages
         init_steps = [
             ("Loading UI Settings",self.load_ui_settings),
-            # ("Loading Configurations", self.load_configurations),
+            ("Loading Configurations", self.load_configurations),
             ("Initializing ADB", self.init_adb),
             ("Initializing Instances", self.init_instance),
             ("Finalizing Setup", self.finalize_setup)
@@ -134,6 +136,11 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
+
+
+    def load_configurations(self):
+        # Initialize the database and create tables
+        init_db()
 
 
     def init_adb(self):

@@ -2076,6 +2076,18 @@ background-repeat: no-repeat;</string>
                               <enum>QFrame::Shadow::Raised</enum>
                              </property>
                              <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="8,2">
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
                               <item>
                                <widget class="QScrollArea" name="bm_generals_scroll_area">
                                 <property name="styleSheet">
@@ -2094,8 +2106,8 @@ background-repeat: no-repeat;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>869</width>
-                                   <height>444</height>
+                                   <width>887</width>
+                                   <height>466</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -2155,11 +2167,18 @@ background-repeat: no-repeat;</string>
                                   <number>0</number>
                                  </property>
                                  <item>
-                                  <widget class="QPlainTextEdit" name="plainTextEdit">
+                                  <widget class="QPlainTextEdit" name="scan_general_console">
                                    <property name="styleSheet">
                                     <string notr="true">background-color: rgb(0,0,0);
 font: 9pt &quot;Source Code Pro&quot;;
 border-radius: 5px;</string>
+                                   </property>
+                                   <property name="readOnly">
+                                    <bool>true</bool>
+                                   </property>
+                                   <property name="plainText">
+                                    <string>Note: Double-tap on the general's name tag to rename it.
+</string>
                                    </property>
                                   </widget>
                                  </item>

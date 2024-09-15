@@ -1,9 +1,12 @@
+from pathlib import Path
+
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QVBoxLayout, QFrame, QScrollArea
+from PySide6.QtWidgets import QVBoxLayout, QFrame
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
-from gui.generated.general_profile import Ui_General_Profile
+from db.db_setup import get_session
+from db.models import General
 from gui.widgets.GeneralProfileWidget import GeneralProfileWidget
 
 
@@ -75,10 +78,28 @@ def init_scan_general_ui(main_window):
     #     frame.setStyleSheet(f"background-color: rgb({i * 5}, 0, 0);")
     #     flow_layout.addWidget(frame)
 
-    for i in range(40):
-        widget = GeneralProfileWidget(flow_layout=getattr(main_window.widgets, f"generals_list_flow_layout"))
+    # Load Existing Generals
+    session = get_session()
+
+    # Query all records from the generals table
+    generals = session.query(General).all()
+    session.close()
+
+    # Get the project root directory dynamically
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+    # print(PROJECT_ROOT)
+
+    # Pass the data to add the widgets
+    for general in generals:
+        widget = GeneralProfileWidget(flow_layout=getattr(main_window.widgets, f"generals_list_flow_layout"),data= general,root_path=PROJECT_ROOT)
+        # Connect the signals
+        widget.ui.edit_general.scan_console.connect(lambda message: update_scan_console(main_window, message))
+        widget.scan_console.connect(lambda message: update_scan_console(main_window, message))
+
         # Set the size of the widget to its size hint
         widget.setFixedSize(widget.sizeHint())
         flow_layout.addWidget(widget)
 
 
+def update_scan_console(main_window,message):
+    main_window.widgets.scan_general_console.appendPlainText(message)

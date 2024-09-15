@@ -1208,6 +1208,7 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_15 = QHBoxLayout(self.frame_4)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
         self.bm_generals_scroll_area = QScrollArea(self.frame_4)
         self.bm_generals_scroll_area.setObjectName(u"bm_generals_scroll_area")
         self.bm_generals_scroll_area.setStyleSheet(u"#bm_generals_scroll_area{\n"
@@ -1217,7 +1218,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 869, 444))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 887, 466))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -1243,13 +1244,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_19 = QVBoxLayout(self.scan_general_console_frame)
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
-        self.plainTextEdit = QPlainTextEdit(self.scan_general_console_frame)
-        self.plainTextEdit.setObjectName(u"plainTextEdit")
-        self.plainTextEdit.setStyleSheet(u"background-color: rgb(0,0,0);\n"
+        self.scan_general_console = QPlainTextEdit(self.scan_general_console_frame)
+        self.scan_general_console.setObjectName(u"scan_general_console")
+        self.scan_general_console.setStyleSheet(u"background-color: rgb(0,0,0);\n"
 "font: 9pt \"Source Code Pro\";\n"
 "border-radius: 5px;")
+        self.scan_general_console.setReadOnly(True)
 
-        self.verticalLayout_19.addWidget(self.plainTextEdit)
+        self.verticalLayout_19.addWidget(self.scan_general_console)
 
 
         self.horizontalLayout_15.addWidget(self.scan_general_console_frame)
@@ -1611,6 +1613,8 @@ class Ui_MainWindow(object):
         self.comboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
+        self.scan_general_console.setPlainText(QCoreApplication.translate("MainWindow", u"Note: Double-tap on the general's name tag to rename it.\n"
+"", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.upload_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Upload Monsters", None))
         self.export_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Export Monsters", None))
