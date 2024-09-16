@@ -56,9 +56,19 @@ class GeneralProfileWidget(QWidget):
                     session.commit()  # Commit the transaction to apply changes
                     self.scan_console.emit(
                         f"General '{self.ui.edit_general.text()}' has been removed.")
+
                     # Check if the image file exists and delete it
-                    if os.path.exists(self.image_path):
-                        os.remove(self.image_path)
+                    general_details_img = os.path.join(str(self.image_path), self.data.details_image_name)
+                    general_list_img = os.path.join(str(self.image_path),
+                                                    self.data.list_image_name) if self.data.list_image_name else None
+
+                    # Delete the details view image if it exists
+                    if os.path.exists(general_details_img):
+                        os.remove(general_details_img)
+
+                    # Delete the list view image if the file path is valid and the image exists
+                    if general_list_img and os.path.exists(general_list_img):
+                        os.remove(general_list_img)
                 else:
                     self.scan_console.emit(
                         f"Error: General '{self.ui.edit_general.text()}' not found in the database.")

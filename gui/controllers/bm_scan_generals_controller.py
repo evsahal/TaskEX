@@ -22,6 +22,7 @@ def init_scan_general_ui(main_window):
     # Create an instance of the custom QCheckComboBox
     cb = QCheckComboBox(placeholderText="Scan Type")
     cb.setObjectName("scan_generals_type")
+    setattr(main_window.widgets, cb.objectName(), cb)
     cb.setMinimumWidth(180)
     cb.setMinimumHeight(45)
     # model = cb.model()
@@ -45,6 +46,7 @@ def init_scan_general_ui(main_window):
     # Create an instance of the custom QCheckComboBox
     cb = QCheckComboBox(placeholderText="Scan Filter")
     cb.setObjectName("scan_generals_filter")
+    setattr(main_window.widgets, cb.objectName(), cb)
     cb.setMinimumWidth(130)
     cb.setMinimumHeight(45)
     # model = cb.model()
