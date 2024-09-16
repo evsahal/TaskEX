@@ -1193,11 +1193,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_7.addWidget(self.lineEdit)
 
-        self.pushButton = QPushButton(self.frame_3)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(140, 45))
+        self.scan_generals_btn = QPushButton(self.frame_3)
+        self.scan_generals_btn.setObjectName(u"scan_generals_btn")
+        self.scan_generals_btn.setMinimumSize(QSize(140, 45))
 
-        self.horizontalLayout_7.addWidget(self.pushButton)
+        self.horizontalLayout_7.addWidget(self.scan_generals_btn)
 
 
         self.verticalLayout_17.addWidget(self.frame_3, 0, Qt.AlignmentFlag.AlignLeft)
@@ -1323,7 +1323,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1386,7 +1386,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 90, 20))
         self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
@@ -1414,7 +1414,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 90, 20))
         self.bm_black_market_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
 
         self.verticalLayout_23.addWidget(self.bm_black_market_scroll_area)
@@ -1612,7 +1612,7 @@ class Ui_MainWindow(object):
 
         self.comboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
         self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
+        self.scan_generals_btn.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.scan_general_console.setPlainText(QCoreApplication.translate("MainWindow", u"Note: Double-tap on the general's name tag to rename it.\n"
 "", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))

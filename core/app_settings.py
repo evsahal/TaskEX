@@ -1,9 +1,4 @@
 class Settings():
-    # APP TEXTS
-    TITLE = "TaskEX"
-    TITLE_DESCRIPTION = "Ultimate Edition"
-    VERSION = "v2.0.0"
-    CREDITS = "By: MwoNuZzz"
 
     # APP SETTINGS
     # ///////////////////////////////////////////////////////////////

@@ -2052,7 +2052,7 @@ background-repeat: no-repeat;</string>
                                </widget>
                               </item>
                               <item>
-                               <widget class="QPushButton" name="pushButton">
+                               <widget class="QPushButton" name="scan_generals_btn">
                                 <property name="minimumSize">
                                  <size>
                                   <width>140</width>
@@ -2320,8 +2320,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>388</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2447,8 +2447,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>90</width>
+                                   <height>20</height>
                                   </rect>
                                  </property>
                                 </widget>
@@ -2500,8 +2500,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>90</width>
+                                   <height>20</height>
                                   </rect>
                                  </property>
                                 </widget>

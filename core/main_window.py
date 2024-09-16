@@ -8,6 +8,7 @@ from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout, QLabel, QSizePolicy, QFrame, \
     QPushButton
 
+from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
 from core.app_settings import Settings
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
@@ -58,12 +59,12 @@ class MainWindow(QMainWindow):
 
         # APPLY TEXTS
         # ///////////////////////////////////////////////////////////////
-        self.setWindowTitle(Settings.TITLE)
-        self.widgets.titleLeftApp.setText(Settings.TITLE)
-        self.widgets.titleLeftDescription.setText(Settings.TITLE_DESCRIPTION)
+        self.setWindowTitle(TITLE)
+        self.widgets.titleLeftApp.setText(TITLE)
+        self.widgets.titleLeftDescription.setText(TITLE_DESCRIPTION)
         # widgets.titleRightInfo.setText(Settings.DESCRIPTION)
-        self.widgets.creditsLabel.setText(Settings.CREDITS)
-        self.widgets.version.setText(Settings.VERSION)
+        self.widgets.creditsLabel.setText(CREDITS)
+        self.widgets.version.setText(VERSION)
 
         # Create a scroll area for the topMenu
         self.scroll_area = QScrollArea(self.widgets.leftMenuFrame)

@@ -19,12 +19,10 @@ class GeneralProfileWidget(QWidget):
 
         self.flow_layout = flow_layout
         self.data = data
-        self.root_path = root_path
-
-        img_path=os.path.join(self.root_path, 'assets', self.data.image_resolution.value, 'generals', self.data.image_name)
+        self.image_path = os.path.join(root_path, 'assets', self.data.image_resolution.value, 'generals', self.data.image_name)
 
         # Setup General Preview
-        pixmap = QPixmap(img_path)
+        pixmap = QPixmap(self.image_path)
         half_height = int(pixmap.height() / 2)
         pixmap = pixmap.scaledToHeight(half_height)
         self.ui.general_icon_label.setPixmap(pixmap)
@@ -59,6 +57,9 @@ class GeneralProfileWidget(QWidget):
                     session.commit()  # Commit the transaction to apply changes
                     self.scan_console.emit(
                         f"General '{self.ui.edit_general.text()}' has been removed.")
+                    # Check if the image file exists and delete it
+                    if os.path.exists(self.image_path):
+                        os.remove(self.image_path)
                 else:
                     self.scan_console.emit(
                         f"Error: General '{self.ui.edit_general.text()}' not found in the database.")

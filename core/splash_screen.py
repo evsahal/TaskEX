@@ -5,6 +5,7 @@ from PySide6 import QtCore
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QProgressBar, QMainWindow, QWidget
 from PySide6.QtCore import Qt, Signal, QPropertyAnimation, QPoint, QEasingCurve, QTimer, QSettings
 
+from config.settings import VERSION
 from core.app_settings import Settings
 from gui.generated.splash_screen import Ui_SplashScreen
 
@@ -27,7 +28,7 @@ class SplashScreen(QMainWindow):
 
         # Set Splash Screen Version
         self.ui.label_title_version.setText(
-            f'<html><head/><body><p>TaskEnforcerX <span style=" font-size:16pt;">{Settings.VERSION}</span></p></body></html>')
+            f'<html><head/><body><p>TaskEnforcerX <span style=" font-size:16pt;">{VERSION}</span></p></body></html>')
 
         # Check if the user has previously logged in as a guest
         self.logged_in = self.check_previous_login()
