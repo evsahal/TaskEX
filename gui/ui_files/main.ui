@@ -1941,7 +1941,7 @@ background-repeat: no-repeat;</string>
                            <property name="spacing">
                             <number>0</number>
                            </property>
-                           <item alignment="Qt::AlignmentFlag::AlignLeft">
+                           <item>
                             <widget class="QFrame" name="frame_3">
                              <property name="frameShape">
                               <enum>QFrame::Shape::NoFrame</enum>
@@ -1965,102 +1965,168 @@ background-repeat: no-repeat;</string>
                               <property name="bottomMargin">
                                <number>0</number>
                               </property>
-                              <item>
-                               <widget class="QComboBox" name="comboBox">
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>0</width>
-                                  <height>45</height>
-                                 </size>
-                                </property>
-                                <property name="currentIndex">
-                                 <number>-1</number>
-                                </property>
-                                <property name="placeholderText">
-                                 <string>Scan Category</string>
-                                </property>
-                                <item>
-                                 <property name="text">
-                                  <string>All</string>
-                                 </property>
-                                </item>
-                                <item>
-                                 <property name="text">
-                                  <string>Military</string>
-                                 </property>
-                                </item>
-                                <item>
-                                 <property name="text">
-                                  <string>Development</string>
-                                 </property>
-                                </item>
-                                <item>
-                                 <property name="text">
-                                  <string>Duty</string>
-                                 </property>
-                                </item>
-                                <item>
-                                 <property name="text">
-                                  <string>Subordinate City</string>
-                                 </property>
-                                </item>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QFrame" name="sg_scan_type">
+                              <item alignment="Qt::AlignmentFlag::AlignLeft">
+                               <widget class="QFrame" name="frame_8">
                                 <property name="frameShape">
-                                 <enum>QFrame::Shape::StyledPanel</enum>
+                                 <enum>QFrame::Shape::NoFrame</enum>
                                 </property>
                                 <property name="frameShadow">
                                  <enum>QFrame::Shadow::Raised</enum>
                                 </property>
+                                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                                 <property name="leftMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="topMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="rightMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <property name="bottomMargin">
+                                  <number>0</number>
+                                 </property>
+                                 <item>
+                                  <widget class="QComboBox" name="scan_generals_category">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="currentIndex">
+                                    <number>-1</number>
+                                   </property>
+                                   <property name="placeholderText">
+                                    <string>Scan Category</string>
+                                   </property>
+                                   <item>
+                                    <property name="text">
+                                     <string>All</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Military</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Development</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Duty</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Subordinate City</string>
+                                    </property>
+                                   </item>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QComboBox" name="scan_generals_view">
+                                   <property name="sizePolicy">
+                                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                     <horstretch>0</horstretch>
+                                     <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                   </property>
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="currentIndex">
+                                    <number>-1</number>
+                                   </property>
+                                   <property name="placeholderText">
+                                    <string>Scan View</string>
+                                   </property>
+                                   <item>
+                                    <property name="text">
+                                     <string>Details View</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>List View</string>
+                                    </property>
+                                   </item>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QFrame" name="sg_scan_type">
+                                   <property name="frameShape">
+                                    <enum>QFrame::Shape::StyledPanel</enum>
+                                   </property>
+                                   <property name="frameShadow">
+                                    <enum>QFrame::Shadow::Raised</enum>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QFrame" name="sg_scan_filter">
+                                   <property name="frameShape">
+                                    <enum>QFrame::Shape::StyledPanel</enum>
+                                   </property>
+                                   <property name="frameShadow">
+                                    <enum>QFrame::Shadow::Raised</enum>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QLineEdit" name="scan_generals_port">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="maximumSize">
+                                    <size>
+                                     <width>100</width>
+                                     <height>16777215</height>
+                                    </size>
+                                   </property>
+                                   <property name="maxLength">
+                                    <number>10</number>
+                                   </property>
+                                   <property name="placeholderText">
+                                    <string>Port No.</string>
+                                   </property>
+                                   <property name="clearButtonEnabled">
+                                    <bool>true</bool>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QPushButton" name="scan_generals_btn">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>140</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="text">
+                                    <string>Scan Generals</string>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                </layout>
                                </widget>
                               </item>
-                              <item>
-                               <widget class="QFrame" name="sg_scan_filter">
+                              <item alignment="Qt::AlignmentFlag::AlignRight">
+                               <widget class="QFrame" name="toggle_general_view_frame">
                                 <property name="frameShape">
-                                 <enum>QFrame::Shape::StyledPanel</enum>
+                                 <enum>QFrame::Shape::NoFrame</enum>
                                 </property>
                                 <property name="frameShadow">
                                  <enum>QFrame::Shadow::Raised</enum>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLineEdit" name="lineEdit">
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>0</width>
-                                  <height>45</height>
-                                 </size>
-                                </property>
-                                <property name="maximumSize">
-                                 <size>
-                                  <width>100</width>
-                                  <height>16777215</height>
-                                 </size>
-                                </property>
-                                <property name="maxLength">
-                                 <number>10</number>
-                                </property>
-                                <property name="placeholderText">
-                                 <string>Port No.</string>
-                                </property>
-                                <property name="clearButtonEnabled">
-                                 <bool>true</bool>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QPushButton" name="scan_generals_btn">
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>140</width>
-                                  <height>45</height>
-                                 </size>
-                                </property>
-                                <property name="text">
-                                 <string>Scan Generals</string>
                                 </property>
                                </widget>
                               </item>
@@ -2320,8 +2386,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>98</width>
-                                   <height>24</height>
+                                   <width>1118</width>
+                                   <height>388</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2447,8 +2513,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>90</width>
-                                   <height>20</height>
+                                   <width>1118</width>
+                                   <height>514</height>
                                   </rect>
                                  </property>
                                 </widget>
@@ -2500,8 +2566,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>90</width>
-                                   <height>20</height>
+                                   <width>1118</width>
+                                   <height>514</height>
                                   </rect>
                                  </property>
                                 </widget>

@@ -1159,48 +1159,75 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setSpacing(12)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.comboBox = QComboBox(self.frame_3)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMinimumSize(QSize(0, 45))
+        self.frame_8 = QFrame(self.frame_3)
+        self.frame_8.setObjectName(u"frame_8")
+        self.frame_8.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_16 = QHBoxLayout(self.frame_8)
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalLayout_16.setContentsMargins(0, 0, 0, 0)
+        self.scan_generals_category = QComboBox(self.frame_8)
+        self.scan_generals_category.addItem("")
+        self.scan_generals_category.addItem("")
+        self.scan_generals_category.addItem("")
+        self.scan_generals_category.addItem("")
+        self.scan_generals_category.addItem("")
+        self.scan_generals_category.setObjectName(u"scan_generals_category")
+        self.scan_generals_category.setMinimumSize(QSize(0, 45))
 
-        self.horizontalLayout_7.addWidget(self.comboBox)
+        self.horizontalLayout_16.addWidget(self.scan_generals_category)
 
-        self.sg_scan_type = QFrame(self.frame_3)
+        self.scan_generals_view = QComboBox(self.frame_8)
+        self.scan_generals_view.addItem("")
+        self.scan_generals_view.addItem("")
+        self.scan_generals_view.setObjectName(u"scan_generals_view")
+        sizePolicy1.setHeightForWidth(self.scan_generals_view.sizePolicy().hasHeightForWidth())
+        self.scan_generals_view.setSizePolicy(sizePolicy1)
+        self.scan_generals_view.setMinimumSize(QSize(0, 45))
+
+        self.horizontalLayout_16.addWidget(self.scan_generals_view)
+
+        self.sg_scan_type = QFrame(self.frame_8)
         self.sg_scan_type.setObjectName(u"sg_scan_type")
         self.sg_scan_type.setFrameShape(QFrame.Shape.StyledPanel)
         self.sg_scan_type.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_7.addWidget(self.sg_scan_type)
+        self.horizontalLayout_16.addWidget(self.sg_scan_type)
 
-        self.sg_scan_filter = QFrame(self.frame_3)
+        self.sg_scan_filter = QFrame(self.frame_8)
         self.sg_scan_filter.setObjectName(u"sg_scan_filter")
         self.sg_scan_filter.setFrameShape(QFrame.Shape.StyledPanel)
         self.sg_scan_filter.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_7.addWidget(self.sg_scan_filter)
+        self.horizontalLayout_16.addWidget(self.sg_scan_filter)
 
-        self.lineEdit = QLineEdit(self.frame_3)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(0, 45))
-        self.lineEdit.setMaximumSize(QSize(100, 16777215))
-        self.lineEdit.setMaxLength(10)
-        self.lineEdit.setClearButtonEnabled(True)
+        self.scan_generals_port = QLineEdit(self.frame_8)
+        self.scan_generals_port.setObjectName(u"scan_generals_port")
+        self.scan_generals_port.setMinimumSize(QSize(0, 45))
+        self.scan_generals_port.setMaximumSize(QSize(100, 16777215))
+        self.scan_generals_port.setMaxLength(10)
+        self.scan_generals_port.setClearButtonEnabled(True)
 
-        self.horizontalLayout_7.addWidget(self.lineEdit)
+        self.horizontalLayout_16.addWidget(self.scan_generals_port)
 
-        self.scan_generals_btn = QPushButton(self.frame_3)
+        self.scan_generals_btn = QPushButton(self.frame_8)
         self.scan_generals_btn.setObjectName(u"scan_generals_btn")
         self.scan_generals_btn.setMinimumSize(QSize(140, 45))
 
-        self.horizontalLayout_7.addWidget(self.scan_generals_btn)
+        self.horizontalLayout_16.addWidget(self.scan_generals_btn)
 
 
-        self.verticalLayout_17.addWidget(self.frame_3, 0, Qt.AlignmentFlag.AlignLeft)
+        self.horizontalLayout_7.addWidget(self.frame_8, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.toggle_general_view_frame = QFrame(self.frame_3)
+        self.toggle_general_view_frame.setObjectName(u"toggle_general_view_frame")
+        self.toggle_general_view_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.toggle_general_view_frame.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.horizontalLayout_7.addWidget(self.toggle_general_view_frame, 0, Qt.AlignmentFlag.AlignRight)
+
+
+        self.verticalLayout_17.addWidget(self.frame_3)
 
         self.frame_4 = QFrame(self.scan_generals)
         self.frame_4.setObjectName(u"frame_4")
@@ -1323,7 +1350,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 98, 24))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1386,7 +1413,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 90, 20))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
         self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
@@ -1414,7 +1441,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 90, 20))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
         self.bm_black_market_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
 
         self.verticalLayout_23.addWidget(self.bm_black_market_scroll_area)
@@ -1558,7 +1585,8 @@ class Ui_MainWindow(object):
 
         self.stackedWidget.setCurrentIndex(3)
         self.tabWidget.setCurrentIndex(0)
-        self.comboBox.setCurrentIndex(-1)
+        self.scan_generals_category.setCurrentIndex(-1)
+        self.scan_generals_view.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1604,14 +1632,18 @@ class Ui_MainWindow(object):
         self.closeAppBtn.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Collective", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Custom Tasks", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Military", None))
-        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Development", None))
-        self.comboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Duty", None))
-        self.comboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Subordinate City", None))
+        self.scan_generals_category.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.scan_generals_category.setItemText(1, QCoreApplication.translate("MainWindow", u"Military", None))
+        self.scan_generals_category.setItemText(2, QCoreApplication.translate("MainWindow", u"Development", None))
+        self.scan_generals_category.setItemText(3, QCoreApplication.translate("MainWindow", u"Duty", None))
+        self.scan_generals_category.setItemText(4, QCoreApplication.translate("MainWindow", u"Subordinate City", None))
 
-        self.comboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
+        self.scan_generals_category.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Category", None))
+        self.scan_generals_view.setItemText(0, QCoreApplication.translate("MainWindow", u"Details View", None))
+        self.scan_generals_view.setItemText(1, QCoreApplication.translate("MainWindow", u"List View", None))
+
+        self.scan_generals_view.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan View", None))
+        self.scan_generals_port.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.scan_generals_btn.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.scan_general_console.setPlainText(QCoreApplication.translate("MainWindow", u"Note: Double-tap on the general's name tag to rename it.\n"
 "", None))

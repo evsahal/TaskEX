@@ -37,8 +37,8 @@ class MainWindow(QMainWindow):
         # print("Loading...")
         # List of initialization steps with corresponding messages
         init_steps = [
-            ("Loading UI Settings",self.load_ui_settings),
             ("Loading Configurations", self.load_configurations),
+            ("Loading UI Settings",self.load_ui_settings),
             ("Initializing ADB", self.init_adb),
             ("Initializing Instances", self.init_instance),
             ("Finalizing Setup", self.finalize_setup)

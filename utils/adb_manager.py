@@ -3,6 +3,10 @@ import subprocess
 import adbutils
 from typing import Optional
 
+import cv2
+import numpy as np
+
+
 class ADBManager:
     def __init__(self, port: str):
         self.device = None
@@ -23,7 +27,7 @@ class ADBManager:
         try:
             # print("Starting ADB server...")
             subprocess.run(["adb", "start-server"], check=True)
-            print("ADB server started.")
+            # print("ADB server started.")
         except subprocess.CalledProcessError as e:
             # print(f"Failed to start ADB server: {e}")
             exit(1)
@@ -83,16 +87,27 @@ class ADBManager:
             # print("Device not connected or found.")
             pass
 
-    def take_screenshot(self) -> Optional[bytes]:
+    def take_screenshot(self) -> Optional[np.ndarray]:
         """
-        Take a screenshot of the specified device and return the screenshot data.
+        Take a screenshot of the specified device and return the screenshot as a NumPy array.
         """
         if self.device:
             output = self.device.shell("screencap -p", encoding=None)
-            # print(f"Screenshot taken for device {self.device.serial}.")
-            return output
+
+            # Convert the raw screenshot bytes into a NumPy array
+            screenshot_np = np.frombuffer(output, dtype=np.uint8)
+
+            # Decode the NumPy array into an image using OpenCV
+            screenshot_img = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
+
+            if screenshot_img is None:
+                print("Error: Failed to decode the screenshot.")
+                return None
+
+            # Return the decoded screenshot image as a NumPy array
+            return screenshot_img
         else:
-            # print("Device not connected or found.")
+            print("Device not connected or found.")
             return None
 
     def launch_evony(self, start: bool = True) -> None:

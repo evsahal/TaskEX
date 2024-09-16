@@ -2,15 +2,15 @@ import cv2
 import numpy as np
 
 
-def template_match_coordinates(src_image, template_image, threshold=0.8, return_center=True, convert_gray=False):
+def template_match_coordinates(src_image, template_image, return_center=True, convert_gray=True, threshold=0.85):
     """
     Get the coordinates of the best template match in the source image.
 
     :param src_image: Source image where the template will be searched.
     :param template_image: Template image to search for in the source image.
-    :param threshold: Matching threshold (0 to 1).
     :param return_center: Whether to return the center coordinates of the match.
     :param convert_gray: Convert both images to grayscale if True.
+    :param threshold: Matching threshold (0 to 1).
     :return: (x, y) coordinates of the best match.
     """
     if convert_gray:
@@ -30,18 +30,26 @@ def template_match_coordinates(src_image, template_image, threshold=0.8, return_
     return None
 
 
-def is_template_match(src_image, template_image, threshold=0.8, convert_gray=False):
+def is_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
     """
     Check if the template is found in the source image.
 
     :param src_image: Source image where the template will be searched.
     :param template_image: Template image to search for in the source image.
-    :param threshold: Matching threshold (0 to 1).
     :param convert_gray: Convert both images to grayscale if True.
+    :param threshold: Matching threshold (0 to 1).
     :return: True if template match is found, otherwise False.
     """
+    # Convert both images to grayscale if convert_gray is True
+    if convert_gray:
+        src_image = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
+        template_image = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+
+    # Perform template matching
     result = cv2.matchTemplate(src_image, template_image, cv2.TM_CCOEFF_NORMED)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+    # Return True if the maximum correlation value is greater than or equal to the threshold
     return max_val >= threshold
 
 

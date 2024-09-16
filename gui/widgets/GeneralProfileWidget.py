@@ -19,13 +19,12 @@ class GeneralProfileWidget(QWidget):
 
         self.flow_layout = flow_layout
         self.data = data
-        self.image_path = os.path.join(root_path, 'assets', self.data.image_resolution.value, 'generals', self.data.image_name)
+        # Set widget object name
+        self.setObjectName(f"general_profile_{self.data.id}")
+        self.image_path = os.path.join(root_path, 'assets', self.data.image_resolution.value, 'generals')
 
-        # Setup General Preview
-        pixmap = QPixmap(self.image_path)
-        half_height = int(pixmap.height() / 2)
-        pixmap = pixmap.scaledToHeight(half_height)
-        self.ui.general_icon_label.setPixmap(pixmap)
+        # Setup General Preview Details View
+        self.switch_view()
 
         # Setup General LineEdit
         self.ui.edit_general.setText(self.data.name)
@@ -75,3 +74,19 @@ class GeneralProfileWidget(QWidget):
             if self.flow_layout:
                 self.flow_layout.removeWidget(self)
                 self.deleteLater()
+
+    def switch_view(self,checked=False):
+        if not checked:
+            pixmap = QPixmap(os.path.join(str(self.image_path),self.data.details_image_name))
+            half_height = int(pixmap.height() / 2)
+            pixmap = pixmap.scaledToHeight(half_height)
+            self.ui.general_icon_label.setPixmap(pixmap)
+        else:
+            if self.data.list_image_name:
+                pixmap = QPixmap(os.path.join(str(self.image_path),self.data.list_image_name))
+                half_height = int(pixmap.height() / 1.5)
+                pixmap = pixmap.scaledToHeight(half_height)
+                self.ui.general_icon_label.setPixmap(pixmap)
+            else:
+                self.ui.general_icon_label.clear()
+
