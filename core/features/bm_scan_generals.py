@@ -1,7 +1,6 @@
 import os
 import random
 import string
-from pathlib import Path
 from time import sleep
 
 import cv2
@@ -23,13 +22,14 @@ def start_scan_generals(thread):
     device = thread.device
     # Check all the options are selected
     if not is_general_scan_options_valid(main_window):
-        # TODO emit stop
-        pass
+        main_window.error_stop_general_scan.emit()
+        return False
 
     # Navigate to the generals window
     if not navigate_generals_window(device):
-        # TODO :: stop the program
-        pass
+        main_window.scan_general_console.emit("Failed to navigate to generals window")
+        main_window.error_stop_general_scan.emit()
+        return False
 
     # Select general view
     select_general_view(device,main_window.widgets.scan_generals_view.currentText().lower())
@@ -78,7 +78,7 @@ def scan_generals_details_view(thread,device):
             for frame_type, frame_images in scan_frames.items():
                 # print(frame_type)
                 top_frame_match = template_match_coordinates(src_img,frame_images["top_left"],return_center=False,threshold=0.9)
-                # # Skip the rest when no matching frame found
+                # Skip the rest when no matching frame found
                 if not top_frame_match:
                     continue
                 # print("Top match found")
@@ -98,13 +98,11 @@ def scan_generals_details_view(thread,device):
                     processed_image = apply_filter(general_info_img, filter_type='threshold', threshold_value=180, max_value=255)
                     # cv2.imwrite("demo.png", processed_image)
                     # Use pytesseract to extract text from the preprocessed image
-                    text = filter_general_name(pytesseract.image_to_string(processed_image, config='--psm 6'))
-
-                    # Print the extracted text
+                    text = filter_general_name(pytesseract.image_to_string(processed_image, config='--psm 6',lang='eng'))
                     # print(f"Extracted Text: {text}")
                     # verify the general name
                     if is_general_name_exists(text):
-                        main_window.widgets.scan_general_console.appendPlainText(f"General '{text}' already exists")
+                        main_window.scan_general_console.emit(f"General '{text}' already exists")
                         break
                     new_general = General(
                         name=text,
@@ -115,7 +113,7 @@ def scan_generals_details_view(thread,device):
                     if save_general_to_db(new_general, roi):
                         # print(f"Adding new general widget for {new_general.name}")
                         thread.add_general_signal.emit(new_general)
-                        main_window.widgets.scan_general_console.appendPlainText(f"Added General '{text}'.")
+                        main_window.scan_general_console.emit(f"Added General '{text}'.")
                         break
 
             # Swipe logic for scrolling through the list
@@ -128,23 +126,20 @@ def scan_generals_details_view(thread,device):
             if previous_src_img is not None:
                 if is_template_match(crop_bottom_half(src_img), previous_src_img, threshold=0.95):
                     # print("Reached the end of generals list")
-                    main_window.widgets.scan_general_console.appendPlainText("Reached the end of generals list")
+                    main_window.scan_general_console.emit("Reached the end of generals list.")
                     # Stop the search
                     main_window.widgets.scan_generals_btn.click()
                     return True
             previous_src_img = crop_bottom_half(src_img)
             counter += 1
 
-
     except Exception as e:
         # emit stop
+        main_window.error_stop_general_scan.emit()
         print(e)
-
-
 
 def scan_generals_list_view(main_window,device):
     pass
-
 
 def is_general_name_exists(general_name):
     """
@@ -207,8 +202,6 @@ def save_general_to_db(general,image):
     finally:
         session.close()
 
-
-
 def get_general_scan_frames(options):
     # Define the template location
     template_loc = os.path.join(BASE_DIR, "assets", "540p", "other")
@@ -263,22 +256,26 @@ def is_general_scan_options_valid(main_window):
 
     # Validate the category
     if not scan_category.currentText() or scan_category.currentIndex() == -1:
-        print("Error: Please select a valid scan category.")
+        # print("Error: Please select a valid scan category.")
+        main_window.scan_general_console.emit("Please select a valid scan category.")
         return False
 
     # Validate the view
     if not scan_view.currentText() or scan_view.currentIndex() == -1:
-        print("Error: Please select a valid scan view.")
+        # print("Error: Please select a valid scan view.")
+        main_window.scan_general_console.emit("Please select a valid scan view.")
         return False
 
     # Validate scan types (at least one option must be selected in the QCheckComboBox)
     if len(scan_type.checkedIndices()) == 0:
-        print("Error: Please select at least one scan type.")
+        # print("Error: Please select at least one scan type.")
+        main_window.scan_general_console.emit("Please select at least one scan type.")
         return False
 
     # Validate port Check if the port is not empty and contains only digits
     if not port_input.text().isdigit():
-        print("Error: Port must contain only numbers and cannot be empty.")
+        # print("Error: Port must contain only numbers and cannot be empty.")
+        main_window.scan_general_console.emit("Port must contain only numbers and cannot be empty.")
         return False
 
     # All validations passed

@@ -11,14 +11,14 @@ from pytesseract import pytesseract
 
 from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION, BASE_DIR
 from core.app_settings import Settings
-from core.controllers.emulator_controller import handle_scan_general_button
+from core.controllers.emulator_controller import handle_scan_general_button, stop_general_scan_error
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from db.db_setup import init_db, get_session
 from db.models.general import GeneralType, General
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
-from gui.controllers.bm_scan_generals_controller import init_scan_general_ui
+from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 from utils.image_recognition_utils import setup_tesseract
@@ -27,6 +27,9 @@ os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 
 class MainWindow(QMainWindow):
+    # Define Signals
+    scan_general_console = Signal(str)
+    error_stop_general_scan = Signal()
     def __init__(self, splash_screen):
         super(MainWindow, self).__init__()
 
@@ -132,8 +135,10 @@ class MainWindow(QMainWindow):
         # Load Open Emulator Ports
         reload_ports(self)
 
-        # Connect the scan general button to a slot
+        # Connect the scan general signals
         self.widgets.scan_generals_btn.clicked.connect(lambda : handle_scan_general_button(self))
+        self.error_stop_general_scan.connect(lambda : stop_general_scan_error(self))
+        self.scan_general_console.connect(lambda message: update_scan_console(self,message))
 
 
         # SET HOME PAGE AND SELECT MENU
@@ -153,7 +158,6 @@ class MainWindow(QMainWindow):
     def load_configurations(self):
         # Initialize the database and create tables
         init_db()
-
 
     def init_adb(self):
 

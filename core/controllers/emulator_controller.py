@@ -92,6 +92,19 @@ def start_general_scan_instance(main_window: 'MainWindow', index: int) -> None:
     # Start the emulator thread
     emulator_thread.start()
 
+
+def stop_general_scan_error(main_window: 'MainWindow') -> None:
+    # Index = 999 for scan general
+    index = 999
+    # Check if the emulator thread for this instance is already running
+    if hasattr(main_window.widgets, f'emulator_thread_{index}') and getattr(main_window.widgets,
+                                                                            f'emulator_thread_{index}').isRunning():
+        # If the thread is running, stop it
+        stop_emulator_instance(main_window, index)
+        # Update the button text and console.
+        main_window.widgets.scan_generals_btn.setText("Scan Generals")
+
+
 def update_run_button_icon(main_window: 'MainWindow', index: int, running: bool) -> None:
     """
     Update the run/stop button icons for both the instance manager and run tab.
