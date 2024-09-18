@@ -4,6 +4,7 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
+from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import General
 from gui.generated.general_profile import Ui_General_Profile
@@ -12,7 +13,7 @@ from utils.dialog_utils import show_confirmation_dialog
 
 class GeneralProfileWidget(QWidget):
     scan_console = Signal(str)
-    def __init__(self, parent=None,flow_layout=None,data=None,root_path=None):
+    def __init__(self, parent=None,flow_layout=None,data=None):
         super(GeneralProfileWidget, self).__init__(parent)
         self.ui = Ui_General_Profile()
         self.ui.setupUi(self)
@@ -21,7 +22,7 @@ class GeneralProfileWidget(QWidget):
         self.data = data
         # Set widget object name
         self.setObjectName(f"general_profile_{self.data.id}")
-        self.image_path = os.path.join(root_path, 'assets', self.data.image_resolution.value, 'generals')
+        self.image_path = os.path.join(BASE_DIR, 'assets', self.data.image_resolution.value, 'generals')
 
         # Setup General Preview Details View
         self.switch_view()

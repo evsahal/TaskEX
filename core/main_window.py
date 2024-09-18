@@ -7,9 +7,11 @@ from PySide6.QtCore import Qt, QSize, QTimer, Signal
 from PySide6.QtGui import QCursor
 from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout, QLabel, QSizePolicy, QFrame, \
     QPushButton
+from pytesseract import pytesseract
 
-from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
+from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION, BASE_DIR
 from core.app_settings import Settings
+from core.controllers.emulator_controller import handle_scan_general_button
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
@@ -19,8 +21,10 @@ from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
+from utils.image_recognition_utils import setup_tesseract
 
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+
 
 class MainWindow(QMainWindow):
     def __init__(self, splash_screen):
@@ -127,6 +131,11 @@ class MainWindow(QMainWindow):
 
         # Load Open Emulator Ports
         reload_ports(self)
+
+        # Connect the scan general button to a slot
+        self.widgets.scan_generals_btn.clicked.connect(lambda : handle_scan_general_button(self))
+
+
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
@@ -138,6 +147,8 @@ class MainWindow(QMainWindow):
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
 
+        # Setup Pytesseract
+        setup_tesseract()
 
     def load_configurations(self):
         # Initialize the database and create tables

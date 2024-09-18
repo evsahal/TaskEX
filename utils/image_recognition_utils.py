@@ -1,5 +1,16 @@
+import os
+
 import cv2
 import numpy as np
+from pytesseract import pytesseract
+
+from config.settings import BASE_DIR
+
+
+def setup_tesseract():
+    # For Windows, you need to specify the path to the tesseract executable
+    if os.name == 'nt':  # Check if the OS is Windows
+        pytesseract.tesseract_cmd = rf'{BASE_DIR}\Tesseract-OCR\tesseract.exe'
 
 
 def template_match_coordinates(src_image, template_image, return_center=True, convert_gray=True, threshold=0.85):
@@ -63,9 +74,26 @@ def apply_filter(src_image, filter_type=None, **kwargs):
         return apply_bilateral_filter(src_image, **kwargs)
     elif filter_type == 'nl_means':
         return apply_nl_means_filter(src_image, **kwargs)
+    elif filter_type == 'threshold':
+        return apply_threshold_filter(src_image, **kwargs)
     else:
         return src_image  # If no filter is specified, return the original image
 
+
+# Apply thresholding filter
+def apply_threshold_filter(src_image, threshold_value=150, max_value=255, threshold_type=cv2.THRESH_BINARY_INV):
+    """
+    Applies a thresholding filter to the image.
+
+    :param src_image: Source image to which the threshold will be applied.
+    :param threshold_value: Threshold value for binarization.
+    :param max_value: Maximum pixel value after thresholding.
+    :param threshold_type: OpenCV thresholding type (default is THRESH_BINARY_INV).
+    :return: Thresholded image.
+    """
+    gray = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+    _, thresh_img = cv2.threshold(gray, threshold_value, max_value, threshold_type)  # Apply threshold
+    return thresh_img
 
 # Apply Gaussian Blur to reduce noise
 def apply_gaussian_blur(image, kernel_size=(5, 5)):

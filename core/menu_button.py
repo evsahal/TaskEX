@@ -216,7 +216,7 @@ def delete_instance(main_window,index):
     remove_widget(getattr(main_window.widgets, f"page_emu_{index}"))
 
     # Select the Menu button
-    current_page = getattr(main_window.widgets, "stackedWidget").currentWidget()
+    current_page = main_window.widgets.stackedWidget.currentWidget()
 
     if current_page:
         # Get the object name of the current page

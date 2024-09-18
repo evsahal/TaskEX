@@ -1995,7 +1995,7 @@ background-repeat: no-repeat;</string>
                                     </size>
                                    </property>
                                    <property name="currentIndex">
-                                    <number>-1</number>
+                                    <number>0</number>
                                    </property>
                                    <property name="placeholderText">
                                     <string>Scan Category</string>
@@ -2042,7 +2042,7 @@ background-repeat: no-repeat;</string>
                                     </size>
                                    </property>
                                    <property name="currentIndex">
-                                    <number>-1</number>
+                                    <number>0</number>
                                    </property>
                                    <property name="placeholderText">
                                     <string>Scan View</string>
@@ -2092,6 +2092,9 @@ background-repeat: no-repeat;</string>
                                      <width>100</width>
                                      <height>16777215</height>
                                     </size>
+                                   </property>
+                                   <property name="text">
+                                    <string>5555</string>
                                    </property>
                                    <property name="maxLength">
                                     <number>10</number>
@@ -2386,8 +2389,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>388</height>
+                                   <width>68</width>
+                                   <height>22</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2513,8 +2516,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>68</width>
+                                   <height>16</height>
                                   </rect>
                                  </property>
                                 </widget>
@@ -2566,8 +2569,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>68</width>
+                                   <height>16</height>
                                   </rect>
                                  </property>
                                 </widget>

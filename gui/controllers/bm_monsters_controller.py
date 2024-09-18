@@ -6,12 +6,12 @@ from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 
 def init_bm_monster_ui(main_window):
     # Connect the export button to toggle the confirmation frame
-    getattr(main_window.widgets, f"export_monsters_btn").toggled.connect(lambda :toggle_frame(main_window))
+    main_window.widgets.export_monsters_btn.toggled.connect(lambda :toggle_frame(main_window))
     # Hide the confirmation frame
-    getattr(main_window.widgets, f"export_monster_confirm_frame").setVisible(False)
+    main_window.widgets.export_monster_confirm_frame.setVisible(False)
 
     # Set up the Layout for monsters
-    monsters_list_frame = getattr(main_window.widgets, "monsters_list_frame")
+    monsters_list_frame = main_window.widgets.monsters_list_frame
 
     # Use the existing monsters_list_frame as the container
     flow_layout = FlowLayout(monsters_list_frame)
@@ -23,7 +23,7 @@ def init_bm_monster_ui(main_window):
 
     # # Create and add multiple frames in a loop
     for i in range(25):
-        widget = MonsterProfileWidget(flow_layout=getattr(main_window.widgets, f"monsters_list_flow_layout"))
+        widget = MonsterProfileWidget(flow_layout=main_window.widgets.monsters_list_flow_layout)
         # Set the size of the widget to its size hint
         widget.setFixedSize(widget.sizeHint())
         flow_layout.addWidget(widget)
@@ -31,8 +31,8 @@ def init_bm_monster_ui(main_window):
 
 def toggle_frame(main_window):
     # Get monsters_list_frame and export_monsters_btn references
-    monsters_list_frame = getattr(main_window.widgets, "monsters_list_frame")
-    export_monsters_btn = getattr(main_window.widgets, "export_monsters_btn")
+    monsters_list_frame = main_window.widgets.monsters_list_frame
+    export_monsters_btn = main_window.widgets.export_monsters_btn
 
     # Toggle checkbox visibility and handle unchecking if the button is not checked
     is_checked = export_monsters_btn.isChecked()
@@ -44,4 +44,4 @@ def toggle_frame(main_window):
             checkbox.setChecked(False)
 
     # Toggle confirm frame
-    getattr(main_window.widgets, f"export_monster_confirm_frame").setVisible(export_monsters_btn.isChecked())
+    main_window.widgets.export_monster_confirm_frame.setVisible(export_monsters_btn.isChecked())

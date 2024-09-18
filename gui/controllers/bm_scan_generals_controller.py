@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QVBoxLayout, QFrame, QLabel, QHBoxLayout, QWidget
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from core.custom_widgets.QToggle import QToggle
-from core.features.bm_scan_generals import start_scan_generals
 from db.db_setup import get_session
 from db.models import General
 from gui.widgets.GeneralProfileWidget import GeneralProfileWidget
@@ -36,8 +35,8 @@ def init_scan_general_ui(main_window):
     frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
 
     # Set the layout to the sg_scan_type frame
-    getattr(main_window.widgets, f"sg_scan_type").setFrameShape(QFrame.NoFrame)
-    getattr(main_window.widgets, f"sg_scan_type").setLayout(frame_layout)
+    main_window.widgets.sg_scan_type.setFrameShape(QFrame.NoFrame)
+    main_window.widgets.sg_scan_type.setLayout(frame_layout)
 
     # Set up scan filter
     # Create a vertical layout for the frame
@@ -61,15 +60,13 @@ def init_scan_general_ui(main_window):
     frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
 
     # Set the layout to the sg_scan_type frame
-    getattr(main_window.widgets, "sg_scan_filter").setFrameShape(QFrame.NoFrame)
-    getattr(main_window.widgets, "sg_scan_filter").setLayout(frame_layout)
+    main_window.widgets.sg_scan_filter.setFrameShape(QFrame.NoFrame)
+    main_window.widgets.sg_scan_filter.setLayout(frame_layout)
 
-    # Connect the scan button to a slot
-    getattr(main_window.widgets, "scan_generals_btn").clicked.connect(lambda: start_scan_generals(main_window))
 
     # Set up view toggle
-    toggle_layout = QHBoxLayout(getattr(main_window.widgets, "toggle_general_view_frame"))
-    getattr(main_window.widgets, "toggle_general_view_frame").setContentsMargins(0, 0, 0, 0)
+    toggle_layout = QHBoxLayout(main_window.widgets.toggle_general_view_frame)
+    main_window.widgets.toggle_general_view_frame.setContentsMargins(0, 0, 0, 0)
 
     # Create a new frame to contain the toggle label
     toggle_label_frame = QFrame()
@@ -95,7 +92,7 @@ def init_scan_general_ui(main_window):
 
 
     # Set up the Layout for generals
-    generals_list_frame = getattr(main_window.widgets, "generals_list_frame")
+    generals_list_frame = main_window.widgets.generals_list_frame
 
     # Use the existing generals_list_frame as the container
     flow_layout = FlowLayout(generals_list_frame)
@@ -112,27 +109,28 @@ def init_scan_general_ui(main_window):
     generals = session.query(General).all()
     session.close()
 
-    # Get the project root directory dynamically
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-    # print(PROJECT_ROOT)
-
     # Pass the data to add the widgets
-    for i,general in enumerate(generals):
-        widget = GeneralProfileWidget(flow_layout=getattr(main_window.widgets, f"generals_list_flow_layout"),data= general,root_path=PROJECT_ROOT)
-        # Connect the signals
-        widget.ui.edit_general.scan_console.connect(lambda message: update_scan_console(main_window, message))
-        widget.scan_console.connect(lambda message: update_scan_console(main_window, message))
+    for general in generals:
+        add_general_to_frame(main_window,general)
 
-        # Set the size of the widget to its size hint
-        widget.setFixedSize(widget.sizeHint())
 
-        flow_layout.addWidget(widget)
+def add_general_to_frame(main_window,general):
+    flow_layout = main_window.widgets.generals_list_flow_layout
+    widget = GeneralProfileWidget(flow_layout=flow_layout, data=general)
+    # Connect the signals
+    widget.ui.edit_general.scan_console.connect(lambda message: update_scan_console(main_window, message))
+    widget.scan_console.connect(lambda message: update_scan_console(main_window, message))
+
+    # Set the size of the widget to its size hint
+    widget.setFixedSize(widget.sizeHint())
+
+    flow_layout.addWidget(widget)
 
 def change_general_ui_view(main_window,checked):
-    label = getattr(main_window.widgets, "toggle_label")
+    label = main_window.widgets.toggle_label
     label.setText("List View " if label.text() == "Details View " else "Details View ")
 
-    generals_list_frame = getattr(main_window.widgets, "generals_list_frame")
+    generals_list_frame = main_window.widgets.generals_list_frame
 
     # Regex pattern to match 'general_profile_{i}' where i is any number
     pattern = re.compile(r"^general_profile_\d+$")

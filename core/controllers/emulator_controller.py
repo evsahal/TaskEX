@@ -3,6 +3,8 @@ from PySide6.QtWidgets import QPushButton, QLineEdit
 from core.emulator_thread import EmulatorThread
 from typing import Optional
 
+from gui.controllers.bm_scan_generals_controller import add_general_to_frame
+
 
 def handle_run_button(main_window: 'MainWindow', index: int) -> None:
     """
@@ -24,7 +26,7 @@ def start_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     """
     # Get port number
     port: str = getattr(main_window.widgets, f"im_emu_port_{index}").text()
-    emulator_thread: EmulatorThread = EmulatorThread(port, index)
+    emulator_thread: EmulatorThread = EmulatorThread(main_window,port, index,"emu")
 
     # Store the thread in the main_window for reference
     setattr(main_window.widgets, f'emulator_thread_{index}', emulator_thread)
@@ -39,7 +41,6 @@ def start_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     # Update button icons to "Stop" in both instance manager and run tab
     update_run_button_icon(main_window, index, running=True)
 
-
 def stop_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     """
     Stop the emulator instance thread for the given index.
@@ -48,9 +49,48 @@ def stop_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     if emulator_thread:
         emulator_thread.stop()
 
-    # Update button icons to "Run" in both instance manager and run tab
-    update_run_button_icon(main_window, index, running=False)
+    # Check if the index is not for scan generals
+    if index != 999:
+        # Update button icons to "Run" in both instance manager and run tab
+        update_run_button_icon(main_window, index, running=False)
 
+
+def handle_scan_general_button(main_window: 'MainWindow') -> None:
+    # Index = 999 for scan general
+    index = 999
+    # Check if the emulator thread for this instance is already running
+    if hasattr(main_window.widgets, f'emulator_thread_{index}') and getattr(main_window.widgets, f'emulator_thread_{index}').isRunning():
+        # If the thread is running, stop it
+        stop_emulator_instance(main_window, index)
+        # Update the button text and console.
+        main_window.widgets.scan_generals_btn.setText("Scan Generals")
+        main_window.widgets.scan_general_console.appendPlainText("General scanning is now complete.\n"
+                                                                 "Kindly review the list of scanned generals and remove any unwanted or duplicated entries.\n")
+    else:
+        # Start a new emulator thread
+        start_general_scan_instance(main_window, index)
+        # Change the button text to stop scanning
+        main_window.widgets.scan_generals_btn.setText("Stop Scanning")
+
+def start_general_scan_instance(main_window: 'MainWindow', index: int) -> None:
+    """
+    Start the emulator instance thread for the given index.
+    """
+    # Get port number
+    port : str = main_window.widgets.scan_generals_port.text()
+    # TODO check if the port is already in use
+    emulator_thread: EmulatorThread = EmulatorThread(main_window,port, index,"scan_general")
+
+    # Store the thread in the main_window for reference
+    setattr(main_window.widgets, f'emulator_thread_{index}', emulator_thread)
+
+    # Connect signals
+    emulator_thread.finished.connect(lambda idx: on_emulator_finished(main_window, idx))
+    emulator_thread.error.connect(lambda idx, error: on_emulator_error(main_window, idx, error))
+    emulator_thread.add_general_signal.connect(lambda general:add_general_to_frame(main_window,general))
+
+    # Start the emulator thread
+    emulator_thread.start()
 
 def update_run_button_icon(main_window: 'MainWindow', index: int, running: bool) -> None:
     """

@@ -19,3 +19,13 @@ def extract_number_from_string(string: str) -> int:
         return combined_number
     else:
         return 0  # Return 0 if no numbers are found
+
+def crop_bottom_half(image):
+    # Get the size of the image
+    width, height = image.shape[:-1]
+    # Define the points for cropping
+    start_row, start_col = int(height * .5), int(0)
+    end_row, end_col = int(height), int(width)
+    # Crop the image
+    cropped_img = image[start_row:end_row, start_col:end_col].copy()
+    return cropped_img
