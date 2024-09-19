@@ -41,6 +41,45 @@ def template_match_coordinates(src_image, template_image, return_center=True, co
     return None
 
 
+def template_match_coordinates_all(src_image, template_image, return_center=True, convert_gray=True, threshold=0.85):
+    """
+    Get the coordinates of all template matches in the source image.
+
+    :param src_image: Source image where the template will be searched.
+    :param template_image: Template image to search for in the source image.
+    :param return_center: Whether to return the center coordinates of the match.
+    :param convert_gray: Convert both images to grayscale if True.
+    :param threshold: Matching threshold (0 to 1).
+    :return: List of (x, y) coordinates of all matches above the threshold, sorted by top-to-bottom.
+    """
+    if convert_gray:
+        src_image = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
+        template_image = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+
+    # Perform template matching
+    result = cv2.matchTemplate(src_image, template_image, cv2.TM_CCOEFF_NORMED)
+
+    # Get locations above the threshold
+    loc = np.where(result >= threshold)
+
+    matches = []
+    h, w = template_image.shape[:2]
+
+    # Iterate through all matches
+    for pt in zip(*loc[::-1]):  # Switch to x, y order
+        if return_center:
+            center_x = pt[0] + w // 2
+            center_y = pt[1] + h // 2
+            matches.append((center_x, center_y))
+        else:
+            matches.append(pt)
+
+    # Sort matches by the y-coordinate (top to bottom)
+    matches = sorted(matches, key=lambda x: x[1])
+
+    return matches
+
+
 def is_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
     """
     Check if the template is found in the source image.

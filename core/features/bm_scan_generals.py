@@ -1,6 +1,7 @@
 import os
 import random
 import string
+from datetime import datetime
 from time import sleep
 
 import cv2
@@ -13,7 +14,8 @@ from db.models import General
 from db.models.general import GeneralType
 from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
 from utils.helper_utils import crop_bottom_half
-from utils.image_recognition_utils import template_match_coordinates, is_template_match, apply_filter
+from utils.image_recognition_utils import template_match_coordinates, is_template_match, apply_filter, \
+    template_match_coordinates_all
 from utils.navigate_utils import navigate_generals_window
 from utils.text_extraction_util import filter_general_name
 
@@ -75,10 +77,15 @@ def scan_generals_details_view(thread):
             sleep(1)
             # Take screenshot
             src_img = device.take_screenshot()
+            # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\tmp\\{generate_unique_filename("src")}.png", src_img)
             # Loop through the frames
             for frame_type, frame_images in scan_frames.items():
-                # print(frame_type)
-                top_frame_match = template_match_coordinates(src_img,frame_images["top_left"],return_center=False,threshold=0.9)
+                # Get the top match
+                matches = template_match_coordinates_all(src_img,frame_images["top_left"],return_center=False,threshold=0.8)
+                if matches:
+                    top_frame_match = matches[0]
+                else:
+                    continue
                 # Skip the rest when no matching frame found
                 if not top_frame_match:
                     continue
@@ -87,6 +94,7 @@ def scan_generals_details_view(thread):
                 # Crop the general image with frame
                 roi = src_img[top_frame_match[1]:top_frame_match[1] + frame_height,
                       top_frame_match[0]:top_frame_match[0] + frame_width].copy()
+
                 # Checking whether the whole frame is present in the roi
                 if is_template_match(roi, frame_images["bottom_right"], threshold=0.7):
                     # print("Bottom match found")
@@ -100,6 +108,7 @@ def scan_generals_details_view(thread):
                     # cv2.imwrite("demo.png", processed_image)
                     # Use pytesseract to extract text from the preprocessed image
                     text = filter_general_name(pytesseract.image_to_string(processed_image, config='--psm 6',lang='eng'))
+                    # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{generate_unique_filename(text)}", roi)
                     # print(f"Extracted Text: {text}")
                     # verify the general name
                     if is_general_name_exists(text):
@@ -116,6 +125,8 @@ def scan_generals_details_view(thread):
                         thread.add_general_signal.emit(new_general)
                         thread.scan_general_console.emit(f"Added General '{text}'.")
                         break
+
+
 
             # Swipe logic for scrolling through the list
             if counter == 0:
@@ -141,6 +152,25 @@ def scan_generals_details_view(thread):
         thread.scan_general_error.emit()
         thread.stop()  # Stop the thread
         print(e)
+
+
+def generate_unique_filename(base_name: str) -> str:
+    """
+    Generate a unique file name by appending the current date and time to the base name.
+
+    :param base_name: The base name for the file (e.g., "scan_result").
+    :param extension: The file extension (default is "txt").
+    :return: The unique file name.
+    """
+    extension = "png"
+    # Get the current date and time
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Generate the unique file name
+    unique_filename = f"{base_name}_{current_time}"
+
+    return unique_filename
+
 
 def scan_generals_list_view(thread):
     pass
