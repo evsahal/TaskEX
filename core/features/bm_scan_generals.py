@@ -4,6 +4,7 @@ import string
 from time import sleep
 
 import cv2
+from adbutils import device
 from pytesseract import pytesseract
 
 from config.settings import BASE_DIR
@@ -19,16 +20,15 @@ from utils.text_extraction_util import filter_general_name
 
 def start_scan_generals(thread):
     main_window = thread.main_window
-    device = thread.device
+    device = thread.adb_manager
     # Check all the options are selected
-    if not is_general_scan_options_valid(main_window):
-        main_window.error_stop_general_scan.emit()
+    if not is_general_scan_options_valid(thread):
         return False
 
     # Navigate to the generals window
     if not navigate_generals_window(device):
-        main_window.scan_general_console.emit("Failed to navigate to generals window")
-        main_window.error_stop_general_scan.emit()
+        thread.scan_general_console.emit("Failed to navigate to generals window.")
+        thread.scan_general_error.emit()
         return False
 
     # Select general view
@@ -56,12 +56,13 @@ def start_scan_generals(thread):
     # Start Scanning.
     scan_view = main_window.widgets.scan_generals_view
     if scan_view.currentIndex() == 0:
-        scan_generals_details_view(thread,device)
+        scan_generals_details_view(thread)
     else:
-        scan_generals_list_view(main_window,device)
+        scan_generals_list_view(thread)
 
-def scan_generals_details_view(thread,device):
+def scan_generals_details_view(thread):
     main_window = thread.main_window
+    device = thread.adb_manager
     scan_types = main_window.widgets.scan_generals_type
     # print(scan_types.checkedIndices())
 
@@ -102,7 +103,7 @@ def scan_generals_details_view(thread,device):
                     # print(f"Extracted Text: {text}")
                     # verify the general name
                     if is_general_name_exists(text):
-                        main_window.scan_general_console.emit(f"General '{text}' already exists")
+                        thread.scan_general_console.emit(f"General '{text}' already exists")
                         break
                     new_general = General(
                         name=text,
@@ -113,7 +114,7 @@ def scan_generals_details_view(thread,device):
                     if save_general_to_db(new_general, roi):
                         # print(f"Adding new general widget for {new_general.name}")
                         thread.add_general_signal.emit(new_general)
-                        main_window.scan_general_console.emit(f"Added General '{text}'.")
+                        thread.scan_general_console.emit(f"Added General '{text}'.")
                         break
 
             # Swipe logic for scrolling through the list
@@ -126,19 +127,22 @@ def scan_generals_details_view(thread,device):
             if previous_src_img is not None:
                 if is_template_match(crop_bottom_half(src_img), previous_src_img, threshold=0.95):
                     # print("Reached the end of generals list")
-                    main_window.scan_general_console.emit("Reached the end of generals list.")
+                    thread.scan_general_console.emit("Reached the end of generals list.")
                     # Stop the search
-                    main_window.widgets.scan_generals_btn.click()
+                    # After scanning is complete, stop the thread and emit the finished signal
+                    thread.scan_general_finished.emit()  # Emit finished signal to indicate success
+                    thread.stop()  # Stop the thread properly
                     return True
             previous_src_img = crop_bottom_half(src_img)
             counter += 1
 
     except Exception as e:
         # emit stop
-        main_window.error_stop_general_scan.emit()
+        thread.scan_general_error.emit()
+        thread.stop()  # Stop the thread
         print(e)
 
-def scan_generals_list_view(main_window,device):
+def scan_generals_list_view(thread):
     pass
 
 def is_general_name_exists(general_name):
@@ -247,7 +251,8 @@ def get_general_type(frame_type):
     elif "legendary" in frame_type:
         return "legendary"
 
-def is_general_scan_options_valid(main_window):
+def is_general_scan_options_valid(thread):
+    main_window = thread.main_window
     # Get references to the widgets
     scan_category = main_window.widgets.scan_generals_category  # QComboBox
     scan_view = main_window.widgets.scan_generals_view     # QComboBox
@@ -257,25 +262,29 @@ def is_general_scan_options_valid(main_window):
     # Validate the category
     if not scan_category.currentText() or scan_category.currentIndex() == -1:
         # print("Error: Please select a valid scan category.")
-        main_window.scan_general_console.emit("Please select a valid scan category.")
+        thread.scan_general_console.emit("Please select a valid scan category.")
+        thread.scan_general_error.emit()
         return False
 
     # Validate the view
     if not scan_view.currentText() or scan_view.currentIndex() == -1:
         # print("Error: Please select a valid scan view.")
-        main_window.scan_general_console.emit("Please select a valid scan view.")
+        thread.scan_general_console.emit("Please select a valid scan view.")
+        thread.scan_general_error.emit()
         return False
 
     # Validate scan types (at least one option must be selected in the QCheckComboBox)
     if len(scan_type.checkedIndices()) == 0:
         # print("Error: Please select at least one scan type.")
-        main_window.scan_general_console.emit("Please select at least one scan type.")
+        thread.scan_general_console.emit("Please select at least one scan type.")
+        thread.scan_general_error.emit()
         return False
 
     # Validate port Check if the port is not empty and contains only digits
     if not port_input.text().isdigit():
         # print("Error: Port must contain only numbers and cannot be empty.")
-        main_window.scan_general_console.emit("Port must contain only numbers and cannot be empty.")
+        thread.scan_general_console.emit("Port must contain only numbers and cannot be empty.")
+        thread.scan_general_error.emit()
         return False
 
     # All validations passed

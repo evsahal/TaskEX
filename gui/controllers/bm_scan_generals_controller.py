@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QVBoxLayout, QFrame, QLabel, QHBoxLayout, QWidget
 
 from core.custom_widgets.FlowLayout import FlowLayout
@@ -13,7 +13,6 @@ from gui.widgets.GeneralProfileWidget import GeneralProfileWidget
 
 
 def init_scan_general_ui(main_window):
-
     # Set up scan type
     # Create a vertical layout for the frame
     frame_layout = QVBoxLayout()

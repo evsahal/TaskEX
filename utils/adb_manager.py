@@ -40,12 +40,22 @@ class ADBManager:
         ip_address: str = f"127.0.0.1:{self.port}"
 
         try:
-            # print(f"Connecting to emulator on port {self.port}...")
-            subprocess.run(["adb", "connect", ip_address], check=True)
-            # print(f"Connected to emulator on port {self.port}.")
-            self.device: Optional[adbutils.AdbDevice] = client.device(serial=ip_address)
+            print(f"Connecting to emulator on port {self.port}...")
+            result = subprocess.run(["adb", "connect", ip_address], capture_output=True, text=True)
+
+            if result.returncode != 0:
+                raise subprocess.CalledProcessError(result.returncode, result.args, output=result.stdout,
+                                                    stderr=result.stderr)
+
+            # Now verify connection with adbutils
+            if "connected to" in result.stdout.lower():
+                print(f"Connected to emulator on port {self.port}.")
+                self.device: Optional[adbutils.AdbDevice] = client.device(serial=ip_address)
+            else:
+                print(f"Failed to connect: {result.stdout}")
+                self.device = None
         except subprocess.CalledProcessError as e:
-            # print(f"Failed to connect to emulator on port {self.port}: {e}")
+            print(f"Failed to connect to emulator on port {self.port}: {e.stderr}")
             self.device = None
 
     def disconnect_device(self) -> None:

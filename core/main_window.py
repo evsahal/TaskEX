@@ -11,7 +11,7 @@ from pytesseract import pytesseract
 
 from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION, BASE_DIR
 from core.app_settings import Settings
-from core.controllers.emulator_controller import handle_scan_general_button, stop_general_scan_error
+from core.controllers.emulator_controller import handle_scan_general_button
 from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
@@ -28,8 +28,7 @@ os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 class MainWindow(QMainWindow):
     # Define Signals
-    scan_general_console = Signal(str)
-    error_stop_general_scan = Signal()
+    # scan_general_console = Signal(str)
     def __init__(self, splash_screen):
         super(MainWindow, self).__init__()
 
@@ -137,8 +136,7 @@ class MainWindow(QMainWindow):
 
         # Connect the scan general signals
         self.widgets.scan_generals_btn.clicked.connect(lambda : handle_scan_general_button(self))
-        self.error_stop_general_scan.connect(lambda : stop_general_scan_error(self))
-        self.scan_general_console.connect(lambda message: update_scan_console(self,message))
+        # self.scan_general_console.connect(lambda message: update_scan_console(self,message))
 
 
         # SET HOME PAGE AND SELECT MENU
