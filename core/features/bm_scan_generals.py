@@ -81,13 +81,11 @@ def scan_generals_details_view(thread):
             # Loop through the frames
             for frame_type, frame_images in scan_frames.items():
                 # Get the top match
-                matches = template_match_coordinates_all(src_img,frame_images["top_left"],return_center=False,threshold=0.8)
+                matches = template_match_coordinates_all(src_img,frame_images["top_left"],return_center=False,threshold=0.75)
                 if matches:
                     top_frame_match = matches[0]
                 else:
-                    continue
-                # Skip the rest when no matching frame found
-                if not top_frame_match:
+                    # Skip the rest when no matching frame found
                     continue
                 # print("Top match found")
                 frame_width, frame_height = 207, 320
