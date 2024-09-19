@@ -95,19 +95,15 @@ def scan_generals_details_view(thread):
 
                 # Checking whether the whole frame is present in the roi
                 if is_template_match(roi, frame_images["bottom_right"], threshold=0.7):
-                    # print("Bottom match found")
                     # Crop the general name
                     general_info_img = src_img[top_frame_match[1] - 5:top_frame_match[1] + 50,
                                        top_frame_match[0] + frame_width:].copy()
-                    # cv2.imwrite("demo1.png",roi)
-                    # cv2.imwrite("demo2.png",general_info_img)
+
                     # Preprocess the image (apply threshold)
                     processed_image = apply_filter(general_info_img, filter_type='threshold', threshold_value=180, max_value=255)
-                    # cv2.imwrite("demo.png", processed_image)
                     # Use pytesseract to extract text from the preprocessed image
                     text = filter_general_name(pytesseract.image_to_string(processed_image, config='--psm 6',lang='eng'))
-                    # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{generate_unique_filename(text)}", roi)
-                    # print(f"Extracted Text: {text}")
+                    print(f"Extracted Text: {text}")
                     # verify the general name
                     if is_general_name_exists(text):
                         thread.scan_general_console.emit(f"General '{text}' already exists")
@@ -123,7 +119,6 @@ def scan_generals_details_view(thread):
                         thread.add_general_signal.emit(new_general)
                         thread.scan_general_console.emit(f"Added General '{text}'.")
                         break
-
 
 
             # Swipe logic for scrolling through the list
@@ -151,23 +146,6 @@ def scan_generals_details_view(thread):
         thread.stop()  # Stop the thread
         print(e)
 
-
-def generate_unique_filename(base_name: str) -> str:
-    """
-    Generate a unique file name by appending the current date and time to the base name.
-
-    :param base_name: The base name for the file (e.g., "scan_result").
-    :param extension: The file extension (default is "txt").
-    :return: The unique file name.
-    """
-    extension = "png"
-    # Get the current date and time
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    # Generate the unique file name
-    unique_filename = f"{base_name}_{current_time}"
-
-    return unique_filename
 
 
 def scan_generals_list_view(thread):
