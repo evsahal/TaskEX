@@ -5,6 +5,7 @@ from datetime import datetime
 from time import sleep
 
 import cv2
+import unicodedata
 from adbutils import device
 from pytesseract import pytesseract
 
@@ -172,8 +173,11 @@ def is_general_name_exists(general_name):
         session.close()
 
 def generate_random_general_image_name(general_name):
-    # Shuffle the characters of the general's name
-    name_list = list(general_name)
+    # Normalize the general's name (NFKD form separates accents from letters)
+    normalized_name = unicodedata.normalize('NFKD', general_name).encode('ASCII', 'ignore').decode('ASCII')
+
+    # Shuffle the characters of the normalized name
+    name_list = list(normalized_name)
     random.shuffle(name_list)
     shuffled_name = ''.join(name_list)
 
@@ -183,7 +187,7 @@ def generate_random_general_image_name(general_name):
     # Combine the shuffled name with the random characters
     random_image_name = f"{shuffled_name}_{random_chars}.png"
 
-    # Replace spaces with underscores in the general name (if needed)
+    # Replace spaces with underscores
     random_image_name = random_image_name.replace(" ", "_")
 
     return random_image_name
