@@ -8,6 +8,7 @@ from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtCore import Qt, QSize
 
 from core.controllers.emulator_controller import handle_run_button, sync_lineedits
+from core.emulator_thread import EmulatorThread
 
 
 def add_instance_controls(main_window,index):
@@ -159,6 +160,7 @@ def copy_port_number_to_clipboard(port_number):
     clipboard = QApplication.clipboard()
     clipboard.setText(str(port_number))
     QToolTip.showText(QCursor.pos(), "Copied!")
+
 
 def get_available_ports(main_window):
     # Search for all the available ports for Bluestacks and Memu

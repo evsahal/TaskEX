@@ -1,5 +1,7 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QPushButton, QLineEdit
+from sqlalchemy import Boolean
+
 from core.emulator_thread import EmulatorThread
 from typing import Optional
 
@@ -30,6 +32,13 @@ def start_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     # Store the thread in the main_window for reference
     setattr(main_window.widgets, f'emulator_thread_{index}', emulator_thread)
 
+    # Initialize a list to track running instance indices if not already initialized
+    if not hasattr(main_window.widgets, 'running_instance_indices'):
+        main_window.widgets.running_instance_indices = set()  # Use a set for fast membership checks
+
+    # Add the index to the list of running instances
+    main_window.widgets.running_instance_indices.add(index)
+
     # Connect signals for thread finished and error handling
     emulator_thread.finished.connect(lambda idx: on_emulator_finished(main_window, idx))
     emulator_thread.error.connect(lambda idx, error: on_emulator_error(main_window, idx, error))
@@ -50,6 +59,11 @@ def stop_emulator_instance(main_window: 'MainWindow', index: int) -> None:
     if emulator_thread:
         emulator_thread.stop()
 
+    # Remove the index from the list of running instances
+    if hasattr(main_window.widgets, 'running_instance_indices'):
+        # Safely remove the index if it exists
+        main_window.widgets.running_instance_indices.discard(index)
+
     # Update button icons to "Run" in both instance manager and run tab for normal instances
     update_run_button_icon(main_window, index, running=False)
 
@@ -68,17 +82,24 @@ def handle_scan_general_button(main_window: 'MainWindow') -> None:
         emulator_thread.scan_general_finished.emit()
     else:
         # Start a new emulator thread for scanning generals
-        start_general_scan_instance(main_window)
-        main_window.widgets.scan_generals_btn.setText("Stop Scanning")
+        if start_general_scan_instance(main_window):
+            main_window.widgets.scan_generals_btn.setText("Stop Scanning")
 
 
-def start_general_scan_instance(main_window: 'MainWindow') -> None:
+def start_general_scan_instance(main_window: 'MainWindow') -> bool:
     """
     Start the scan general thread for the given index.
     """
     index = 999
     # Get port number
     port: str = main_window.widgets.scan_generals_port.text()
+
+    # Check if the port is already in use
+    if check_port_already_in_use(main_window,port):
+        # emit a signal to print the error to the console
+        main_window.scan_general_console.emit("Port is already in use")
+        return False
+
     emulator_thread: EmulatorThread = EmulatorThread(main_window, port, index, "scan_general")
 
     # Store the thread in the main_window for reference
@@ -92,6 +113,8 @@ def start_general_scan_instance(main_window: 'MainWindow') -> None:
 
     # Start the emulator thread
     emulator_thread.start()
+
+    return True
 
 def stop_general_scan_instance(main_window: 'MainWindow') -> None:
     """
@@ -126,6 +149,24 @@ def update_run_button_icon(main_window: 'MainWindow', index: int, running: bool)
             run_button_instance_manager.setIcon(run_icon)
         if run_button_run_tab:
             run_button_run_tab.setIcon(run_icon)
+
+def check_port_already_in_use(main_window: 'MainWindow', port: str) -> bool:
+    """
+    Check if the given port is already in use by any running emulator instance.
+
+    :param main_window: The main window containing references to running emulator instances.
+    :param port: The port number to check.
+    :return: True if the port is already in use, otherwise False.
+    """
+    # Check if there are running instances
+    if hasattr(main_window.widgets, 'running_instance_indices'):
+        for index in main_window.widgets.running_instance_indices:
+            # Access the emulator thread for the given index
+            emulator_thread: EmulatorThread = getattr(main_window.widgets, f'emulator_thread_{index}', None)
+            if emulator_thread and emulator_thread.isRunning() and emulator_thread.port == port:
+                return True  # Port is already in use
+
+    return False  # No matching port in running instances
 
 def on_general_scan_finished(main_window: 'MainWindow') -> None:
 

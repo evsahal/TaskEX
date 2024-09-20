@@ -104,7 +104,7 @@ def scan_generals_details_view(thread):
                     processed_image = apply_filter(general_info_img, filter_type='threshold', threshold_value=180, max_value=255)
                     # Use pytesseract to extract text from the preprocessed image
                     text = filter_general_name(pytesseract.image_to_string(processed_image, config='--psm 6',lang='eng'))
-                    print(f"Extracted Text: {text}")
+                    # print(f"Extracted Text: {text}")
                     # verify the general name
                     if is_general_name_exists(text):
                         thread.scan_general_console.emit(f"General '{text}' already exists")

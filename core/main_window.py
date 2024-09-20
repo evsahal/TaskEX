@@ -28,7 +28,7 @@ os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 class MainWindow(QMainWindow):
     # Define Signals
-    # scan_general_console = Signal(str)
+    scan_general_console = Signal(str)
     def __init__(self, splash_screen):
         super(MainWindow, self).__init__()
 
@@ -136,13 +136,14 @@ class MainWindow(QMainWindow):
 
         # Connect the scan general signals
         self.widgets.scan_generals_btn.clicked.connect(lambda : handle_scan_general_button(self))
-        # self.scan_general_console.connect(lambda message: update_scan_console(self,message))
+        self.scan_general_console.connect(lambda message: update_scan_console(self,message))
 
 
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
+
 
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU
