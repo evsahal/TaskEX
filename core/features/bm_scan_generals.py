@@ -5,6 +5,7 @@ from datetime import datetime
 from time import sleep
 
 import cv2
+import numpy as np
 import unicodedata
 from adbutils import device
 from pytesseract import pytesseract
@@ -16,7 +17,7 @@ from db.models.general import GeneralType
 from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
 from utils.helper_utils import crop_bottom_half
 from utils.image_recognition_utils import template_match_coordinates, is_template_match, apply_filter, \
-    template_match_coordinates_all
+    template_match_coordinates_all, template_match_multiple_sizes
 from utils.navigate_utils import navigate_generals_window
 from utils.text_extraction_util import filter_general_name
 
@@ -27,6 +28,34 @@ def start_scan_generals(thread):
     # Check all the options are selected
     if not is_general_scan_options_valid(thread):
         return False
+
+    # Check if scan view is list view and some generals are already present in the DB
+    pending_generals = None
+    if main_window.widgets.scan_generals_view.currentText() == "List View":
+        session = get_session()
+        # Get checked types for generals to search
+        scan_types = main_window.widgets.scan_generals_type.checkedIndices()
+
+        # Convert them to pass the types to the query
+        general_type_filter = []
+        if 0 in scan_types:
+            general_type_filter.append(GeneralType.epic)
+        if 1 in scan_types:
+            general_type_filter.append(GeneralType.legendary)
+        # If both 0 (Epic) and 1 (Legendary) are selected, return both types
+        if len(general_type_filter) == 2:
+            # No filter, returns both
+            pending_generals = General.find_pending_list_view_generals(session)
+        elif len(general_type_filter) == 1:
+            # Filter by selected type
+            pending_generals = General.find_pending_list_view_generals(session, general_type_filter[0])
+        session.close()
+        if not pending_generals:
+            # Console message and exit the scan
+            thread.scan_general_console.emit("No generals pending for list view scan.")
+            thread.scan_general_error.emit()
+            return False
+
 
     # Navigate to the generals window
     if not navigate_generals_window(device):
@@ -61,7 +90,7 @@ def start_scan_generals(thread):
     if scan_view.currentIndex() == 0:
         scan_generals_details_view(thread)
     else:
-        scan_generals_list_view(thread)
+        scan_generals_list_view(thread,pending_generals)
 
 def scan_generals_details_view(thread):
     main_window = thread.main_window
@@ -82,13 +111,14 @@ def scan_generals_details_view(thread):
             # Loop through the frames
             for frame_type, frame_images in scan_frames.items():
                 # Get the top match
-                matches = template_match_coordinates_all(src_img,frame_images["top_left"],return_center=False,threshold=0.75)
+                matches = template_match_coordinates_all(src_img,frame_images["top_left"],threshold=0.75)
                 if matches:
                     top_frame_match = matches[0]
                 else:
                     # Skip the rest when no matching frame found
                     continue
                 # print("Top match found")
+                # Here instead of static measurement, find the both template loc and crop the image
                 frame_width, frame_height = 207, 320
                 # Crop the general image with frame
                 roi = src_img[top_frame_match[1]:top_frame_match[1] + frame_height,
@@ -142,15 +172,82 @@ def scan_generals_details_view(thread):
             counter += 1
 
     except Exception as e:
-        # emit stop
+        # emit scan stop
         thread.scan_general_error.emit()
         thread.stop()  # Stop the thread
         print(e)
 
 
 
-def scan_generals_list_view(thread):
-    pass
+def scan_generals_list_view(thread,pending_generals):
+    main_window = thread.main_window
+    device = thread.adb_manager
+
+    # Get the frame templates to scan
+    selected_frames = get_general_scan_frames([0, 1])
+
+    # Setup the scale array to resize the template image for matching
+    scales = np.arange(0.65, 1, 0.01)
+    try:
+        while True:
+            sleep(1)
+            # Take screenshot
+            src_img = device.take_screenshot()
+
+            # Get all the generals with frames
+            cropped_generals = extract_general_with_frames(src_img,selected_frames)
+
+            # loop through the cropped images to find the match
+            for i,crop_img in enumerate(cropped_generals):
+                cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{i}.png",crop_img)
+                # Match the cropped images with the pending_generals images
+                for general in pending_generals:
+                    print(general)
+                    # <General(name=Elektra, type=Epic Historic General, resolution=540p, details_image=tElkare_ECa50.png,list_image=None)>
+                    # TODO :: Get the detail view general template image to match
+                    template_image = None
+                    match_cords, best_scale = template_match_multiple_sizes(src_img, template_image, scales)
+                    # TODO :: When a match found, update the data to db and save the image
+                    break
+            break # temp break to exit the program after taking one ss
+
+    except Exception as e:
+        print(e)
+
+
+
+def extract_general_with_frames(src_img,selected_frames):
+    # variable to store all the cropped images
+    cropped_images = []
+    # Custom Height and Width to crop the general image
+    custom_height = 236
+    custom_width = 159
+    # Loop through all the frames to get all match coordinates
+    for _, top_frame_image in selected_frames.items():
+        # Get all the top frame match for the current looping frame
+        match_cords = template_match_coordinates_all(src_img, top_frame_image['top_left'], threshold=0.65)
+        # Loop through the matched cords
+        for coord in match_cords:
+            # Unpack the top-left coordinates
+            top_left_x, top_left_y = coord
+            # Calculate the bottom-right corner of the rectangle using custom dimensions
+            bottom_right_x = top_left_x + custom_width
+            bottom_right_y = top_left_y + custom_height
+            # Crop the image...
+            cropped_image = src_img[top_left_y:bottom_right_y, top_left_x:bottom_right_x].copy()
+            # Check if it's the whole image or just a portion
+            if not cropped_image.shape[0] == custom_height:
+                # Remove the matched area to avoid rematch
+                src_img[top_left_y:bottom_right_y, top_left_x:bottom_right_x] = 0 # Black
+                continue
+            # Check for the bottom frames(loop again to check with all types of bottom frames)
+            for _, bottom_frame_image in selected_frames.items():
+                if is_template_match(cropped_image, bottom_frame_image["bottom_right"], threshold=0.6):
+                    cropped_images.append(cropped_image)
+                    # Remove the matched area to avoid rematch
+                    src_img[top_left_y:bottom_right_y, top_left_x:bottom_right_x] = 0  # Black
+                    break
+    return cropped_images
 
 def is_general_name_exists(general_name):
     """

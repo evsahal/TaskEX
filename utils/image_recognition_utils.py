@@ -41,7 +41,7 @@ def template_match_coordinates(src_image, template_image, return_center=True, co
     return None
 
 
-def template_match_coordinates_all(src_image, template_image, return_center=True, convert_gray=True, threshold=0.85):
+def template_match_coordinates_all(src_image, template_image, return_center=False, convert_gray=True, threshold=0.85):
     """
     Get the coordinates of all template matches in the source image.
 
@@ -79,6 +79,54 @@ def template_match_coordinates_all(src_image, template_image, return_center=True
 
     return matches
 
+def template_match_multiple_sizes(src_image, template_image, scales, return_center=True, convert_gray=True, threshold=0.85):
+    """
+    Get the coordinates of the best template match in the source image by resizing the template to different scales.
+
+    :param src_image: Source image where the template will be searched.
+    :param template_image: Template image to search for in the source image.
+    :param scales: List of scales to resize the template (e.g., [0.5, 0.75, 1.0, 1.25]).
+    :param return_center: Whether to return the center coordinates of the match.
+    :param convert_gray: Convert both images to grayscale if True.
+    :param threshold: Matching threshold (0 to 1).
+    :return: (x, y) coordinates of the best match and the best scale.
+    """
+    best_match = None
+    best_value = 0
+    best_scale = 1.0
+    best_position = None
+
+    if convert_gray:
+        src_image = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
+        template_image = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+
+    for scale in scales:
+        # Resize the template
+        resized_template = cv2.resize(template_image, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
+
+        # Perform template matching
+        result = cv2.matchTemplate(src_image, resized_template, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+        # Update the best match if the current scale has a better match
+        if max_val > best_value and max_val >= threshold:
+            best_value = max_val
+            best_position = max_loc
+            best_match = resized_template
+            best_scale = scale
+
+    if best_match is not None and best_position is not None:
+        # Get dimensions of the best matching template
+        h, w = best_match.shape[:2]
+
+        # Calculate the center or top-left coordinates
+        if return_center:
+            center_x = best_position[0] + w // 2
+            center_y = best_position[1] + h // 2
+            return (center_x, center_y), best_scale
+        return best_position, best_scale
+
+    return None, None
 
 def is_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
     """
