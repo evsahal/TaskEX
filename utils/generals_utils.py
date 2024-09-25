@@ -145,3 +145,29 @@ def apply_general_filter(device,favorite=False, idle=False):
                 print("Clearing Idle Filter")
                 # self.invokeScanGeneralsConsole("Clearing the idle filter")
                 device.tap(src_img_match[0], src_img_match[1])
+
+
+def crop_general_template_list_view(image):
+    # Get the image dimensions
+    height, width, _ = image.shape
+
+    # Define the size of the template
+    crop_width, crop_height = 40, 40
+
+    # Calculate the center coordinates
+    center_x = width // 2
+    center_y = height // 2
+
+    # Calculate a bit above the center (for the y-coordinate)
+    center_y_above = center_y - (crop_height // 2) - 12
+
+    # Calculate the bounding box for the crop
+    left = center_x - (crop_width // 2)
+    top = center_y_above
+    right = left + crop_width
+    bottom = top + crop_height
+
+    # Crop the image
+    cropped_img = image[top:bottom, left:right]
+
+    return cropped_img

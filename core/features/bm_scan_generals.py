@@ -14,7 +14,8 @@ from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import General
 from db.models.general import GeneralType
-from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
+from utils.generals_utils import select_general_category, select_general_view, apply_general_filter, \
+    crop_general_template_list_view
 from utils.helper_utils import crop_bottom_half
 from utils.image_recognition_utils import template_match_coordinates, is_template_match, apply_filter, \
     template_match_coordinates_all, template_match_multiple_sizes
@@ -183,11 +184,15 @@ def scan_generals_list_view(thread,pending_generals):
     main_window = thread.main_window
     device = thread.adb_manager
 
-    # Get the frame templates to scan
+    # Define the directory to save the image
+    image_directory = f"{BASE_DIR}\\assets\\540p\\generals\\"
+
+    # Get all the frame templates to scan
     selected_frames = get_general_scan_frames([0, 1])
 
-    # Setup the scale array to resize the template image for matching
+    # Set up the scale array to resize the template image for matching
     scales = np.arange(0.65, 1, 0.01)
+    session = get_session()
     try:
         while True:
             sleep(1)
@@ -198,23 +203,40 @@ def scan_generals_list_view(thread,pending_generals):
             cropped_generals = extract_general_with_frames(src_img,selected_frames)
 
             # loop through the cropped images to find the match
-            for i,crop_img in enumerate(cropped_generals):
-                cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{i}.png",crop_img)
+            for crop_img in cropped_generals:
+                # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{i}.png",crop_img)
                 # Match the cropped images with the pending_generals images
                 for general in pending_generals:
-                    print(general)
+                    # print(general)
                     # <General(name=Elektra, type=Epic Historic General, resolution=540p, details_image=tElkare_ECa50.png,list_image=None)>
-                    # TODO :: Get the detail view general template image to match
-                    template_image = None
-                    match_cords, best_scale = template_match_multiple_sizes(src_img, template_image, scales)
-                    # TODO :: When a match found, update the data to db and save the image
-                    break
-            break # temp break to exit the program after taking one ss
+                    # Crop the detail view general template image to match
+                    template_image = crop_general_template_list_view(cv2.imread(f"{image_directory}{general.details_image_name}"))
+                    # Match the template in the src_img
+                    match_cords, best_scale = template_match_multiple_sizes(crop_img, template_image, scales)
+                    if not match_cords:
+                        continue
+                    print(match_cords, best_scale)
+                    # When a match found, update the data to db and save the image
+                    general.scale = best_scale
+                    general.list_image_name = general.details_image_name.replace(".png", "_lv.png")
+
+                    print(general)
+                    # Save the changes to the database
+                    session.add(general)
+                    # Save the image to the path
+                    cv2.imwrite(f"{image_directory}{general.list_image_name}",crop_img)
+                    session.commit()
+
+                    # TODO  Update the list view ui
+
+
+            break  # temp break to exit the program after taking one ss
 
     except Exception as e:
         print(e)
 
-
+    finally:
+        session.close()
 
 def extract_general_with_frames(src_img,selected_frames):
     # variable to store all the cropped images

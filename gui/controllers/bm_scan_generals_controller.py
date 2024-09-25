@@ -142,5 +142,8 @@ def change_general_ui_view(main_window,checked):
             else:
                 child.switch_view()
 
+def update_general_list_view(main_window):
+    pass
+
 def update_scan_console(main_window,message):
     main_window.widgets.scan_general_console.appendPlainText(message)
