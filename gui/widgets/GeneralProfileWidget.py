@@ -1,5 +1,6 @@
 import os
 
+from PIL.ImImagePlugin import number
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
@@ -13,7 +14,9 @@ from utils.dialog_utils import show_confirmation_dialog
 
 class GeneralProfileWidget(QWidget):
     scan_console = Signal(str)
-    def __init__(self, parent=None,flow_layout=None,data=None):
+    update_data = Signal(General)
+    update_view = Signal(int,bool)
+    def __init__(self, parent=None,flow_layout=None,toggle = None,data=None):
         super(GeneralProfileWidget, self).__init__(parent)
         self.ui = Ui_General_Profile()
         self.ui.setupUi(self)
@@ -24,8 +27,11 @@ class GeneralProfileWidget(QWidget):
         self.setObjectName(f"general_profile_{self.data.id}")
         self.image_path = os.path.join(BASE_DIR, 'assets', self.data.image_resolution.value, 'generals')
 
-        # Setup General Preview Details View
-        self.switch_view()
+        # Setup General Preview View
+        if toggle:
+            self.switch_view(True)
+        else:
+            self.switch_view()
 
         # Setup General LineEdit
         self.ui.edit_general.setText(self.data.name)

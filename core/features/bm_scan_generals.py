@@ -215,20 +215,26 @@ def scan_generals_list_view(thread,pending_generals):
                     match_cords, best_scale = template_match_multiple_sizes(crop_img, template_image, scales)
                     if not match_cords:
                         continue
-                    print(match_cords, best_scale)
+                    # print(match_cords, best_scale)
                     # When a match found, update the data to db and save the image
                     general.scale = best_scale
                     general.list_image_name = general.details_image_name.replace(".png", "_lv.png")
-
-                    print(general)
+                    # print(f"BEFORE: {general}")
                     # Save the changes to the database
                     session.add(general)
                     # Save the image to the path
                     cv2.imwrite(f"{image_directory}{general.list_image_name}",crop_img)
                     session.commit()
 
-                    # TODO  Update the list view ui
+                    # TODO  Update the list view ui,
+                    # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
+                    toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
 
+                    getattr(main_window.widgets, f"general_profile_{general.id}").update_data.emit(general)
+                    getattr(main_window.widgets, f"general_profile_{general.id}").update_view.emit(general.id,toggle)
+
+                    # Remove that general from the loop list
+                    pending_generals.remove(general)
 
             break  # temp break to exit the program after taking one ss
 

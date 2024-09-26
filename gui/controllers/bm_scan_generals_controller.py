@@ -3,6 +3,7 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QVBoxLayout, QFrame, QLabel, QHBoxLayout, QWidget
+from requests import session
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
@@ -84,6 +85,8 @@ def init_scan_general_ui(main_window):
 
     # Create an instance of QToggle
     toggle_general_view = QToggle()
+    toggle_general_view.setObjectName("toggle_general_view")
+    setattr(main_window.widgets, toggle_general_view.objectName(), toggle_general_view)
     toggle_general_view.toggled.connect(lambda checked: change_general_ui_view(main_window,checked))
 
     # Add the QToggle button to the frame's layout
@@ -115,9 +118,14 @@ def init_scan_general_ui(main_window):
 
 def add_general_to_frame(main_window,general):
     flow_layout = main_window.widgets.generals_list_flow_layout
-    widget = GeneralProfileWidget(flow_layout=flow_layout, data=general)
+    toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
+    widget = GeneralProfileWidget(flow_layout=flow_layout,toggle= toggle, data=general)
+    setattr(main_window.widgets, widget.objectName(), widget)
+    # print(widget.objectName())
     # Connect the signals
     widget.ui.edit_general.scan_console.connect(lambda message: update_scan_console(main_window, message))
+    widget.update_data.connect(lambda general_obj: update_scan_general_data(main_window,general_obj))
+    widget.update_view.connect(lambda general_id,checked: update_scan_general_view(main_window,general_id,checked))
     widget.scan_console.connect(lambda message: update_scan_console(main_window, message))
 
     # Set the size of the widget to its size hint
@@ -133,7 +141,6 @@ def change_general_ui_view(main_window,checked):
 
     # Regex pattern to match 'general_profile_{i}' where i is any number
     pattern = re.compile(r"^general_profile_\d+$")
-
     # Loop through all children and filter those with names 'general_profile'
     for child in generals_list_frame.findChildren(QWidget):
         if pattern.match(child.objectName()):
@@ -142,8 +149,15 @@ def change_general_ui_view(main_window,checked):
             else:
                 child.switch_view()
 
-def update_general_list_view(main_window):
-    pass
+def update_scan_general_view(main_window,general_id,checked):
+    getattr(main_window.widgets, f"general_profile_{general_id}").switch_view(checked)
+
+
+def update_scan_general_data(main_window,general):
+    session = get_session()
+    general = session.merge(general)
+    getattr(main_window.widgets, f"general_profile_{general.id}").data = general
+    session.close()
 
 def update_scan_console(main_window,message):
     main_window.widgets.scan_general_console.appendPlainText(message)

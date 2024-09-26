@@ -29,7 +29,7 @@ class General(Base):
     scale = Column(Float, nullable=True)
 
     def __repr__(self):
-        return f"<General(name={self.name}, type={self.type.value}, resolution={self.image_resolution.value}, details_image={self.details_image_name},list_image={self.list_image_name})>"
+        return f"<General(id={self.id},name={self.name}, type={self.type.value}, resolution={self.image_resolution.value}, details_image={self.details_image_name},list_image={self.list_image_name},scale={self.scale})>"
 
     @classmethod
     def find_pending_list_view_generals(cls, session, general_type=None):
