@@ -226,10 +226,9 @@ def scan_generals_list_view(thread,pending_generals):
                     cv2.imwrite(f"{image_directory}{general.list_image_name}",crop_img)
                     session.commit()
 
-                    # TODO  Update the list view ui,
+                    # Update the list view ui,
                     # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
                     toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
-
                     getattr(main_window.widgets, f"general_profile_{general.id}").update_data.emit(general)
                     getattr(main_window.widgets, f"general_profile_{general.id}").update_view.emit(general.id,toggle)
 
