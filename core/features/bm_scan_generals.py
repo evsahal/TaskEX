@@ -192,6 +192,7 @@ def scan_generals_list_view(thread,pending_generals):
 
     # Set up the scale array to resize the template image for matching
     scales = np.arange(0.65, 1, 0.01)
+    previous_src_img = None
     session = get_session()
     try:
         while True:
@@ -235,10 +236,35 @@ def scan_generals_list_view(thread,pending_generals):
                     # Remove that general from the loop list
                     pending_generals.remove(general)
 
-            break  # temp break to exit the program after taking one ss
+            # Check if pending general are not empty
+            if len(pending_generals) == 0:
+                # After scanning is complete, stop the thread and emit the finished signal
+                thread.scan_general_finished.emit()  # Emit finished signal to indicate success
+                thread.stop()  # Stop the thread properly
+                return True
+
+            # Swipe for scrolling through the list
+            device.swipe(330, 780, 330, 350, 3800)
+
+            # Check the end of generals list
+            if previous_src_img is not None:
+                if is_template_match(crop_bottom_half(src_img), previous_src_img, threshold=0.95):
+                    # print("Reached the end of generals list")
+                    thread.scan_general_console.emit("Reached the end of generals list.")
+                    # Stop the search
+                    # After scanning is complete, stop the thread and emit the finished signal
+                    thread.scan_general_finished.emit()  # Emit finished signal to indicate success
+                    thread.stop()  # Stop the thread properly
+                    return True
+            previous_src_img = crop_bottom_half(src_img)
+            # break  # temp break to exit the program after taking one ss
 
     except Exception as e:
         print(e)
+        # emit scan stop
+        thread.scan_general_error.emit()
+        # Stop the thread
+        thread.stop()
 
     finally:
         session.close()
