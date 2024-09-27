@@ -93,9 +93,8 @@ class ADBManager:
         if self.device:
             self.device.shell(f"input swipe {x1} {y1} {x2} {y2} {duration}")
             # print(f"Swiped on device {self.device.serial} from ({x1}, {y1}) to ({x2}, {y2}) over {duration} ms.")
-        else:
-            # print("Device not connected or found.")
-            pass
+
+
 
     def take_screenshot(self) -> Optional[np.ndarray]:
         """

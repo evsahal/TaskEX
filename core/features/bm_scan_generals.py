@@ -236,7 +236,7 @@ def scan_generals_list_view(thread,pending_generals):
                     # Remove that general from the loop list
                     pending_generals.remove(general)
 
-            # Check if pending general are not empty
+            # if pending generals are empty
             if len(pending_generals) == 0:
                 # After scanning is complete, stop the thread and emit the finished signal
                 thread.scan_general_finished.emit()  # Emit finished signal to indicate success
