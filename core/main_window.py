@@ -1,22 +1,15 @@
 import os
-import time
-from time import sleep
-from tkinter import font
 
-from PySide6.QtCore import Qt, QSize, QTimer, Signal
-from PySide6.QtGui import QCursor
-from PySide6.QtWidgets import QMainWindow, QHeaderView, QScrollArea, QVBoxLayout, QLabel, QSizePolicy, QFrame, \
-    QPushButton
-from pytesseract import pytesseract
+from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame
 
-from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION, BASE_DIR
+from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
 from core.app_settings import Settings
 from core.controllers.emulator_controller import handle_scan_general_button
-from core.instance_manager import setup_port_display_table, get_available_ports, reload_ports
+from core.instance_manager import setup_port_display_table, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
-from db.db_setup import init_db, get_session
-from db.models.general import GeneralType, General
+from db.db_setup import init_db
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
 from gui.generated.ui_main import Ui_MainWindow
@@ -143,7 +136,6 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
         self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
-
 
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU

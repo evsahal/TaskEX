@@ -1,27 +1,38 @@
+import os
+
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
+from config.settings import BASE_DIR
 from gui.generated.monster_profile import Ui_Monster_Profile
 from utils.dialog_utils import show_confirmation_dialog
 
 
 class MonsterProfileWidget(QWidget):
-    def __init__(self, parent=None,flow_layout=None):
+    def __init__(self, parent=None,flow_layout=None,data=None):
         super(MonsterProfileWidget, self).__init__(parent)
         self.ui = Ui_Monster_Profile()
         self.ui.setupUi(self)
 
         self.flow_layout = flow_layout
+        self.data = data
+
+        # Set widget object name
+        self.setObjectName(f"monster_profile_{self.data.id}")
+        self.preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
 
         # Setup General Preview
-        pixmap = QPixmap(r"E:\Projects\PyCharmProjects\TaskEX\assets\preview\pan_mounted_preview_50x50.png")
+        monster_preview = os.path.join(str(self.preview_path), self.data.monster_image.preview_image)
+        if not os.path.isfile(monster_preview):
+            monster_preview = os.path.join(str(self.preview_path), "default_preview.png")
+        pixmap = QPixmap(monster_preview)
         # half_height = int(pixmap.height() / 2)
         # print(half_height) #92
         pixmap = pixmap.scaledToHeight(92)
         self.ui.monster_icon_label.setPixmap(pixmap)
 
         # Setup General LineEdit
-        self.ui.monster_name_label.setText("Ymir")
+        self.ui.monster_name_label.setText(self.data.preview_name)
         self.ui.monster_name_label.setObjectName(f"edit_monster_") # add index here
         # setattr(main_window.widgets, play_button.objectName(), play_button)
 

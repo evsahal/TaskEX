@@ -1,6 +1,8 @@
 from PySide6.QtWidgets import QFrame, QCheckBox
 
 from core.custom_widgets.FlowLayout import FlowLayout
+from db.db_setup import get_session
+from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 
 
@@ -21,12 +23,37 @@ def init_bm_monster_ui(main_window):
     # Set the flow layout to the container frame (monsters_list_frame)
     monsters_list_frame.setLayout(flow_layout)
 
-    # # Create and add multiple frames in a loop
-    for i in range(25):
-        widget = MonsterProfileWidget(flow_layout=main_window.widgets.monsters_list_flow_layout)
-        # Set the size of the widget to its size hint
-        widget.setFixedSize(widget.sizeHint())
-        flow_layout.addWidget(widget)
+    # Get all the bosses
+    session = get_session()
+
+    # Query all records from the generals table
+    # boss_monsters = session.query(BossMonster).all()
+    boss_monsters = (
+        session.query(BossMonster)
+        .join(MonsterImage)
+        .join(MonsterCategory)
+        .join(MonsterLogic)
+        .all()
+    )
+
+
+    # Pass the data to add the widgets
+    for boss in boss_monsters:
+        # print(boss.monster_image.preview_image)
+        add_monster_to_frame(main_window,boss)
+
+    session.close()
+
+def add_monster_to_frame(main_window,boss):
+    flow_layout = main_window.widgets.monsters_list_flow_layout
+
+    widget = MonsterProfileWidget(flow_layout=flow_layout, data=boss)
+    setattr(main_window.widgets, widget.objectName(), widget)
+
+    # Set the size of the widget to its size hint
+    widget.setFixedSize(widget.sizeHint())
+    flow_layout.addWidget(widget)
+
 
 
 def toggle_frame(main_window):
