@@ -42,6 +42,8 @@ class MonsterProfileWidget(QWidget):
 
         # Checkbox
         self.ui.checkBox.setVisible(False)
+        self.ui.checkBox.setProperty("boss_id", self.data.id)
+        # get_value = self.ui.checkbox.property("boss_id")
 
     def delete_monster_profile(self):
         """

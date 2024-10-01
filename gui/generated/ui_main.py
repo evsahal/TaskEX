@@ -1350,7 +1350,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 68, 22))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1375,17 +1375,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6 = QHBoxLayout(self.export_monster_confirm_frame)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_4 = QPushButton(self.export_monster_confirm_frame)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setMinimumSize(QSize(100, 45))
+        self.cancel_export_btn = QPushButton(self.export_monster_confirm_frame)
+        self.cancel_export_btn.setObjectName(u"cancel_export_btn")
+        self.cancel_export_btn.setMinimumSize(QSize(100, 45))
 
-        self.horizontalLayout_6.addWidget(self.pushButton_4)
+        self.horizontalLayout_6.addWidget(self.cancel_export_btn)
 
-        self.pushButton_3 = QPushButton(self.export_monster_confirm_frame)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(100, 45))
+        self.confirm_export_btn = QPushButton(self.export_monster_confirm_frame)
+        self.confirm_export_btn.setObjectName(u"confirm_export_btn")
+        self.confirm_export_btn.setMinimumSize(QSize(100, 45))
 
-        self.horizontalLayout_6.addWidget(self.pushButton_3)
+        self.horizontalLayout_6.addWidget(self.confirm_export_btn)
 
 
         self.verticalLayout_16.addWidget(self.export_monster_confirm_frame, 0, Qt.AlignmentFlag.AlignRight)
@@ -1413,7 +1413,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 68, 16))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 90, 20))
         self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
@@ -1441,7 +1441,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 68, 16))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 90, 20))
         self.bm_black_market_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
 
         self.verticalLayout_23.addWidget(self.bm_black_market_scroll_area)
@@ -1584,7 +1584,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)
 
@@ -1651,8 +1651,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.upload_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Upload Monsters", None))
         self.export_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Export Monsters", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"Export", None))
+        self.cancel_export_btn.setText(QCoreApplication.translate("MainWindow", u"Cancel", None))
+        self.confirm_export_btn.setText(QCoreApplication.translate("MainWindow", u"Export", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monsters), QCoreApplication.translate("MainWindow", u"Monsters", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.champions), QCoreApplication.translate("MainWindow", u"Champions", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.black_market), QCoreApplication.translate("MainWindow", u"Black Market", None))

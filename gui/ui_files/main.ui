@@ -1925,7 +1925,7 @@ background-repeat: no-repeat;</string>
                           <string notr="true"/>
                          </property>
                          <property name="currentIndex">
-                          <number>0</number>
+                          <number>1</number>
                          </property>
                          <widget class="QWidget" name="scan_generals">
                           <property name="sizePolicy">
@@ -2389,8 +2389,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>68</width>
-                                   <height>22</height>
+                                   <width>1118</width>
+                                   <height>388</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2445,7 +2445,7 @@ border-radius: 5px;</string>
                                <number>0</number>
                               </property>
                               <item>
-                               <widget class="QPushButton" name="pushButton_4">
+                               <widget class="QPushButton" name="cancel_export_btn">
                                 <property name="minimumSize">
                                  <size>
                                   <width>100</width>
@@ -2458,7 +2458,7 @@ border-radius: 5px;</string>
                                </widget>
                               </item>
                               <item>
-                               <widget class="QPushButton" name="pushButton_3">
+                               <widget class="QPushButton" name="confirm_export_btn">
                                 <property name="minimumSize">
                                  <size>
                                   <width>100</width>
@@ -2516,8 +2516,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>68</width>
-                                   <height>16</height>
+                                   <width>90</width>
+                                   <height>20</height>
                                   </rect>
                                  </property>
                                 </widget>
@@ -2569,8 +2569,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>68</width>
-                                   <height>16</height>
+                                   <width>90</width>
+                                   <height>20</height>
                                   </rect>
                                  </property>
                                 </widget>

@@ -9,7 +9,8 @@ from core.controllers.emulator_controller import handle_scan_general_button
 from core.instance_manager import setup_port_display_table, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
-from db.db_setup import init_db
+from db.db_setup import init_db, get_session
+from db.models import MonsterCategory, MonsterLogic, MonsterImage, BossMonster, MonsterLevel
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
 from gui.generated.ui_main import Ui_MainWindow
@@ -149,6 +150,104 @@ class MainWindow(QMainWindow):
     def load_configurations(self):
         # Initialize the database and create tables
         init_db()
+        # session = get_session()
+        #
+        # # Step 1: Retrieve existing category and logic IDs
+        # category_id = session.query(MonsterCategory.id).filter_by(name='Viking').first()[0]
+        # logic_id = session.query(MonsterLogic.id).filter_by(logic='Custom-Level Boss').first()[0]
+        #
+        # # Step 2: Insert a new monster image
+        # new_image = MonsterImage(
+        #     preview_image='viking_normal_preview.png',
+        #     img_540p='viking_normal_540p.png',
+        #     img_threshold=None,
+        #     click_pos=None
+        # )
+        # session.add(new_image)
+        # session.commit()  # Commit to get the new image ID
+        #
+        # # Step 3: Insert a new boss monster
+        # new_boss_monster = BossMonster(
+        #     preview_name='Viking Normal',
+        #     monster_category_id=category_id,
+        #     monster_image_id=new_image.id,
+        #     monster_logic_id=logic_id,
+        #     enable_map_scan=False,
+        #     system=True
+        # )
+        # session.add(new_boss_monster)
+        # session.commit()  # Commit to get the new boss monster ID
+        #
+        # # Step 4: Insert monster levels associated with the new boss monster
+        # levels_data = [
+        #     {"level": 1, "name": "Viking", "power": "130M"},
+        #     {"level": 2, "name": "Viking", "power": "130M"},
+        #     {"level": 3, "name": "Viking", "power": "130M"},
+        #     {"level": 4, "name": "Viking", "power": "130M"},
+        #     {"level": 5, "name": "Viking", "power": "130M"},
+        #     {"level": 6, "name": "Viking", "power": "130M"},
+        #     {"level": 7, "name": "Viking", "power": "130M"},
+        #     {"level": 8, "name": "Viking", "power": "130M"},
+        #     {"level": 9, "name": "Viking", "power": "130M"},
+        #     {"level": 10, "name": "Viking", "power": "130M"},
+        #     {"level": 11, "name": "Viking", "power": "130M"},
+        #     {"level": 12, "name": "Viking", "power": "130M"},
+        #     {"level": 13, "name": "Viking", "power": "130M"},
+        #     {"level": 14, "name": "Viking", "power": "130M"},
+        #     {"level": 15, "name": "Viking", "power": "130M"},
+        #     {"level": 16, "name": "Viking", "power": "130M"},
+        #     {"level": 17, "name": "Viking", "power": "130M"},
+        #     {"level": 18, "name": "Viking", "power": "130M"},
+        #     {"level": 19, "name": "Viking", "power": "130M"},
+        #     {"level": 20, "name": "Viking", "power": "130M"},
+        #     {"level": 21, "name": "Viking", "power": "130M"},
+        #     {"level": 22, "name": "Viking", "power": "130M"},
+        #     {"level": 23, "name": "Viking", "power": "130M"},
+        #     {"level": 24, "name": "Viking", "power": "130M"},
+        #     {"level": 25, "name": "Viking", "power": "130M"},
+        #     {"level": 26, "name": "Viking", "power": "130M"},
+        #     {"level": 27, "name": "Viking", "power": "130M"},
+        #     {"level": 28, "name": "Viking", "power": "130M"},
+        #     {"level": 29, "name": "Viking", "power": "130M"},
+        #     {"level": 30, "name": "Viking", "power": "130M"},
+        #     {"level": 31, "name": "Viking", "power": "130M"},
+        #     {"level": 32, "name": "Viking", "power": "130M"},
+        #     {"level": 33, "name": "Viking", "power": "130M"},
+        #     {"level": 34, "name": "Viking", "power": "130M"},
+        #     {"level": 35, "name": "Viking", "power": "130M"},
+        #     {"level": 36, "name": "Viking", "power": "130M"},
+        #     {"level": 37, "name": "Viking", "power": "130M"},
+        #     {"level": 38, "name": "Viking", "power": "130M"},
+        #     {"level": 39, "name": "Viking", "power": "130M"},
+        #     {"level": 40, "name": "Viking", "power": "130M"},
+        #     {"level": 41, "name": "Viking", "power": "130M"},
+        #     {"level": 42, "name": "Viking", "power": "130M"},
+        #     {"level": 43, "name": "Viking", "power": "130M"},
+        #     {"level": 44, "name": "Viking", "power": "130M"},
+        #     {"level": 45, "name": "Viking", "power": "130M"},
+        #     {"level": 46, "name": "Viking", "power": "130M"},
+        #     {"level": 47, "name": "Viking", "power": "130M"},
+        #     {"level": 48, "name": "Viking", "power": "130M"},
+        #     {"level": 49, "name": "Viking", "power": "130M"},
+        #     {"level": 50, "name": "Viking", "power": "130M"},
+        #
+        #
+        # ]
+        #
+        # for level_data in levels_data:
+        #     new_monster_level = MonsterLevel(
+        #         boss_monster_id=new_boss_monster.id,
+        #         level=level_data["level"],
+        #         name=level_data["name"],
+        #         power=level_data["power"]
+        #     )
+        #     session.add(new_monster_level)
+        #
+        # # Step 5: Commit the transaction
+        # session.commit()
+        #
+        # # Step 6: Close the session
+        # session.close()
 
     def init_adb(self):
 
