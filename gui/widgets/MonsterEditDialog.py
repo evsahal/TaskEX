@@ -80,6 +80,28 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.scroll_layout.setSpacing(5)
         self.scroll_layout.setAlignment(Qt.AlignTop)  # Ensure alignment to the top
 
+    def add_new_level_with_pre_data(self):
+        boss_name = ''
+        logic = self.logic_combo_box.currentText()
+
+        # Check if there are existing levels and find the highest level
+        # for row in self.level_rows:
+        #     level_no = row[1].text()
+        #     name = row[2].text()
+        #     power = row[3].text()
+        if self.level_rows:
+            # Extract the levels from level_rows and find the maximum
+            current_level = [level[1].text() for level in self.level_rows]
+            next_level = int(max(current_level)) + 1  # Increment the highest level by 1
+        else:
+            next_level = 1  # If no levels exist, start from level 1
+
+        if logic == 'Multi-Level Boss' or logic == 'Custom-Level Boss':
+            boss_name = [level[2].text() for level in self.level_rows][0]
+
+        self.add_new_level(str(next_level),boss_name)
+
+
     def add_new_level(self, level_number='', name='', power=''):
         """Add a new row for level input with delete icon."""
         row_layout = QHBoxLayout()
@@ -125,7 +147,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
     def handle_add_new_level(self):
         """Handle the action of adding a new level from the separate button."""
-        self.add_new_level()  # Simply call add_new_level() when add button is clicked
+
+        if self.smart_mode_check_box.isChecked():
+            self.add_new_level_with_pre_data()
+        else:
+            # Simply call add_new_level() when add button is clicked
+            self.add_new_level()
 
     def delete_row(self, row_layout):
         """Remove a row from the scroll area."""
