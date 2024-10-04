@@ -85,7 +85,6 @@ def add_monster_to_frame(main_window,boss):
     flow_layout.addWidget(widget)
 
 def configure_monster(main_window,boss_id):
-    print(f"ID : {boss_id}")
     # Create an instance of the MonsterEditDialog and show it
     dialog = MonsterEditDialog(monster_id=boss_id, parent=main_window)
     # Open the dialog and wait for a response (blocking call)

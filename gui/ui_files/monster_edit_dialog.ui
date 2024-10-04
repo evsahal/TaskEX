@@ -630,7 +630,7 @@ Finally, configure the click position by clicking the button next to the click p
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="select_template_btn">
+                   <widget class="QPushButton" name="map_template_btn">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -638,7 +638,7 @@ Finally, configure the click position by clicking the button next to the click p
                      </size>
                     </property>
                     <property name="text">
-                     <string>Select Template</string>
+                     <string>Map Template</string>
                     </property>
                    </widget>
                   </item>

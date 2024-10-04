@@ -301,11 +301,11 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.horizontalLayout_8.addWidget(self.choose_emulator_check_box)
 
-        self.select_template_btn = QPushButton(self.frame_5)
-        self.select_template_btn.setObjectName(u"select_template_btn")
-        self.select_template_btn.setMinimumSize(QSize(0, 40))
+        self.map_template_btn = QPushButton(self.frame_5)
+        self.map_template_btn.setObjectName(u"map_template_btn")
+        self.map_template_btn.setMinimumSize(QSize(0, 40))
 
-        self.horizontalLayout_8.addWidget(self.select_template_btn)
+        self.horizontalLayout_8.addWidget(self.map_template_btn)
 
 
         self.verticalLayout_2.addWidget(self.frame_5)
@@ -447,7 +447,7 @@ class Ui_Monster_Edit_Dialog(object):
 "Finally, configure the click position by clicking the button next to the click position field. Thi"
                         "s operation simulates a click to test whether it lands directly on the boss or if any adjustment is needed. By fine-tuning the click position, you can ensure the bot accurately targets the in-game boss for interactions.", None))
         self.choose_emulator_check_box.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Choose Emulator", None))
-        self.select_template_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Select Template", None))
+        self.map_template_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Map Template", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Level Info", None))
         self.add_level_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Add Level", None))
         self.smart_mode_check_box.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Smart Mode", None))
