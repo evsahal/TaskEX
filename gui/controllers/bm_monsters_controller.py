@@ -1,9 +1,10 @@
-from PySide6.QtWidgets import QFrame, QCheckBox
+from PySide6.QtWidgets import QFrame, QCheckBox, QDialog
 from sqlalchemy import asc
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
+from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 
 
@@ -76,11 +77,24 @@ def add_monster_to_frame(main_window,boss):
     widget = MonsterProfileWidget(flow_layout=flow_layout, data=boss)
     setattr(main_window.widgets, widget.objectName(), widget)
 
+    # Setup Configure/Edit Monster
+    widget.ui.configure_monster_btn.clicked.connect(lambda :configure_monster(main_window,widget.ui.checkBox.property("boss_id")))
+
     # Set the size of the widget to its size hint
     widget.setFixedSize(widget.sizeHint())
     flow_layout.addWidget(widget)
 
-
+def configure_monster(main_window,boss_id):
+    print(f"ID : {boss_id}")
+    # Create an instance of the MonsterEditDialog and show it
+    dialog = MonsterEditDialog(monster_id=boss_id, parent=main_window)
+    # Open the dialog and wait for a response (blocking call)
+    if dialog.exec() == QDialog.Accepted:
+        # Handle successful save
+        print("Monster configuration saved!")
+    else:
+        # Handle cancel or rejection
+        print("Monster configuration canceled!")
 
 def toggle_frame(main_window):
     # Get monsters_list_frame and export_monsters_btn references
@@ -113,6 +127,7 @@ def confirm_export_monsters(main_window):
 
     # check if the checkbox contains any value or not
     if len(checked_monsters) == 0:
+        # TODO
         print("Show error message saying to select some options")
         return False
 

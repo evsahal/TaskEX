@@ -1,6 +1,7 @@
 import os
 
-from PySide6.QtGui import QPixmap
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPixmap, QCursor
 from PySide6.QtWidgets import QWidget
 
 from config.settings import BASE_DIR
@@ -21,7 +22,7 @@ class MonsterProfileWidget(QWidget):
         self.setObjectName(f"monster_profile_{self.data.id}")
         self.preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
 
-        # Setup General Preview
+        # Setup Monster Preview
         monster_preview = os.path.join(str(self.preview_path), self.data.monster_image.preview_image)
         if not os.path.isfile(monster_preview):
             monster_preview = os.path.join(str(self.preview_path), "default_preview.png")
@@ -31,13 +32,14 @@ class MonsterProfileWidget(QWidget):
         pixmap = pixmap.scaledToHeight(92)
         self.ui.monster_icon_label.setPixmap(pixmap)
 
-        # Setup General LineEdit
+        # Setup Monster Label
         self.ui.monster_name_label.setText(self.data.preview_name)
-        self.ui.monster_name_label.setObjectName(f"edit_monster_") # add index here
         # setattr(main_window.widgets, play_button.objectName(), play_button)
 
-        # Setup General Delete
-        self.ui.delete_monster_btn.setObjectName(f"delete_monster_") # add index here and connect to slot
+
+        # Setup Monster Delete
+        if self.data.system:
+            self.ui.delete_monster_btn.setEnabled(False)
         self.ui.delete_monster_btn.clicked.connect(self.delete_monster_profile)
 
         # Checkbox
@@ -50,7 +52,7 @@ class MonsterProfileWidget(QWidget):
         Remove the current monster profile widget from the layout and the UI.
         """
         if show_confirmation_dialog(self, "confirm", f"Are you sure you want to remove {self.ui.monster_name_label.text()}?"):
-
+            # TODO Connect to db and remove
             if self.flow_layout:
                 self.flow_layout.removeWidget(self)
                 self.deleteLater()

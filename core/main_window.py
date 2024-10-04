@@ -133,11 +133,6 @@ class MainWindow(QMainWindow):
         self.scan_general_console.connect(lambda message: update_scan_console(self,message))
 
 
-        # SET HOME PAGE AND SELECT MENU
-        # ///////////////////////////////////////////////////////////////
-        self.widgets.stackedWidget.setCurrentWidget(self.widgets.home)
-        self.widgets.btn_home.setStyleSheet(UIFunctions.selectMenu(self.widgets.btn_home.styleSheet()))
-
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
