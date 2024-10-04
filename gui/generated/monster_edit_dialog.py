@@ -131,6 +131,7 @@ class Ui_Monster_Edit_Dialog(object):
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.p540_image_line_edit = QLineEdit(self.frame_10)
         self.p540_image_line_edit.setObjectName(u"p540_image_line_edit")
+        self.p540_image_line_edit.setEnabled(False)
         self.p540_image_line_edit.setMinimumSize(QSize(0, 40))
 
         self.gridLayout_2.addWidget(self.p540_image_line_edit, 1, 0, 1, 1)
@@ -167,6 +168,7 @@ class Ui_Monster_Edit_Dialog(object):
         self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.click_x_spin_box = QSpinBox(self.frame_13)
         self.click_x_spin_box.setObjectName(u"click_x_spin_box")
+        self.click_x_spin_box.setEnabled(False)
         self.click_x_spin_box.setMinimumSize(QSize(100, 40))
         self.click_x_spin_box.setMaximumSize(QSize(16777215, 16777215))
         self.click_x_spin_box.setMinimum(-50)
@@ -176,6 +178,7 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.click_y_spin_box = QSpinBox(self.frame_13)
         self.click_y_spin_box.setObjectName(u"click_y_spin_box")
+        self.click_y_spin_box.setEnabled(False)
         self.click_y_spin_box.setMinimumSize(QSize(100, 40))
         self.click_y_spin_box.setMaximumSize(QSize(16777215, 16777215))
         self.click_y_spin_box.setMinimum(-50)
@@ -185,6 +188,7 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.simulate_click_btn = QPushButton(self.frame_13)
         self.simulate_click_btn.setObjectName(u"simulate_click_btn")
+        self.simulate_click_btn.setEnabled(False)
         self.simulate_click_btn.setMinimumSize(QSize(40, 40))
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaRecord))
         self.simulate_click_btn.setIcon(icon)
@@ -202,6 +206,7 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.find_threshold_btn = QPushButton(self.frame_10)
         self.find_threshold_btn.setObjectName(u"find_threshold_btn")
+        self.find_threshold_btn.setEnabled(False)
         self.find_threshold_btn.setMinimumSize(QSize(40, 40))
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.SystemSearch))
         self.find_threshold_btn.setIcon(icon1)
@@ -216,6 +221,7 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.threshod_spin_box = QDoubleSpinBox(self.frame_10)
         self.threshod_spin_box.setObjectName(u"threshod_spin_box")
+        self.threshod_spin_box.setEnabled(False)
         self.threshod_spin_box.setMinimumSize(QSize(0, 40))
         self.threshod_spin_box.setMinimum(0.500000000000000)
         self.threshod_spin_box.setMaximum(0.990000000000000)
@@ -226,6 +232,7 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.browse_540p_btn = QPushButton(self.frame_10)
         self.browse_540p_btn.setObjectName(u"browse_540p_btn")
+        self.browse_540p_btn.setEnabled(False)
         self.browse_540p_btn.setMinimumSize(QSize(40, 40))
         icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.FolderOpen))
         self.browse_540p_btn.setIcon(icon2)
@@ -295,14 +302,16 @@ class Ui_Monster_Edit_Dialog(object):
         self.horizontalLayout_8 = QHBoxLayout(self.frame_5)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_8.setContentsMargins(11, 0, 11, 11)
-        self.choose_emulator_check_box = QComboBox(self.frame_5)
-        self.choose_emulator_check_box.setObjectName(u"choose_emulator_check_box")
-        self.choose_emulator_check_box.setMinimumSize(QSize(0, 40))
+        self.choose_emulator_combo_box = QComboBox(self.frame_5)
+        self.choose_emulator_combo_box.setObjectName(u"choose_emulator_combo_box")
+        self.choose_emulator_combo_box.setEnabled(False)
+        self.choose_emulator_combo_box.setMinimumSize(QSize(0, 40))
 
-        self.horizontalLayout_8.addWidget(self.choose_emulator_check_box)
+        self.horizontalLayout_8.addWidget(self.choose_emulator_combo_box)
 
         self.map_template_btn = QPushButton(self.frame_5)
         self.map_template_btn.setObjectName(u"map_template_btn")
+        self.map_template_btn.setEnabled(False)
         self.map_template_btn.setMinimumSize(QSize(0, 40))
 
         self.horizontalLayout_8.addWidget(self.map_template_btn)
@@ -446,7 +455,7 @@ class Ui_Monster_Edit_Dialog(object):
 "\n"
 "Finally, configure the click position by clicking the button next to the click position field. Thi"
                         "s operation simulates a click to test whether it lands directly on the boss or if any adjustment is needed. By fine-tuning the click position, you can ensure the bot accurately targets the in-game boss for interactions.", None))
-        self.choose_emulator_check_box.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Choose Emulator", None))
+        self.choose_emulator_combo_box.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Choose Emulator", None))
         self.map_template_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Map Template", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Level Info", None))
         self.add_level_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Add Level", None))

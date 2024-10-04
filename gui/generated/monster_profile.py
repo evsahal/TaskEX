@@ -164,6 +164,7 @@ class Ui_Monster_Profile(object):
         self.configure_monster_btn.setMaximumSize(QSize(16777215, 16777215))
         self.configure_monster_btn.setStyleSheet(u"border: none;")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
+        # icon = QIcon.fromTheme("media-playback-start")
         self.configure_monster_btn.setIcon(icon)
 
         self.verticalLayout_2.addWidget(self.configure_monster_btn)
@@ -174,6 +175,7 @@ class Ui_Monster_Profile(object):
         self.delete_monster_btn.setMaximumSize(QSize(45, 45))
         self.delete_monster_btn.setStyleSheet(u"border: none;")
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        # icon1 = QIcon.fromTheme("media-playback-start")
         self.delete_monster_btn.setIcon(icon1)
 
         self.verticalLayout_2.addWidget(self.delete_monster_btn)

@@ -546,6 +546,7 @@ class Ui_InstancePage(object):
         self.run_btn_.setMinimumSize(QSize(45, 45))
         self.run_btn_.setStyleSheet(u"background:transparent;")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaPlaybackStart))
+        # icon = QIcon.fromTheme("media-playback-start")
         self.run_btn_.setIcon(icon)
 
         self.horizontalLayout_8.addWidget(self.run_btn_)
@@ -619,6 +620,7 @@ class Ui_InstancePage(object):
         self.preset_save_btn_.setMaximumSize(QSize(45, 45))
         self.preset_save_btn_.setStyleSheet(u"background:transparent;")
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
+        # icon1 = QIcon.fromTheme("media-playback-start")
         self.preset_save_btn_.setIcon(icon1)
 
         self.horizontalLayout_7.addWidget(self.preset_save_btn_)
@@ -629,6 +631,7 @@ class Ui_InstancePage(object):
         self.preset_delete_btn_.setMaximumSize(QSize(45, 45))
         self.preset_delete_btn_.setStyleSheet(u"background:transparent;")
         icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        # icon2 = QIcon.fromTheme("media-playback-start")
         self.preset_delete_btn_.setIcon(icon2)
 
         self.horizontalLayout_7.addWidget(self.preset_delete_btn_)
@@ -639,6 +642,7 @@ class Ui_InstancePage(object):
         self.preset_add_btn_.setMaximumSize(QSize(45, 45))
         self.preset_add_btn_.setStyleSheet(u"background:transparent;")
         icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
+        # icon3 = QIcon.fromTheme("media-playback-start")
         self.preset_add_btn_.setIcon(icon3)
 
         self.horizontalLayout_7.addWidget(self.preset_add_btn_)
@@ -877,6 +881,7 @@ class Ui_InstancePage(object):
         self.pushButton_7.setMinimumSize(QSize(45, 45))
         self.pushButton_7.setMaximumSize(QSize(45, 45))
         icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
+        # icon4 = QIcon.fromTheme("media-playback-start")
         self.pushButton_7.setIcon(icon4)
 
         self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
@@ -898,6 +903,7 @@ class Ui_InstancePage(object):
         self.pushButton_8.setObjectName(u"pushButton_8")
         self.pushButton_8.setMinimumSize(QSize(45, 45))
         icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
+        # icon5 = QIcon.fromTheme("media-playback-start")
         self.pushButton_8.setIcon(icon5)
 
         self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)

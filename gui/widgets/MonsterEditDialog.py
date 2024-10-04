@@ -1,3 +1,5 @@
+from math import trunc
+
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea
 from PySide6.QtGui import QIcon
@@ -23,6 +25,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.save_changes_btn.clicked.connect(self.save_monster_config)
         self.cancel_btn.clicked.connect(self.cancel_dialog)
         self.add_level_btn.clicked.connect(self.handle_add_new_level)
+        self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
+        self.map_scan_checkbox.stateChanged.connect(lambda state: print(f"State changed: {state}"))
+
 
         # Load initial data
         session = get_session()
@@ -172,7 +177,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             self.add_new_level(level.level, level.name, level.power)
 
 
-
     def get_monster_data(self,session, boss_monster_id):
         """Fetch all related data for a given boss_monster_id and return as ORM objects."""
 
@@ -184,6 +188,23 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         ).filter(BossMonster.id == boss_monster_id).first()
 
         return monster  # Return the ORM object directly
+
+    def toggle_map_scan_fields(self, state):
+        """Enable or disable fields based on the map scan checkbox state."""
+        # When checked, enable fields; when unchecked, disable them.
+        # is_checked = state != Qt.Checked  # True if checked, False if unchecked
+        toggle = False if state == 0 else True
+        # print(toggle)
+        # Enable or disable the related fields based on the checkbox state
+        self.p540_image_line_edit.setEnabled(toggle)
+        self.browse_540p_btn.setEnabled(toggle)
+        self.threshod_spin_box.setEnabled(toggle)
+        self.find_threshold_btn.setEnabled(toggle)
+        self.click_x_spin_box.setEnabled(toggle)
+        self.click_y_spin_box.setEnabled(toggle)
+        self.simulate_click_btn.setEnabled(toggle)
+        self.choose_emulator_combo_box.setEnabled(toggle)
+        self.map_template_btn.setEnabled(toggle)
 
     def save_monster_config(self):
         """Save the current configuration of the monster."""
