@@ -1,7 +1,8 @@
 from math import trunc
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea
+from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
+    QFileDialog
 from PySide6.QtGui import QIcon
 from requests import session
 from sqlalchemy.orm import joinedload
@@ -9,6 +10,8 @@ from sqlalchemy.orm import joinedload
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog  # Assuming your generated dialog is named this
+from utils.helper_utils import image_chooser
+
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def __init__(self, monster_id=None, parent=None):
@@ -25,8 +28,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.save_changes_btn.clicked.connect(self.save_monster_config)
         self.cancel_btn.clicked.connect(self.cancel_dialog)
         self.add_level_btn.clicked.connect(self.handle_add_new_level)
+        self.browse_preview_btn.clicked.connect(lambda :image_chooser(self.browse_preview_btn,self.preview_image_line_edit))
+        self.browse_540p_btn.clicked.connect(lambda :image_chooser(self.browse_540p_btn,self.p540_image_line_edit))
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
-        self.map_scan_checkbox.stateChanged.connect(lambda state: print(f"State changed: {state}"))
+
+
+        # Setup file picker for uploading image
 
 
         # Load initial data
@@ -49,6 +56,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Load monster data if editing an existing one
         if self.monster_id is not None:
             self.load_monster_data()
+
+
+
 
     def init_level_scroll_area(self):
         """Initialize the scroll area where levels will be dynamically added."""
