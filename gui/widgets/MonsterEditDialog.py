@@ -2,7 +2,7 @@ from math import trunc
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
-    QFileDialog
+    QFileDialog, QMessageBox
 from PySide6.QtGui import QIcon
 from requests import session
 from sqlalchemy.orm import joinedload
@@ -32,11 +32,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.browse_540p_btn.clicked.connect(lambda :image_chooser(self.browse_540p_btn,self.p540_image_line_edit))
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
 
-
-        # Setup file picker for uploading image
+        # Logic Combo Box change event to handle switching between logics
+        self.logic_combo_box.currentTextChanged.connect(self.handle_logic_change)
 
 
         # Load initial data
+        self.previous_logic = None
         session = get_session()
         categories = session.query(MonsterCategory).all()
         logics = session.query(MonsterLogic).all()
@@ -57,8 +58,47 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         if self.monster_id is not None:
             self.load_monster_data()
 
+    def handle_logic_change(self):
+        """Handle changes in logic combo box."""
+        current_logic = self.logic_combo_box.currentText()
 
+        # Check if the current selection is "Single Level Boss" and if there are multiple levels
+        if current_logic == 'Single-Level Boss' and len(self.level_rows) > 1:
+            reply = QMessageBox.question(self, "Change to Single Level Boss",
+                                         "There are more than 1 level. Switching to Single Level Boss Logic will remove additional levels. Do you want to proceed?",
+                                         QMessageBox.Yes | QMessageBox.No)
 
+            if reply == QMessageBox.Yes:
+                # Clear extra levels and continue
+                self.clear_extra_levels()
+            else:
+                # Revert to the previous logic
+                self.logic_combo_box.blockSignals(True)  # Temporarily block signals to avoid recursive calls
+                self.logic_combo_box.setCurrentText(self.previous_logic)
+                self.logic_combo_box.blockSignals(False)
+                return  # Don't proceed further
+
+        # Update the previous logic after handling the change
+        self.previous_logic = current_logic
+
+    def clear_extra_levels(self):
+        """Clear all but the first level."""
+        while len(self.level_rows) > 1:
+            row_layout, *_ = self.level_rows.pop()
+            self.delete_row(row_layout)  # Delete the extra rows
+
+    def handle_add_new_level(self):
+        """Handle adding a new level."""
+        if self.logic_combo_box.currentText() == 'Single-Level Boss' and len(self.level_rows) >= 1:
+            QMessageBox.warning(self, "Level Limit Reached",
+                                "You cannot add more levels when the logic is 'Single Level Boss'.")
+            return
+
+        # Proceed to add a level
+        if self.smart_mode_check_box.isChecked():
+            self.add_new_level_with_pre_data()
+        else:
+            self.add_new_level()
 
     def init_level_scroll_area(self):
         """Initialize the scroll area where levels will be dynamically added."""
@@ -100,7 +140,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             boss_name = [level[2].text() for level in self.level_rows][0]
 
         self.add_new_level(str(next_level),boss_name)
-
 
     def add_new_level(self, level_number='', name='', power=''):
         """Add a new row for level input with delete icon."""
@@ -144,15 +183,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Store the row for tracking and access later
         self.level_rows.append((row_layout, level_input, name_input, power_input, delete_button))
-
-    def handle_add_new_level(self):
-        """Handle the action of adding a new level from the separate button."""
-
-        if self.smart_mode_check_box.isChecked():
-            self.add_new_level_with_pre_data()
-        else:
-            # Simply call add_new_level() when add button is clicked
-            self.add_new_level()
 
     def delete_row(self, row_layout):
         """Remove a row from the scroll area."""
@@ -212,7 +242,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         for level in monster_data.levels:
             # print(f"Level {level.level}: {level.name}, Power: {level.power}")
             self.add_new_level(level.level, level.name, level.power)
-
 
     def get_monster_data(self,session, boss_monster_id):
         """Fetch all related data for a given boss_monster_id and return as ORM objects."""
