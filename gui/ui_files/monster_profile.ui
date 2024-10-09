@@ -254,8 +254,7 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(29, 33, 38);
-border-bottom: 2px dashed red;</string>
+         <string notr="true">background-color: rgb(29, 33, 38);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::Shape::NoFrame</enum>

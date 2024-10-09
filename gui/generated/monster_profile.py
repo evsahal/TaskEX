@@ -121,8 +121,7 @@ class Ui_Monster_Profile(object):
         self.bottom_color_frame.setObjectName(u"bottom_color_frame")
         self.bottom_color_frame.setMinimumSize(QSize(200, 30))
         self.bottom_color_frame.setMaximumSize(QSize(16777215, 30))
-        self.bottom_color_frame.setStyleSheet(u"background-color: rgb(29, 33, 38);\n"
-"border-bottom: 2px dashed red;")
+        self.bottom_color_frame.setStyleSheet(u"background-color: rgb(29, 33, 38);")
         self.bottom_color_frame.setFrameShape(QFrame.Shape.NoFrame)
         self.bottom_color_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.bottom_color_frame)

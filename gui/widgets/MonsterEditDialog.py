@@ -1,6 +1,6 @@
 from math import trunc
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
     QFileDialog, QMessageBox
 from PySide6.QtGui import QIcon
@@ -9,11 +9,12 @@ from sqlalchemy.orm import joinedload
 
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel
-from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog  # Assuming your generated dialog is named this
+from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
 from utils.helper_utils import image_chooser
 
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
+    monster_updated = Signal(int)
     def __init__(self, monster_id=None, parent=None):
         super(MonsterEditDialog, self).__init__(parent)
         self.setupUi(self)
@@ -283,11 +284,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         else:
             monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
 
-        # Print monster
-        for key, value in monster.__dict__.items():
-            if not key.startswith('_'):  # Skip SQLAlchemy internal attributes
-                print(f"{key}: {value}")
-
         # Save basic monster info
         monster.preview_name = self.preview_name_line_edit.text()
         monster.monster_category_id = self.category_combo_box.currentData()
@@ -311,6 +307,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             session.add(monster)
             session.commit()
             QMessageBox.information(self, "Save Successful", "Monster configuration has been saved successfully!")
+            self.monster_updated.emit(self.monster_id)
         except Exception as e:
             session.rollback()
             QMessageBox.critical(self, "Save Error", f"Failed to save monster configuration. Error: {str(e)}")

@@ -59,4 +59,4 @@ def image_chooser(button,line_edit):
         else:
             line_edit.setProperty("file_path", file_name)  # Update the property if it exists
 
-        print(f"File path set: {line_edit.property('file_path')}")  # Debugging line
+        # print(f"File path set: {line_edit.property('file_path')}")  # Debugging line

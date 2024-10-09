@@ -1,11 +1,17 @@
-from PySide6.QtWidgets import QFrame, QCheckBox, QDialog
+import os
+
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QFrame, QCheckBox, QDialog, QWidget
+from requests import session
 from sqlalchemy import asc
 
+from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
+from utils.constants_util import logic_colors
 
 
 def init_bm_monster_ui(main_window):
@@ -87,13 +93,56 @@ def add_monster_to_frame(main_window,boss):
 def configure_monster(main_window,boss_id):
     # Create an instance of the MonsterEditDialog and show it
     dialog = MonsterEditDialog(monster_id=boss_id, parent=main_window)
+    # Connect the signal to the update function
+    dialog.monster_updated.connect(lambda updated_id: update_monster_profile_ui(main_window, updated_id))
     # Open the dialog and wait for a response (blocking call)
     if dialog.exec() == QDialog.Accepted:
         # Handle successful save
-        print("Monster configuration saved!")
+        # print("Monster configuration saved!")
+        pass
     else:
         # Handle cancel or rejection
-        print("Monster configuration canceled!")
+        # print("Monster configuration canceled!")
+        pass
+
+
+def update_monster_profile_ui(main_window, boss_id):
+    """Update the monster profile UI for the given monster ID."""
+    # Access the monster profile widget by ID
+    monster_profile_widget = main_window.findChild(QWidget, f"monster_profile_{boss_id}")
+
+    if monster_profile_widget:
+        session = get_session()
+        # Fetch updated monster data (e.g., from the database or dialog)
+        updated_monster = session.query(BossMonster).filter(BossMonster.id == boss_id).one()
+
+        # Update the UI with the new data
+
+        preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+
+        # Setup Monster Preview
+        monster_profile_widget.ui.monster_name_label.setText(updated_monster.preview_name)
+        monster_preview = os.path.join(str(preview_path), updated_monster.monster_image.preview_image)
+        if not os.path.isfile(monster_preview):
+            monster_preview = os.path.join(str(preview_path), "default_preview.png")
+        pixmap = QPixmap(monster_preview)
+        # half_height = int(pixmap.height() / 2)
+        # print(half_height) #92
+        pixmap = pixmap.scaledToHeight(92)
+        monster_profile_widget.ui.monster_icon_label.setPixmap(pixmap)
+
+        # Update the frame
+        # Get the corresponding color for the logic ID
+        logic_color = logic_colors.get(updated_monster.monster_logic_id, '#000000')  # Default to black if not found
+
+        # Setup the Monster Bottom Frame Color
+        monster_profile_widget.ui.bottom_color_frame.setStyleSheet(f"""
+                    background-color: rgb(29, 33, 38);
+                    border-bottom: 2px dashed {logic_color};
+                """)
+
+        session.close()
+
 
 def toggle_frame(main_window):
     # Get monsters_list_frame and export_monsters_btn references
