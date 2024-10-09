@@ -1,3 +1,5 @@
+import os
+import shutil
 from math import trunc
 
 from PySide6.QtCore import Qt, Signal
@@ -7,10 +9,11 @@ from PySide6.QtGui import QIcon
 from requests import session
 from sqlalchemy.orm import joinedload
 
+from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
-from utils.helper_utils import image_chooser
+from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_to_template
 
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
@@ -307,6 +310,19 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             session.add(monster)
             session.commit()
             QMessageBox.information(self, "Save Successful", "Monster configuration has been saved successfully!")
+
+            # When preview image file_path attrb contains value, move it to the preview folder
+            file_path = self.preview_image_line_edit.property('file_path')
+            # Check if it contains the path
+            if file_path:
+                copy_image_to_preview(file_path,self.preview_image_line_edit.text())
+
+            # When template image file_path attrb contains value, move it to the respective folder
+            file_path = self.p540_image_line_edit.property('file_path')
+            if file_path:
+                copy_image_to_template(file_path,self.p540_image_line_edit.text())
+
+            # Emit signal to update the monster profile
             self.monster_updated.emit(self.monster_id)
         except Exception as e:
             session.rollback()

@@ -1,7 +1,10 @@
 import os
 import re
+import shutil
 
 from PySide6.QtWidgets import QFileDialog
+
+from config.settings import BASE_DIR
 
 
 def extract_number_from_string(string: str) -> int:
@@ -60,3 +63,30 @@ def image_chooser(button,line_edit):
             line_edit.setProperty("file_path", file_name)  # Update the property if it exists
 
         # print(f"File path set: {line_edit.property('file_path')}")  # Debugging line
+
+def copy_image_to_preview(file,file_name):
+    if os.path.exists(file):
+        # Get the preview folder path
+        preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+
+        # Define the new destination path for the file
+        destination_path = os.path.join(preview_path, file_name)
+        try:
+            # Copy the file to the new destination
+            shutil.copy(file, destination_path)
+        except Exception as e:
+            print(f"Error copying file: {e}")
+
+def copy_image_to_template(file, file_name):
+    if os.path.exists(file):
+        # Get the template folder path
+        template_path = os.path.join(BASE_DIR, 'assets', '540p', 'monsters')
+
+        # Define the new destination path for the file
+        destination_path = os.path.join(template_path, file_name)
+        try:
+            # Copy the file to the new destination
+            shutil.copy(file, destination_path)
+        except Exception as e:
+            print(f"Error copying file: {e}")
+
