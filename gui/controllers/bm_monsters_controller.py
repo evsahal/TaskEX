@@ -66,7 +66,7 @@ def init_bm_monster_ui(main_window):
 
     # Pass the data to add the widgets
     for boss in boss_monsters:
-        # print(boss.monster_image.preview_image)
+        # print(boss.monster_logic_id)
         add_monster_to_frame(main_window,boss)
 
     session.close()

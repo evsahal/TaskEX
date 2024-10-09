@@ -129,12 +129,13 @@ class Ui_Monster_Edit_Dialog(object):
         self.gridLayout_2 = QGridLayout(self.frame_10)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.p540_image_line_edit = QLineEdit(self.frame_10)
-        self.p540_image_line_edit.setObjectName(u"p540_image_line_edit")
-        self.p540_image_line_edit.setEnabled(False)
-        self.p540_image_line_edit.setMinimumSize(QSize(0, 40))
+        self.browse_preview_btn = QPushButton(self.frame_10)
+        self.browse_preview_btn.setObjectName(u"browse_preview_btn")
+        self.browse_preview_btn.setMinimumSize(QSize(40, 40))
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.FolderOpen))
+        self.browse_preview_btn.setIcon(icon)
 
-        self.gridLayout_2.addWidget(self.p540_image_line_edit, 1, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.browse_preview_btn, 0, 4, 1, 1)
 
         self.frame_11 = QFrame(self.frame_10)
         self.frame_11.setObjectName(u"frame_11")
@@ -144,21 +145,6 @@ class Ui_Monster_Edit_Dialog(object):
         self.verticalLayout_7.setSpacing(0)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
-        self.frame_12 = QFrame(self.frame_11)
-        self.frame_12.setObjectName(u"frame_12")
-        self.frame_12.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_5 = QHBoxLayout(self.frame_12)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(5, 3, 0, 2)
-        self.label_3 = QLabel(self.frame_12)
-        self.label_3.setObjectName(u"label_3")
-
-        self.horizontalLayout_5.addWidget(self.label_3)
-
-
-        self.verticalLayout_7.addWidget(self.frame_12)
-
         self.frame_13 = QFrame(self.frame_11)
         self.frame_13.setObjectName(u"frame_13")
         self.frame_13.setFrameShape(QFrame.Shape.NoFrame)
@@ -190,8 +176,8 @@ class Ui_Monster_Edit_Dialog(object):
         self.simulate_click_btn.setObjectName(u"simulate_click_btn")
         self.simulate_click_btn.setEnabled(False)
         self.simulate_click_btn.setMinimumSize(QSize(40, 40))
-        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaRecord))
-        self.simulate_click_btn.setIcon(icon)
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MediaRecord))
+        self.simulate_click_btn.setIcon(icon1)
 
         self.horizontalLayout_4.addWidget(self.simulate_click_btn)
 
@@ -202,49 +188,48 @@ class Ui_Monster_Edit_Dialog(object):
         self.verticalLayout_7.addWidget(self.frame_13)
 
 
-        self.gridLayout_2.addWidget(self.frame_11, 5, 0, 1, 2)
-
-        self.find_threshold_btn = QPushButton(self.frame_10)
-        self.find_threshold_btn.setObjectName(u"find_threshold_btn")
-        self.find_threshold_btn.setEnabled(False)
-        self.find_threshold_btn.setMinimumSize(QSize(40, 40))
-        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.SystemSearch))
-        self.find_threshold_btn.setIcon(icon1)
-
-        self.gridLayout_2.addWidget(self.find_threshold_btn, 3, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.frame_11, 5, 0, 1, 5)
 
         self.preview_image_line_edit = QLineEdit(self.frame_10)
         self.preview_image_line_edit.setObjectName(u"preview_image_line_edit")
         self.preview_image_line_edit.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_2.addWidget(self.preview_image_line_edit, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.preview_image_line_edit, 0, 0, 1, 4)
 
-        self.threshod_spin_box = QDoubleSpinBox(self.frame_10)
-        self.threshod_spin_box.setObjectName(u"threshod_spin_box")
-        self.threshod_spin_box.setEnabled(False)
-        self.threshod_spin_box.setMinimumSize(QSize(0, 40))
-        self.threshod_spin_box.setMinimum(0.500000000000000)
-        self.threshod_spin_box.setMaximum(0.990000000000000)
-        self.threshod_spin_box.setSingleStep(0.010000000000000)
-        self.threshod_spin_box.setValue(0.800000000000000)
+        self.find_template_btn = QPushButton(self.frame_10)
+        self.find_template_btn.setObjectName(u"find_template_btn")
+        self.find_template_btn.setEnabled(False)
+        self.find_template_btn.setMinimumSize(QSize(40, 40))
+        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.SystemSearch))
+        self.find_template_btn.setIcon(icon2)
 
-        self.gridLayout_2.addWidget(self.threshod_spin_box, 3, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.find_template_btn, 1, 4, 1, 1)
 
         self.browse_540p_btn = QPushButton(self.frame_10)
         self.browse_540p_btn.setObjectName(u"browse_540p_btn")
         self.browse_540p_btn.setEnabled(False)
         self.browse_540p_btn.setMinimumSize(QSize(40, 40))
-        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.FolderOpen))
-        self.browse_540p_btn.setIcon(icon2)
+        self.browse_540p_btn.setIcon(icon)
 
-        self.gridLayout_2.addWidget(self.browse_540p_btn, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.browse_540p_btn, 1, 3, 1, 1)
 
-        self.browse_preview_btn = QPushButton(self.frame_10)
-        self.browse_preview_btn.setObjectName(u"browse_preview_btn")
-        self.browse_preview_btn.setMinimumSize(QSize(40, 40))
-        self.browse_preview_btn.setIcon(icon2)
+        self.p540_image_line_edit = QLineEdit(self.frame_10)
+        self.p540_image_line_edit.setObjectName(u"p540_image_line_edit")
+        self.p540_image_line_edit.setEnabled(False)
+        self.p540_image_line_edit.setMinimumSize(QSize(0, 40))
 
-        self.gridLayout_2.addWidget(self.browse_preview_btn, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.p540_image_line_edit, 1, 0, 1, 3)
+
+        self.threshold_spin_box = QDoubleSpinBox(self.frame_10)
+        self.threshold_spin_box.setObjectName(u"threshold_spin_box")
+        self.threshold_spin_box.setEnabled(False)
+        self.threshold_spin_box.setMinimumSize(QSize(0, 40))
+        self.threshold_spin_box.setMinimum(0.500000000000000)
+        self.threshold_spin_box.setMaximum(0.990000000000000)
+        self.threshold_spin_box.setSingleStep(0.010000000000000)
+        self.threshold_spin_box.setValue(0.800000000000000)
+
+        self.gridLayout_2.addWidget(self.threshold_spin_box, 3, 0, 1, 3)
 
 
         self.horizontalLayout_6.addWidget(self.frame_10)
@@ -437,17 +422,16 @@ class Ui_Monster_Edit_Dialog(object):
         self.preview_name_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Preview Name", None))
         self.map_scan_checkbox.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Map Scan", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Image Info", None))
-        self.p540_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Image 540p", None))
-        self.label_3.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Click Position", None))
-        self.click_x_spin_box.setSuffix("")
-        self.click_x_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"X : ", None))
-        self.click_y_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Y : ", None))
-        self.simulate_click_btn.setText("")
-        self.find_threshold_btn.setText("")
-        self.preview_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Preview Image", None))
-        self.threshod_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Threshold: ", None))
-        self.browse_540p_btn.setText("")
         self.browse_preview_btn.setText("")
+        self.click_x_spin_box.setSuffix("")
+        self.click_x_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Click X : ", None))
+        self.click_y_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Click Y : ", None))
+        self.simulate_click_btn.setText("")
+        self.preview_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Preview Image", None))
+        self.find_template_btn.setText("")
+        self.browse_540p_btn.setText("")
+        self.p540_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Image 540p", None))
+        self.threshold_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Threshold: ", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Configure Test", None))
         self.label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"To configure the test, start by selecting the emulator from the list of pre-configured emulator pages. Choose the appropriate emulator from the dropdown to proceed. Next, you will configure the template matching area. Ensure that a 540p image has already been uploaded in the \"Image Info\" section. Now, click the \"Select Templates\" button to map the specific area of the image that should be used for template matching. This selected area will serve as the region of interest for the bot's matching algorithm. It's important to configure the template area properly.\n"
 "\n"

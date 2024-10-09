@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'monster_profile.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -117,18 +117,19 @@ class Ui_Monster_Profile(object):
 
         self.verticalLayout.addWidget(self.frame_8)
 
-        self.frame_2 = QFrame(self.frame_6)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setMinimumSize(QSize(200, 30))
-        self.frame_2.setMaximumSize(QSize(16777215, 30))
-        self.frame_2.setStyleSheet(u"background-color: rgb(29, 33, 38);")
-        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout = QHBoxLayout(self.frame_2)
+        self.bottom_color_frame = QFrame(self.frame_6)
+        self.bottom_color_frame.setObjectName(u"bottom_color_frame")
+        self.bottom_color_frame.setMinimumSize(QSize(200, 30))
+        self.bottom_color_frame.setMaximumSize(QSize(16777215, 30))
+        self.bottom_color_frame.setStyleSheet(u"background-color: rgb(29, 33, 38);\n"
+"border-bottom: 2px dashed red;")
+        self.bottom_color_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.bottom_color_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout = QHBoxLayout(self.bottom_color_frame)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.monster_name_label = QLabel(self.frame_2)
+        self.monster_name_label = QLabel(self.bottom_color_frame)
         self.monster_name_label.setObjectName(u"monster_name_label")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -143,7 +144,7 @@ class Ui_Monster_Profile(object):
         self.horizontalLayout.addWidget(self.monster_name_label)
 
 
-        self.verticalLayout.addWidget(self.frame_2)
+        self.verticalLayout.addWidget(self.bottom_color_frame)
 
         self.verticalLayout.setStretch(0, 9)
         self.verticalLayout.setStretch(1, 1)
@@ -164,7 +165,6 @@ class Ui_Monster_Profile(object):
         self.configure_monster_btn.setMaximumSize(QSize(16777215, 16777215))
         self.configure_monster_btn.setStyleSheet(u"border: none;")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
-        # icon = QIcon.fromTheme("media-playback-start")
         self.configure_monster_btn.setIcon(icon)
 
         self.verticalLayout_2.addWidget(self.configure_monster_btn)
@@ -175,7 +175,6 @@ class Ui_Monster_Profile(object):
         self.delete_monster_btn.setMaximumSize(QSize(45, 45))
         self.delete_monster_btn.setStyleSheet(u"border: none;")
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
-        # icon1 = QIcon.fromTheme("media-playback-start")
         self.delete_monster_btn.setIcon(icon1)
 
         self.verticalLayout_2.addWidget(self.delete_monster_btn)

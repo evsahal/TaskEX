@@ -36,6 +36,22 @@ class MonsterProfileWidget(QWidget):
         self.ui.monster_name_label.setText(self.data.preview_name)
         # setattr(main_window.widgets, play_button.objectName(), play_button)
 
+        # Define the color mapping
+        logic_colors = {
+            1: '#4CAF50',  # Light Green
+            2: '#2196F3',  # Light Blue
+            3: '#FF9800',  # Orange
+            4: '#9C27B0',  # Light Purple
+        }
+        # print(self.data.monster_logic_id)
+        # Get the corresponding color for the logic ID
+        logic_color = logic_colors.get(self.data.monster_logic_id, '#000000')  # Default to black if not found
+
+        # Setup the Monster Bottom Frame Color
+        self.ui.bottom_color_frame.setStyleSheet(f"""
+            background-color: rgb(29, 33, 38);
+            border-bottom: 2px dashed {logic_color};
+        """)
 
         # Setup Monster Delete
         if self.data.system:

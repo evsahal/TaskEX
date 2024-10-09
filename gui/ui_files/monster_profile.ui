@@ -158,8 +158,7 @@
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">
-</string>
+                  <string notr="true"/>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -241,7 +240,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_2">
+       <widget class="QFrame" name="bottom_color_frame">
         <property name="minimumSize">
          <size>
           <width>200</width>
@@ -255,7 +254,8 @@
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(29, 33, 38);</string>
+         <string notr="true">background-color: rgb(29, 33, 38);
+border-bottom: 2px dashed red;</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::Shape::NoFrame</enum>

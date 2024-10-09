@@ -8,7 +8,7 @@ from requests import session
 from sqlalchemy.orm import joinedload
 
 from db.db_setup import get_session
-from db.models import BossMonster, MonsterCategory, MonsterLogic
+from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog  # Assuming your generated dialog is named this
 from utils.helper_utils import image_chooser
 
@@ -91,7 +91,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         """Handle adding a new level."""
         if self.logic_combo_box.currentText() == 'Single-Level Boss' and len(self.level_rows) >= 1:
             QMessageBox.warning(self, "Level Limit Reached",
-                                "You cannot add more levels when the logic is 'Single Level Boss'.")
+                                "You cannot add more levels when the logic is 'Single-Level Boss'.")
             return
 
         # Proceed to add a level
@@ -229,7 +229,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Access threshold data
         if monster_data.monster_image.img_threshold:
-            self.threshod_spin_box.setValue(monster_data.monster_image.img_threshold)
+            self.threshold_spin_box.setValue(monster_data.monster_image.img_threshold)
 
         # Access click pos data
         if monster_data.monster_image.click_pos:
@@ -246,14 +246,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def get_monster_data(self,session, boss_monster_id):
         """Fetch all related data for a given boss_monster_id and return as ORM objects."""
 
-        monster = session.query(BossMonster).options(
+        return  session.query(BossMonster).options(
             joinedload(BossMonster.monster_category),
             joinedload(BossMonster.monster_image),
             joinedload(BossMonster.monster_logic),
             joinedload(BossMonster.levels)
-        ).filter(BossMonster.id == boss_monster_id).first()
-
-        return monster  # Return the ORM object directly
+        ).filter(BossMonster.id == boss_monster_id).one_or_none()
 
     def toggle_map_scan_fields(self, state):
         """Enable or disable fields based on the map scan checkbox state."""
@@ -264,8 +262,8 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Enable or disable the related fields based on the checkbox state
         self.p540_image_line_edit.setEnabled(toggle)
         self.browse_540p_btn.setEnabled(toggle)
-        self.threshod_spin_box.setEnabled(toggle)
-        self.find_threshold_btn.setEnabled(toggle)
+        self.threshold_spin_box.setEnabled(toggle)
+        self.find_template_btn.setEnabled(toggle)
         self.click_x_spin_box.setEnabled(toggle)
         self.click_y_spin_box.setEnabled(toggle)
         self.simulate_click_btn.setEnabled(toggle)
@@ -273,17 +271,116 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.map_template_btn.setEnabled(toggle)
 
     def save_monster_config(self):
-        """Save the current configuration of the monster."""
-        # Gather data from the level inputs
-        monster_levels = []
-        for row in self.level_rows:
-            level_no = row[1].text()
-            name = row[2].text()
-            power = row[3].text()
-            monster_levels.append({"level": level_no, "name": name, "power": power})
+        """Save the monster configuration."""
+        if not self.validate_inputs():
+            QMessageBox.warning(self, "Input Validation", "Please ensure all required fields are filled out correctly.")
+            return
 
-        # Now save the monster_levels data to your database or any storage
+        session = get_session()
+
+        if self.monster_id is None:
+            monster = BossMonster()
+        else:
+            monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
+
+        # Print monster
+        for key, value in monster.__dict__.items():
+            if not key.startswith('_'):  # Skip SQLAlchemy internal attributes
+                print(f"{key}: {value}")
+
+        # Save basic monster info
+        monster.preview_name = self.preview_name_line_edit.text()
+        monster.monster_category_id = self.category_combo_box.currentData()
+        monster.monster_logic_id = self.logic_combo_box.currentData()
+
+        # Save monster image info
+        monster.monster_image.preview_image = self.preview_image_line_edit.text()
+        monster.monster_image.image_540p = self.p540_image_line_edit.text()
+        monster.monster_image.img_threshold = self.threshold_spin_box.value()
+        # Combine click_x and click_y into click_pos
+        click_x = self.click_x_spin_box.value()  # Get the click x coordinate
+        click_y = self.click_y_spin_box.value()  # Get the click y coordinate
+        monster.monster_image.click_pos = f"{click_x},{click_y}"
+
+
+        # Save additional level information
+        self.save_monster_levels(monster, session)
+
+        # Commit the transaction
+        try:
+            session.add(monster)
+            session.commit()
+            QMessageBox.information(self, "Save Successful", "Monster configuration has been saved successfully!")
+        except Exception as e:
+            session.rollback()
+            QMessageBox.critical(self, "Save Error", f"Failed to save monster configuration. Error: {str(e)}")
+        finally:
+            session.close()
+
+        # Close the dialog after saving
         self.accept()
+
+    def save_monster_levels(self, monster, session):
+        """Save the levels related to the monster, updating existing ones, adding new ones, and deleting removed ones."""
+
+        # Get current levels from the database for this monster, mapped by their unique IDs
+        existing_levels = {level.id: level for level in monster.levels}
+
+        # Track the level IDs from the UI to detect deleted rows
+        ui_level_ids = []
+
+        for level_row in self.level_rows:
+            level_id = getattr(level_row[1], 'level_id', None)  # Use a custom attribute for level ID in the UI
+            level_number = level_row[1].text().strip()
+            name = level_row[2].text().strip()
+            power = level_row[3].text().strip()
+
+            if level_id:  # If the level already exists (it has an ID)
+                ui_level_ids.append(level_id)
+
+                if level_id in existing_levels:
+                    # Update the existing level
+                    monster_level = existing_levels[level_id]
+                    monster_level.level_number = level_number
+                    monster_level.name = name
+                    monster_level.power = power
+            else:
+                # Add new level if it doesn't exist (no ID yet)
+                new_level = MonsterLevel(level=level_number, name=name, power=power)
+                monster.levels.append(new_level)
+                session.add(new_level)
+
+        # Find levels to delete (existing ones not in the current UI)
+        levels_to_delete = [level for level_id, level in existing_levels.items() if level_id not in ui_level_ids]
+
+        for level in levels_to_delete:
+            monster.levels.remove(level)
+            session.delete(level)  # Delete the level from the database
+
+    def validate_inputs(self):
+        """Validate the inputs before saving."""
+
+        # Always validate the preview name and category/logic combo boxes
+        if not self.preview_name_line_edit.text().strip():
+            return False
+
+        if self.category_combo_box.currentIndex() == -1:
+            return False
+
+        if self.logic_combo_box.currentIndex() == -1:
+            return False
+
+        # Check the state of the map scan checkbox
+        if self.map_scan_checkbox.isChecked():  # If map scan is enabled
+            # Validate the fields related to map scan
+            if not self.p540_image_line_edit.text().strip():
+                return False
+
+            if not self.preview_image_line_edit.text().strip():
+                return False
+
+
+        return True
 
     def cancel_dialog(self):
         """Close the dialog without saving."""
