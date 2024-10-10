@@ -45,7 +45,7 @@ class MonsterProfileWidget(QWidget):
         # Setup the Monster Bottom Frame Color
         self.ui.bottom_color_frame.setStyleSheet(f"""
             background-color: rgb(29, 33, 38);
-            border-bottom: 2px dashed {logic_color};
+            border-bottom: 2px solid {logic_color};
         """)
 
         # Setup Monster Delete

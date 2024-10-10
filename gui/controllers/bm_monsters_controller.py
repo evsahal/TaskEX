@@ -138,7 +138,7 @@ def update_monster_profile_ui(main_window, boss_id):
         # Setup the Monster Bottom Frame Color
         monster_profile_widget.ui.bottom_color_frame.setStyleSheet(f"""
                     background-color: rgb(29, 33, 38);
-                    border-bottom: 2px dashed {logic_color};
+                    border-bottom: 2px solid {logic_color};
                 """)
 
         session.close()
