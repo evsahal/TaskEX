@@ -12,7 +12,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         super(MonsterUploadDialog, self).__init__(parent)
         self.setupUi(self)
 
-        # List to store newly added monsters (not saved to DB yet)
+        # List to store newly added monsters
         self.boss_monster_list = []
 
         # Connect the 'Add Monster' button to open MonsterEditDialog

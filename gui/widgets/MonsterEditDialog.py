@@ -1,5 +1,6 @@
 import os
 from PySide6.QtCore import Signal, Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, QMessageBox, QWidget
 from sqlalchemy.orm import joinedload
 
@@ -77,11 +78,13 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Load image data
         if monster_data.monster_image:
             self.preview_image_line_edit.setText(monster_data.monster_image.preview_image)
-            self.p540_image_line_edit.setText(monster_data.monster_image.img_540p)
-            self.threshold_spin_box.setValue(monster_data.monster_image.img_threshold)
-            click_pos = monster_data.monster_image.click_pos.split(',')
-            self.click_x_spin_box.setValue(int(click_pos[0]))
-            self.click_y_spin_box.setValue(int(click_pos[1]))
+            if self.map_scan_checkbox.isChecked():
+                self.p540_image_line_edit.setText(monster_data.monster_image.img_540p)
+                self.threshold_spin_box.setValue(monster_data.monster_image.img_threshold)
+                click_pos = monster_data.monster_image.click_pos.split(',')
+                self.click_x_spin_box.setValue(int(click_pos[0]))
+                self.click_y_spin_box.setValue(int(click_pos[1]))
+
 
         # Load monster levels
         for level in monster_data.levels:
@@ -190,8 +193,11 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         power_input.setMinimumHeight(40)
 
         # Delete button
-        delete_button = QPushButton("Delete")
+        delete_button = QPushButton()
+        delete_button.setIcon(QIcon(":/icons/images/icons/icon_delete_3.png"))
         delete_button.setMinimumHeight(40)
+        delete_button.setMinimumWidth(40)
+        delete_button.setProperty("action", "delete")  # Set action to 'delete'
         delete_button.clicked.connect(lambda: self.delete_row(row_layout))
 
         # Add to layout
@@ -199,6 +205,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         row_layout.addWidget(name_input)
         row_layout.addWidget(power_input)
         row_layout.addWidget(delete_button)
+
+        # Adjust stretch factors for proper alignment
+        row_layout.setStretch(0, 1)  # Level input
+        row_layout.setStretch(1, 10)  # Name input
+        row_layout.setStretch(2, 3)  # Power input
+        row_layout.setStretch(3, 2)  # Delete button
 
         # Add the row to the scroll layout
         self.scroll_layout.addLayout(row_layout)
