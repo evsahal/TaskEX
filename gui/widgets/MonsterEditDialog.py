@@ -7,23 +7,32 @@ from sqlalchemy.orm import joinedload
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
-from utils.helper_utils import image_chooser
+from utils.helper_utils import image_chooser, copy_image_to_preview
+
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     # Signal emitted when a monster is updated
     monster_updated = Signal(int)
 
-    def __init__(self, monster_id=None, parent=None):
+    def __init__(self, monster_id=None,monster_to_edit=None, parent=None):
         super(MonsterEditDialog, self).__init__(parent)
         self.setupUi(self)
 
         self.monster_id = monster_id  # None for new monsters, ID for editing
         self.monster = None
+        self.monster_to_edit = monster_to_edit
         self.previous_logic = None
         self.level_rows = []  # Keep track of dynamically added levels
 
         # Set up scroll area for monster levels
         self.init_level_scroll_area()
+
+        # print monster_to_edit
+        # if self.monster_to_edit:
+        #     print(self.monster_to_edit.preview_name)
+        #     for level in self.monster_to_edit.levels:
+        #         print(level.name,level.level)
+
 
         # Connect signals
         self.save_changes_btn.clicked.connect(self.save_changes_pressed)
@@ -55,12 +64,15 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Load monster data if editing an existing one
         if self.monster_id is not None:
-            self.load_monster_data(session)
+            monster_data = self.get_monster_data(session)
+            self.load_monster_data(monster_data)
+        elif self.monster_to_edit:
+            self.load_monster_data(self.monster_to_edit)
         session.close()
 
-    def load_monster_data(self, session):
+    def load_monster_data(self, monster_data):
         """Load the existing data for the selected boss monster."""
-        monster_data = self.get_monster_data(session)
+
         if not monster_data:
             return
 
@@ -153,7 +165,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.level_scrollArea.setWidget(self.scroll_widget)
 
         # Add the first row (if creating a new monster, otherwise rows will be preloaded)
-        if self.monster_id is None:
+        if not self.monster_id and not self.monster_to_edit:
             self.add_new_level()  # Add an initial level when creating a new monster
 
         # Adjust layout to remove extra space between rows
@@ -251,16 +263,21 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def save_changes_pressed(self):
         """Save the monster or update an existing one."""
         if not self.validate_inputs():
-            QMessageBox.warning(self, "Validation Error", "Please fill in all required fields.")
+            # QMessageBox.warning(self, "Validation Error", "Please fill in all required fields.")
             return
 
         session = get_session()
-
-        if self.monster_id is None:
+        # print(self.monster_to_edit)
+        if not self.monster_id and not self.monster_to_edit:
+            # print("New Monster")
             # Create new monster
             self.monster = BossMonster()
             self.monster.monster_image = MonsterImage()
+        elif self.monster_to_edit:
+            # print("Edit New Monster")
+            self.monster = self.monster_to_edit
         else:
+            # print("Edit Monster")
             # Edit existing monster
             self.monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
 
@@ -268,24 +285,38 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.monster.preview_name = self.preview_name_line_edit.text()
         self.monster.monster_category_id = self.category_combo_box.currentData()
         self.monster.monster_logic_id = self.logic_combo_box.currentData()
+        self.monster.enable_map_scan = self.map_scan_checkbox.isChecked()
 
         # Save image data
         self.monster.monster_image.preview_image = self.preview_image_line_edit.text()
-        self.monster.monster_image.img_540p = self.p540_image_line_edit.text()
-        self.monster.monster_image.img_threshold = self.threshold_spin_box.value()
-        self.monster.monster_image.click_pos = f"{self.click_x_spin_box.value()},{self.click_y_spin_box.value()}"
+
+        if self.monster.enable_map_scan:
+            self.monster.monster_image.img_540p = self.p540_image_line_edit.text()
+            self.monster.monster_image.img_threshold = self.threshold_spin_box.value()
+            self.monster.monster_image.click_pos = f"{self.click_x_spin_box.value()},{self.click_y_spin_box.value()}"
+        else:
+            self.monster.monster_image.img_540p = None
+            self.monster.monster_image.img_threshold = None
+            self.monster.monster_image.click_pos = None
 
         # Save monster levels
-        self.save_monster_levels()
+        self.update_monster_levels()
 
+        # Return the new monster object without saving
         if not self.monster_id:
             # Close  the dialog
             self.accept()
-            # Return the new monster object without saving
             return self.monster
         # Commit changes for existing monsters
         try:
             session.add(self.monster)
+            # Move the file to the preview folder if file picker is used:
+            file_path = self.preview_image_line_edit.property("file_path")
+            if file_path:
+                # print(file_path)
+                copy_image_to_preview(file_path,self.monster.monster_image.preview_image)
+            # TODO do it for 540p image
+            # Commit changes in db
             session.commit()
             self.monster_updated.emit(self.monster_id)
             QMessageBox.information(self, "Success", "Monster updated successfully!")
@@ -296,48 +327,119 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             session.close()
             self.accept()
 
+    def update_monster_levels(self):
+        """
+        Handle updating the monster.levels object based on the UI input.
+        For existing monsters, update the DB records. For new monsters, reset the levels list.
+        """
 
+        # Scenario 1: For existing monsters (already in the DB, with a valid monster_id)
+        if self.monster_id:
+            # Get the current levels from the database and map them by their unique ID
+            existing_levels = {level.id: level for level in self.monster.levels} if self.monster.levels else {}
 
-    def save_monster_levels(self):
-        """Handle saving levels for the monster."""
-        existing_levels = {level.id: level for level in self.monster.levels} if self.monster.levels else {}
+            ui_level_ids = []  # To track levels that are still present in the UI
 
-        ui_level_ids = []
+            for level_row in self.level_rows:
+                # Retrieve data from the UI inputs (level number, name, power)
+                level_number = level_row[1].text().strip()
+                name = level_row[2].text().strip()
+                power = level_row[3].text().strip()
+
+                # If the row represents an existing level (has level_id), update it
+                if hasattr(level_row[1], 'level_id'):
+                    level_id = level_row[1].level_id
+                    if level_id in existing_levels:
+                        # Update the existing level
+                        monster_level = existing_levels[level_id]
+                        monster_level.level = level_number
+                        monster_level.name = name
+                        monster_level.power = power
+                        ui_level_ids.append(level_id)  # Track the updated level
+
+                else:
+                    # Add a new level for newly created rows (those without level_id)
+                    new_level = MonsterLevel(level=level_number, name=name, power=power)
+                    self.monster.levels.append(new_level)  # Append the new level to the monster object
+
+            # Identify levels that were removed in the UI and delete them
+            levels_to_delete = [level for level_id, level in existing_levels.items() if level_id not in ui_level_ids]
+            for level in levels_to_delete:
+                self.monster.levels.remove(level)
+
+        # Scenario 2: For new monsters (monster_id is None)
+        else:
+            # Reset the levels list for new monsters
+            self.monster.levels = []
+
+            # Re-populate the levels list from the UI
+            for level_row in self.level_rows:
+                # Extract data from the UI inputs (level number, name, power)
+                level_number = level_row[1].text().strip()
+                name = level_row[2].text().strip()
+                power = level_row[3].text().strip()
+
+                # Add each level to the monster's levels list
+                new_level = MonsterLevel(level=level_number, name=name, power=power)
+                self.monster.levels.append(new_level)
+
+    def validate_inputs(self):
+        """Validate the form inputs before saving."""
+
+        # 1. Validate the preview name
+        if not self.preview_name_line_edit.text().strip():
+            QMessageBox.warning(self, "Validation Error", "Preview name cannot be empty.")
+            return False
+
+        # 2. Validate the preview image field
+        if not self.preview_image_line_edit.text().strip():
+            QMessageBox.warning(self, "Validation Error", "Preview image cannot be empty.")
+            return False
+
+        # 3. Validate category and logic combo boxes
+        if self.category_combo_box.currentIndex() == -1:
+            QMessageBox.warning(self, "Validation Error", "Please select a category.")
+            return False
+
+        if self.logic_combo_box.currentIndex() == -1:
+            QMessageBox.warning(self, "Validation Error", "Please select a logic.")
+            return False
+
+        # 4. Validate map scan-related fields if map_scan_checkbox is checked
+        if self.map_scan_checkbox.isChecked():
+            if not self.p540_image_line_edit.text().strip():
+                QMessageBox.warning(self, "Validation Error", "Template image 540p cannot be empty.")
+                return False
+
+        # 5. Validate there is at least one level
+        if len(self.level_rows) == 0:
+            QMessageBox.warning(self, "Validation Error", "There must be at least one level.")
+            return False
+
+        # 6. Validate all levels have values for level number, name, and power
+        level_numbers = set()  # To keep track of unique level numbers
         for level_row in self.level_rows:
             level_number = level_row[1].text().strip()
             name = level_row[2].text().strip()
             power = level_row[3].text().strip()
 
-            # Check if the level exists in the current levels
-            if hasattr(level_row[1], 'level_id'):
-                level_id = level_row[1].level_id
-                if level_id in existing_levels:
-                    # Update the existing level
-                    monster_level = existing_levels[level_id]
-                    monster_level.level = level_number
-                    monster_level.name = name
-                    monster_level.power = power
-                    ui_level_ids.append(level_id)
-            else:
-                # Add new level if it's a new entry
-                new_level = MonsterLevel(level=level_number, name=name, power=power)
-                self.monster.levels.append(new_level)
+            if not level_number:
+                QMessageBox.warning(self, "Validation Error", "Level number cannot be empty.")
+                return False
+            if not name:
+                QMessageBox.warning(self, "Validation Error", "Level name cannot be empty.")
+                return False
+            if not power:
+                QMessageBox.warning(self, "Validation Error", "Level power cannot be empty.")
+                return False
 
-        # Find levels to delete (existing levels that are not in the UI)
-        levels_to_delete = [level for level_id, level in existing_levels.items() if level_id not in ui_level_ids]
-        for level in levels_to_delete:
-            self.monster.levels.remove(level)
+            # Check if the level number is unique
+            if level_number in level_numbers:
+                QMessageBox.warning(self, "Validation Error", f"Level number {level_number} is duplicated.")
+                return False
+            level_numbers.add(level_number)  # Add level number to the set for uniqueness check
 
-    def validate_inputs(self):
-        """Validate the form inputs before saving."""
-        if not self.preview_name_line_edit.text().strip():
-            return False
-        if self.category_combo_box.currentIndex() == -1:
-            return False
-        if self.logic_combo_box.currentIndex() == -1:
-            return False
-        if self.map_scan_checkbox.isChecked() and not self.p540_image_line_edit.text().strip():
-            return False
+        # If all validations pass
         return True
 
     def get_monster(self):

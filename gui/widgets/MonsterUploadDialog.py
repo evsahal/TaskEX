@@ -31,7 +31,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         if monster_to_edit is None:
             monster_edit_dialog = MonsterEditDialog(parent=self)
         else:
-            monster_edit_dialog = MonsterEditDialog( parent=self)
+            monster_edit_dialog = MonsterEditDialog(parent=self,monster_to_edit=monster_to_edit)
 
         result = monster_edit_dialog.exec_()
 
