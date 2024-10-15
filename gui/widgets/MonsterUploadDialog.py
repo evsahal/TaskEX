@@ -1,10 +1,15 @@
-from PySide6.QtWidgets import QMessageBox, QDialog
+import os
 
+from PySide6.QtGui import QPixmap
+from PySide6.QtWidgets import QMessageBox, QDialog, QWidget
+
+from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
 from db.db_setup import get_session
 from gui.generated.monster_upload_dialog import Ui_Monster_Upload_Dialog
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
+from utils.constants_util import logic_colors
 
 
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
@@ -42,16 +47,16 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
             # If the monster is being edited, update the list and UI
             if monster_to_edit:
-                self.update_existing_monster(monster_to_edit, new_monster)
+                self.update_existing_monster(monster_to_edit, new_monster,monster_edit_dialog.get_preview_image_path())
             else:
-                self.add_new_monster_to_list(new_monster)
+                self.add_new_monster_to_list(new_monster,monster_edit_dialog.get_preview_image_path())
 
-    def add_new_monster_to_list(self, new_monster):
+    def add_new_monster_to_list(self, new_monster,file_path):
         """
         Add a new monster to the list and display it in the UI.
         """
         # Create a MonsterProfileWidget to represent the monster visually
-        widget = MonsterProfileWidget(flow_layout=self.flow_layout, data=new_monster)
+        widget = MonsterProfileWidget(flow_layout=self.flow_layout, data=new_monster,file_path=file_path)
 
         # Connect the 'edit' button from the MonsterProfileWidget to allow editing
         widget.ui.configure_monster_btn.clicked.connect(lambda: self.open_monster_edit_dialog(new_monster))
@@ -63,24 +68,48 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Add the new monster to the list of unsaved monsters
         self.boss_monster_list.append(new_monster)
 
-    def update_existing_monster(self, old_monster, updated_monster):
+    def update_existing_monster(self, old_monster, updated_monster,file_path):
         """
         Update the existing monster in the list and refresh its display in the UI.
         """
         # Update the existing monster in the list
+        pos = -1
         for i, monster in enumerate(self.boss_monster_list):
             if monster == old_monster:
                 self.boss_monster_list[i] = updated_monster
+                pos = i
                 break
 
         # Refresh the corresponding MonsterProfileWidget in the UI
-        for i in range(self.flow_layout.count()):
-            widget = self.flow_layout.itemAt(i).widget()
-            if widget.data == old_monster:
-                # Update the widget's data and refresh the displayed info
-                widget.data = updated_monster
-                widget.ui.monster_name_label.setText(updated_monster.preview_name)
-                break
+        widget = self.flow_layout.itemAt(pos).widget()
+        if widget.data == old_monster:
+            # Update the widget's data and refresh the displayed info
+            widget.data = updated_monster
+            preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+            # Setup Monster Preview
+            widget.ui.monster_name_label.setText(updated_monster.preview_name)
+
+            # Check if the file exists
+            if file_path and os.path.exists(file_path):
+                monster_preview = file_path  # Use the provided image path
+            else:
+                # Use the default preview image
+                monster_preview = os.path.join(str(preview_path), "default_preview.png")
+
+
+            pixmap = QPixmap(monster_preview)
+            pixmap = pixmap.scaledToHeight(92)
+            widget.ui.monster_icon_label.setPixmap(pixmap)
+
+            # Update the frame
+            # Get the corresponding color for the logic ID
+            logic_color = logic_colors.get(updated_monster.monster_logic_id, '#000000')  # Default to black if not found
+
+            # Setup the Monster Bottom Frame Color
+            widget.ui.bottom_color_frame.setStyleSheet(f"""
+                                    background-color: rgb(29, 33, 38);
+                                    border-bottom: 2px solid {logic_color};
+                                """)
 
     def save_new_monsters(self):
         """
@@ -117,3 +146,4 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             if widget.data == monster:
                 widget.deleteLater()
                 break
+

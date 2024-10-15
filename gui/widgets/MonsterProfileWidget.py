@@ -10,7 +10,7 @@ from utils.dialog_utils import show_confirmation_dialog
 
 
 class MonsterProfileWidget(QWidget):
-    def __init__(self, parent=None,flow_layout=None,data=None):
+    def __init__(self, parent=None,flow_layout=None,data=None,file_path = None):
         super(MonsterProfileWidget, self).__init__(parent)
         self.ui = Ui_Monster_Profile()
         self.ui.setupUi(self)
@@ -24,8 +24,14 @@ class MonsterProfileWidget(QWidget):
 
         # Setup Monster Preview
         monster_preview = os.path.join(str(self.preview_path), self.data.monster_image.preview_image)
-        if not os.path.isfile(monster_preview):
+        # Determine which preview image to use
+        if file_path and os.path.exists(file_path):
+            # Use the provided custom file path if it exists
+            monster_preview = file_path
+        elif not os.path.isfile(monster_preview):
+            # Use the default preview image
             monster_preview = os.path.join(str(self.preview_path), "default_preview.png")
+
         pixmap = QPixmap(monster_preview)
         # half_height = int(pixmap.height() / 2)
         # print(half_height) #92

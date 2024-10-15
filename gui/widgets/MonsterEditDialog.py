@@ -27,12 +27,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Set up scroll area for monster levels
         self.init_level_scroll_area()
 
-        # print monster_to_edit
-        # if self.monster_to_edit:
-        #     print(self.monster_to_edit.preview_name)
-        #     for level in self.monster_to_edit.levels:
-        #         print(level.name,level.level)
-
 
         # Connect signals
         self.save_changes_btn.clicked.connect(self.save_changes_pressed)
@@ -305,6 +299,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         if not self.monster_id:
             # Close  the dialog
             self.accept()
+            self.monster.file_path = self.preview_image_line_edit.property("file_path")
             return self.monster
         # Commit changes for existing monsters
         try:
@@ -444,6 +439,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def get_monster(self):
         """Return the monster object created in the dialog."""
         return self.monster
+
+    def get_preview_image_path(self):
+        return  self.preview_image_line_edit.property("file_path")
 
     def cancel_dialog(self):
         """Close the dialog without saving."""
