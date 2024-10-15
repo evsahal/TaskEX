@@ -11,10 +11,13 @@ from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
+from gui.widgets.MonsterUploadDialog import MonsterUploadDialog
 from utils.constants_util import logic_colors
 
 
 def init_bm_monster_ui(main_window):
+    # Connect the upload button to open the dialog
+    main_window.widgets.upload_monsters_btn.clicked.connect(lambda :open_upload_dialog(main_window))
     # Connect the export button to toggle the confirmation frame
     main_window.widgets.export_monsters_btn.toggled.connect(lambda :toggle_frame(main_window))
     # Cancel button signal connect
@@ -100,10 +103,7 @@ def configure_monster(main_window,boss_id):
         # Handle successful save
         # print("Monster configuration saved!")
         pass
-    else:
-        # Handle cancel or rejection
-        # print("Monster configuration canceled!")
-        pass
+
 
 
 def update_monster_profile_ui(main_window, boss_id):
@@ -143,6 +143,10 @@ def update_monster_profile_ui(main_window, boss_id):
 
         session.close()
 
+def open_upload_dialog(main_window):
+    # Create an instance of the dialog class
+    dialog = MonsterUploadDialog(main_window)
+    dialog.exec()
 
 def toggle_frame(main_window):
     # Get monsters_list_frame and export_monsters_btn references

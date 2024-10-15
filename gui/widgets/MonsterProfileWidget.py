@@ -1,7 +1,6 @@
 import os
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QCursor
+from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
 from config.settings import BASE_DIR
