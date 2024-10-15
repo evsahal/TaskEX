@@ -281,15 +281,14 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Edit existing monster
             self.monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
 
-        # Save basic info
+        # Store basic info
         self.monster.preview_name = self.preview_name_line_edit.text()
         self.monster.monster_category_id = self.category_combo_box.currentData()
         self.monster.monster_logic_id = self.logic_combo_box.currentData()
         self.monster.enable_map_scan = self.map_scan_checkbox.isChecked()
 
-        # Save image data
+        # Store image data
         self.monster.monster_image.preview_image = self.preview_image_line_edit.text()
-
         if self.monster.enable_map_scan:
             self.monster.monster_image.img_540p = self.p540_image_line_edit.text()
             self.monster.monster_image.img_threshold = self.threshold_spin_box.value()
@@ -299,7 +298,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             self.monster.monster_image.img_threshold = None
             self.monster.monster_image.click_pos = None
 
-        # Save monster levels
+        # Store monster levels
         self.update_monster_levels()
 
         # Return the new monster object without saving
@@ -445,7 +444,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def get_monster(self):
         """Return the monster object created in the dialog."""
         return self.monster
-
 
     def cancel_dialog(self):
         """Close the dialog without saving."""
