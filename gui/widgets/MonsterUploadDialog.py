@@ -27,6 +27,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Connect the buttons
         self.add_monster_btn.clicked.connect(self.open_monster_edit_dialog)
         self.upload_monsters_btn.clicked.connect(self.save_new_monsters)
+        self.exit_btn.clicked.connect(self.close)
 
         # Initialize the layout for displaying the monster profiles
         self.flow_layout = FlowLayout(self.monsters_list_frame)
@@ -145,6 +146,8 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
                 self.add_monster_to_main_frame(monster)
 
             QMessageBox.information(self, "Save Successful", "All new monsters have been saved to the database.")
+            # Disable the upload button after saving
+            self.upload_monsters_btn.setEnabled(False)
             self.boss_monster_list.clear()  # Clear the list after saving
 
         except Exception as e:

@@ -7,6 +7,7 @@ from sqlalchemy import asc
 
 from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
+from core.features.bm_monsters import get_all_boss_monster_data
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
@@ -41,44 +42,13 @@ def init_bm_monster_ui(main_window):
     monsters_list_frame.setLayout(flow_layout)
 
     # Get all the bosses
-    session = get_session()
-
-    # Query all records from the generals table
-    # Sort by logic_id = 1 and category_id = 1
-    sorted_logic_1_with_category_1 = (
-        session.query(BossMonster)
-        .join(MonsterImage)
-        .join(MonsterCategory)
-        .join(MonsterLogic)
-        .filter(BossMonster.monster_logic_id == 1, BossMonster.monster_category_id == 1)
-        .order_by(BossMonster.id)  # Sort by ID
-        .all()
-    )
-
-    # Fetch remaining bosses with logic_id = 1 (but exclude category_id = 1), and bosses with logic_id = 2, 3 and 4, sorted by preview_name
-    sorted_logic_1_except_category_1_and_logic_2_3_4 = (
-        session.query(BossMonster)
-        .join(MonsterImage)
-        .join(MonsterCategory)
-        .join(MonsterLogic)
-        .filter(
-            BossMonster.monster_logic_id.in_([1, 2, 3,4]),  # Logic IDs 1, 2, 3 and 4
-            ~BossMonster.id.in_([boss.id for boss in sorted_logic_1_with_category_1])
-            # Exclude bosses from logic_id=1 and category_id=1
-        )
-        .order_by(asc(BossMonster.preview_name))  # Sort by preview_name
-        .all()
-    )
-
-    # Combine the results into one list in the desired order
-    boss_monsters = sorted_logic_1_with_category_1 + sorted_logic_1_except_category_1_and_logic_2_3_4
+    boss_monsters = get_all_boss_monster_data()
 
     # Pass the data to add the widgets
     for boss in boss_monsters:
         # print(boss.monster_logic_id)
         add_monster_to_frame(main_window,boss)
 
-    session.close()
 
 def add_monster_to_frame(main_window,boss):
     flow_layout = main_window.widgets.monsters_list_flow_layout
