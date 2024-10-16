@@ -1,5 +1,6 @@
 import os
 import shutil
+import time
 import zipfile
 
 import yaml
@@ -87,7 +88,7 @@ def export_selected_bosses(boss_ids):
         )
 
         if boss:
-            # Collect data for YAML (excluding the 'id' field)
+            # Collect data for YAML
             boss_data = {
                 "preview_name": boss.preview_name,
                 "category": boss.monster_category.name,
@@ -97,17 +98,23 @@ def export_selected_bosses(boss_ids):
             }
 
             if boss.monster_image:
-                # Include image details in YAML
-                boss_data["image"] = {
-                    "preview_image": boss.monster_image.preview_image,
-                    "img_540p": boss.monster_image.img_540p,
-                    "img_threshold": boss.monster_image.img_threshold,
-                    "click_pos": boss.monster_image.click_pos
-                }
+                image_data = {"preview_image": boss.monster_image.preview_image}
+
+                if boss.enable_map_scan:
+                    # Include these fields only when enable_map_scan is True
+                    if boss.monster_image.img_540p:
+                        image_data["img_540p"] = boss.monster_image.img_540p
+                    if boss.monster_image.img_threshold:
+                        image_data["img_threshold"] = boss.monster_image.img_threshold
+                    if boss.monster_image.click_pos:
+                        image_data["click_pos"] = boss.monster_image.click_pos
+
+                boss_data["image"] = image_data
 
                 # Copy images if they exist
                 copy_image_to_export(images_folder, boss.monster_image.preview_image, "preview")
-                copy_image_to_export(images_folder, boss.monster_image.img_540p, "540p")
+                if boss.enable_map_scan and boss.monster_image.img_540p:
+                    copy_image_to_export(images_folder, boss.monster_image.img_540p, "540p")
 
             export_data.append(boss_data)
 
@@ -117,22 +124,31 @@ def export_selected_bosses(boss_ids):
         yaml.dump(export_data, yaml_file, default_flow_style=False)
 
     # Zip everything
-    zip_file_path = os.path.join(export_folder, "boss_monsters_export.zip")
+    # Get current time in milliseconds
+    current_time_ms = int(time.time() * 1000)
+
+    # Generate zip file name with datetime in milliseconds
+    zip_file_name = f"boss_monsters_{current_time_ms}.zip"
+    zip_file_path = os.path.join(export_folder, zip_file_name)
+
     zip_export_files(temp_export_folder, zip_file_path)
 
     # Clean up temporary export folder
     shutil.rmtree(temp_export_folder)
 
     # Confirmation message
-    QMessageBox.information(None, "Export Successful", f"Boss data and images exported to: {zip_file_path}")
+    QMessageBox.information(None, "Export Successful", f"File saved to: {zip_file_path}")
 
     session.close()
 
 
 def copy_image_to_export(images_folder, image_name, image_type):
     """Copy the image to the export folder."""
-    preview_folder = os.path.join(BASE_DIR, 'assets', 'preview')
-    image_path = os.path.join(preview_folder, image_name)
+    if image_type == "preview":
+        base_folder = os.path.join(BASE_DIR, 'assets', 'preview')
+    else:
+        base_folder = os.path.join(BASE_DIR, 'assets', '540p')
+    image_path = os.path.join(base_folder, image_name)
 
     if os.path.exists(image_path):
         dest_image_path = os.path.join(images_folder, f"{image_name}")
