@@ -1,5 +1,13 @@
+import os
+import shutil
+import zipfile
+
+import yaml
+from PySide6.QtWidgets import QMessageBox, QFileDialog
 from sqlalchemy import asc
 from sqlalchemy.orm import joinedload
+
+from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 
@@ -46,3 +54,96 @@ def get_all_boss_monster_data():
 
     session.close()
     return boss_monsters
+
+def export_selected_bosses(boss_ids):
+    session = get_session()
+    export_data = []
+
+    # Directory to store the export data
+    export_folder = QFileDialog.getExistingDirectory(None, "Select Export Folder")
+    if not export_folder:
+        return  # User canceled the operation
+
+    # Temporary folder for staging files before zipping
+    temp_export_folder = os.path.join(export_folder, "export_temp")
+    os.makedirs(temp_export_folder, exist_ok=True)
+
+    # Create an images folder to store the images
+    images_folder = os.path.join(temp_export_folder, "images")
+    os.makedirs(images_folder, exist_ok=True)
+
+    # Loop through each selected boss id
+    for boss_id in boss_ids:
+        boss = (
+            session.query(BossMonster)
+            .options(
+                joinedload(BossMonster.monster_category),
+                joinedload(BossMonster.monster_image),
+                joinedload(BossMonster.monster_logic),
+                joinedload(BossMonster.levels)
+            )
+            .filter(BossMonster.id == boss_id)
+            .one_or_none()
+        )
+
+        if boss:
+            # Collect data for YAML (excluding the 'id' field)
+            boss_data = {
+                "preview_name": boss.preview_name,
+                "category": boss.monster_category.name,
+                "logic": boss.monster_logic.logic,
+                "enable_map_scan": boss.enable_map_scan,
+                "levels": [{"level": lvl.level, "name": lvl.name, "power": lvl.power} for lvl in boss.levels]
+            }
+
+            if boss.monster_image:
+                # Include image details in YAML
+                boss_data["image"] = {
+                    "preview_image": boss.monster_image.preview_image,
+                    "img_540p": boss.monster_image.img_540p,
+                    "img_threshold": boss.monster_image.img_threshold,
+                    "click_pos": boss.monster_image.click_pos
+                }
+
+                # Copy images if they exist
+                copy_image_to_export(images_folder, boss.monster_image.preview_image, "preview")
+                copy_image_to_export(images_folder, boss.monster_image.img_540p, "540p")
+
+            export_data.append(boss_data)
+
+    # Create the YAML file
+    yaml_file_path = os.path.join(temp_export_folder, "boss_monsters.yaml")
+    with open(yaml_file_path, "w") as yaml_file:
+        yaml.dump(export_data, yaml_file, default_flow_style=False)
+
+    # Zip everything
+    zip_file_path = os.path.join(export_folder, "boss_monsters_export.zip")
+    zip_export_files(temp_export_folder, zip_file_path)
+
+    # Clean up temporary export folder
+    shutil.rmtree(temp_export_folder)
+
+    # Confirmation message
+    QMessageBox.information(None, "Export Successful", f"Boss data and images exported to: {zip_file_path}")
+
+    session.close()
+
+
+def copy_image_to_export(images_folder, image_name, image_type):
+    """Copy the image to the export folder."""
+    preview_folder = os.path.join(BASE_DIR, 'assets', 'preview')
+    image_path = os.path.join(preview_folder, image_name)
+
+    if os.path.exists(image_path):
+        dest_image_path = os.path.join(images_folder, f"{image_name}")
+        shutil.copy(image_path, dest_image_path)
+
+
+def zip_export_files(folder_to_zip, output_zip_path):
+    """Zip the exported folder into a zip file."""
+    with zipfile.ZipFile(output_zip_path, "w", zipfile.ZIP_DEFLATED) as zip_file:
+        for root, dirs, files in os.walk(folder_to_zip):
+            for file in files:
+                file_path = os.path.join(root, file)
+                arcname = os.path.relpath(file_path, folder_to_zip)
+                zip_file.write(file_path, arcname)

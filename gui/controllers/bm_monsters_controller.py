@@ -1,13 +1,13 @@
 import os
 
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QFrame, QCheckBox, QDialog, QWidget
+from PySide6.QtWidgets import QFrame, QCheckBox, QDialog, QWidget, QMessageBox
 from requests import session
 from sqlalchemy import asc
 
 from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
-from core.features.bm_monsters import get_all_boss_monster_data
+from core.features.bm_monsters import get_all_boss_monster_data, export_selected_bosses
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
@@ -140,22 +140,20 @@ def toggle_frame(main_window):
 
 def confirm_export_monsters(main_window):
     checked_monsters = []
-    # Get the frame ref
     monsters_list_frame = main_window.widgets.monsters_list_frame
-    # loop through all the checkboxes in that
+
+    # Loop through checkboxes to get selected bosses
     for checkbox in monsters_list_frame.findChildren(QCheckBox):
         if checkbox.isChecked():
-            checked_monsters.append(checkbox)
+            boss_id = checkbox.property("boss_id")
+            checked_monsters.append(boss_id)
 
-    # check if the checkbox contains any value or not
     if len(checked_monsters) == 0:
-        # TODO
-        print("Show error message saying to select some options")
+        QMessageBox.warning(main_window, "No Selection", "Please select at least one monster to export.")
         return False
 
-    # TODO Convert those data to zip
-    for checkbox in checked_monsters:
-        print(f"Checkbox boss id: {checkbox.property("boss_id")}")
+    # Export selected monsters
+    export_selected_bosses(checked_monsters)
 
     # Toggle confirm frame
     main_window.widgets.export_monsters_btn.setChecked(False)
