@@ -10,18 +10,23 @@ from gui.generated.monster_upload_dialog import Ui_Monster_Upload_Dialog
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 from utils.constants_util import logic_colors
+from utils.helper_utils import copy_image_to_template, copy_image_to_preview
 
 
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self,main_window, parent=None):
         super(MonsterUploadDialog, self).__init__(parent)
         self.setupUi(self)
+
+        # Store the reference to MainWindow
+        self.main_window = main_window
 
         # List to store newly added monsters
         self.boss_monster_list = []
 
-        # Connect the 'Add Monster' button to open MonsterEditDialog
+        # Connect the buttons
         self.add_monster_btn.clicked.connect(self.open_monster_edit_dialog)
+        self.upload_monsters_btn.clicked.connect(self.save_new_monsters)
 
         # Initialize the layout for displaying the monster profiles
         self.flow_layout = FlowLayout(self.monsters_list_frame)
@@ -44,6 +49,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         if result == QDialog.Accepted:
             # Get the monster object returned from the dialog
             new_monster = monster_edit_dialog.get_monster()
+            # print(new_monster.file_path)
 
             # If the monster is being edited, update the list and UI
             if monster_to_edit:
@@ -119,18 +125,51 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             QMessageBox.information(self, "No New Monsters", "There are no new monsters to save.")
             return
 
+        # TODO Validate the bosses
+
+        # Add to the database
         session = get_session()
         try:
             for monster in self.boss_monster_list:
                 session.add(monster)
+                # Commit to assign IDs to new monsters
             session.commit()
+
+            # After commit, add each monster to the main frame
+            for monster in self.boss_monster_list:
+                # Move the file to the preview folder if file_path is set
+                if monster.file_path and os.path.exists(monster.file_path):
+                    copy_image_to_preview(monster.file_path, monster.monster_image.preview_image)
+
+                # Now we can call add_monster_to_main_frame because monster IDs are assigned
+                self.add_monster_to_main_frame(monster)
+
             QMessageBox.information(self, "Save Successful", "All new monsters have been saved to the database.")
             self.boss_monster_list.clear()  # Clear the list after saving
+
         except Exception as e:
             session.rollback()
             QMessageBox.critical(self, "Save Error", f"Failed to save monsters. Error: {str(e)}")
         finally:
             session.close()
+
+    def add_monster_to_main_frame(self, boss):
+        flow_layout = self.main_window.widgets.monsters_list_flow_layout
+
+        widget = MonsterProfileWidget(flow_layout=flow_layout, data=boss)
+        setattr(self.main_window.widgets, widget.objectName(), widget)
+
+        # Lazy import to avoid circular import
+        def configure_monster_clicked():
+            from gui.controllers.bm_monsters_controller import configure_monster
+            configure_monster(self.main_window, widget.ui.checkBox.property("boss_id"))
+
+        # Setup Configure/Edit Monster
+        widget.ui.configure_monster_btn.clicked.connect(configure_monster_clicked)
+
+        # Set the size of the widget to its size hint
+        widget.setFixedSize(widget.sizeHint())
+        flow_layout.addWidget(widget)
 
     def remove_monster(self, monster):
         """

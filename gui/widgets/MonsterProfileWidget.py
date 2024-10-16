@@ -4,6 +4,8 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
 from config.settings import BASE_DIR
+from db.db_setup import get_session
+from db.models import BossMonster, MonsterLevel, MonsterImage
 from gui.generated.monster_profile import Ui_Monster_Profile
 from utils.constants_util import logic_colors
 from utils.dialog_utils import show_confirmation_dialog
@@ -68,7 +70,31 @@ class MonsterProfileWidget(QWidget):
         Remove the current monster profile widget from the layout and the UI.
         """
         if show_confirmation_dialog(self, "confirm", f"Are you sure you want to remove {self.ui.monster_name_label.text()}?"):
-            # TODO Connect to db and remove
+            session = get_session()
+            # If it's present in the db
+            if self.data.id:
+                try:
+                    # Remove the monster and its related data from the DB
+                    monster_to_delete = session.query(BossMonster).filter(BossMonster.id == self.data.id).one_or_none()
+                    if monster_to_delete:
+                        # Delete the related levels
+                        session.query(MonsterLevel).filter(MonsterLevel.boss_monster_id == monster_to_delete.id).delete()
+
+                        # Delete the related images
+                        session.query(MonsterImage).filter(MonsterImage.id == monster_to_delete.monster_image_id).delete()
+
+                        # Finally, delete the boss monster itself
+                        session.delete(monster_to_delete)
+
+                        # Commit the transaction to remove the monster from the database
+                        session.commit()
+                except Exception as e:
+                    session.rollback()
+                    print(e)
+                finally:
+                    session.close()
+
+            # Remove it from the UI
             if self.flow_layout:
                 self.flow_layout.removeWidget(self)
                 self.deleteLater()
