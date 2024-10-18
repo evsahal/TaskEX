@@ -1,16 +1,21 @@
 import os
+import shutil
+import tempfile
+import zipfile
 
+import yaml
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QMessageBox, QDialog, QWidget
+from PySide6.QtWidgets import QMessageBox, QDialog, QFileDialog
 
 from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
+from core.services.bm_monsters import create_monster_from_zip_data
 from db.db_setup import get_session
 from gui.generated.monster_upload_dialog import Ui_Monster_Upload_Dialog
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 from utils.constants_util import logic_colors
-from utils.helper_utils import copy_image_to_template, copy_image_to_preview
+from utils.helper_utils import copy_image_to_preview
 
 
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
@@ -26,6 +31,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
         # Connect the buttons
         self.add_monster_btn.clicked.connect(self.open_monster_edit_dialog)
+        self.import_monster_btn.clicked.connect(self.import_monsters_from_zip)
         self.upload_monsters_btn.clicked.connect(self.save_new_monsters)
         self.exit_btn.clicked.connect(self.close)
 
@@ -173,6 +179,40 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Set the size of the widget to its size hint
         widget.setFixedSize(widget.sizeHint())
         flow_layout.addWidget(widget)
+
+    def import_monsters_from_zip(self):
+        """Open a file picker to import a zip file and process its content."""
+        zip_file_path, _ = QFileDialog.getOpenFileName(self, "Select Monster Export Zip", "", "Zip Files (*.zip)")
+        if not zip_file_path:
+            return  # User canceled the operation
+
+        # Extract to the system's temporary folder
+        temp_extract_folder = tempfile.mkdtemp(prefix="monster_import_")
+
+        try:
+            with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+                zip_ref.extractall(temp_extract_folder)
+
+            # Validate the YAML file
+            yaml_file_path = os.path.join(temp_extract_folder, "boss_monsters.yaml")
+            if not os.path.exists(yaml_file_path):
+                raise FileNotFoundError("Invalid zip file. YAML file not found.")
+
+            with open(yaml_file_path, 'r') as yaml_file:
+                monsters_data = yaml.safe_load(yaml_file)
+
+            # Convert YAML data to BossMonster objects and add to the upload scroll area
+            for monster_data in monsters_data:
+                new_monster = create_monster_from_zip_data(monster_data,temp_extract_folder)
+                self.add_new_monster_to_list(new_monster,new_monster.preview_img_path)
+
+            QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
+
+        except Exception as e:
+            # Clean up the temp folder on error
+            shutil.rmtree(temp_extract_folder)
+            QMessageBox.critical(self, "Import Error", str(e))
+
 
     def remove_monster(self, monster):
         """

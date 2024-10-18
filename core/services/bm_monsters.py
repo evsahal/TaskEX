@@ -10,7 +10,9 @@ from sqlalchemy.orm import joinedload
 
 from config.settings import BASE_DIR
 from db.db_setup import get_session
-from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
+from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic, MonsterLevel
+from utils.helper_utils import copy_image_to_template, copy_image_to_preview
+
 
 def get_all_boss_monster_data():
     # Get all the bosses
@@ -140,6 +142,50 @@ def export_selected_bosses(boss_ids):
     QMessageBox.information(None, "Export Successful", f"File saved to: {zip_file_path}")
 
     session.close()
+
+def create_monster_from_zip_data(data,temp_extract_folder):
+    """Create a BossMonster object from YAML data."""
+    session = get_session()
+
+    monster = BossMonster(
+        preview_name=data["preview_name"],
+        enable_map_scan=data.get("enable_map_scan", False)
+    )
+
+    # Set category and logic
+    category = session.query(MonsterCategory).filter_by(name=data["category"]).one_or_none()
+    logic = session.query(MonsterLogic).filter_by(logic=data["logic"]).one_or_none()
+    if category:
+        monster.monster_category = category
+    if logic:
+        monster.monster_logic = logic
+
+    # Handle images
+    if "image" in data:
+        monster_image = MonsterImage(
+            preview_image=data["image"].get("preview_image"),
+            img_540p=data["image"].get("img_540p"),
+            img_threshold=data["image"].get("img_threshold"),
+            click_pos=data["image"].get("click_pos")
+        )
+        monster.monster_image = monster_image
+
+        # Store image paths for later use
+        monster.preview_img_path = os.path.join(temp_extract_folder, "images", monster_image.preview_image)
+        monster.img_540p_path = os.path.join(temp_extract_folder, "images", monster_image.img_540p) \
+            if monster_image.img_540p else None
+
+    # Add levels
+    for level_data in data.get("levels", []):
+        level = MonsterLevel(
+            level=level_data["level"],
+            name=level_data["name"],
+            power=level_data["power"]
+        )
+        monster.levels.append(level)
+
+    session.close()
+    return monster
 
 
 def copy_image_to_export(images_folder, image_name, image_type):

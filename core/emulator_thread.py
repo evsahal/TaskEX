@@ -1,6 +1,6 @@
 from PySide6.QtCore import QThread, Signal
 
-from core.features.bm_scan_generals import start_scan_generals
+from core.services.bm_scan_generals import start_scan_generals
 from db.models import General
 from utils.adb_manager import ADBManager
 
