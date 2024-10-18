@@ -7,7 +7,7 @@ from sqlalchemy import asc
 
 from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
-from core.services.bm_monsters import get_all_boss_monster_data, export_selected_bosses
+from core.services.bm_monsters_service import get_all_boss_monster_data, export_selected_bosses
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
 from gui.widgets.MonsterEditDialog import MonsterEditDialog

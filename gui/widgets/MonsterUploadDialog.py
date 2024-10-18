@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QMessageBox, QDialog, QFileDialog
 
 from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
-from core.services.bm_monsters import create_monster_from_zip_data
+from core.services.bm_monsters_service import create_monster_from_zip_data
 from db.db_setup import get_session
 from gui.generated.monster_upload_dialog import Ui_Monster_Upload_Dialog
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
