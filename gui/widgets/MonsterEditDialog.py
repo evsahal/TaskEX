@@ -62,6 +62,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             self.load_monster_data(monster_data)
         elif self.monster_to_edit:
             self.load_monster_data(self.monster_to_edit)
+
         session.close()
 
     def load_monster_data(self, monster_data):
@@ -299,7 +300,8 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         if not self.monster_id:
             # Close  the dialog
             self.accept()
-            self.monster.file_path = self.preview_image_line_edit.property("file_path")
+            self.monster.preview_img_path = self.preview_image_line_edit.property("file_path")
+            # self.monster.p540_img_path = self.p540_image_line_edit.property("file_path")
             return self.monster
         # Commit changes for existing monsters
         try:

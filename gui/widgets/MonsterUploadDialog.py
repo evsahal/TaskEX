@@ -50,6 +50,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         else:
             monster_edit_dialog = MonsterEditDialog(parent=self,monster_to_edit=monster_to_edit)
 
+
         result = monster_edit_dialog.exec_()
 
         # If the user clicked "Save" in the dialog
@@ -145,8 +146,8 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             # After commit, add each monster to the main frame
             for monster in self.boss_monster_list:
                 # Move the file to the preview folder if file_path is set
-                if monster.file_path and os.path.exists(monster.file_path):
-                    copy_image_to_preview(monster.file_path, monster.monster_image.preview_image)
+                if monster.preview_img_path and os.path.exists(monster.preview_img_path):
+                    copy_image_to_preview(monster.preview_img_path, monster.monster_image.preview_image)
 
                 # Now we can call add_monster_to_main_frame because monster IDs are assigned
                 self.add_monster_to_main_frame(monster)
@@ -204,6 +205,10 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             # Convert YAML data to BossMonster objects and add to the upload scroll area
             for monster_data in monsters_data:
                 new_monster = create_monster_from_zip_data(monster_data,temp_extract_folder)
+                print("Yaml images")
+                print(new_monster.preview_img_path)
+                print(new_monster.p540_img_path)
+                print("End of yaml")
                 self.add_new_monster_to_list(new_monster,new_monster.preview_img_path)
 
             QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
@@ -211,7 +216,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         except Exception as e:
             # Clean up the temp folder on error
             shutil.rmtree(temp_extract_folder)
-            QMessageBox.critical(self, "Import Error", str(e))
+            QMessageBox.critical(self, "Import Error! ", str(e))
 
 
     def remove_monster(self, monster):

@@ -156,9 +156,9 @@ def create_monster_from_zip_data(data,temp_extract_folder):
     category = session.query(MonsterCategory).filter_by(name=data["category"]).one_or_none()
     logic = session.query(MonsterLogic).filter_by(logic=data["logic"]).one_or_none()
     if category:
-        monster.monster_category = category
+        monster.monster_category_id = category.id
     if logic:
-        monster.monster_logic = logic
+        monster.monster_logic_id = logic.id
 
     # Handle images
     if "image" in data:
@@ -170,10 +170,10 @@ def create_monster_from_zip_data(data,temp_extract_folder):
         )
         monster.monster_image = monster_image
 
-        # Store image paths for later use
-        monster.preview_img_path = os.path.join(temp_extract_folder, "images", monster_image.preview_image)
-        monster.img_540p_path = os.path.join(temp_extract_folder, "images", monster_image.img_540p) \
-            if monster_image.img_540p else None
+        # Store image path for later use
+        monster.preview_img_path = os.path.join(temp_extract_folder, "images",monster.monster_image.preview_image)
+        monster.p540_img_path = os.path.join(temp_extract_folder, "images", monster.monster_image.img_540p) if monster.monster_image.img_540p else None
+
 
     # Add levels
     for level_data in data.get("levels", []):
