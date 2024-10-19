@@ -151,7 +151,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit">
+       <widget class="QPlainTextEdit" name="upload_console">
         <property name="styleSheet">
          <string notr="true">font: 10pt &quot;Source Code Pro&quot;;</string>
         </property>

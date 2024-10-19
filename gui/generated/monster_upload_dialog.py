@@ -85,12 +85,12 @@ class Ui_Monster_Upload_Dialog(object):
         self.horizontalLayout_3 = QHBoxLayout(self.frame_3)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.plainTextEdit = QPlainTextEdit(self.frame_3)
-        self.plainTextEdit.setObjectName(u"plainTextEdit")
-        self.plainTextEdit.setStyleSheet(u"font: 10pt \"Source Code Pro\";")
-        self.plainTextEdit.setReadOnly(True)
+        self.upload_console = QPlainTextEdit(self.frame_3)
+        self.upload_console.setObjectName(u"upload_console")
+        self.upload_console.setStyleSheet(u"font: 10pt \"Source Code Pro\";")
+        self.upload_console.setReadOnly(True)
 
-        self.horizontalLayout_3.addWidget(self.plainTextEdit)
+        self.horizontalLayout_3.addWidget(self.upload_console)
 
 
         self.verticalLayout.addWidget(self.frame_3)
@@ -132,8 +132,8 @@ class Ui_Monster_Upload_Dialog(object):
     def retranslateUi(self, Monster_Upload_Dialog):
         Monster_Upload_Dialog.setWindowTitle(QCoreApplication.translate("Monster_Upload_Dialog", u"Upload Monsters", None))
         self.add_monster_btn.setText(QCoreApplication.translate("Monster_Upload_Dialog", u"Add Monster", None))
-        self.import_monster_btn.setText(QCoreApplication.translate("Monster_Upload_Dialog", u"Import Monster", None))
-        self.plainTextEdit.setDocumentTitle("")
+        self.import_monster_btn.setText(QCoreApplication.translate("Monster_Upload_Dialog", u"Import Monsters", None))
+        self.upload_console.setDocumentTitle("")
         self.upload_monsters_btn.setText(QCoreApplication.translate("Monster_Upload_Dialog", u"Upload Monsters", None))
         self.exit_btn.setText(QCoreApplication.translate("Monster_Upload_Dialog", u"Exit", None))
     # retranslateUi

@@ -4,6 +4,7 @@ import tempfile
 import zipfile
 
 import yaml
+from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QMessageBox, QDialog, QFileDialog
 
@@ -19,6 +20,8 @@ from utils.helper_utils import copy_image_to_preview, copy_image_to_template
 
 
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
+    # Define the custom signal for logging
+    log_message = Signal(str)
     def __init__(self,main_window, parent=None):
         super(MonsterUploadDialog, self).__init__(parent)
         self.setupUi(self)
@@ -38,6 +41,15 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Initialize the layout for displaying the monster profiles
         self.flow_layout = FlowLayout(self.monsters_list_frame)
         self.monsters_list_frame.setLayout(self.flow_layout)
+
+        # Connect the custom signal to the slot that updates the console
+        self.log_message.connect(self.update_console)
+
+    def update_console(self, message):
+        """
+        Slot to append log messages to the QPlainTextEdit console.
+        """
+        self.upload_console.appendPlainText(message)
 
     def open_monster_edit_dialog(self, monster_to_edit=None):
         """
@@ -153,8 +165,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
                 # Now we can call add_monster_to_main_frame because monster IDs are assigned
                 self.add_monster_to_main_frame(monster)
-
-            QMessageBox.information(self, "Save Successful", "All new monsters have been saved to the database.")
+            self.log_message.emit('New monsters added to the file system')
             # Disable the upload button after saving
             self.upload_monsters_btn.setEnabled(False)
             self.boss_monster_list.clear()  # Clear the list after saving
@@ -212,11 +223,12 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
                 print(new_monster.p540_img_path)
                 print("End of yaml")
                 self.add_new_monster_to_list(new_monster,new_monster.preview_img_path)
-
-            QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
+            self.log_message.emit('Monsters imported successfully')
+            # QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
 
         except Exception as e:
             # Clean up the temp folder on error
             shutil.rmtree(temp_extract_folder)
-            QMessageBox.critical(self, "Import Error! ", str(e))
+            # QMessageBox.critical(self, "Import Error! ", str(e))
+            self.log_message.emit(str(e))
 
