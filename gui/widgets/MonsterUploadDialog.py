@@ -15,7 +15,7 @@ from gui.generated.monster_upload_dialog import Ui_Monster_Upload_Dialog
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 from utils.constants_util import logic_colors
-from utils.helper_utils import copy_image_to_preview
+from utils.helper_utils import copy_image_to_preview, copy_image_to_template
 
 
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
@@ -148,6 +148,8 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
                 # Move the file to the preview folder if file_path is set
                 if monster.preview_img_path and os.path.exists(monster.preview_img_path):
                     copy_image_to_preview(monster.preview_img_path, monster.monster_image.preview_image)
+                if monster.p540_img_path and os.path.exists(monster.p540_img_path):
+                    copy_image_to_template(monster.p540_img_path, monster.monster_image.img_540p)
 
                 # Now we can call add_monster_to_main_frame because monster IDs are assigned
                 self.add_monster_to_main_frame(monster)
@@ -217,20 +219,4 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             # Clean up the temp folder on error
             shutil.rmtree(temp_extract_folder)
             QMessageBox.critical(self, "Import Error! ", str(e))
-
-
-    def remove_monster(self, monster):
-        """
-        Remove the monster from the list and UI.
-        :param monster: Monster object to be removed
-        """
-        # Remove from the list of unsaved monsters
-        self.boss_monster_list = [m for m in self.boss_monster_list if m != monster]
-
-        # Find and remove the corresponding widget from the UI
-        for i in range(self.flow_layout.count()):
-            widget = self.flow_layout.itemAt(i).widget()
-            if widget.data == monster:
-                widget.deleteLater()
-                break
 

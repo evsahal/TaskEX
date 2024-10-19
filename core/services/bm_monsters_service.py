@@ -193,8 +193,9 @@ def copy_image_to_export(images_folder, image_name, image_type):
     if image_type == "preview":
         base_folder = os.path.join(BASE_DIR, 'assets', 'preview')
     else:
-        base_folder = os.path.join(BASE_DIR, 'assets', '540p')
+        base_folder = os.path.join(BASE_DIR, 'assets', '540p','monsters')
     image_path = os.path.join(base_folder, image_name)
+    print(image_path)
 
     if os.path.exists(image_path):
         dest_image_path = os.path.join(images_folder, f"{image_name}")

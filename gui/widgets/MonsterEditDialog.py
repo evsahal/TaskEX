@@ -7,7 +7,7 @@ from sqlalchemy.orm import joinedload
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
-from utils.helper_utils import image_chooser, copy_image_to_preview
+from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_to_template
 
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
@@ -301,7 +301,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Close  the dialog
             self.accept()
             self.monster.preview_img_path = self.preview_image_line_edit.property("file_path")
-            # self.monster.p540_img_path = self.p540_image_line_edit.property("file_path")
+            self.monster.p540_img_path = self.p540_image_line_edit.property("file_path")
             return self.monster
         # Commit changes for existing monsters
         try:
@@ -309,9 +309,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Move the file to the preview folder if file picker is used:
             file_path = self.preview_image_line_edit.property("file_path")
             if file_path:
-                # print(file_path)
                 copy_image_to_preview(file_path,self.monster.monster_image.preview_image)
-            # TODO do it for 540p image
+            # Move the file to the 540p template if file picker is used:
+            file_path = self.p540_image_line_edit.property("file_path")
+            if file_path:
+                copy_image_to_template(file_path, self.monster.monster_image.img_540p)
+
             # Commit changes in db
             session.commit()
             self.monster_updated.emit(self.monster_id)
