@@ -937,7 +937,7 @@ Button */
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="btn_custom_task">
+                 <widget class="QPushButton" name="btn_task_manager">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -948,7 +948,7 @@ Button */
                    <string notr="true">background-image: url(:/icons/images/icons/cil-library-add.png);</string>
                   </property>
                   <property name="text">
-                   <string>Custom Tasks</string>
+                   <string>Task Manager</string>
                   </property>
                  </widget>
                 </item>
@@ -1888,7 +1888,7 @@ background-repeat: no-repeat;</string>
                        </item>
                       </layout>
                      </widget>
-                     <widget class="QWidget" name="custom_tasks">
+                     <widget class="QWidget" name="task_manager">
                       <property name="styleSheet">
                        <string notr="true">b</string>
                       </property>
@@ -1911,7 +1911,7 @@ background-repeat: no-repeat;</string>
                        <item alignment="Qt::AlignmentFlag::AlignHCenter">
                         <widget class="QLabel" name="label_3">
                          <property name="text">
-                          <string>Custom Tasks</string>
+                          <string>Task Manager</string>
                          </property>
                         </widget>
                        </item>
@@ -1925,7 +1925,7 @@ background-repeat: no-repeat;</string>
                           <string notr="true"/>
                          </property>
                          <property name="currentIndex">
-                          <number>1</number>
+                          <number>3</number>
                          </property>
                          <widget class="QWidget" name="scan_generals">
                           <property name="sizePolicy">
@@ -2516,8 +2516,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>90</width>
-                                   <height>20</height>
+                                   <width>1118</width>
+                                   <height>514</height>
                                   </rect>
                                  </property>
                                 </widget>
@@ -2569,10 +2569,22 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>90</width>
-                                   <height>20</height>
+                                   <width>1118</width>
+                                   <height>514</height>
                                   </rect>
                                  </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                                  <item>
+                                   <widget class="QFrame" name="blackmarket_list_frame">
+                                    <property name="frameShape">
+                                     <enum>QFrame::Shape::NoFrame</enum>
+                                    </property>
+                                    <property name="frameShadow">
+                                     <enum>QFrame::Shadow::Raised</enum>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
                                 </widget>
                                </widget>
                               </item>

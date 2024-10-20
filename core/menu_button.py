@@ -32,8 +32,8 @@ def handle_button_click(main_window, btn):
         btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
     # SHOW CUSTOM TASKS PAGE
-    if btnName == "btn_custom_task":
-            main_window.widgets.stackedWidget.setCurrentWidget(main_window.widgets.custom_tasks)
+    if btnName == "btn_task_manager":
+            main_window.widgets.stackedWidget.setCurrentWidget(main_window.widgets.task_manager)
             UIFunctions.resetStyle(main_window, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
@@ -84,7 +84,7 @@ def connect_buttons(main_window):
     :param main_window: The instance of the main window to access widgets.
     """
     main_window.widgets.btn_home.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_home))
-    main_window.widgets.btn_custom_task.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_custom_task))
+    main_window.widgets.btn_task_manager.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_task_manager))
     main_window.widgets.btn_coordinate_manager.clicked.connect(
         lambda: handle_button_click(main_window, main_window.widgets.btn_coordinate_manager))
     main_window.widgets.btn_add.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_add))

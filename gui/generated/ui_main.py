@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -734,12 +734,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.btn_home)
 
-        self.btn_custom_task = QPushButton(self.topMenu)
-        self.btn_custom_task.setObjectName(u"btn_custom_task")
-        self.btn_custom_task.setMinimumSize(QSize(0, 45))
-        self.btn_custom_task.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-library-add.png);")
+        self.btn_task_manager = QPushButton(self.topMenu)
+        self.btn_task_manager.setObjectName(u"btn_task_manager")
+        self.btn_task_manager.setMinimumSize(QSize(0, 45))
+        self.btn_task_manager.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-library-add.png);")
 
-        self.verticalLayout_8.addWidget(self.btn_custom_task)
+        self.verticalLayout_8.addWidget(self.btn_task_manager)
 
         self.btn_coordinate_manager = QPushButton(self.topMenu)
         self.btn_coordinate_manager.setObjectName(u"btn_coordinate_manager")
@@ -1124,19 +1124,19 @@ class Ui_MainWindow(object):
         self.verticalLayout_21.addWidget(self.label_2)
 
         self.stackedWidget.addWidget(self.coordinate_manager)
-        self.custom_tasks = QWidget()
-        self.custom_tasks.setObjectName(u"custom_tasks")
-        self.custom_tasks.setStyleSheet(u"b")
-        self.verticalLayout = QVBoxLayout(self.custom_tasks)
+        self.task_manager = QWidget()
+        self.task_manager.setObjectName(u"task_manager")
+        self.task_manager.setStyleSheet(u"b")
+        self.verticalLayout = QVBoxLayout(self.task_manager)
         self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(10, 10, 10, 10)
-        self.label_3 = QLabel(self.custom_tasks)
+        self.label_3 = QLabel(self.task_manager)
         self.label_3.setObjectName(u"label_3")
 
         self.verticalLayout.addWidget(self.label_3, 0, Qt.AlignmentFlag.AlignHCenter)
 
-        self.stackedWidget.addWidget(self.custom_tasks)
+        self.stackedWidget.addWidget(self.task_manager)
         self.bot_manager = QWidget()
         self.bot_manager.setObjectName(u"bot_manager")
         self.verticalLayout_20 = QVBoxLayout(self.bot_manager)
@@ -1413,7 +1413,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 90, 20))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
         self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
@@ -1441,7 +1441,16 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 90, 20))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
+        self.horizontalLayout_17 = QHBoxLayout(self.scrollAreaWidgetContents_4)
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.blackmarket_list_frame = QFrame(self.scrollAreaWidgetContents_4)
+        self.blackmarket_list_frame.setObjectName(u"blackmarket_list_frame")
+        self.blackmarket_list_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.blackmarket_list_frame.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.horizontalLayout_17.addWidget(self.blackmarket_list_frame)
+
         self.bm_black_market_scroll_area.setWidget(self.scrollAreaWidgetContents_4)
 
         self.verticalLayout_23.addWidget(self.bm_black_market_scroll_area)
@@ -1584,7 +1593,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(3)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)
 
@@ -1598,7 +1607,7 @@ class Ui_MainWindow(object):
         self.titleLeftDescription.setText(QCoreApplication.translate("MainWindow", u"Modern GUI / Flat Style", None))
         self.toggleButton.setText("")
         self.btn_home.setText(QCoreApplication.translate("MainWindow", u"Home", None))
-        self.btn_custom_task.setText(QCoreApplication.translate("MainWindow", u"Custom Tasks", None))
+        self.btn_task_manager.setText(QCoreApplication.translate("MainWindow", u"Task Manager", None))
         self.btn_coordinate_manager.setText(QCoreApplication.translate("MainWindow", u"Coordinate Manager", None))
         self.btn_add.setText(QCoreApplication.translate("MainWindow", u"Create Instance", None))
         self.btn_bot_manager.setText(QCoreApplication.translate("MainWindow", u"Bot Manager", None))
@@ -1631,7 +1640,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.closeAppBtn.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Collective", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Custom Tasks", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Task Manager", None))
         self.scan_generals_category.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
         self.scan_generals_category.setItemText(1, QCoreApplication.translate("MainWindow", u"Military", None))
         self.scan_generals_category.setItemText(2, QCoreApplication.translate("MainWindow", u"Development", None))
