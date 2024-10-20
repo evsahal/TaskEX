@@ -218,10 +218,6 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             # Convert YAML data to BossMonster objects and add to the upload scroll area
             for monster_data in monsters_data:
                 new_monster = create_monster_from_zip_data(monster_data,temp_extract_folder)
-                print("Yaml images")
-                print(new_monster.preview_img_path)
-                print(new_monster.p540_img_path)
-                print("End of yaml")
                 self.add_new_monster_to_list(new_monster,new_monster.preview_img_path)
             self.log_message.emit('Monsters imported successfully')
             # QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
