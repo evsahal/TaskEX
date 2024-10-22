@@ -1,34 +1,37 @@
+import os
+import shutil
+from PySide6.QtWidgets import QMessageBox, QPushButton
+from db.db_setup import get_session
+from db.models import BlackMarket, BlackMarketItem
 from core.custom_widgets.FlowLayout import FlowLayout
 from gui.widgets.BlackMarketProfileWidget import BlackMarketProfileWidget
-from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
+
+ASSETS_PATH = os.path.join("assets", "540p", "blackmarket")
 
 
 def init_bm_blackmarket_ui(main_window):
-
-    # Set up the Layout for black market items
+    """Initialize the UI with existing black market items."""
     blackmarket_list_frame = main_window.widgets.blackmarket_list_frame
-
-    # Use the existing blackmarket_list_frame as the container
     flow_layout = FlowLayout(blackmarket_list_frame)
     flow_layout.setObjectName("blackmarket_list_flow_layout")
     setattr(main_window.widgets, flow_layout.objectName(), flow_layout)
-
-    # Set the flow layout to the container frame (blackmarket_list_frame)
     blackmarket_list_frame.setLayout(flow_layout)
 
+    session = get_session()
+    items = session.query(BlackMarket).all()
+    for item in items:
+        add_blackmarket_item_to_frame(main_window, item)
+    session.close()
+
+    # Add one empty profile widget by default
+    add_blackmarket_item_to_frame(main_window)
 
 
-    # Pass the data to add the widgets
-    for i in range(20):
-        # print(boss.monster_logic_id)
-        add_blackmarket_item_to_frame(main_window)
-
-def add_blackmarket_item_to_frame(main_window):
+def add_blackmarket_item_to_frame(main_window, data=None):
+    """Add a new BlackMarketProfileWidget to the flow layout."""
     flow_layout = main_window.widgets.blackmarket_list_flow_layout
-
-    widget = BlackMarketProfileWidget(flow_layout=flow_layout)
+    widget = BlackMarketProfileWidget(flow_layout=flow_layout, data=data)
     setattr(main_window.widgets, widget.objectName(), widget)
-
-    # Set the size of the widget to its size hint
-    # widget.setFixedSize(widget.sizeHint())
     flow_layout.addWidget(widget)
+
+

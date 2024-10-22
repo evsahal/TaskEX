@@ -100,7 +100,7 @@ class Ui_BlackMarket_Profile(object):
         self.scroll_area_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_5 = QHBoxLayout(self.scroll_area_frame)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(-1, -1, -1, 11)
+        self.horizontalLayout_5.setContentsMargins(-1, -1, -1, 12)
         self.add_template_btn = QPushButton(self.scroll_area_frame)
         self.add_template_btn.setObjectName(u"add_template_btn")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
@@ -168,6 +168,7 @@ class Ui_BlackMarket_Profile(object):
 
     def retranslateUi(self, BlackMarket_Profile):
         BlackMarket_Profile.setWindowTitle(QCoreApplication.translate("BlackMarket_Profile", u"Form", None))
+        self.name_lineEdit.setPlaceholderText(QCoreApplication.translate("BlackMarket_Profile", u"Item Name Here", None))
         self.save_btn.setText("")
         self.delete_btn.setText("")
         self.add_template_btn.setText("")

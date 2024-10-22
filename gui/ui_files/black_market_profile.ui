@@ -70,6 +70,9 @@
              <height>45</height>
             </size>
            </property>
+           <property name="placeholderText">
+            <string>Item Name Here</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -186,7 +189,7 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <property name="bottomMargin">
-                 <number>11</number>
+                 <number>12</number>
                 </property>
                 <item>
                  <widget class="QPushButton" name="add_template_btn">
