@@ -1245,7 +1245,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 887, 466))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -1350,7 +1350,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1451,6 +1451,15 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
         self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
+        self.horizontalLayout_18 = QHBoxLayout(self.scrollAreaWidgetContents_3)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.champions_list_frame = QFrame(self.scrollAreaWidgetContents_3)
+        self.champions_list_frame.setObjectName(u"champions_list_frame")
+        self.champions_list_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.champions_list_frame.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.horizontalLayout_18.addWidget(self.champions_list_frame)
+
         self.bm_champions_scroll_area.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_22.addWidget(self.bm_champions_scroll_area)
@@ -1593,7 +1602,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(3)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)
 

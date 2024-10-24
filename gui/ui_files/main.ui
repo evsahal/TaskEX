@@ -1925,7 +1925,7 @@ background-repeat: no-repeat;</string>
                           <string notr="true"/>
                          </property>
                          <property name="currentIndex">
-                          <number>2</number>
+                          <number>3</number>
                          </property>
                          <widget class="QWidget" name="scan_generals">
                           <property name="sizePolicy">
@@ -2175,8 +2175,8 @@ background-repeat: no-repeat;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>887</width>
-                                   <height>466</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -2389,8 +2389,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>388</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2585,6 +2585,18 @@ border-radius: 5px;</string>
                                    <height>514</height>
                                   </rect>
                                  </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_18">
+                                  <item>
+                                   <widget class="QFrame" name="champions_list_frame">
+                                    <property name="frameShape">
+                                     <enum>QFrame::Shape::NoFrame</enum>
+                                    </property>
+                                    <property name="frameShadow">
+                                     <enum>QFrame::Shadow::Raised</enum>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
                                 </widget>
                                </widget>
                               </item>
