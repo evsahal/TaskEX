@@ -488,7 +488,7 @@
               <property name="title">
                <string>Configure Test</string>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="8,2">
+              <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,8">
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -501,78 +501,6 @@
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item alignment="Qt::AlignmentFlag::AlignTop">
-                <widget class="QFrame" name="frame_3">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::Shape::NoFrame</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Shadow::Raised</enum>
-                 </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_13">
-                  <property name="topMargin">
-                   <number>5</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QScrollArea" name="scrollArea">
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::NoFrame</enum>
-                    </property>
-                    <property name="widgetResizable">
-                     <bool>true</bool>
-                    </property>
-                    <widget class="QWidget" name="scrollAreaWidgetContents_2">
-                     <property name="geometry">
-                      <rect>
-                       <x>0</x>
-                       <y>0</y>
-                       <width>252</width>
-                       <height>842</height>
-                      </rect>
-                     </property>
-                     <layout class="QHBoxLayout" name="horizontalLayout_7">
-                      <item>
-                       <widget class="QLabel" name="label">
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>80</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>To configure the test, start by selecting the emulator from the list of pre-configured emulator pages. Choose the appropriate emulator from the dropdown to proceed. Next, you will configure the template matching area. Ensure that a 540p image has already been uploaded in the &quot;Image Info&quot; section. Now, click the &quot;Select Templates&quot; button to map the specific area of the image that should be used for template matching. This selected area will serve as the region of interest for the bot's matching algorithm. It's important to configure the template area properly.
-
-After defining the template area, use the magnifier icon to help find the optimal threshold value. This tool captures real-time gameplay, allowing you to fine-tune the threshold settings to ensure accurate detection of the boss in the game. Adjust the threshold value accordingly, as it will affect the precision of the template matching.
-
-Finally, configure the click position by clicking the button next to the click position field. This operation simulates a click to test whether it lands directly on the boss or if any adjustment is needed. By fine-tuning the click position, you can ensure the bot accurately targets the in-game boss for interactions.</string>
-                        </property>
-                        <property name="scaledContents">
-                         <bool>true</bool>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
-                   </widget>
-                  </item>
-                 </layout>
-                </widget>
-               </item>
                <item>
                 <widget class="QFrame" name="frame_5">
                  <property name="sizePolicy">
@@ -593,24 +521,21 @@ Finally, configure the click position by clicking the button next to the click p
                  <property name="frameShadow">
                   <enum>QFrame::Shadow::Raised</enum>
                  </property>
-                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="2,3,0">
                   <property name="leftMargin">
                    <number>11</number>
                   </property>
                   <property name="topMargin">
-                   <number>0</number>
+                   <number>11</number>
                   </property>
                   <property name="rightMargin">
                    <number>11</number>
                   </property>
                   <property name="bottomMargin">
-                   <number>11</number>
+                   <number>0</number>
                   </property>
                   <item>
-                   <widget class="QComboBox" name="choose_emulator_combo_box">
-                    <property name="enabled">
-                     <bool>false</bool>
-                    </property>
+                   <widget class="QLineEdit" name="port_lineEdit">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -618,14 +543,14 @@ Finally, configure the click position by clicking the button next to the click p
                      </size>
                     </property>
                     <property name="placeholderText">
-                     <string>Choose Emulator</string>
+                     <string>Port No.</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="map_template_btn">
+                   <widget class="QPushButton" name="capture_image_btn">
                     <property name="enabled">
-                     <bool>false</bool>
+                     <bool>true</bool>
                     </property>
                     <property name="minimumSize">
                      <size>
@@ -634,8 +559,92 @@ Finally, configure the click position by clicking the button next to the click p
                      </size>
                     </property>
                     <property name="text">
-                     <string>Map Template</string>
+                     <string>Capture Image</string>
                     </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="lock_btn">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="checkable">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="frame_3">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::Shape::NoFrame</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Shadow::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="0">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QScrollArea" name="scrollArea">
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::NoFrame</enum>
+                    </property>
+                    <property name="widgetResizable">
+                     <bool>true</bool>
+                    </property>
+                    <widget class="QWidget" name="scrollAreaContents">
+                     <property name="geometry">
+                      <rect>
+                       <x>0</x>
+                       <y>0</y>
+                       <width>280</width>
+                       <height>122</height>
+                      </rect>
+                     </property>
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_5">
+                      <item>
+                       <widget class="QLabel" name="configure_label">
+                        <property name="text">
+                         <string>configure_label</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
                    </widget>
                   </item>
                  </layout>

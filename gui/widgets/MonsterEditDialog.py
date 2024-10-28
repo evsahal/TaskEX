@@ -1,9 +1,12 @@
 import os
 from PySide6.QtCore import Signal, Qt
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, QMessageBox, QWidget
+from PySide6.QtGui import QIcon, QImage
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
+    QMessageBox, QWidget, QFrame
 from sqlalchemy.orm import joinedload
 
+from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan
+from core.custom_widgets.SelectionTool import SelectionTool
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
@@ -13,6 +16,7 @@ from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     # Signal emitted when a monster is updated
     monster_updated = Signal(int)
+    frame_ready = Signal(QImage)
 
     def __init__(self, monster_id=None,monster_to_edit=None, parent=None):
         super(MonsterEditDialog, self).__init__(parent)
@@ -23,6 +27,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.monster_to_edit = monster_to_edit
         self.previous_logic = None
         self.level_rows = []  # Keep track of dynamically added levels
+        self.main_window = parent
 
         # Set up scroll area for monster levels
         self.init_level_scroll_area()
@@ -36,9 +41,129 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.browse_540p_btn.clicked.connect(lambda: image_chooser(self.browse_540p_btn, self.p540_image_line_edit))
         self.logic_combo_box.currentTextChanged.connect(self.handle_logic_change)
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
+        self.capture_image_btn.clicked.connect(self.capture_template_ss)
+        self.lock_btn.clicked.connect(self.toggle_lock_button)
+        self.frame_ready.connect(self.handle_frame_ready)
+
+        # Setup Emulator Connection
+        self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
 
         # Populate fields with initial data
         self.populate_field_data()
+
+        # Keep track of the selection tool for state management
+        self.selection_tool = None
+
+    def handle_frame_ready(self,img):
+        """
+        Slot to receive the emitted signal and add a new scroll area
+        with a lengthy text label inside for testing purposes.
+        """
+        try:
+            print("[DEBUG] Handling frame ready...")
+
+            # Get the parent widget of the current scroll area
+            parent_widget = self.scrollArea.parentWidget()
+            if not parent_widget:
+                raise ValueError("[ERROR] Scroll area has no parent widget.")
+
+            print("[DEBUG] Found parent widget of scroll area.")
+
+            # Get the layout of the parent widget
+            parent_layout = parent_widget.layout()
+            if not parent_layout:
+                print("[DEBUG] Creating new layout for parent widget.")
+                parent_layout = QVBoxLayout(parent_widget)
+                parent_widget.setLayout(parent_layout)
+
+            # Remove the old scroll area from the layout
+            print("[DEBUG] Removing old scroll area.")
+            parent_layout.removeWidget(self.scrollArea)
+            self.scrollArea.deleteLater()  # Properly delete the old scroll area
+
+            # Create a new scroll area
+            new_scroll_area = QScrollArea(self)
+            new_scroll_area.setObjectName("scrollArea")
+            new_scroll_area.setWidgetResizable(True)
+
+            # Create a content widget to hold the label inside the scroll area
+            scroll_content = QWidget()
+            content_layout = QVBoxLayout(scroll_content)
+
+
+            # Create the selection tool with the loaded image
+            selection_tool = SelectionTool(img, full_preview=False, parent=scroll_content)
+            content_layout.addWidget(selection_tool)
+
+            # content_layout.addWidget(test_label)
+            print("[DEBUG] Added test label with lengthy text to the content layout.")
+
+            # Set the content widget in the new scroll area
+            new_scroll_area.setWidget(scroll_content)
+
+            # Add the new scroll area to the parent layout
+            parent_layout.addWidget(new_scroll_area)
+
+            # Store a reference to the new scroll area
+            self.scrollArea = new_scroll_area
+
+            print("[DEBUG] New scroll area with test label added successfully.")
+
+        except Exception as e:
+            print(f"[ERROR] Error in handle_frame_ready: {e}")
+
+    def capture_template_ss(self):
+        """Capture the template image through emulator."""
+        port = self.port_lineEdit.text().strip()
+        is_valid, error_message = self.validate_port(port)
+
+        if not is_valid:
+            QMessageBox.critical(self, "Error", error_message)
+            return
+
+        # Start the thread to capture the image
+        monster_template_scan(self, port, "capture_template_ss")
+
+    def validate_port(self,port):
+
+        if not port.isdigit():
+            # print("Wrong Port, stop exection")
+            return False, "Invalid Port Number."
+
+        #Check if the port is in use by emulator controls
+        if check_port_already_in_use(self.main_window,port):
+            # print("Already in use, stop execution")
+            return False, "Port is already in use"
+
+        return True, None
+
+    def handle_image_captured(self, image_path):
+        """Handle the captured image and initialize the selection tool."""
+        # Remove the configure label from the scroll area
+        self.configure_label.deleteLater()
+
+        # Create the selection tool with the captured image
+        q_image = QImage(image_path)
+        self.selection_tool = SelectionTool(q_image, full_preview=False, parent=self)
+        self.scrollArea.setWidget(self.selection_tool)
+
+    def toggle_lock_button(self, checked):
+        """Handle the lock button state."""
+        if checked:
+            # Ensure a template is selected before locking
+            if not self.selection_tool or not self.selection_tool.is_selection_made():
+                QMessageBox.warning(self, "Warning", "Please select a template area before locking.")
+                self.lock_btn.setChecked(False)  # Revert the button state
+                return
+
+            # Lock the selection tool to make it read-only
+            self.selection_tool.set_read_only(True)
+            self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-locked.png"))
+        else:
+            # Unlock the selection tool
+            if self.selection_tool:
+                self.selection_tool.set_read_only(False)
+            self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
 
     def populate_field_data(self):
         """Populate category and logic combo boxes, and load existing monster data if editing."""
@@ -138,8 +263,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.click_x_spin_box.setEnabled(toggle)
         self.click_y_spin_box.setEnabled(toggle)
         self.simulate_click_btn.setEnabled(toggle)
-        self.choose_emulator_combo_box.setEnabled(toggle)
-        self.map_template_btn.setEnabled(toggle)
+
 
     def clear_extra_levels(self):
         """Clear all but the first level."""

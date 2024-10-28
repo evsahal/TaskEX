@@ -2,6 +2,7 @@ import os
 
 import cv2
 import numpy as np
+from PySide6.QtGui import QImage
 from pytesseract import pytesseract
 
 from config.settings import BASE_DIR
@@ -197,3 +198,11 @@ def apply_bilateral_filter(image, d=9, sigma_color=75, sigma_space=75):
 # Apply Non-Local Means Denoising to reduce patterned noise
 def apply_nl_means_filter(image, h=10, h_for_color=10, template_window_size=7, search_window_size=21):
     return cv2.fastNlMeansDenoisingColored(image, None, h, h_for_color, template_window_size, search_window_size)
+
+
+def convert_cv_to_qimage(cv_img):
+    """Convert a NumPy image to QImage."""
+    height, width, channel = cv_img.shape
+    bytes_per_line = channel * width
+    q_image = QImage(cv_img.data, width, height, bytes_per_line, QImage.Format_BGR888)
+    return q_image

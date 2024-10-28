@@ -57,7 +57,7 @@ def handle_button_click(main_window, btn):
     # CALL LOGOUT FUNCTION
     elif btnName == "btn_logout":
         # Call function to add a new dynamic button
-        logout(main_window)
+        logout()
 
     # SHOW EMULATOR PAGE
     elif btnName.startswith("btn_emu_"):
@@ -91,7 +91,7 @@ def connect_buttons(main_window):
     main_window.widgets.btn_bot_manager.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_bot_manager))
     main_window.widgets.btn_logout.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_logout))
 
-def logout(main_window):
+def logout():
     settings = QSettings("TaskEnforceX", "TaskEX")
     settings.setValue("logged_in", False)
     sys.exit()

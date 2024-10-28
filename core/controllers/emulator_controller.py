@@ -95,7 +95,7 @@ def start_general_scan_instance(main_window: 'MainWindow') -> bool:
     port: str = main_window.widgets.scan_generals_port.text()
 
     # Check if the port is already in use
-    if check_port_already_in_use(main_window,port):
+    if check_port_already_in_use(main_window, port):
         # emit a signal to print the error to the console
         main_window.scan_general_console.emit("Port is already in use")
         return False
@@ -106,8 +106,8 @@ def start_general_scan_instance(main_window: 'MainWindow') -> bool:
     setattr(main_window.widgets, f'emulator_thread_{index}', emulator_thread)
 
     # Connect signals
-    emulator_thread.scan_general_finished.connect(lambda : on_general_scan_finished(main_window))
-    emulator_thread.scan_general_error.connect(lambda : stop_general_scan_instance(main_window))
+    emulator_thread.scan_general_finished.connect(lambda: on_general_scan_finished(main_window))
+    emulator_thread.scan_general_error.connect(lambda: stop_general_scan_instance(main_window))
     emulator_thread.scan_general_console.connect(lambda message: update_scan_console(main_window, message))
     emulator_thread.add_general_signal.connect(lambda general: add_general_to_frame(main_window, general))
 
@@ -115,6 +115,7 @@ def start_general_scan_instance(main_window: 'MainWindow') -> bool:
     emulator_thread.start()
 
     return True
+
 
 def stop_general_scan_instance(main_window: 'MainWindow') -> None:
     """
@@ -125,6 +126,7 @@ def stop_general_scan_instance(main_window: 'MainWindow') -> None:
     if emulator_thread:
         emulator_thread.stop()
         main_window.widgets.scan_generals_btn.setText("Scan Generals")
+
 
 def update_run_button_icon(main_window: 'MainWindow', index: int, running: bool) -> None:
     """
@@ -150,6 +152,7 @@ def update_run_button_icon(main_window: 'MainWindow', index: int, running: bool)
         if run_button_run_tab:
             run_button_run_tab.setIcon(run_icon)
 
+
 def check_port_already_in_use(main_window: 'MainWindow', port: str) -> bool:
     """
     Check if the given port is already in use by any running emulator instance.
@@ -168,12 +171,13 @@ def check_port_already_in_use(main_window: 'MainWindow', port: str) -> bool:
 
     return False  # No matching port in running instances
 
-def on_general_scan_finished(main_window: 'MainWindow') -> None:
 
+def on_general_scan_finished(main_window: 'MainWindow') -> None:
     emulator_thread: Optional[EmulatorThread] = getattr(main_window.widgets, f'emulator_thread_999', None)
     main_window.widgets.scan_generals_btn.setText("Scan Generals")
     emulator_thread.scan_general_console.emit("General scanning is now complete.\n"
                                               "Kindly review the list of scanned generals and remove any unwanted or duplicated entries.\n")
+
 
 def on_emulator_finished(main_window: 'MainWindow', index: int) -> None:
     """
@@ -198,6 +202,7 @@ def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit, button: QPushButt
     Synchronize two QLineEdits so that changes in one are reflected in the other.
     Optionally, update the button text when the name QLineEdit changes.
     """
+
     def update_lineedit2(text: str):
         # Block the signal to avoid an infinite loop
         if not lineedit2.signalsBlocked():
@@ -217,3 +222,14 @@ def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit, button: QPushButt
     # Connect signals from both lineedits to each other
     lineedit1.textChanged.connect(update_lineedit2)
     lineedit2.textChanged.connect(update_lineedit1)
+
+
+def monster_template_scan(dialog, port: str, operation: str):
+    """Manage template operations in a thread."""
+    index = 998
+    emulator_thread = EmulatorThread(dialog.main_window, port, index, operation, ref = dialog)
+
+    # Store the thread in the main window
+    setattr(dialog.main_window.widgets, f'emulator_thread_{index}', emulator_thread)
+
+    emulator_thread.start()

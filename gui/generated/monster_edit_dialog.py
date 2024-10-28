@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'monster_edit_dialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.3
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -244,39 +244,6 @@ class Ui_Monster_Edit_Dialog(object):
         self.verticalLayout_2 = QVBoxLayout(self.groupBox_3)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.frame_3 = QFrame(self.groupBox_3)
-        self.frame_3.setObjectName(u"frame_3")
-        sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
-        self.frame_3.setSizePolicy(sizePolicy)
-        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_3)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.horizontalLayout_13.setContentsMargins(-1, 5, 0, 0)
-        self.scrollArea = QScrollArea(self.frame_3)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents_2 = QWidget()
-        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 252, 842))
-        self.horizontalLayout_7 = QHBoxLayout(self.scrollAreaWidgetContents_2)
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.label = QLabel(self.scrollAreaWidgetContents_2)
-        self.label.setObjectName(u"label")
-        self.label.setMinimumSize(QSize(0, 80))
-        self.label.setScaledContents(True)
-        self.label.setWordWrap(True)
-
-        self.horizontalLayout_7.addWidget(self.label)
-
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
-
-        self.horizontalLayout_13.addWidget(self.scrollArea)
-
-
-        self.verticalLayout_2.addWidget(self.frame_3, 0, Qt.AlignmentFlag.AlignTop)
-
         self.frame_5 = QFrame(self.groupBox_3)
         self.frame_5.setObjectName(u"frame_5")
         sizePolicy.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
@@ -286,26 +253,67 @@ class Ui_Monster_Edit_Dialog(object):
         self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_8 = QHBoxLayout(self.frame_5)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.horizontalLayout_8.setContentsMargins(11, 0, 11, 11)
-        self.choose_emulator_combo_box = QComboBox(self.frame_5)
-        self.choose_emulator_combo_box.setObjectName(u"choose_emulator_combo_box")
-        self.choose_emulator_combo_box.setEnabled(False)
-        self.choose_emulator_combo_box.setMinimumSize(QSize(0, 40))
+        self.horizontalLayout_8.setContentsMargins(11, 11, 11, 0)
+        self.port_lineEdit = QLineEdit(self.frame_5)
+        self.port_lineEdit.setObjectName(u"port_lineEdit")
+        self.port_lineEdit.setMinimumSize(QSize(0, 40))
 
-        self.horizontalLayout_8.addWidget(self.choose_emulator_combo_box)
+        self.horizontalLayout_8.addWidget(self.port_lineEdit)
 
-        self.map_template_btn = QPushButton(self.frame_5)
-        self.map_template_btn.setObjectName(u"map_template_btn")
-        self.map_template_btn.setEnabled(False)
-        self.map_template_btn.setMinimumSize(QSize(0, 40))
+        self.capture_image_btn = QPushButton(self.frame_5)
+        self.capture_image_btn.setObjectName(u"capture_image_btn")
+        self.capture_image_btn.setEnabled(True)
+        self.capture_image_btn.setMinimumSize(QSize(0, 40))
 
-        self.horizontalLayout_8.addWidget(self.map_template_btn)
+        self.horizontalLayout_8.addWidget(self.capture_image_btn)
 
+        self.lock_btn = QPushButton(self.frame_5)
+        self.lock_btn.setObjectName(u"lock_btn")
+        self.lock_btn.setMinimumSize(QSize(40, 40))
+        self.lock_btn.setCheckable(True)
+
+        self.horizontalLayout_8.addWidget(self.lock_btn)
+
+        self.horizontalLayout_8.setStretch(0, 2)
+        self.horizontalLayout_8.setStretch(1, 3)
 
         self.verticalLayout_2.addWidget(self.frame_5)
 
-        self.verticalLayout_2.setStretch(0, 8)
-        self.verticalLayout_2.setStretch(1, 2)
+        self.frame_3 = QFrame(self.groupBox_3)
+        self.frame_3.setObjectName(u"frame_3")
+        sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
+        self.frame_3.setSizePolicy(sizePolicy)
+        self.frame_3.setStyleSheet(u"")
+        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_3)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.scrollArea = QScrollArea(self.frame_3)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaContents = QWidget()
+        self.scrollAreaContents.setObjectName(u"scrollAreaContents")
+        self.scrollAreaContents.setGeometry(QRect(0, 0, 280, 122))
+        sizePolicy.setHeightForWidth(self.scrollAreaContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaContents.setSizePolicy(sizePolicy)
+        self.horizontalLayout_5 = QHBoxLayout(self.scrollAreaContents)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.configure_label = QLabel(self.scrollAreaContents)
+        self.configure_label.setObjectName(u"configure_label")
+
+        self.horizontalLayout_5.addWidget(self.configure_label)
+
+        self.scrollArea.setWidget(self.scrollAreaContents)
+
+        self.horizontalLayout_13.addWidget(self.scrollArea)
+
+
+        self.verticalLayout_2.addWidget(self.frame_3)
+
+        self.verticalLayout_2.setStretch(0, 1)
+        self.verticalLayout_2.setStretch(1, 8)
 
         self.verticalLayout_3.addWidget(self.groupBox_3)
 
@@ -433,14 +441,10 @@ class Ui_Monster_Edit_Dialog(object):
         self.p540_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Image 540p", None))
         self.threshold_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Threshold: ", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Configure Test", None))
-        self.label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"To configure the test, start by selecting the emulator from the list of pre-configured emulator pages. Choose the appropriate emulator from the dropdown to proceed. Next, you will configure the template matching area. Ensure that a 540p image has already been uploaded in the \"Image Info\" section. Now, click the \"Select Templates\" button to map the specific area of the image that should be used for template matching. This selected area will serve as the region of interest for the bot's matching algorithm. It's important to configure the template area properly.\n"
-"\n"
-"After defining the template area, use the magnifier icon to help find the optimal threshold value. This tool captures real-time gameplay, allowing you to fine-tune the threshold settings to ensure accurate detection of the boss in the game. Adjust the threshold value accordingly, as it will affect the precision of the template matching.\n"
-"\n"
-"Finally, configure the click position by clicking the button next to the click position field. Thi"
-                        "s operation simulates a click to test whether it lands directly on the boss or if any adjustment is needed. By fine-tuning the click position, you can ensure the bot accurately targets the in-game boss for interactions.", None))
-        self.choose_emulator_combo_box.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Choose Emulator", None))
-        self.map_template_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Map Template", None))
+        self.port_lineEdit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Port No.", None))
+        self.capture_image_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Capture Image", None))
+        self.lock_btn.setText("")
+        self.configure_label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"configure_label", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Level Info", None))
         self.add_level_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Add Level", None))
         self.smart_mode_check_box.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Smart Mode", None))

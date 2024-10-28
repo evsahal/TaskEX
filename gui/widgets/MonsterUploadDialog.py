@@ -58,9 +58,9 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         """
         # Open the MonsterEditDialog for editing the passed monster or adding a new one
         if monster_to_edit is None:
-            monster_edit_dialog = MonsterEditDialog(parent=self)
+            monster_edit_dialog = MonsterEditDialog(parent=self.main_window)
         else:
-            monster_edit_dialog = MonsterEditDialog(parent=self,monster_to_edit=monster_to_edit)
+            monster_edit_dialog = MonsterEditDialog(parent=self.main_window,monster_to_edit=monster_to_edit)
 
 
         result = monster_edit_dialog.exec_()

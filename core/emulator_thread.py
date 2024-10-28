@@ -3,24 +3,29 @@ from PySide6.QtCore import QThread, Signal
 from core.services.bm_scan_generals_service import start_scan_generals
 from db.models import General
 from utils.adb_manager import ADBManager
+from utils.image_recognition_utils import convert_cv_to_qimage
 
 
 class EmulatorThread(QThread):
     # Define signals to communicate with the main thread
     finished = Signal(int, bool)  # Signal to emit when the thread is finished (with success flag)
     error = Signal(int, str)  # Signal to emit when an error occurs, passing the instance index and error message
+
     add_general_signal = Signal(General)
     scan_general_finished = Signal()
     scan_general_console = Signal(str)
     scan_general_error = Signal()
 
-    def __init__(self, main_window, port: str, index: int, operation_type: str, parent=None):
+
+
+    def __init__(self, main_window, port: str, index: int, operation_type: str, parent=None,ref=None):
         super().__init__(parent)
         self.main_window = main_window
         self.port = port
         self.index = index
         self.adb_manager = ADBManager(port)
         self.operation_type = operation_type
+        self.ref = ref
         self._running = True
 
     def run(self):
@@ -45,6 +50,8 @@ class EmulatorThread(QThread):
                 self.run_emulator_instance()
             elif self.operation_type == "scan_general":
                 self.scan_generals()
+            elif self.operation_type == "capture_template_ss":
+                self.capture_template_ss()
 
         except Exception as e:
             self.error.emit(self.index, str(e))
@@ -67,6 +74,14 @@ class EmulatorThread(QThread):
             count += 1
             if count > 20:
                 break
+
+    def capture_template_ss(self):
+        # Capture the image
+        captured_image = self.adb_manager.take_screenshot()
+
+        # Emit the signal to update the Selection Tool Widget
+        self.ref.frame_ready.emit(convert_cv_to_qimage(captured_image))
+
 
     def scan_generals(self):
         """
