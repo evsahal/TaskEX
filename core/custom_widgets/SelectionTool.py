@@ -32,18 +32,18 @@ class SelectionTool(QGraphicsView):
         # Configure rubber band for selection
         self.rubber_band = QRubberBand(QRubberBand.Rectangle, self)
 
-        # Delay the view adjustment to ensure parent is ready
-        QTimer.singleShot(0, self.adjust_view)  # Adjust view after a short delay
+        # Adjust the view once after the widget is shown
+        QTimer.singleShot(0, self.adjust_view)
 
     def adjust_view(self):
-        """Adjust the view based on the parent widget size."""
+        """Adjust the view based on the mode and parent widget size."""
         parent = self.parentWidget()
-        if parent is not None:
+
+        if self.full_preview and self.scene is not None:
+            self.fitInView(self.pixmap_item, Qt.KeepAspectRatio)  # Adjust to fit in view
+        elif parent is not None:
             parent_size = parent.size()
-            print(f"[DEBUG] Adjusting view to parent size: {parent_size}")
-            self.setFixedSize(parent_size)  # Match parent frame size
-        else:
-            print("[ERROR] Parent widget is None, cannot adjust view.")
+            self.resize(parent_size)  # Resize to match parent size
 
     def resizeEvent(self, event):
         """Handle resizing to keep the view consistent."""
