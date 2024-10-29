@@ -3,6 +3,8 @@ import shutil
 import time
 import zipfile
 
+import cv2
+import numpy as np
 import yaml
 from PySide6.QtWidgets import QMessageBox, QFileDialog, QVBoxLayout, QWidget, QLabel
 from sqlalchemy import asc
@@ -213,3 +215,51 @@ def zip_export_files(folder_to_zip, output_zip_path):
                 zip_file.write(file_path, arcname)
 
 
+import numpy as np
+import cv2
+
+def generate_monster_template(captured_images):
+    """Generate a template from captured images and calculate a single scalar threshold."""
+    try:
+        # Stack the images along the first axis (n_images, height, width, channels)
+        image_stack = np.stack(captured_images, axis=0)
+
+        # Generate the median template image to reduce noise
+        template = np.median(image_stack, axis=0).astype(np.uint8)
+
+        # Convert the template to grayscale (required for thresholding)
+        template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+
+        # Use Otsu's thresholding to calculate a single scalar threshold
+        _, threshold_image = cv2.threshold(template_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        # Calculate the average value of the threshold image as a scalar threshold (normalized to [0, 1])
+        scalar_threshold = np.mean(threshold_image) / 255.0
+
+        print(f"[INFO] Calculated scalar threshold: {scalar_threshold}")
+
+        return template, scalar_threshold
+
+    except Exception as e:
+        print(f"[ERROR] Failed to generate template: {e}")
+        return None, None
+
+
+
+def find_optimal_threshold(image):
+    """Find the best threshold by analyzing the image histogram."""
+    try:
+        # Compute histogram of pixel intensities
+        hist = cv2.calcHist([image], [0], None, [256], [0, 256])
+
+        # Normalize the histogram to [0, 1] range
+        hist = hist / np.sum(hist)
+
+        # Use Otsu's method to find the optimal threshold
+        _, threshold = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        return threshold / 255.0  # Normalize to [0, 1] range
+
+    except Exception as e:
+        print(f"[ERROR] Failed to find optimal threshold: {e}")
+        return 0.5  # Default threshold in case of error

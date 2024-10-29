@@ -233,3 +233,13 @@ def monster_template_scan(dialog, port: str, operation: str):
     setattr(dialog.main_window.widgets, f'emulator_thread_{index}', emulator_thread)
 
     emulator_thread.start()
+
+def generate_template_image(dialog, port: str, operation: str):
+    """Manage template operations in a thread."""
+    index = 998
+    emulator_thread = EmulatorThread(dialog.main_window, port, index, operation, ref = dialog)
+
+    # Store the thread in the main window
+    setattr(dialog.main_window.widgets, f'emulator_thread_{index}', emulator_thread)
+
+    emulator_thread.start()

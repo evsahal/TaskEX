@@ -206,3 +206,8 @@ def convert_cv_to_qimage(cv_img):
     bytes_per_line = channel * width
     q_image = QImage(cv_img.data, width, height, bytes_per_line, QImage.Format_BGR888)
     return q_image
+
+def crop_image(image: np.ndarray,selection_area) -> np.ndarray:
+    """Crop the image based on the selection area."""
+    x, y, w, h = selection_area
+    return image[y:y + h, x:x + w]

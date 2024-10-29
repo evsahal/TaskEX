@@ -1,11 +1,14 @@
 import os
+
+import cv2
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QIcon, QImage
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
     QMessageBox, QWidget, QFrame
 from sqlalchemy.orm import joinedload
 
-from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan
+from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan, \
+    generate_template_image
 from core.custom_widgets.SelectionTool import SelectionTool
 from core.instance_manager import is_emulator_port_available
 from db.db_setup import get_session
@@ -17,7 +20,10 @@ from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     # Signal emitted when a monster is updated
     monster_updated = Signal(int)
+    # Signal emitted to setup the template selection
     frame_ready = Signal(QImage)
+    # Signal to receive template and threshold
+    template_ready = Signal(object, float)
 
     def __init__(self, monster_id=None,monster_to_edit=None, parent=None):
         super(MonsterEditDialog, self).__init__(parent)
@@ -46,6 +52,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.lock_btn.clicked.connect(self.toggle_lock_button)
         self.find_template_btn.clicked.connect(self.generate_template_image)
         self.frame_ready.connect(self.handle_frame_ready)
+        self.template_ready.connect(self.handle_template_ready)
+
+
 
         # Setup Emulator Connection
         self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
@@ -55,6 +64,11 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Keep track of the selection tool for state management
         self.selection_tool = None
+
+    def handle_template_ready(self, template, threshold):
+        """Handle the received template and threshold."""
+        print(f"[INFO] Template received with threshold: {threshold}")
+        cv2.imwrite(r"E:\Projects\PyCharmProjects\TaskEX\temp\template_img.png",template)
 
     def handle_frame_ready(self, img):
         """
@@ -134,14 +148,23 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Lock the selection tool to make it read-only
             self.selection_tool.set_read_only(True)
             self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-locked.png"))
+            self.port_lineEdit.setReadOnly(True)  # Disable port input
+            self.capture_image_btn.setEnabled(False)  # Disable capture button
         else:
             # Unlock the selection tool
             if self.selection_tool:
                 self.selection_tool.set_read_only(False)
             self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
+            self.port_lineEdit.setReadOnly(False)  # Enable port input
+            self.capture_image_btn.setEnabled(True)  # Enable capture button
 
     def generate_template_image(self):
-        pass
+        if not self.lock_btn.isChecked():
+            QMessageBox.warning(self, "Error", "Please lock the selection area before generating the template.")
+            return
+
+        generate_template_image(self, self.port_lineEdit.text(), "generate_template_image")
+
 
     def populate_field_data(self):
         """Populate category and logic combo boxes, and load existing monster data if editing."""

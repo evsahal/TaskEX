@@ -1,9 +1,11 @@
+import cv2
 from PySide6.QtCore import QThread, Signal
 
+from core.services.bm_monsters_service import generate_monster_template
 from core.services.bm_scan_generals_service import start_scan_generals
 from db.models import General
 from utils.adb_manager import ADBManager
-from utils.image_recognition_utils import convert_cv_to_qimage
+from utils.image_recognition_utils import convert_cv_to_qimage, crop_image
 
 
 class EmulatorThread(QThread):
@@ -52,8 +54,11 @@ class EmulatorThread(QThread):
                 self.scan_generals()
             elif self.operation_type == "capture_template_ss":
                 self.capture_template_ss()
+            elif self.operation_type == "generate_template_image":
+                self.generate_template_image()
 
         except Exception as e:
+            print(e)
             self.error.emit(self.index, str(e))
         finally:
             # Emit finished signal (False if it was stopped due to error)
@@ -81,6 +86,20 @@ class EmulatorThread(QThread):
 
         # Emit the signal to update the Selection Tool Widget
         self.ref.frame_ready.emit(convert_cv_to_qimage(captured_image))
+
+    def generate_template_image(self):
+        captured_images = []
+        for i in range(20):  # Capture 20 frames
+            if not self._running:
+                break
+            cropped = crop_image(self.adb_manager.take_screenshot(), self.ref.selection_tool.selected_area)
+            # Ensure the cropped image is valid before saving
+            if cropped is not None:
+                cv2.imwrite(r"E:\Projects\PyCharmProjects\TaskEX\temp\test\t_" + str(i) + ".png", cropped)
+                captured_images.append(cropped)
+        # Generate the template from the captured images
+        template, best_threshold = generate_monster_template(captured_images)
+        self.ref.template_ready.emit(template, best_threshold)
 
 
     def scan_generals(self):
