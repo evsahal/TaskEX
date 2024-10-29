@@ -44,6 +44,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
         self.capture_image_btn.clicked.connect(self.capture_template_ss)
         self.lock_btn.clicked.connect(self.toggle_lock_button)
+        self.find_template_btn.clicked.connect(self.generate_template_image)
         self.frame_ready.connect(self.handle_frame_ready)
 
         # Setup Emulator Connection
@@ -138,6 +139,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             if self.selection_tool:
                 self.selection_tool.set_read_only(False)
             self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
+
+    def generate_template_image(self):
+        pass
 
     def populate_field_data(self):
         """Populate category and logic combo boxes, and load existing monster data if editing."""
@@ -236,8 +240,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.find_template_btn.setEnabled(toggle)
         self.click_x_spin_box.setEnabled(toggle)
         self.click_y_spin_box.setEnabled(toggle)
-        self.simulate_click_btn.setEnabled(toggle)
-
 
     def clear_extra_levels(self):
         """Clear all but the first level."""
