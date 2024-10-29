@@ -81,11 +81,11 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
                     widget.deleteLater()
 
             # Create the selection tool with the captured image
-            selection_tool = SelectionTool(img, full_preview=False, parent=template_frame)
-            selection_tool.setObjectName("selection_tool")
+            self.selection_tool = SelectionTool(img, full_preview=False, parent=template_frame)
+            self.selection_tool.setObjectName("selection_tool")
 
             # Add the selection tool directly to the template frame layout
-            template_layout.addWidget(selection_tool)
+            template_layout.addWidget(self.selection_tool)
 
             print("[DEBUG] Selection tool added to the template selection frame.")
 
@@ -120,16 +120,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             return False, "Port is already in use"
 
         return True, None
-
-    def handle_image_captured(self, image_path):
-        """Handle the captured image and initialize the selection tool."""
-        # Remove the configure label from the scroll area
-        self.configure_label.deleteLater()
-
-        # Create the selection tool with the captured image
-        q_image = QImage(image_path)
-        self.selection_tool = SelectionTool(q_image, full_preview=False, parent=self)
-        self.scrollArea.setWidget(self.selection_tool)
 
     def toggle_lock_button(self, checked):
         """Handle the lock button state."""

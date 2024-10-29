@@ -19,6 +19,9 @@ class SelectionTool(QGraphicsView):
         self.origin = QPoint()  # Origin for selection
         self.pan_start = QPoint()  # Start point for panning
 
+        # Store selected area for later access
+        self.selected_area = None
+
         # Set up the scene and pixmap
         self.scene = QGraphicsScene(self)
         self.pixmap_item = QGraphicsPixmapItem(QPixmap.fromImage(q_image))
@@ -38,7 +41,6 @@ class SelectionTool(QGraphicsView):
     def adjust_view(self):
         """Adjust the view based on the mode and parent widget size."""
         parent = self.parentWidget()
-
         if self.full_preview and self.scene is not None:
             self.fitInView(self.pixmap_item, Qt.KeepAspectRatio)  # Adjust to fit in view
         elif parent is not None:
@@ -81,19 +83,37 @@ class SelectionTool(QGraphicsView):
                 width = selected_rect.width()
                 height = selected_rect.height()
 
-                print(f"[DEBUG] Selection finalized: x={x}, y={y}, width={width}, height={height}")
-                self.area_selected.emit(x, y, width, height)
+                if width > 0 and height > 0:
+                    # Store the valid selected area
+                    self.selected_area = (x, y, width, height)
+                    print(f"[DEBUG] Selection finalized: x={x}, y={y}, width={width}, height={height}")
+                    self.area_selected.emit(x, y, width, height)
+                else:
+                    print("[ERROR] Invalid selection: width or height is -1.")
+
                 self.selection_active = False
 
     def set_read_only(self, value: bool):
         """Enable or disable read-only mode."""
         self.read_only = value
 
-    def is_selection_made(self):
-        """Check if a selection has been made."""
-        return self.rubber_band.isVisible()
+        # Disable scroll bars and panning when read-only
+        if value:
+            self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        else:
+            self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+            self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+
+    def is_selection_made(self) -> bool:
+        """Check if a valid selection has been made."""
+        if self.selected_area:
+            _, _, width, height = self.selected_area
+            return width > 0 and height > 0  # Ensure the width and height are valid
+        return False
 
     def clear_selection(self):
         """Clear the current selection."""
         self.rubber_band.hide()
         self.selection_active = False
+        self.selected_area = None  # Reset the stored selection
