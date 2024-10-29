@@ -1,5 +1,6 @@
 import cv2
-from PySide6.QtCore import QThread, Signal
+from PySide6.QtCore import QThread, Signal, QTimer
+from PySide6.QtGui import QIcon
 
 from core.services.bm_monsters_service import generate_monster_template
 from core.services.bm_scan_generals_service import start_scan_generals
@@ -88,18 +89,40 @@ class EmulatorThread(QThread):
         self.ref.frame_ready.emit(convert_cv_to_qimage(captured_image))
 
     def generate_template_image(self):
-        captured_images = []
-        for i in range(20):  # Capture 20 frames
-            if not self._running:
-                break
-            cropped = crop_image(self.adb_manager.take_screenshot(), self.ref.selection_tool.selected_area)
-            # Ensure the cropped image is valid before saving
-            if cropped is not None:
-                cv2.imwrite(r"E:\Projects\PyCharmProjects\TaskEX\temp\test\t_" + str(i) + ".png", cropped)
-                captured_images.append(cropped)
-        # Generate the template from the captured images
-        template, best_threshold = generate_monster_template(captured_images)
-        self.ref.template_ready.emit(template, best_threshold)
+        """Generate the template image with UI updates for loading state."""
+        try:
+            # Change the icon to loading and disable the button
+            self.ref.find_template_btn.setIcon(QIcon.fromTheme("process-working"))
+            self.ref.find_template_btn.setEnabled(False)
+
+            captured_images = []
+            for i in range(20):  # Capture 20 frames
+                if not self._running:
+                    break
+
+                # Capture and crop the screenshot
+                cropped = crop_image(
+                    self.adb_manager.take_screenshot(),
+                    self.ref.selection_tool.selected_area
+                )
+
+                # Ensure the cropped image is valid before saving
+                if cropped is not None:
+                    # cv2.imwrite(rf"E:\Projects\PyCharmProjects\TaskEX\temp\test\t_{i}.png", cropped)
+                    captured_images.append(cropped)
+
+            # Generate the template from the captured images
+            template, best_threshold = generate_monster_template(captured_images)
+
+            # Emit the template and threshold once processing is done
+            self.ref.template_ready.emit(template, best_threshold)
+
+        except Exception as e:
+            print(f"[ERROR] Failed to generate template: {e}")
+
+        finally:
+            # Reset the icon and re-enable the button
+            self.ref.reset_template_btn.emit()
 
 
     def scan_generals(self):

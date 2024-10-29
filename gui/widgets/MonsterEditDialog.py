@@ -27,6 +27,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     frame_ready = Signal(QImage)
     # Signal to receive template and threshold
     template_ready = Signal(object, float)
+    reset_template_btn = Signal()
 
     def __init__(self, monster_id=None,monster_to_edit=None, parent=None):
         super(MonsterEditDialog, self).__init__(parent)
@@ -56,6 +57,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.find_template_btn.clicked.connect(self.generate_template_image)
         self.frame_ready.connect(self.handle_frame_ready)
         self.template_ready.connect(self.handle_template_ready)
+        self.reset_template_btn.connect(self.reset_template_btn_state)
 
 
 
@@ -88,8 +90,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Set the file_path property of the p540_image_line_edit
         self.p540_image_line_edit.setProperty('file_path',template_path)
 
-        print(self.p540_image_line_edit.property('file_path'))
-
+    def reset_template_btn_state(self):
+        self.find_template_btn.setIcon(QIcon.fromTheme("system-search"))
+        self.find_template_btn.setEnabled(True)
 
     def handle_frame_ready(self, img):
         """
