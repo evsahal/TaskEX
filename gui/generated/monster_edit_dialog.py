@@ -279,29 +279,31 @@ class Ui_Monster_Edit_Dialog(object):
 
         self.verticalLayout_2.addWidget(self.frame_5)
 
-        self.frame_3 = QFrame(self.groupBox_3)
-        self.frame_3.setObjectName(u"frame_3")
-        sizePolicy.setHeightForWidth(self.frame_3.sizePolicy().hasHeightForWidth())
-        self.frame_3.setSizePolicy(sizePolicy)
-        self.frame_3.setStyleSheet(u"")
-        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_3)
+        self.template_selection_frame = QFrame(self.groupBox_3)
+        self.template_selection_frame.setObjectName(u"template_selection_frame")
+        sizePolicy.setHeightForWidth(self.template_selection_frame.sizePolicy().hasHeightForWidth())
+        self.template_selection_frame.setSizePolicy(sizePolicy)
+        self.template_selection_frame.setStyleSheet(u"")
+        self.template_selection_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.template_selection_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.template_selection_frame)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.scrollArea = QScrollArea(self.frame_3)
+        self.scrollArea = QScrollArea(self.template_selection_frame)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaContents = QWidget()
         self.scrollAreaContents.setObjectName(u"scrollAreaContents")
-        self.scrollAreaContents.setGeometry(QRect(0, 0, 280, 122))
+        self.scrollAreaContents.setGeometry(QRect(0, 0, 263, 626))
         sizePolicy.setHeightForWidth(self.scrollAreaContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaContents.setSizePolicy(sizePolicy)
         self.horizontalLayout_5 = QHBoxLayout(self.scrollAreaContents)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.configure_label = QLabel(self.scrollAreaContents)
         self.configure_label.setObjectName(u"configure_label")
+        self.configure_label.setTextFormat(Qt.TextFormat.MarkdownText)
+        self.configure_label.setWordWrap(True)
 
         self.horizontalLayout_5.addWidget(self.configure_label)
 
@@ -310,7 +312,7 @@ class Ui_Monster_Edit_Dialog(object):
         self.horizontalLayout_13.addWidget(self.scrollArea)
 
 
-        self.verticalLayout_2.addWidget(self.frame_3)
+        self.verticalLayout_2.addWidget(self.template_selection_frame)
 
         self.verticalLayout_2.setStretch(0, 1)
         self.verticalLayout_2.setStretch(1, 8)
@@ -444,7 +446,27 @@ class Ui_Monster_Edit_Dialog(object):
         self.port_lineEdit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Port No.", None))
         self.capture_image_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Capture Image", None))
         self.lock_btn.setText("")
-        self.configure_label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"configure_label", None))
+        self.configure_label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"1. **Open the Game:**\n"
+"- Select the monster you want to generate the template.\n"
+"- Zoom out the map fully.\n"
+"\n"
+"2. **Position the Monster:**\n"
+"- Place the boss at the center by entering its coordinates or selecting it from bookmarks.\n"
+"\n"
+"3. **Capture Image:**\n"
+"- Enter the port number.\n"
+"- Click **Capture Image** to display the captured image.\n"
+"\n"
+"4. **Select Template Area:**\n"
+"- Select the boss area carefully.\n"
+"- Include only the monster area to avoid mismatches in template generation.\n"
+"\n"
+"5. **Lock the Selection:**\n"
+"- Click the **Lock** button to lock the selected template area.\n"
+"\n"
+"6. **Generate Template:**\n"
+"- Click the **Magnifying Glass** button next to the template Import button to generate the template and set the threshold automatically.\n"
+"", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Level Info", None))
         self.add_level_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Add Level", None))
         self.smart_mode_check_box.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Smart Mode", None))

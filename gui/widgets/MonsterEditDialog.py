@@ -7,6 +7,7 @@ from sqlalchemy.orm import joinedload
 
 from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan
 from core.custom_widgets.SelectionTool import SelectionTool
+from core.instance_manager import is_emulator_port_available
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
@@ -54,60 +55,39 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Keep track of the selection tool for state management
         self.selection_tool = None
 
-    def handle_frame_ready(self,img):
+    def handle_frame_ready(self, img):
         """
-        Slot to receive the emitted signal and add a new scroll area
-        with a lengthy text label inside for testing purposes.
+        Slot to receive the emitted image, remove the scroll area, and display
+        the selection tool inside the template_selection_frame.
         """
         try:
-            print("[DEBUG] Handling frame ready...")
+            # Get the template_selection_frame
+            template_frame = self.template_selection_frame
+            if not template_frame:
+                raise ValueError("[ERROR] Template selection frame not found.")
 
-            # Get the parent widget of the current scroll area
-            parent_widget = self.scrollArea.parentWidget()
-            if not parent_widget:
-                raise ValueError("[ERROR] Scroll area has no parent widget.")
+            # Get or create the layout for the template frame
+            template_layout = template_frame.layout()
+            if not template_layout:
+                template_layout = QVBoxLayout(template_frame)
+                template_frame.setLayout(template_layout)
 
-            print("[DEBUG] Found parent widget of scroll area.")
+            # Remove all widgets from the template frame (including the scroll area if present)
+            while template_layout.count() > 0:
+                item = template_layout.takeAt(0)
+                widget = item.widget()
+                if widget:
+                    print(f"[DEBUG] Removing widget: {widget.objectName()} ({widget.__class__.__name__})")
+                    widget.deleteLater()
 
-            # Get the layout of the parent widget
-            parent_layout = parent_widget.layout()
-            if not parent_layout:
-                print("[DEBUG] Creating new layout for parent widget.")
-                parent_layout = QVBoxLayout(parent_widget)
-                parent_widget.setLayout(parent_layout)
+            # Create the selection tool with the captured image
+            selection_tool = SelectionTool(img, full_preview=False, parent=template_frame)
+            selection_tool.setObjectName("selection_tool")
 
-            # Remove the old scroll area from the layout
-            print("[DEBUG] Removing old scroll area.")
-            parent_layout.removeWidget(self.scrollArea)
-            self.scrollArea.deleteLater()  # Properly delete the old scroll area
+            # Add the selection tool directly to the template frame layout
+            template_layout.addWidget(selection_tool)
 
-            # Create a new scroll area
-            new_scroll_area = QScrollArea(self)
-            new_scroll_area.setObjectName("scrollArea")
-            new_scroll_area.setWidgetResizable(True)
-
-            # Create a content widget to hold the label inside the scroll area
-            scroll_content = QWidget()
-            content_layout = QVBoxLayout(scroll_content)
-
-
-            # Create the selection tool with the loaded image
-            selection_tool = SelectionTool(img, full_preview=False, parent=scroll_content)
-            content_layout.addWidget(selection_tool)
-
-            # content_layout.addWidget(test_label)
-            print("[DEBUG] Added test label with lengthy text to the content layout.")
-
-            # Set the content widget in the new scroll area
-            new_scroll_area.setWidget(scroll_content)
-
-            # Add the new scroll area to the parent layout
-            parent_layout.addWidget(new_scroll_area)
-
-            # Store a reference to the new scroll area
-            self.scrollArea = new_scroll_area
-
-            print("[DEBUG] New scroll area with test label added successfully.")
+            print("[DEBUG] Selection tool added to the template selection frame.")
 
         except Exception as e:
             print(f"[ERROR] Error in handle_frame_ready: {e}")
@@ -115,6 +95,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
     def capture_template_ss(self):
         """Capture the template image through emulator."""
         port = self.port_lineEdit.text().strip()
+
         is_valid, error_message = self.validate_port(port)
 
         if not is_valid:
@@ -129,6 +110,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         if not port.isdigit():
             # print("Wrong Port, stop exection")
             return False, "Invalid Port Number."
+
+        if not is_emulator_port_available(int(port)):
+            return False, "Enter a valid Port Number."
 
         #Check if the port is in use by emulator controls
         if check_port_already_in_use(self.main_window,port):

@@ -1,14 +1,12 @@
-from zoneinfo import available_timezones
+import socket
 
 import psutil
-from PySide6 import QtCore
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtWidgets import QTableWidgetItem, QHeaderView, QPushButton, QToolTip, QApplication, QWidget, QVBoxLayout, \
     QLineEdit, QSizePolicy, QHBoxLayout
-from PySide6.QtGui import QIcon, QCursor
-from PySide6.QtCore import Qt, QSize
 
 from core.controllers.emulator_controller import handle_run_button, sync_lineedits
-from core.emulator_thread import EmulatorThread
 
 
 def add_instance_controls(main_window,index):
@@ -196,3 +194,41 @@ def find_emulator_ports():
                 continue
 
     return emulator_ports
+
+
+import socket
+import subprocess
+
+def is_emulator_port_available(port: int) -> bool:
+    """
+    Check if a given port corresponds to a valid emulator instance via ADB.
+    :param port: Port number to check (e.g., 5555).
+    :return: True if the port is associated with a running emulator, False otherwise.
+    """
+    try:
+        # Step 1: Check if the port is available and accepting connections
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(1)
+            result = sock.connect_ex(('127.0.0.1', port))
+            if result != 0:
+                print(f"[DEBUG] Port {port} is not accepting connections.")
+                return False  # Port is not available
+
+        # Step 2: Verify if the port corresponds to an emulator instance using ADB
+        ip_address = f"127.0.0.1:{port}"
+        adb_result = subprocess.run(
+            ["adb", "connect", ip_address],
+            capture_output=True,
+            text=True
+        )
+
+        if "connected to" in adb_result.stdout.lower():
+            print(f"[DEBUG] Emulator connected on port {port}.")
+            return True  # Valid emulator instance
+        else:
+            print(f"[DEBUG] Port {port} is not a valid emulator instance: {adb_result.stdout}")
+            return False
+
+    except Exception as e:
+        print(f"[ERROR] Exception occurred while checking port {port}: {e}")
+        return False

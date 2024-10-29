@@ -1,8 +1,8 @@
 import os
 import subprocess
-import adbutils
 from typing import Optional
 
+import adbutils
 import cv2
 import numpy as np
 

@@ -583,7 +583,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QFrame" name="frame_3">
+                <widget class="QFrame" name="template_selection_frame">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                    <horstretch>0</horstretch>
@@ -625,8 +625,8 @@
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>280</width>
-                       <height>122</height>
+                       <width>263</width>
+                       <height>626</height>
                       </rect>
                      </property>
                      <property name="sizePolicy">
@@ -639,7 +639,33 @@
                       <item>
                        <widget class="QLabel" name="configure_label">
                         <property name="text">
-                         <string>configure_label</string>
+                         <string>1. **Open the Game:**
+- Select the monster you want to generate the template.
+- Zoom out the map fully.
+
+2. **Position the Monster:**
+- Place the boss at the center by entering its coordinates or selecting it from bookmarks.
+
+3. **Capture Image:**
+- Enter the port number.
+- Click **Capture Image** to display the captured image.
+
+4. **Select Template Area:**
+- Select the boss area carefully.
+- Include only the monster area to avoid mismatches in template generation.
+
+5. **Lock the Selection:**
+- Click the **Lock** button to lock the selected template area.
+
+6. **Generate Template:**
+- Click the **Magnifying Glass** button next to the template Import button to generate the template and set the threshold automatically.
+</string>
+                        </property>
+                        <property name="textFormat">
+                         <enum>Qt::TextFormat::MarkdownText</enum>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>true</bool>
                         </property>
                        </widget>
                       </item>
