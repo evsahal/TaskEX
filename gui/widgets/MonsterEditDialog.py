@@ -1,4 +1,7 @@
 import os
+import random
+import tempfile
+from datetime import datetime
 
 import cv2
 from PySide6.QtCore import Signal, Qt
@@ -67,8 +70,26 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
     def handle_template_ready(self, template, threshold):
         """Handle the received template and threshold."""
-        print(f"[INFO] Template received with threshold: {threshold}")
-        cv2.imwrite(r"E:\Projects\PyCharmProjects\TaskEX\temp\template_img.png",template)
+        # print(f"[INFO] Template received with threshold: {threshold}")
+
+        # Update the QDoubleSpinBox with the received threshold
+        self.threshold_spin_box.setValue(threshold)
+
+        # Generate a unique filename using the current timestamp and a random number
+        filename = f"template_{datetime.now().strftime("%Y%m%d%H%M%S")}.png"
+
+        # Get the real system temp directory and define the template path
+        temp_dir = tempfile.gettempdir()
+        template_path = os.path.join(temp_dir, filename)
+
+        # Save the template image to the temp directory
+        cv2.imwrite(template_path, template)
+
+        # Set the file_path property of the p540_image_line_edit
+        self.p540_image_line_edit.setProperty('file_path',template_path)
+
+        print(self.p540_image_line_edit.property('file_path'))
+
 
     def handle_frame_ready(self, img):
         """

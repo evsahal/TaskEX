@@ -458,7 +458,7 @@
                      <string>Threshold: </string>
                     </property>
                     <property name="minimum">
-                     <double>0.500000000000000</double>
+                     <double>0.000000000000000</double>
                     </property>
                     <property name="maximum">
                      <double>0.990000000000000</double>
@@ -486,7 +486,7 @@
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Configure Test</string>
+               <string>Configure Template Area</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,8">
                <property name="leftMargin">
@@ -541,6 +541,9 @@
                       <width>0</width>
                       <height>40</height>
                      </size>
+                    </property>
+                    <property name="text">
+                     <string>5555</string>
                     </property>
                     <property name="placeholderText">
                      <string>Port No.</string>
@@ -664,8 +667,17 @@
                         <property name="textFormat">
                          <enum>Qt::TextFormat::MarkdownText</enum>
                         </property>
+                        <property name="scaledContents">
+                         <bool>true</bool>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+                        </property>
                         <property name="wordWrap">
                          <bool>true</bool>
+                        </property>
+                        <property name="margin">
+                         <number>0</number>
                         </property>
                        </widget>
                       </item>
