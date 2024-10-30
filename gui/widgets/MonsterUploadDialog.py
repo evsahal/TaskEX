@@ -22,7 +22,8 @@ from utils.helper_utils import copy_image_to_preview, copy_image_to_template
 class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
     # Define the custom signal for logging
     log_message = Signal(str)
-    def __init__(self,main_window, parent=None):
+
+    def __init__(self, main_window, parent=None):
         super(MonsterUploadDialog, self).__init__(parent)
         self.setupUi(self)
 
@@ -60,8 +61,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         if monster_to_edit is None:
             monster_edit_dialog = MonsterEditDialog(parent=self.main_window)
         else:
-            monster_edit_dialog = MonsterEditDialog(parent=self.main_window,monster_to_edit=monster_to_edit)
-
+            monster_edit_dialog = MonsterEditDialog(parent=self.main_window, monster_to_edit=monster_to_edit)
 
         result = monster_edit_dialog.exec_()
 
@@ -73,16 +73,16 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
             # If the monster is being edited, update the list and UI
             if monster_to_edit:
-                self.update_existing_monster(monster_to_edit, new_monster,monster_edit_dialog.get_preview_image_path())
+                self.update_existing_monster(monster_to_edit, new_monster, monster_edit_dialog.get_preview_image_path())
             else:
-                self.add_new_monster_to_list(new_monster,monster_edit_dialog.get_preview_image_path())
+                self.add_new_monster_to_list(new_monster, monster_edit_dialog.get_preview_image_path())
 
-    def add_new_monster_to_list(self, new_monster,file_path):
+    def add_new_monster_to_list(self, new_monster, file_path):
         """
         Add a new monster to the list and display it in the UI.
         """
         # Create a MonsterProfileWidget to represent the monster visually
-        widget = MonsterProfileWidget(flow_layout=self.flow_layout, data=new_monster,file_path=file_path)
+        widget = MonsterProfileWidget(flow_layout=self.flow_layout, data=new_monster, file_path=file_path)
 
         # Connect the 'edit' button from the MonsterProfileWidget to allow editing
         widget.ui.configure_monster_btn.clicked.connect(lambda: self.open_monster_edit_dialog(new_monster))
@@ -105,8 +105,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         if monster in self.boss_monster_list:
             self.boss_monster_list.remove(monster)
 
-
-    def update_existing_monster(self, old_monster, updated_monster,file_path):
+    def update_existing_monster(self, old_monster, updated_monster, file_path):
         """
         Update the existing monster in the list and refresh its display in the UI.
         """
@@ -133,7 +132,6 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             else:
                 # Use the default preview image
                 monster_preview = os.path.join(str(preview_path), "default_preview.png")
-
 
             pixmap = QPixmap(monster_preview)
             pixmap = pixmap.scaledToHeight(92)
@@ -229,8 +227,8 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
             # Convert YAML data to BossMonster objects and add to the upload scroll area
             for monster_data in monsters_data:
-                new_monster = create_monster_from_zip_data(monster_data,temp_extract_folder)
-                self.add_new_monster_to_list(new_monster,new_monster.preview_img_path)
+                new_monster = create_monster_from_zip_data(monster_data, temp_extract_folder)
+                self.add_new_monster_to_list(new_monster, new_monster.preview_img_path)
             self.log_message.emit('Monsters imported successfully')
             # QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
 
@@ -239,4 +237,3 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             shutil.rmtree(temp_extract_folder)
             # QMessageBox.critical(self, "Import Error! ", str(e))
             self.log_message.emit(str(e))
-
