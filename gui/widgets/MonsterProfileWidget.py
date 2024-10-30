@@ -1,5 +1,6 @@
 import os
 
+from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
@@ -12,6 +13,7 @@ from utils.dialog_utils import show_confirmation_dialog
 
 
 class MonsterProfileWidget(QWidget):
+    monster_deleted = Signal(object)
     def __init__(self, parent=None,flow_layout=None,data=None,file_path = None):
         super(MonsterProfileWidget, self).__init__(parent)
         self.ui = Ui_Monster_Profile()
@@ -97,3 +99,6 @@ class MonsterProfileWidget(QWidget):
             if self.flow_layout:
                 self.flow_layout.removeWidget(self)
                 self.deleteLater()
+
+            # Emit the signal, passing the monster object (self.data) if the id is None
+            self.monster_deleted.emit(self.data)

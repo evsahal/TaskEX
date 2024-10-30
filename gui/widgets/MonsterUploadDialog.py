@@ -87,12 +87,24 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Connect the 'edit' button from the MonsterProfileWidget to allow editing
         widget.ui.configure_monster_btn.clicked.connect(lambda: self.open_monster_edit_dialog(new_monster))
 
+        # Connect the monster_deleted signal to the handler function
+        widget.monster_deleted.connect(self.handle_monster_deleted)
+
         # Add the widget to the flow layout for visual representation
         widget.setFixedSize(widget.sizeHint())
         self.flow_layout.addWidget(widget)
 
         # Add the new monster to the list of unsaved monsters
         self.boss_monster_list.append(new_monster)
+
+    def handle_monster_deleted(self, monster):
+        """
+        Handle the monster deletion and update the list.
+        """
+        # Safely remove the monster from the list
+        if monster in self.boss_monster_list:
+            self.boss_monster_list.remove(monster)
+
 
     def update_existing_monster(self, old_monster, updated_monster,file_path):
         """
