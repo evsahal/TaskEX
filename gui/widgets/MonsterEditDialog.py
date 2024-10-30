@@ -107,11 +107,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
                 # Set the new name in p540_image_line_edit
                 self.p540_image_line_edit.setText(p540_image_name)
 
-
-
     def reset_template_btn_state(self):
         self.find_template_btn.setIcon(QIcon.fromTheme("system-search"))
-        self.find_template_btn.setEnabled(True)
+        self.find_template_btn.blockSignals(False)
 
     def handle_frame_ready(self, img):
         """
@@ -207,7 +205,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             return
 
         generate_template_image(self, self.port_lineEdit.text(), "generate_template_image")
-
 
     def populate_field_data(self):
         """Populate category and logic combo boxes, and load existing monster data if editing."""

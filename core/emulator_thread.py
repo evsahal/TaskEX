@@ -93,7 +93,7 @@ class EmulatorThread(QThread):
         try:
             # Change the icon to loading and disable the button
             self.ref.find_template_btn.setIcon(QIcon.fromTheme("process-working"))
-            self.ref.find_template_btn.setEnabled(False)
+            self.ref.find_template_btn.blockSignals(True)
 
             captured_images = []
             for i in range(20):  # Capture 20 frames
