@@ -315,6 +315,11 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.find_template_btn.setEnabled(toggle)
         self.click_x_spin_box.setEnabled(toggle)
         self.click_y_spin_box.setEnabled(toggle)
+        self.simulate_click_btn.setEnabled(toggle)
+        self.port_lineEdit.setEnabled(toggle)
+        self.capture_image_btn.setEnabled(toggle)
+        self.lock_btn.setEnabled(toggle)
+
 
     def clear_extra_levels(self):
         """Clear all but the first level."""

@@ -256,19 +256,21 @@ class Ui_Monster_Edit_Dialog(object):
         self.horizontalLayout_8.setContentsMargins(11, 11, 11, 0)
         self.port_lineEdit = QLineEdit(self.frame_5)
         self.port_lineEdit.setObjectName(u"port_lineEdit")
+        self.port_lineEdit.setEnabled(False)
         self.port_lineEdit.setMinimumSize(QSize(0, 40))
 
         self.horizontalLayout_8.addWidget(self.port_lineEdit)
 
         self.capture_image_btn = QPushButton(self.frame_5)
         self.capture_image_btn.setObjectName(u"capture_image_btn")
-        self.capture_image_btn.setEnabled(True)
+        self.capture_image_btn.setEnabled(False)
         self.capture_image_btn.setMinimumSize(QSize(0, 40))
 
         self.horizontalLayout_8.addWidget(self.capture_image_btn)
 
         self.lock_btn = QPushButton(self.frame_5)
         self.lock_btn.setObjectName(u"lock_btn")
+        self.lock_btn.setEnabled(False)
         self.lock_btn.setMinimumSize(QSize(40, 40))
         self.lock_btn.setCheckable(True)
 
@@ -446,7 +448,7 @@ class Ui_Monster_Edit_Dialog(object):
         self.p540_image_line_edit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Image 540p", None))
         self.threshold_spin_box.setPrefix(QCoreApplication.translate("Monster_Edit_Dialog", u"Threshold: ", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Configure Template Area", None))
-        self.port_lineEdit.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"5555", None))
+        self.port_lineEdit.setText("")
         self.port_lineEdit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Port No.", None))
         self.capture_image_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Capture Image", None))
         self.lock_btn.setText("")
