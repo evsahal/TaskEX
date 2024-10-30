@@ -2,6 +2,7 @@ import os
 import random
 import tempfile
 from datetime import datetime
+from tempfile import template
 
 import cv2
 from PySide6.QtCore import Signal, Qt
@@ -10,6 +11,7 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEd
     QMessageBox, QWidget, QFrame
 from sqlalchemy.orm import joinedload
 
+from config.settings import BASE_DIR
 from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan, \
     generate_template_image
 from core.custom_widgets.SelectionTool import SelectionTool
@@ -18,6 +20,7 @@ from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
 from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_to_template
+from utils.image_picker import ImagePicker
 
 
 class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
@@ -48,8 +51,8 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.save_changes_btn.clicked.connect(self.save_changes_pressed)
         self.cancel_btn.clicked.connect(self.cancel_dialog)
         self.add_level_btn.clicked.connect(self.handle_add_new_level)
-        self.browse_preview_btn.clicked.connect(lambda: image_chooser(self.browse_preview_btn, self.preview_image_line_edit))
-        self.browse_540p_btn.clicked.connect(lambda: image_chooser(self.browse_540p_btn, self.p540_image_line_edit))
+        # self.browse_preview_btn.clicked.connect(lambda: image_chooser(self.browse_preview_btn, self.preview_image_line_edit))
+        # self.browse_540p_btn.clicked.connect(lambda: image_chooser(self.browse_540p_btn, self.p540_image_line_edit))
         self.logic_combo_box.currentTextChanged.connect(self.handle_logic_change)
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
         self.capture_image_btn.clicked.connect(self.capture_template_ss)
@@ -59,7 +62,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.template_ready.connect(self.handle_template_ready)
         self.reset_template_btn.connect(self.reset_template_btn_state)
 
-
+        # Setup image picker
+        self.preview_image_picker = ImagePicker(self.browse_preview_btn, self.preview_image_line_edit)
+        self.template_image_picker = ImagePicker(self.browse_540p_btn, self.p540_image_line_edit)
 
         # Setup Emulator Connection
         self.lock_btn.setIcon(QIcon(":/icons/images/icons/cil-lock-unlocked.png"))
@@ -87,8 +92,22 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Save the template image to the temp directory
         cv2.imwrite(template_path, template)
 
-        # Set the file_path property of the p540_image_line_edit
-        self.p540_image_line_edit.setProperty('file_path',template_path)
+        # Update the image picker
+        self.template_image_picker.load_file(template_path)
+
+        # if the template line edit is empty, then set a new name there
+        if not self.p540_image_line_edit.text().strip():
+            # Get the text from preview_name_line_edit
+            preview_name = self.preview_name_line_edit.text().strip()
+
+            # If preview_name is not empty, set it as the text for p540_image_line_edit
+            if preview_name:
+                # Replace spaces with underscores and add '_540p.png' at the end
+                p540_image_name = f"{preview_name.replace(' ', '_').lower()}_540p.png"
+                # Set the new name in p540_image_line_edit
+                self.p540_image_line_edit.setText(p540_image_name)
+
+
 
     def reset_template_btn_state(self):
         self.find_template_btn.setIcon(QIcon.fromTheme("system-search"))
@@ -235,7 +254,19 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         # Load image data
         if monster_data.monster_image:
             self.preview_image_line_edit.setText(monster_data.monster_image.preview_image)
+            # Load the image picker with existing file path value
+            preview_img =os.path.join(BASE_DIR, 'assets', 'preview' , monster_data.monster_image.preview_image)
+            if self.monster_id and os.path.isfile(preview_img):
+                self.preview_image_picker.load_file(str(preview_img))
+            elif getattr(self.monster, 'preview_img_path', None) and os.path.isfile(self.monster.preview_img_path):
+                self.preview_image_picker.load_file(self.monster.preview_img_path)
             if self.map_scan_checkbox.isChecked():
+                # Load the image picker with existing file path value
+                template_img = os.path.join(BASE_DIR, 'assets', '540p', 'monsters', monster_data.monster_image.img_540p)
+                if self.monster_id and os.path.isfile(template_img):
+                    self.template_image_picker.load_file(str(template_img))
+                elif getattr(self.monster, 'p540_img_path', None) and os.path.isfile(self.monster.p540_img_path):
+                    self.template_image_picker.load_file(self.monster.p540_img_path)
                 self.p540_image_line_edit.setText(monster_data.monster_image.img_540p)
                 self.threshold_spin_box.setValue(monster_data.monster_image.img_threshold)
                 click_pos = monster_data.monster_image.click_pos.split(',')
