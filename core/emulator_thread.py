@@ -2,7 +2,7 @@ import cv2
 from PySide6.QtCore import QThread, Signal, QTimer
 from PySide6.QtGui import QIcon
 
-from core.services.bm_monsters_service import generate_monster_template
+from core.services.bm_monsters_service import generate_monster_template, start_simulate_monster_click
 from core.services.bm_scan_generals_service import start_scan_generals
 from db.models import General
 from utils.adb_manager import ADBManager
@@ -57,6 +57,8 @@ class EmulatorThread(QThread):
                 self.capture_template_ss()
             elif self.operation_type == "generate_template_image":
                 self.generate_template_image()
+            elif self.operation_type == "simulate_monster_click":
+                self.simulate_monster_click()
 
         except Exception as e:
             print(e)
@@ -89,7 +91,7 @@ class EmulatorThread(QThread):
         self.ref.frame_ready.emit(convert_cv_to_qimage(captured_image))
 
     def generate_template_image(self):
-        """Generate the template image with UI updates for loading state."""
+        """Generate the monster template image """
         try:
             # Change the icon to loading and disable the button
             self.ref.find_template_btn.setIcon(QIcon.fromTheme("process-working"))
@@ -123,6 +125,10 @@ class EmulatorThread(QThread):
         finally:
             # Reset the icon and re-enable the button
             self.ref.reset_template_btn.emit()
+
+    def simulate_monster_click(self):
+
+        start_simulate_monster_click(self)
 
 
     def scan_generals(self):

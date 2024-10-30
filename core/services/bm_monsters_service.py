@@ -15,6 +15,7 @@ from core.custom_widgets.SelectionTool import SelectionTool
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic, MonsterLevel
 from utils.helper_utils import copy_image_to_template, copy_image_to_preview
+from utils.image_recognition_utils import template_match_coordinates
 
 
 def get_all_boss_monster_data():
@@ -60,6 +61,7 @@ def get_all_boss_monster_data():
 
     session.close()
     return boss_monsters
+
 
 def export_selected_bosses(boss_ids):
     session = get_session()
@@ -146,7 +148,8 @@ def export_selected_bosses(boss_ids):
 
     session.close()
 
-def create_monster_from_zip_data(data,temp_extract_folder):
+
+def create_monster_from_zip_data(data, temp_extract_folder):
     """Create a BossMonster object from YAML data."""
     session = get_session()
 
@@ -174,9 +177,9 @@ def create_monster_from_zip_data(data,temp_extract_folder):
         monster.monster_image = monster_image
 
         # Store image path for later use
-        monster.preview_img_path = os.path.join(temp_extract_folder, "images",monster.monster_image.preview_image)
-        monster.p540_img_path = os.path.join(temp_extract_folder, "images", monster.monster_image.img_540p) if monster.monster_image.img_540p else None
-
+        monster.preview_img_path = os.path.join(temp_extract_folder, "images", monster.monster_image.preview_image)
+        monster.p540_img_path = os.path.join(temp_extract_folder, "images",
+                                             monster.monster_image.img_540p) if monster.monster_image.img_540p else None
 
     # Add levels
     for level_data in data.get("levels", []):
@@ -196,7 +199,7 @@ def copy_image_to_export(images_folder, image_name, image_type):
     if image_type == "preview":
         base_folder = os.path.join(BASE_DIR, 'assets', 'preview')
     else:
-        base_folder = os.path.join(BASE_DIR, 'assets', '540p','monsters')
+        base_folder = os.path.join(BASE_DIR, 'assets', '540p', 'monsters')
     image_path = os.path.join(base_folder, image_name)
     print(image_path)
 
@@ -214,9 +217,6 @@ def zip_export_files(folder_to_zip, output_zip_path):
                 arcname = os.path.relpath(file_path, folder_to_zip)
                 zip_file.write(file_path, arcname)
 
-
-import numpy as np
-import cv2
 
 def generate_monster_template(captured_images):
     """Generate a template from captured images and calculate a single scalar threshold."""
@@ -245,7 +245,6 @@ def generate_monster_template(captured_images):
         return None, None
 
 
-
 def find_optimal_threshold(image):
     """Find the best threshold by analyzing the image histogram."""
     try:
@@ -263,3 +262,24 @@ def find_optimal_threshold(image):
     except Exception as e:
         print(f"[ERROR] Failed to find optimal threshold: {e}")
         return 0.5  # Default threshold in case of error
+
+
+def start_simulate_monster_click(thread):
+    try:
+        # Get the threshold value
+        threshold = thread.ref.threshold_spin_box.value()
+        # Get the file_path
+        file_path = thread.ref.p540_image_line_edit.property('file_path')
+
+        # Capture the emulator image
+        src_img = thread.adb_manager.take_screenshot()
+        template_img = cv2.imread(file_path)
+
+        cords = template_match_coordinates(src_img, template_img, convert_gray=False, threshold=threshold)
+        if cords:
+            x = thread.ref.click_x_spin_box.value() + cords[0]
+            y = thread.ref.click_y_spin_box.value() + cords[1]
+            thread.adb_manager.tap(x, y)
+
+    except Exception as e:
+        print(f"[ERROR] Failed to simulate the click: {e}")

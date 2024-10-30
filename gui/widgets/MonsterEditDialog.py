@@ -13,13 +13,13 @@ from sqlalchemy.orm import joinedload
 
 from config.settings import BASE_DIR
 from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan, \
-    generate_template_image
+    generate_template_image, start_simulate_monster_click
 from core.custom_widgets.SelectionTool import SelectionTool
 from core.instance_manager import is_emulator_port_available
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterCategory, MonsterLogic, MonsterLevel, MonsterImage
 from gui.generated.monster_edit_dialog import Ui_Monster_Edit_Dialog
-from utils.helper_utils import image_chooser, copy_image_to_preview, copy_image_to_template
+from utils.helper_utils import copy_image_to_preview, copy_image_to_template
 from utils.image_picker import ImagePicker
 
 
@@ -51,10 +51,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.save_changes_btn.clicked.connect(self.save_changes_pressed)
         self.cancel_btn.clicked.connect(self.cancel_dialog)
         self.add_level_btn.clicked.connect(self.handle_add_new_level)
-        # self.browse_preview_btn.clicked.connect(lambda: image_chooser(self.browse_preview_btn, self.preview_image_line_edit))
-        # self.browse_540p_btn.clicked.connect(lambda: image_chooser(self.browse_540p_btn, self.p540_image_line_edit))
         self.logic_combo_box.currentTextChanged.connect(self.handle_logic_change)
         self.map_scan_checkbox.stateChanged.connect(self.toggle_map_scan_fields)
+        self.simulate_click_btn.clicked.connect(self.simulate_monster_click)
         self.capture_image_btn.clicked.connect(self.capture_template_ss)
         self.lock_btn.clicked.connect(self.toggle_lock_button)
         self.find_template_btn.clicked.connect(self.generate_template_image)
@@ -147,6 +146,21 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         except Exception as e:
             print(f"[ERROR] Error in handle_frame_ready: {e}")
+
+    def simulate_monster_click(self):
+        # Check if the lock button is enabled
+        if not self.lock_btn.isChecked():
+            QMessageBox.warning(self, "Error", "Please lock the selection area before proceeding.")
+            return
+
+        # Check if the template file exists on the filesystem
+        template_path = self.p540_image_line_edit.property('file_path')
+        if not os.path.exists(template_path):
+            QMessageBox.warning(self, "Error", "Please select a monster template before proceeding.")
+            return
+
+        # Start the thread
+        start_simulate_monster_click(self, "simulate_monster_click")
 
     def capture_template_ss(self):
         """Capture the template image through emulator."""
@@ -319,7 +333,6 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         self.port_lineEdit.setEnabled(toggle)
         self.capture_image_btn.setEnabled(toggle)
         self.lock_btn.setEnabled(toggle)
-
 
     def clear_extra_levels(self):
         """Clear all but the first level."""

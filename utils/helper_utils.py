@@ -37,29 +37,6 @@ def crop_bottom_half(image):
     cropped_img = image[start_row:end_row, start_col:end_col].copy()
     return cropped_img
 
-def image_chooser(button,line_edit):
-    """Opens a file dialog to select an image file and updates the line edit with the selected file name."""
-    # Set the file dialog options
-    options = QFileDialog.Options()
-    options |= QFileDialog.ReadOnly  # Set the dialog to read-only
-
-    # Open the file dialog to select an image file
-    file_name, _ = QFileDialog.getOpenFileName(
-        button,
-        "Select Image File",
-        "",
-        "Images (*.png *.jpg *.jpeg *.bmp *.gif);;All Files (*)",
-        options=options
-    )
-
-    if file_name:
-        # Update the line edit with just the file name
-        line_edit.setText(os.path.basename(file_name))
-
-        # Create the file_path property
-        line_edit.setProperty("file_path", file_name)
-
-        # print(f"File path set: {line_edit.property('file_path')}")  # Debugging line
 
 def copy_image_to_preview(file,file_name):
     if os.path.exists(file):
