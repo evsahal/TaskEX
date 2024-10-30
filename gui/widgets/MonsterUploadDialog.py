@@ -97,6 +97,9 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Add the new monster to the list of unsaved monsters
         self.boss_monster_list.append(new_monster)
 
+        # Emit the console message
+        self.log_message.emit(f"Added {new_monster.preview_name} to the upload list.")
+
     def handle_monster_deleted(self, monster):
         """
         Handle the monster deletion and update the list.
@@ -104,6 +107,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         # Safely remove the monster from the list
         if monster in self.boss_monster_list:
             self.boss_monster_list.remove(monster)
+            self.log_message.emit(f"Removed {monster.preview_name} from the upload list.")
 
     def update_existing_monster(self, old_monster, updated_monster, file_path):
         """
@@ -146,6 +150,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
                                     background-color: rgb(29, 33, 38);
                                     border-bottom: 2px solid {logic_color};
                                 """)
+            self.log_message.emit(f"{old_monster.preview_name} data is updated.")
 
     def save_new_monsters(self):
         """
@@ -168,6 +173,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             # After commit, add each monster to the main frame
             for monster in self.boss_monster_list:
                 # Move the file to the preview folder if file_path is set
+                self.log_message.emit(f"Adding {monster.preview_name} to the system...")
                 if monster.preview_img_path and os.path.exists(monster.preview_img_path):
                     copy_image_to_preview(monster.preview_img_path, monster.monster_image.preview_image)
                 if monster.p540_img_path and os.path.exists(monster.p540_img_path):
@@ -175,7 +181,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
 
                 # Now we can call add_monster_to_main_frame because monster IDs are assigned
                 self.add_monster_to_main_frame(monster)
-            self.log_message.emit('New monsters added to the file system')
+            self.log_message.emit('New monsters added to the system. Please restart to update the existing instances.')
             # Disable the upload button after saving
             self.upload_monsters_btn.setEnabled(False)
             self.boss_monster_list.clear()  # Clear the list after saving
@@ -229,7 +235,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
             for monster_data in monsters_data:
                 new_monster = create_monster_from_zip_data(monster_data, temp_extract_folder)
                 self.add_new_monster_to_list(new_monster, new_monster.preview_img_path)
-            self.log_message.emit('Monsters imported successfully')
+            self.log_message.emit('Monsters imported successfully to the upload list.')
             # QMessageBox.information(self, "Import Successful", "Monsters imported successfully!")
 
         except Exception as e:
