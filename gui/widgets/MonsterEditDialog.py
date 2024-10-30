@@ -132,7 +132,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
                 item = template_layout.takeAt(0)
                 widget = item.widget()
                 if widget:
-                    print(f"[DEBUG] Removing widget: {widget.objectName()} ({widget.__class__.__name__})")
+                    # print(f"[DEBUG] Removing widget: {widget.objectName()} ({widget.__class__.__name__})")
                     widget.deleteLater()
 
             # Create the selection tool with the captured image
@@ -142,10 +142,12 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Add the selection tool directly to the template frame layout
             template_layout.addWidget(self.selection_tool)
 
-            print("[DEBUG] Selection tool added to the template selection frame.")
+            # print("[DEBUG] Selection tool added to the template selection frame.")
 
         except Exception as e:
             print(f"[ERROR] Error in handle_frame_ready: {e}")
+        finally:
+            self.capture_image_btn.blockSignals(False)
 
     def simulate_monster_click(self):
         # Check if the lock button is enabled
@@ -164,6 +166,9 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
     def capture_template_ss(self):
         """Capture the template image through emulator."""
+        # Block the signal to avoid multiple press
+        self.capture_image_btn.blockSignals(True)
+
         port = self.port_lineEdit.text().strip()
 
         is_valid, error_message = self.validate_port(port)

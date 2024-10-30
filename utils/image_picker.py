@@ -11,7 +11,7 @@ class ImagePicker:
 
         # Initial button setup
         self.default_icon = QIcon.fromTheme("folder-open")
-        self.remove_icon = QIcon.fromTheme("window-close")
+        self.remove_icon = QIcon.fromTheme("edit-clear")
 
         self._setup_button()
 
@@ -55,7 +55,7 @@ class ImagePicker:
     def _switch_to_remove_mode(self):
         """Switch the button to show a remove icon and make it red."""
         self.button.setIcon(self.remove_icon)
-        self.button.setStyleSheet("background-color: red; color: white;")
+        self.button.setStyleSheet("color: white;")
 
     def _switch_to_picker_mode(self):
         """Switch the button back to the file picker mode."""

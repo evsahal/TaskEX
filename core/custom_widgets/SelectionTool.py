@@ -86,10 +86,10 @@ class SelectionTool(QGraphicsView):
                 if width > 0 and height > 0:
                     # Store the valid selected area
                     self.selected_area = (x, y, width, height)
-                    print(f"[DEBUG] Selection finalized: x={x}, y={y}, width={width}, height={height}")
+                    # print(f"[DEBUG] Selection finalized: x={x}, y={y}, width={width}, height={height}")
                     self.area_selected.emit(x, y, width, height)
-                else:
-                    print("[ERROR] Invalid selection: width or height is -1.")
+                # else:
+                #     print("[ERROR] Invalid selection: width or height is -1.")
 
                 self.selection_active = False
 

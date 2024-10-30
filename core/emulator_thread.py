@@ -94,8 +94,9 @@ class EmulatorThread(QThread):
         """Generate the monster template image """
         try:
             # Change the icon to loading and disable the button
-            self.ref.find_template_btn.setIcon(QIcon.fromTheme("process-working"))
+            self.ref.find_template_btn.setIcon(QIcon.fromTheme("sync-synchronizing"))
             self.ref.find_template_btn.blockSignals(True)
+
 
             captured_images = []
             for i in range(20):  # Capture 20 frames
