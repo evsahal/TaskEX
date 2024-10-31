@@ -1925,7 +1925,7 @@ background-repeat: no-repeat;</string>
                           <string notr="true"/>
                          </property>
                          <property name="currentIndex">
-                          <number>3</number>
+                          <number>0</number>
                          </property>
                          <widget class="QWidget" name="scan_generals">
                           <property name="sizePolicy">
@@ -2094,7 +2094,7 @@ background-repeat: no-repeat;</string>
                                     </size>
                                    </property>
                                    <property name="text">
-                                    <string>5555</string>
+                                    <string/>
                                    </property>
                                    <property name="maxLength">
                                     <number>10</number>
@@ -2175,8 +2175,8 @@ background-repeat: no-repeat;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>98</width>
-                                   <height>24</height>
+                                   <width>887</width>
+                                   <height>466</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -2516,8 +2516,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_17">

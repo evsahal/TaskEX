@@ -1245,7 +1245,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 98, 24))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 887, 466))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -1413,7 +1413,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_17 = QHBoxLayout(self.scrollAreaWidgetContents_4)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.blackmarket_list_frame = QFrame(self.scrollAreaWidgetContents_4)
@@ -1602,7 +1602,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(0)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)
 
@@ -1661,7 +1661,7 @@ class Ui_MainWindow(object):
         self.scan_generals_view.setItemText(1, QCoreApplication.translate("MainWindow", u"List View", None))
 
         self.scan_generals_view.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan View", None))
-        self.scan_generals_port.setText(QCoreApplication.translate("MainWindow", u"5555", None))
+        self.scan_generals_port.setText("")
         self.scan_generals_port.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.scan_generals_btn.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.scan_general_console.setPlainText(QCoreApplication.translate("MainWindow", u"Note: Double-tap on the general's name tag to rename it.\n"

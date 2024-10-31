@@ -297,14 +297,14 @@ class Ui_Monster_Edit_Dialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaContents = QWidget()
         self.scrollAreaContents.setObjectName(u"scrollAreaContents")
-        self.scrollAreaContents.setGeometry(QRect(0, 0, 263, 626))
+        self.scrollAreaContents.setGeometry(QRect(0, 0, 263, 682))
         sizePolicy.setHeightForWidth(self.scrollAreaContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaContents.setSizePolicy(sizePolicy)
         self.horizontalLayout_5 = QHBoxLayout(self.scrollAreaContents)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.configure_label = QLabel(self.scrollAreaContents)
         self.configure_label.setObjectName(u"configure_label")
-        self.configure_label.setTextFormat(Qt.TextFormat.MarkdownText)
+        self.configure_label.setTextFormat(Qt.TextFormat.RichText)
         self.configure_label.setScaledContents(True)
         self.configure_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
         self.configure_label.setWordWrap(True)
@@ -452,27 +452,8 @@ class Ui_Monster_Edit_Dialog(object):
         self.port_lineEdit.setPlaceholderText(QCoreApplication.translate("Monster_Edit_Dialog", u"Port No.", None))
         self.capture_image_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Capture Image", None))
         self.lock_btn.setText("")
-        self.configure_label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"1. **Open the Game:**\n"
-"- Select the monster you want to generate the template.\n"
-"- Zoom out the map fully.\n"
-"\n"
-"2. **Position the Monster:**\n"
-"- Place the boss at the center by entering its coordinates or selecting it from bookmarks.\n"
-"\n"
-"3. **Capture Image:**\n"
-"- Enter the port number.\n"
-"- Click **Capture Image** to display the captured image.\n"
-"\n"
-"4. **Select Template Area:**\n"
-"- Select the boss area carefully.\n"
-"- Include only the monster area to avoid mismatches in template generation.\n"
-"\n"
-"5. **Lock the Selection:**\n"
-"- Click the **Lock** button to lock the selected template area.\n"
-"\n"
-"6. **Generate Template:**\n"
-"- Click the **Magnifying Glass** button next to the template Import button to generate the template and set the threshold automatically.\n"
-"", None))
+        self.configure_label.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"<html><head/><body><p><span style=\" font-weight:700; text-decoration: underline;\">Map Scan Template Configuration Guide</span><br/>- Enter the port number of the emulator for capturing the template image.<br/>- Navigate to the world map and ensure it is fully zoomed out.<br/>- Position the monster at the center of the map by either entering its coordinates manually or selecting it from bookmarks.<br/>- Click the &quot;Capture Image&quot; button to display the image for selecting the template area.<br/>- Mark the area around the monster where you want to apply the algorithm to generate the template image and the threshold.<br/>- Ensure the selected area contains only parts of the monster to improve matching accuracy (preferably static areas).<br/>- Lock the selected area by pressing the lock button.<br/>- Click the Magnifying Glass button next to the 540p image picker to generate the template and its threshold value.<br/>- Use the record button to adjust the click position for precise monster selection; modif"
+                        "y the X and Y values if needed to fine-tune the click position.</p></body></html>", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("Monster_Edit_Dialog", u"Level Info", None))
         self.add_level_btn.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Add Level", None))
         self.smart_mode_check_box.setText(QCoreApplication.translate("Monster_Edit_Dialog", u"Smart Mode", None))

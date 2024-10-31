@@ -51,7 +51,12 @@ class MainWindow(QMainWindow):
         for i, (message, function) in enumerate(init_steps):
             QTimer.singleShot(i * 1000,
                               lambda msg=message, func=function, idx=i + 1: self.load_step(splash_screen, msg, func,
-                                                                                           idx))
+                                                                                        idx))
+
+    def load_configurations(self):
+        # Initialize the database and create tables
+        init_db()
+
 
     def load_ui_settings(self):
         # USE CUSTOM TITLE BAR | USE AS "False" FOR MAC OR LINUX
@@ -137,6 +142,16 @@ class MainWindow(QMainWindow):
         self.scan_general_console.connect(lambda message: update_scan_console(self,message))
 
 
+    def init_adb(self):
+
+        # call the iniitializer for adb
+        ADBManager.initialize_adb()
+
+
+    def init_instance(self):
+        # Load the Default Instances
+        initialize_instances(self, 1)
+
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
@@ -146,19 +161,6 @@ class MainWindow(QMainWindow):
         # Setup Pytesseract
         setup_tesseract()
 
-    def load_configurations(self):
-        # Initialize the database and create tables
-        init_db()
-
-
-    def init_adb(self):
-
-        # call the iniitializer for adb
-        ADBManager.initialize_adb()
-
-    def init_instance(self):
-        # Load the Default Instances
-        initialize_instances(self, 1)
 
     def load_step(self, splash_screen, message, function, index):
         splash_screen.ui.progressBar.setValue(index)

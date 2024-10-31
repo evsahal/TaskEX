@@ -218,6 +218,8 @@ def sync_lineedits(lineedit1: QLineEdit, lineedit2: QLineEdit, button: QPushButt
             lineedit1.blockSignals(True)
             lineedit1.setText(text)
             lineedit1.blockSignals(False)
+        if button:
+            button.setText(text)
 
     # Connect signals from both lineedits to each other
     lineedit1.textChanged.connect(update_lineedit2)

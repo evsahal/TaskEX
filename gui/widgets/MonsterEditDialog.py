@@ -5,6 +5,7 @@ from datetime import datetime
 from tempfile import template
 
 import cv2
+import markdown
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QIcon, QImage
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
@@ -73,6 +74,8 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Keep track of the selection tool for state management
         self.selection_tool = None
+
+
 
     def handle_template_ready(self, template, threshold):
         """Handle the received template and threshold."""
