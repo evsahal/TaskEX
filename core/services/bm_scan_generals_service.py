@@ -226,6 +226,7 @@ def scan_generals_list_view(thread,pending_generals):
                     # Save the image to the path
                     cv2.imwrite(f"{image_directory}{general.list_image_name}",crop_img)
                     session.commit()
+                    thread.scan_general_console.emit(f"Updated list view template for {general.name}.")
 
                     # Update the list view ui,
                     # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
