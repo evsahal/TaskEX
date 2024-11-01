@@ -6,7 +6,7 @@ import cv2
 from utils.image_recognition_utils import is_template_match, template_match_coordinates
 
 
-def select_general_view(device,view):
+def select_general_view(thread,view):
     # Get the project root directory dynamically
     PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -18,13 +18,14 @@ def select_general_view(device,view):
     }
 
     # Capture a screenshot
-    src_img = device.take_screenshot()
+    src_img = thread.adb_manager.take_screenshot()
 
     #  Load the template image
     template_img = cv2.imread(view_templates[view])
 
     # Check if the view is already selected or not
     if is_template_match(src_img,template_img,threshold=0.9):
+        thread.main_window.scan_general_console.emit(f"{view.capitalize()} is already selected.")
         return True
 
     # Select the opposite view
@@ -41,12 +42,13 @@ def select_general_view(device,view):
     view_match = template_match_coordinates(src_img, template_img,threshold=0.9)
 
     if view_match:
-        device.tap(view_match[0], view_match[1])
+        thread.adb_manager.tap(view_match[0], view_match[1])
+        thread.main_window.scan_general_console.emit(f"Selecting {opposite_view}.")
         return True
     return False
 
 
-def select_general_category(device,category):
+def select_general_category(thread,category):
 
     # Get the project root directory dynamically
     PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -64,13 +66,14 @@ def select_general_category(device,category):
     }
 
     # Capture a screenshot
-    src_img = device.take_screenshot()
+    src_img = thread.adb_manager.take_screenshot()
 
     # Load the template image to verify
     template_img = cv2.imread(f"{category_templates[category]}_selected.png")
 
     # Check if the category is already selected or not
     if is_template_match(src_img,template_img):
+        thread.main_window.scan_general_console.emit(f"Category {category} is already selected.")
         return True
 
     # Load the template image to select
@@ -80,13 +83,13 @@ def select_general_category(device,category):
     category_match = template_match_coordinates(src_img,template_img)
 
     if category_match:
-        device.tap(category_match[0],category_match[1])
-
+        thread.adb_manager.tap(category_match[0],category_match[1])
+        thread.main_window.scan_general_console.emit(f"Selecting {category.capitalize()} category.")
         return True
     return False
 
 
-def apply_general_filter(device,favorite=False, idle=False):
+def apply_general_filter(device,favorite=False, idle=False,signal=None):
     # Get the template directory location
     PROJECT_ROOT = Path(__file__).resolve().parent.parent
     template_loc = os.path.join(PROJECT_ROOT, r'assets\540p\other')
@@ -103,47 +106,58 @@ def apply_general_filter(device,favorite=False, idle=False):
     if favorite:
         # Check if favorite is checked,if not check it
         if is_template_match(src_img, favorite_checked_img):
-            print("Favorite already selected")
-            # self.invokeScanGeneralsConsole("Favorite filter is already applied")
+            if signal:
+                signal.emit("Favorite filter is already applied.")
+            # print("Favorite already selected")
         else:
             src_img_match = template_match_coordinates(src_img, favorite_unchecked_img)
             if src_img_match:
-                print("Selecting Favorite Filter")
+                if signal:
+                    signal.emit("Applying favorite filter now.")
+                # print("Selecting Favorite Filter")
                 # self.invokeScanGeneralsConsole("Applying the favorite filter")
                 device.tap(src_img_match[0],src_img_match[1])
     else:
         # Check if favorite is unchecked,if not uncheck it
         if is_template_match(src_img, favorite_unchecked_img):
-            print("Favorite already not selected")
-            # self.invokeScanGeneralsConsole("Favorite already not selected")
+            if signal:
+                signal.emit("Favorite filter is not applied already.")
+                # print("Favorite already not selected")
         else:
             src_img_match = template_match_coordinates(src_img, favorite_checked_img)
             if src_img_match:
-                print("Clearing Favorite Filter")
-                # self.invokeScanGeneralsConsole("Clearing the favorite filter")
+                # print("Clearing Favorite Filter")
+                if signal:
+                    signal.emit("Clearing the favorite filter.")
                 device.tap(src_img_match[0],src_img_match[1])
 
     if idle:
         # Check if idle is checked,if not check it
         if is_template_match(src_img, idle_checked_img):
-            print("Idle already selected")
+            if signal:
+                signal.emit("Idle filter is already applied.")
+            # print("Idle already selected")
             # self.invokeScanGeneralsConsole("Idle filter is already applied")
         else:
             src_img_match = template_match_coordinates(src_img, idle_unchecked_img)
             if src_img_match:
-                print("Selecting Idle Filter")
+                if signal:
+                    signal.emit("Applying idle filter now.")
+                # print("Selecting Idle Filter")
                 # self.invokeScanGeneralsConsole("Applying the idle filter")
                 device.tap(src_img_match[0], src_img_match[1])
     else:
         # Check if idle is unchecked,if not uncheck it
         if is_template_match(src_img, idle_unchecked_img):
-            print("Idle already not selected")
-            # self.invokeScanGeneralsConsole("Idle already not selected")
+            if signal:
+                signal.emit("Idle filter is not applied already.")
+            # print("Idle already not selected")
         else:
             src_img_match = template_match_coordinates(src_img, idle_checked_img)
             if src_img_match:
-                print("Clearing Idle Filter")
-                # self.invokeScanGeneralsConsole("Clearing the idle filter")
+                if signal:
+                    signal.emit("Clearing the idle filter.")
+                # print("Clearing Idle Filter")
                 device.tap(src_img_match[0], src_img_match[1])
 
 

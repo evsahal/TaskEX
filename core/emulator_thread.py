@@ -43,7 +43,7 @@ class EmulatorThread(QThread):
                     self.scan_general_console.emit(f"No device found on port {self.port}")
                     # Stop the thread
                     self.scan_general_error.emit()
-                elif self.index == 999:
+                elif self.index == 998:
                     pass
                 else:
                     self.error.emit(self.index, f"No device found on port {self.port}")

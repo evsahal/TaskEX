@@ -65,10 +65,10 @@ def start_scan_generals(thread):
         return False
 
     # Select general view
-    select_general_view(device,main_window.widgets.scan_generals_view.currentText().lower())
+    select_general_view(thread,main_window.widgets.scan_generals_view.currentText().lower())
 
     # Select category.
-    select_general_category(device,main_window.widgets.scan_generals_category.currentText().lower())
+    select_general_category(thread,main_window.widgets.scan_generals_category.currentText().lower())
 
     # Get the selected filters
     filters = main_window.widgets.scan_generals_filter
@@ -84,7 +84,7 @@ def start_scan_generals(thread):
     # print(f"Selected items: {checked_items}") # ['Favorite', 'Idle']
 
     # Apply Filters
-    apply_general_filter(device,0 in checked_indices,1 in checked_indices)
+    apply_general_filter(device,0 in checked_indices,1 in checked_indices, thread.main_window.scan_general_console)
 
     # Start Scanning.
     scan_view = main_window.widgets.scan_generals_view
