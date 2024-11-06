@@ -2,10 +2,10 @@ import sys
 import os
 from cx_Freeze import setup, Executable
 
-from core.app_settings import Settings
+from config.settings import VERSION, TITLE_DESCRIPTION
 
 # ADD FILES
-files = ['icon.ico','platform-tools/']
+files = ['icon.ico','platform-tools/', 'Tesseract-OCR/', 'assets/', 'db/task_ex.db']
 
 # TARGET
 target = Executable(
@@ -14,13 +14,16 @@ target = Executable(
     icon="icon.ico"
 )
 
+
+
+
 # SETUP CX FREEZE
 setup(
     name = "TaskEnforcerX",
-    version = Settings.VERSION,
-    description = Settings.TITLE_DESCRIPTION,
+    version = VERSION,
+    description = TITLE_DESCRIPTION,
     author = "MwoNuZzz",
-    options = {'build_exe' : {'include_files' : files}},
+    options = {'build_exe' : {'include_files' : files , 'packages': ['sqlalchemy.dialects.sqlite'],}},
     executables = [target]
     
 )

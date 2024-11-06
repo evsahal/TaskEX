@@ -1,15 +1,17 @@
 import os
+import sys
 from pathlib import Path
 
 # APP TEXTS
 TITLE = "TaskEX"
 TITLE_DESCRIPTION = "Ultimate Edition"
-VERSION = "v2.0.0"
+VERSION = "v0.0.0"
 CREDITS = "By: MwoNuZzz"
 
 # Project base directory
-BASE_DIR = PROJECT_ROOT = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
 # DB URL
-DATABASE_URL = f"sqlite:///{os.path.join(BASE_DIR, 'db', 'task_ex.db')}"
+DATABASE_URL = f"sqlite:///{os.path.join(Path(__file__).resolve().parent.parent, 'db', 'task_ex.db')}"
 
 

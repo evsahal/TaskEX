@@ -4,7 +4,6 @@ import shutil
 
 from PySide6.QtWidgets import QFileDialog
 
-from config.settings import BASE_DIR
 
 
 def extract_number_from_string(string: str) -> int:
@@ -41,7 +40,7 @@ def crop_bottom_half(image):
 def copy_image_to_preview(file,file_name):
     if os.path.exists(file):
         # Get the preview folder path
-        preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+        preview_path = os.path.join( 'assets', 'preview')
 
         # Define the new destination path for the file
         destination_path = os.path.join(preview_path, file_name)
@@ -54,7 +53,7 @@ def copy_image_to_preview(file,file_name):
 def copy_image_to_template(file, file_name):
     if os.path.exists(file):
         # Get the template folder path
-        template_path = os.path.join(BASE_DIR, 'assets', '540p', 'monsters')
+        template_path = os.path.join( 'assets', '540p', 'monsters')
 
         # Define the new destination path for the file
         destination_path = os.path.join(template_path, file_name)

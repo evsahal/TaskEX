@@ -5,13 +5,11 @@ import numpy as np
 from PySide6.QtGui import QImage
 from pytesseract import pytesseract
 
-from config.settings import BASE_DIR
-
 
 def setup_tesseract():
     # For Windows, you need to specify the path to the tesseract executable
     if os.name == 'nt':  # Check if the OS is Windows
-        pytesseract.tesseract_cmd = rf'{BASE_DIR}\Tesseract-OCR\tesseract.exe'
+        pytesseract.tesseract_cmd = rf'Tesseract-OCR\tesseract.exe'
 
 
 def template_match_coordinates(src_image, template_image, return_center=True, convert_gray=True, threshold=0.85):

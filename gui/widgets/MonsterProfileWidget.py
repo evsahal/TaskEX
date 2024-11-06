@@ -4,7 +4,6 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
-from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterLevel, MonsterImage
 from gui.generated.monster_profile import Ui_Monster_Profile
@@ -24,7 +23,7 @@ class MonsterProfileWidget(QWidget):
 
         # Set widget object name
         self.setObjectName(f"monster_profile_{self.data.id}")
-        self.preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+        self.preview_path = os.path.join( 'assets', 'preview')
 
         # Setup Monster Preview
         monster_preview = os.path.join(str(self.preview_path), self.data.monster_image.preview_image)

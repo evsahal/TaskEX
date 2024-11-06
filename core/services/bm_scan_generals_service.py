@@ -10,7 +10,6 @@ import unicodedata
 from adbutils import device
 from pytesseract import pytesseract
 
-from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import General
 from db.models.general import GeneralType
@@ -185,7 +184,8 @@ def scan_generals_list_view(thread,pending_generals):
     device = thread.adb_manager
 
     # Define the directory to save the image
-    image_directory = f"{BASE_DIR}\\assets\\540p\\generals\\"
+    image_directory = os.path.join("assets", "540p", "generals")
+
 
     # Get all the frame templates to scan
     selected_frames = get_general_scan_frames([0, 1])
@@ -211,7 +211,7 @@ def scan_generals_list_view(thread,pending_generals):
                     # print(general)
                     # <General(name=Elektra, type=Epic Historic General, resolution=540p, details_image=tElkare_ECa50.png,list_image=None)>
                     # Crop the detail view general template image to match
-                    template_image = crop_general_template_list_view(cv2.imread(f"{image_directory}{general.details_image_name}"))
+                    template_image = crop_general_template_list_view(cv2.imread(f"{image_directory}\\{general.details_image_name}"))
                     # Match the template in the src_img
                     match_cords, best_scale = template_match_multiple_sizes(crop_img, template_image, scales)
                     if not match_cords:
@@ -224,7 +224,7 @@ def scan_generals_list_view(thread,pending_generals):
                     # Save the changes to the database
                     session.add(general)
                     # Save the image to the path
-                    cv2.imwrite(f"{image_directory}{general.list_image_name}",crop_img)
+                    cv2.imwrite(f"{image_directory}\\{general.list_image_name}",crop_img)
                     session.commit()
                     thread.scan_general_console.emit(f"Updated list view template for {general.name}.")
 
@@ -346,7 +346,7 @@ def generate_random_general_image_name(general_name):
 def save_general_to_db(general,image):
 
     # Define the directory to save the image
-    image_directory = f"{BASE_DIR}\\assets\\540p\\generals\\"
+    image_directory = os.path.join("assets", "540p", "generals")
     # Create the directory if it doesn't exist
     os.makedirs(image_directory, exist_ok=True)
 
@@ -357,8 +357,8 @@ def save_general_to_db(general,image):
         session.commit()
         # print(f"General '{general.name}' saved successfully.")
         # Save the image
-        cv2.imwrite(f"{image_directory}{general.details_image_name}", image)
-        # print(f"{image_directory}{general.details_image_name}")
+        cv2.imwrite(f"{image_directory}\\{general.details_image_name}", image)
+        # print(f"{image_directory}\\{general.details_image_name}")
         return general
     except Exception as e:
         session.rollback()  # Rollback in case of error
@@ -369,7 +369,7 @@ def save_general_to_db(general,image):
 
 def get_general_scan_frames(options):
     # Define the template location
-    template_loc = os.path.join(BASE_DIR, "assets", "540p", "other")
+    template_loc = os.path.join( "assets", "540p", "other")
 
     # Frame templates for both epic and legendary generals
     frame_templates = {

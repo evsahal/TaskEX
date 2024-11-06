@@ -10,7 +10,6 @@ from PySide6.QtWidgets import QMessageBox, QFileDialog, QVBoxLayout, QWidget, QL
 from sqlalchemy import asc
 from sqlalchemy.orm import joinedload
 
-from config.settings import BASE_DIR
 from core.custom_widgets.SelectionTool import SelectionTool
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic, MonsterLevel
@@ -197,9 +196,9 @@ def create_monster_from_zip_data(data, temp_extract_folder):
 def copy_image_to_export(images_folder, image_name, image_type):
     """Copy the image to the export folder."""
     if image_type == "preview":
-        base_folder = os.path.join(BASE_DIR, 'assets', 'preview')
+        base_folder = os.path.join('assets', 'preview')
     else:
-        base_folder = os.path.join(BASE_DIR, 'assets', '540p', 'monsters')
+        base_folder = os.path.join('assets', '540p', 'monsters')
     image_path = os.path.join(base_folder, image_name)
     print(image_path)
 

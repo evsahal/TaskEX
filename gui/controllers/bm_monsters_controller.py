@@ -5,7 +5,6 @@ from PySide6.QtWidgets import QFrame, QCheckBox, QDialog, QWidget, QMessageBox
 from requests import session
 from sqlalchemy import asc
 
-from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.services.bm_monsters_service import get_all_boss_monster_data, export_selected_bosses
 from db.db_setup import get_session
@@ -88,7 +87,7 @@ def update_monster_profile_ui(main_window, boss_id):
 
         # Update the UI with the new data
 
-        preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+        preview_path = os.path.join( 'assets', 'preview')
 
         # Setup Monster Preview
         monster_profile_widget.ui.monster_name_label.setText(updated_monster.preview_name)

@@ -5,7 +5,6 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 
-from config.settings import BASE_DIR
 from db.db_setup import get_session
 from db.models import General
 from gui.generated.general_profile import Ui_General_Profile
@@ -25,7 +24,7 @@ class GeneralProfileWidget(QWidget):
         self.data = data
         # Set widget object name
         self.setObjectName(f"general_profile_{self.data.id}")
-        self.image_path = os.path.join(BASE_DIR, 'assets', self.data.image_resolution.value, 'generals')
+        self.image_path = os.path.join( 'assets', self.data.image_resolution.value, 'generals')
 
         # Setup General Preview View
         if toggle:

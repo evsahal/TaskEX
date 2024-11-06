@@ -12,7 +12,6 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEd
     QMessageBox, QWidget, QFrame
 from sqlalchemy.orm import joinedload
 
-from config.settings import BASE_DIR
 from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan, \
     generate_template_image, start_simulate_monster_click
 from core.custom_widgets.SelectionTool import SelectionTool
@@ -274,14 +273,14 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
         if monster_data.monster_image:
             self.preview_image_line_edit.setText(monster_data.monster_image.preview_image)
             # Load the image picker with existing file path value
-            preview_img =os.path.join(BASE_DIR, 'assets', 'preview' , monster_data.monster_image.preview_image)
+            preview_img =os.path.join('assets', 'preview' , monster_data.monster_image.preview_image)
             if self.monster_id and os.path.isfile(preview_img):
                 self.preview_image_picker.load_file(str(preview_img))
             elif getattr(self.monster, 'preview_img_path', None) and os.path.isfile(self.monster.preview_img_path):
                 self.preview_image_picker.load_file(self.monster.preview_img_path)
             if self.map_scan_checkbox.isChecked():
                 # Load the image picker with existing file path value
-                template_img = os.path.join(BASE_DIR, 'assets', '540p', 'monsters', monster_data.monster_image.img_540p)
+                template_img = os.path.join('assets', '540p', 'monsters', monster_data.monster_image.img_540p)
                 if self.monster_id and os.path.isfile(template_img):
                     self.template_image_picker.load_file(str(template_img))
                 elif getattr(self.monster, 'p540_img_path', None) and os.path.isfile(self.monster.p540_img_path):

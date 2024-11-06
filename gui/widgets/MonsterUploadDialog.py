@@ -8,7 +8,6 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QMessageBox, QDialog, QFileDialog
 
-from config.settings import BASE_DIR
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.services.bm_monsters_service import create_monster_from_zip_data
 from db.db_setup import get_session
@@ -126,7 +125,7 @@ class MonsterUploadDialog(QDialog, Ui_Monster_Upload_Dialog):
         if widget.data == old_monster:
             # Update the widget's data and refresh the displayed info
             widget.data = updated_monster
-            preview_path = os.path.join(BASE_DIR, 'assets', 'preview')
+            preview_path = os.path.join( 'assets', 'preview')
             # Setup Monster Preview
             widget.ui.monster_name_label.setText(updated_monster.preview_name)
 

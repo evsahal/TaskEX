@@ -99,7 +99,6 @@ class EmulatorThread(QThread):
             self.ref.find_template_btn.setIcon(QIcon.fromTheme("sync-synchronizing"))
             self.ref.find_template_btn.blockSignals(True)
 
-
             captured_images = []
             for i in range(20):  # Capture 20 frames
                 if not self._running:
