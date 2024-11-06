@@ -1,5 +1,7 @@
+import os
+
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QParallelAnimationGroup, QEvent, QTimer
-from PySide6.QtGui import QIcon, QColor
+from PySide6.QtGui import QIcon, QColor, QFont
 from PySide6.QtWidgets import QPushButton, QGraphicsDropShadowEffect, QSizeGrip, QApplication
 
 from core.app_settings import Settings
@@ -286,3 +288,5 @@ class UIFunctions():
 
         # Move the window to the center of the screen
         self.move(center_x, center_y)
+
+

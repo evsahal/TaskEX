@@ -19,7 +19,7 @@ from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 from utils.image_recognition_utils import setup_tesseract
 
-# os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 
 class MainWindow(QMainWindow):
