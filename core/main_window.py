@@ -1,7 +1,8 @@
 import os
 
 from PySide6.QtCore import Qt, QTimer, Signal
-from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame, QApplication
 
 from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
 from core.app_settings import Settings
@@ -18,7 +19,7 @@ from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 from utils.image_recognition_utils import setup_tesseract
 
-os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+# os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
 
 class MainWindow(QMainWindow):
@@ -26,6 +27,7 @@ class MainWindow(QMainWindow):
     scan_general_console = Signal(str)
     def __init__(self, splash_screen):
         super(MainWindow, self).__init__()
+
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)

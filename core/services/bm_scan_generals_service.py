@@ -1,3 +1,4 @@
+
 import os
 import random
 import string
@@ -55,7 +56,6 @@ def start_scan_generals(thread):
             thread.scan_general_console.emit("No generals pending for list view scan.")
             thread.scan_general_error.emit()
             return False
-
 
     # Navigate to the generals window
     if not navigate_generals_window(device):

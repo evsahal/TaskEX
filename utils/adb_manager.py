@@ -19,8 +19,7 @@ class ADBManager:
         Initialize the ADB environment: set the ADB path and start the ADB server.
         This function should be called when starting the bot.
         """
-        ROOT_DIR: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        ADB_PATH: str = os.path.join(ROOT_DIR, 'platform-tools')
+        ADB_PATH: str = os.path.join('platform-tools')
         # print(f"ADB Path: {ADB_PATH}")
         os.environ["PATH"] += os.pathsep + ADB_PATH
 
@@ -40,7 +39,7 @@ class ADBManager:
         ip_address: str = f"127.0.0.1:{self.port}"
 
         try:
-            print(f"Connecting to emulator on port {self.port}...")
+            # print(f"Connecting to emulator on port {self.port}...")
             result = subprocess.run(["adb", "connect", ip_address], capture_output=True, text=True)
 
             if result.returncode != 0:
@@ -49,13 +48,14 @@ class ADBManager:
 
             # Now verify connection with adbutils
             if "connected to" in result.stdout.lower():
-                print(f"Connected to emulator on port {self.port}.")
+                # print(f"Connected to emulator on port {self.port}.")
                 self.device: Optional[adbutils.AdbDevice] = client.device(serial=ip_address)
             else:
-                print(f"Failed to connect: {result.stdout}")
+                # print(f"Failed to connect: {result.stdout}")
                 self.device = None
         except subprocess.CalledProcessError as e:
-            print(f"Failed to connect to emulator on port {self.port}: {e.stderr}")
+            # print(f"Failed to connect to emulator on port {self.port}: {e.stderr}")
+
             self.device = None
 
     def disconnect_device(self) -> None:

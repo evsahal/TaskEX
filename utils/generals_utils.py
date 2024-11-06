@@ -5,12 +5,10 @@ import cv2
 
 from utils.image_recognition_utils import is_template_match, template_match_coordinates
 
+# Get the template directory location
+template_loc = os.path.join('assets', '540p', 'other')
 
 def select_general_view(thread,view):
-    # Get the project root directory dynamically
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-    template_loc = os.path.join(PROJECT_ROOT, r'assets\540p\other')
 
     view_templates={
         "details view"  : f"{template_loc}\\details_view.png",
@@ -47,14 +45,7 @@ def select_general_view(thread,view):
         return True
     return False
 
-
 def select_general_category(thread,category):
-
-    # Get the project root directory dynamically
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent
-
-    template_loc = os.path.join(PROJECT_ROOT, r'assets\540p\other')
-    # print(template_loc)
 
     # Define the templates name for each category
     category_templates = {
@@ -88,11 +79,8 @@ def select_general_category(thread,category):
         return True
     return False
 
-
 def apply_general_filter(device,favorite=False, idle=False,signal=None):
-    # Get the template directory location
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent
-    template_loc = os.path.join(PROJECT_ROOT, r'assets\540p\other')
+
 
     # Define all the template images
     favorite_checked_img = cv2.imread(f"{template_loc}\\favorite_checked.png")
@@ -159,7 +147,6 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
                     signal.emit("Clearing the idle filter.")
                 # print("Clearing Idle Filter")
                 device.tap(src_img_match[0], src_img_match[1])
-
 
 def crop_general_template_list_view(image):
     # Get the image dimensions
