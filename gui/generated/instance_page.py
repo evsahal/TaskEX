@@ -26,7 +26,7 @@ class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
         if not InstancePage.objectName():
             InstancePage.setObjectName(u"InstancePage")
-        InstancePage.resize(1130, 836)
+        InstancePage.resize(1143, 836)
         InstancePage.setStyleSheet(u"QComboBox{\n"
 "	background-color: rgb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
@@ -461,12 +461,13 @@ class Ui_InstancePage(object):
         self.gridLayout = QGridLayout(self.run_main_frame)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.groupBox_2 = QGroupBox(self.run_main_frame)
-        self.groupBox_2.setObjectName(u"groupBox_2")
-        self.horizontalLayout_10 = QHBoxLayout(self.groupBox_2)
+        self.config_panel_gb = QGroupBox(self.run_main_frame)
+        self.config_panel_gb.setObjectName(u"config_panel_gb")
+        self.horizontalLayout_10 = QHBoxLayout(self.config_panel_gb)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(4, 4, 4, 4)
 
-        self.gridLayout.addWidget(self.groupBox_2, 0, 1, 2, 1)
+        self.gridLayout.addWidget(self.config_panel_gb, 0, 1, 2, 1)
 
         self.frame_4 = QFrame(self.run_main_frame)
         self.frame_4.setObjectName(u"frame_4")
@@ -599,31 +600,31 @@ class Ui_InstancePage(object):
         self.verticalLayout_9 = QVBoxLayout(self.frame_9)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.widget = QWidget(self.frame_9)
-        self.widget.setObjectName(u"widget")
-        self.horizontalLayout_7 = QHBoxLayout(self.widget)
+        self.preset_widget_ = QWidget(self.frame_9)
+        self.preset_widget_.setObjectName(u"preset_widget_")
+        self.horizontalLayout_7 = QHBoxLayout(self.preset_widget_)
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.comboBox = QComboBox(self.widget)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMinimumSize(QSize(150, 45))
-        self.comboBox.setMaximumSize(QSize(16777215, 45))
-        self.comboBox.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+        self.preset_combo_ = QComboBox(self.preset_widget_)
+        self.preset_combo_.addItem("")
+        self.preset_combo_.addItem("")
+        self.preset_combo_.setObjectName(u"preset_combo_")
+        self.preset_combo_.setMinimumSize(QSize(150, 45))
+        self.preset_combo_.setMaximumSize(QSize(16777215, 45))
+        self.preset_combo_.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
 
-        self.horizontalLayout_7.addWidget(self.comboBox)
+        self.horizontalLayout_7.addWidget(self.preset_combo_)
 
-        self.preset_save_btn_ = QPushButton(self.widget)
-        self.preset_save_btn_.setObjectName(u"preset_save_btn_")
-        self.preset_save_btn_.setMinimumSize(QSize(45, 45))
-        self.preset_save_btn_.setMaximumSize(QSize(45, 45))
-        self.preset_save_btn_.setStyleSheet(u"background:transparent;")
-        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
-        self.preset_save_btn_.setIcon(icon1)
+        self.preset_edit_btn_ = QPushButton(self.preset_widget_)
+        self.preset_edit_btn_.setObjectName(u"preset_edit_btn_")
+        self.preset_edit_btn_.setMinimumSize(QSize(45, 45))
+        self.preset_edit_btn_.setMaximumSize(QSize(45, 45))
+        self.preset_edit_btn_.setStyleSheet(u"background:transparent;")
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MailMessageNew))
+        self.preset_edit_btn_.setIcon(icon1)
 
-        self.horizontalLayout_7.addWidget(self.preset_save_btn_)
+        self.horizontalLayout_7.addWidget(self.preset_edit_btn_)
 
-        self.preset_delete_btn_ = QPushButton(self.widget)
+        self.preset_delete_btn_ = QPushButton(self.preset_widget_)
         self.preset_delete_btn_.setObjectName(u"preset_delete_btn_")
         self.preset_delete_btn_.setMinimumSize(QSize(45, 45))
         self.preset_delete_btn_.setMaximumSize(QSize(45, 45))
@@ -633,7 +634,7 @@ class Ui_InstancePage(object):
 
         self.horizontalLayout_7.addWidget(self.preset_delete_btn_)
 
-        self.preset_add_btn_ = QPushButton(self.widget)
+        self.preset_add_btn_ = QPushButton(self.preset_widget_)
         self.preset_add_btn_.setObjectName(u"preset_add_btn_")
         self.preset_add_btn_.setMinimumSize(QSize(45, 45))
         self.preset_add_btn_.setMaximumSize(QSize(45, 45))
@@ -644,7 +645,7 @@ class Ui_InstancePage(object):
         self.horizontalLayout_7.addWidget(self.preset_add_btn_)
 
 
-        self.verticalLayout_9.addWidget(self.widget)
+        self.verticalLayout_9.addWidget(self.preset_widget_)
 
 
         self.verticalLayout_8.addWidget(self.frame_9)
@@ -675,12 +676,17 @@ class Ui_InstancePage(object):
         self.scheduler_table_.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.scheduler_table_.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.scheduler_table_.setDragEnabled(True)
+        self.scheduler_table_.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.scheduler_table_.setDefaultDropAction(Qt.DropAction.IgnoreAction)
         self.scheduler_table_.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
-        self.scheduler_table_.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.scheduler_table_.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectColumns)
         self.scheduler_table_.setShowGrid(True)
         self.scheduler_table_.setGridStyle(Qt.PenStyle.SolidLine)
+        self.scheduler_table_.setCornerButtonEnabled(False)
+        self.scheduler_table_.horizontalHeader().setMinimumSectionSize(45)
         self.scheduler_table_.horizontalHeader().setStretchLastSection(False)
+        self.scheduler_table_.verticalHeader().setMinimumSectionSize(45)
+        self.scheduler_table_.verticalHeader().setDefaultSectionSize(45)
 
         self.horizontalLayout_2.addWidget(self.scheduler_table_)
 
@@ -994,7 +1000,7 @@ class Ui_InstancePage(object):
 
         self.tabWidget.setCurrentIndex(0)
         self.comboBox_2.setCurrentIndex(-1)
-        self.comboBox.setCurrentIndex(-1)
+        self.preset_combo_.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(InstancePage)
@@ -1002,7 +1008,7 @@ class Ui_InstancePage(object):
 
     def retranslateUi(self, InstancePage):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Panel", None))
+        self.config_panel_gb.setTitle(QCoreApplication.translate("InstancePage", u"Configuration Panel", None))
         self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
         self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
 
@@ -1014,12 +1020,12 @@ class Ui_InstancePage(object):
         self.run_btn_.setText("")
         self.delete_instance_.setText(QCoreApplication.translate("InstancePage", u"Delete Instance", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("InstancePage", u"Scheduler", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("InstancePage", u"Main Preset", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt Preset", None))
+        self.preset_combo_.setItemText(0, QCoreApplication.translate("InstancePage", u"Main Preset", None))
+        self.preset_combo_.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt Preset", None))
 
-        self.comboBox.setCurrentText("")
-        self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Preset", None))
-        self.preset_save_btn_.setText("")
+        self.preset_combo_.setCurrentText("")
+        self.preset_combo_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Preset", None))
+        self.preset_edit_btn_.setText("")
         self.preset_delete_btn_.setText("")
         self.preset_add_btn_.setText("")
         ___qtablewidgetitem = self.scheduler_table_.horizontalHeaderItem(0)

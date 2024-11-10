@@ -486,12 +486,13 @@ class Ui_MainWindow(object):
 "	selection-background-color: rgb(39, 44, 54);\n"
 "}\n"
 "\n"
+"\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "Sliders */\n"
 "QSlider::groove:horizontal {\n"
 "    border-radius: 5px;\n"
-"    heigh"
-                        "t: 10px;\n"
+"    "
+                        "height: 10px;\n"
 "	margin: 0px;\n"
 "	background-color: rgb(52, 59, 72);\n"
 "}\n"
@@ -531,8 +532,8 @@ class Ui_MainWindow(object):
 "	border-radius: 5px;\n"
 "}\n"
 "QSlider::handle:vertical:hover {\n"
-"    background-color"
-                        ": rgb(195, 155, 255);\n"
+"    background-"
+                        "color: rgb(195, 155, 255);\n"
 "}\n"
 "QSlider::handle:vertical:pressed {\n"
 "    background-color: rgb(255, 121, 198);\n"
@@ -569,8 +570,8 @@ class Ui_MainWindow(object):
 "} \n"
 "\n"
 "QTabBar::tab {  \n"
-"	background-color: rgba(30, 35, 43, 0.9"
-                        "); \n"
+"	background-color: rgba(30, 35, 43"
+                        ", 0.9); \n"
 "   /* background-color: rgba(50, 55, 65, 0.9);*/\n"
 "    min-width: 140px; \n"
 "    min-height:28px;\n"
@@ -600,8 +601,8 @@ class Ui_MainWindow(object):
 "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }\n"
 "QGroupBox::title { color: rgb(161, 110, 235); }\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////"
-                        "////////////////\n"
+"/* ////////////////////////////////////////////////////////////////////////////"
+                        "/////////////////////\n"
 "Button */\n"
 "#pagesContainer QPushButton {\n"
 "	border: 2px solid rgb(52, 59, 72);\n"
@@ -1139,6 +1140,35 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.task_manager)
         self.bot_manager = QWidget()
         self.bot_manager.setObjectName(u"bot_manager")
+        self.bot_manager.setStyleSheet(u"QComboBox{\n"
+"	background-color: rgb(27, 29, 35);\n"
+"	border-radius: 5px;\n"
+"	border: 2px solid rgb(33, 37, 43);\n"
+"	padding: 5px;\n"
+"	padding-left: 10px;\n"
+"}\n"
+"QComboBox:hover{\n"
+"	border: 2px solid rgb(64, 71, 88);\n"
+"}\n"
+"QComboBox::drop-down {\n"
+"	subcontrol-origin: padding;\n"
+"	subcontrol-position: top right;\n"
+"	width: 25px; \n"
+"	border-left-width: 3px;\n"
+"	border-left-color: rgba(39, 44, 54, 150);\n"
+"	border-left-style: solid;\n"
+"	border-top-right-radius: 3px;\n"
+"	border-bottom-right-radius: 3px;	\n"
+"	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);\n"
+"	background-position: center;\n"
+"	background-repeat: no-reperat;\n"
+" }\n"
+"QComboBox QAbstractItemView {\n"
+"	color: rgb(255, 121, 198);	\n"
+"	background-color: rgb(33, 37, 43);\n"
+"	padding: 10px;\n"
+"	selection-background-color: rgb(39, 44, 54);\n"
+"}")
         self.verticalLayout_20 = QVBoxLayout(self.bot_manager)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.tabWidget = QTabWidget(self.bot_manager)
@@ -1174,6 +1204,7 @@ class Ui_MainWindow(object):
         self.scan_generals_category.addItem("")
         self.scan_generals_category.setObjectName(u"scan_generals_category")
         self.scan_generals_category.setMinimumSize(QSize(0, 45))
+        self.scan_generals_category.setStyleSheet(u"")
 
         self.horizontalLayout_16.addWidget(self.scan_generals_category)
 
@@ -1350,7 +1381,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 98, 24))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1413,7 +1444,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 98, 24))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
         self.horizontalLayout_17 = QHBoxLayout(self.scrollAreaWidgetContents_4)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.blackmarket_list_frame = QFrame(self.scrollAreaWidgetContents_4)

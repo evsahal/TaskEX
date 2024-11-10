@@ -468,6 +468,7 @@ QComboBox QAbstractItemView {
 	selection-background-color: rgb(39, 44, 54);
 }
 
+
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 Sliders */
 QSlider::groove:horizontal {
@@ -1918,6 +1919,37 @@ background-repeat: no-repeat;</string>
                       </layout>
                      </widget>
                      <widget class="QWidget" name="bot_manager">
+                      <property name="styleSheet">
+                       <string notr="true">QComboBox{
+	background-color: rgb(27, 29, 35);
+	border-radius: 5px;
+	border: 2px solid rgb(33, 37, 43);
+	padding: 5px;
+	padding-left: 10px;
+}
+QComboBox:hover{
+	border: 2px solid rgb(64, 71, 88);
+}
+QComboBox::drop-down {
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	width: 25px; 
+	border-left-width: 3px;
+	border-left-color: rgba(39, 44, 54, 150);
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;	
+	background-image: url(:/icons/images/icons/cil-arrow-bottom.png);
+	background-position: center;
+	background-repeat: no-reperat;
+ }
+QComboBox QAbstractItemView {
+	color: rgb(255, 121, 198);	
+	background-color: rgb(33, 37, 43);
+	padding: 10px;
+	selection-background-color: rgb(39, 44, 54);
+}</string>
+                      </property>
                       <layout class="QVBoxLayout" name="verticalLayout_20">
                        <item>
                         <widget class="QTabWidget" name="tabWidget">
@@ -1993,6 +2025,9 @@ background-repeat: no-repeat;</string>
                                      <width>0</width>
                                      <height>45</height>
                                     </size>
+                                   </property>
+                                   <property name="styleSheet">
+                                    <string notr="true"/>
                                    </property>
                                    <property name="currentIndex">
                                     <number>0</number>
@@ -2389,8 +2424,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>98</width>
-                                   <height>24</height>
+                                   <width>1118</width>
+                                   <height>388</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2516,8 +2551,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>98</width>
-                                   <height>24</height>
+                                   <width>1118</width>
+                                   <height>514</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_17">

@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLa
 from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
-from gui.controllers.run_tab_controller import setup_scheduler_table, init_icons
+from gui.controllers.run_tab_controller import init_run_tab
 from gui.generated.instance_page import Ui_InstancePage
 from utils.dialog_utils import show_error_dialog, show_confirmation_dialog
 from utils.helper_utils import extract_number_from_string
@@ -169,18 +169,18 @@ def add_new_instance_page(main_window,index):
     # Loop through all the attributes in instance_ui that are widgets and update the object name
     for attr_name in dir(instance_ui):
         # Ignore special methods and attributes
+        # print(attr_name)
         if not attr_name.startswith('__'):
             widget = getattr(instance_ui, attr_name)
             # Check if it's a QWidget with objectName
             if hasattr(widget, 'objectName'):
                 # Only update names that end with '_'
-                if widget.objectName().endswith('_'):
-                    # print(widget.objectName())
+                if widget.objectName().endswith('_') or widget.objectName().endswith('___'):
                     new_name = f"{widget.objectName()}{index}"
                     widget.setObjectName(new_name)
+                    # print(widget.objectName())
                     # Register the renamed widget
                     setattr(main_window.widgets, new_name, widget)
-    # getattr(main_window,f"label_{index}").setText(f"New Instance Page {index}")
 
 
     # Connect run button
@@ -189,11 +189,8 @@ def add_new_instance_page(main_window,index):
     # Connect delete instance button
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
 
-    # Setup Icons for Buttons
-    # init_icons(main_window,index)
-
-    # Setup Scheduler table UI
-    setup_scheduler_table(main_window,index)
+    # Setup Run Tab
+    init_run_tab(main_window,index)
 
 def delete_instance_check(main_window,index):
     total_instance = count_btn_emu_instances(main_window)
