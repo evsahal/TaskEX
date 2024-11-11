@@ -461,14 +461,6 @@ class Ui_InstancePage(object):
         self.gridLayout = QGridLayout(self.run_main_frame)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.config_panel_gb = QGroupBox(self.run_main_frame)
-        self.config_panel_gb.setObjectName(u"config_panel_gb")
-        self.horizontalLayout_10 = QHBoxLayout(self.config_panel_gb)
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.horizontalLayout_10.setContentsMargins(4, 4, 4, 4)
-
-        self.gridLayout.addWidget(self.config_panel_gb, 0, 1, 2, 1)
-
         self.frame_4 = QFrame(self.run_main_frame)
         self.frame_4.setObjectName(u"frame_4")
         self.frame_4.setFrameShape(QFrame.Shape.NoFrame)
@@ -494,6 +486,14 @@ class Ui_InstancePage(object):
 
 
         self.gridLayout.addWidget(self.frame_4, 1, 0, 1, 1)
+
+        self.config_panel_gb = QGroupBox(self.run_main_frame)
+        self.config_panel_gb.setObjectName(u"config_panel_gb")
+        self.horizontalLayout_10 = QHBoxLayout(self.config_panel_gb)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(4, 4, 4, 4)
+
+        self.gridLayout.addWidget(self.config_panel_gb, 0, 1, 2, 1)
 
         self.frame_3 = QFrame(self.run_main_frame)
         self.frame_3.setObjectName(u"frame_3")
@@ -687,6 +687,7 @@ class Ui_InstancePage(object):
         self.scheduler_table_.horizontalHeader().setStretchLastSection(False)
         self.scheduler_table_.verticalHeader().setMinimumSectionSize(45)
         self.scheduler_table_.verticalHeader().setDefaultSectionSize(45)
+        self.scheduler_table_.verticalHeader().setStretchLastSection(False)
 
         self.horizontalLayout_2.addWidget(self.scheduler_table_)
 
@@ -717,17 +718,25 @@ class Ui_InstancePage(object):
 
         self.horizontalLayout_5.addWidget(self.groupBox_3)
 
-        self.groupBox_4 = QGroupBox(self.frame_2)
+        self.frame_6 = QFrame(self.frame_2)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_7 = QVBoxLayout(self.frame_6)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_4 = QGroupBox(self.frame_6)
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.verticalLayout_6 = QVBoxLayout(self.groupBox_4)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.frame_8 = QFrame(self.groupBox_4)
         self.frame_8.setObjectName(u"frame_8")
         self.frame_8.setMaximumSize(QSize(16777215, 16777215))
-        self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_11 = QVBoxLayout(self.frame_8)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(0, 0, -1, 0)
         self.frame_15 = QFrame(self.frame_8)
         self.frame_15.setObjectName(u"frame_15")
         self.frame_15.setFrameShape(QFrame.Shape.NoFrame)
@@ -813,142 +822,20 @@ class Ui_InstancePage(object):
 
         self.verticalLayout_6.addWidget(self.frame_8)
 
-        self.frame_6 = QFrame(self.groupBox_4)
-        self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_7 = QVBoxLayout(self.frame_6)
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.frame_17 = QFrame(self.frame_6)
-        self.frame_17.setObjectName(u"frame_17")
-        self.frame_17.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_17.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_17)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.profile_settings = QGroupBox(self.frame_17)
-        self.profile_settings.setObjectName(u"profile_settings")
-        self.profile_settings.setStyleSheet(u"#profile_settings{\n"
-"/*border: 1px solid  rgb(29, 33, 38); */\n"
-"border: 1px solid #dddddd;\n"
-"}")
-        self.verticalLayout_12 = QVBoxLayout(self.profile_settings)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.frame_18 = QFrame(self.profile_settings)
-        self.frame_18.setObjectName(u"frame_18")
-        self.frame_18.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_18.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_14 = QHBoxLayout(self.frame_18)
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.label_6 = QLabel(self.frame_18)
-        self.label_6.setObjectName(u"label_6")
 
-        self.horizontalLayout_14.addWidget(self.label_6)
+        self.verticalLayout_7.addWidget(self.groupBox_4)
 
-        self.comboBox_3 = QComboBox(self.frame_18)
-        self.comboBox_3.addItem("")
-        self.comboBox_3.addItem("")
-        self.comboBox_3.setObjectName(u"comboBox_3")
-        self.comboBox_3.setMinimumSize(QSize(0, 45))
+        self.groupBox_2 = QGroupBox(self.frame_6)
+        self.groupBox_2.setObjectName(u"groupBox_2")
 
-        self.horizontalLayout_14.addWidget(self.comboBox_3)
+        self.verticalLayout_7.addWidget(self.groupBox_2)
 
-        self.pushButton_6 = QPushButton(self.frame_18)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-        self.pushButton_6.setMaximumSize(QSize(45, 45))
-        self.pushButton_6.setStyleSheet(u"background:transparent;")
-        self.pushButton_6.setIcon(icon3)
+        self.verticalLayout_7.setStretch(0, 2)
+        self.verticalLayout_7.setStretch(1, 8)
 
-        self.horizontalLayout_14.addWidget(self.pushButton_6)
-
-        self.horizontalLayout_14.setStretch(0, 1)
-        self.horizontalLayout_14.setStretch(1, 3)
-        self.horizontalLayout_14.setStretch(2, 1)
-
-        self.verticalLayout_12.addWidget(self.frame_18)
-
-        self.frame_19 = QFrame(self.profile_settings)
-        self.frame_19.setObjectName(u"frame_19")
-        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
-        self.gridLayout_3 = QGridLayout(self.frame_19)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.label_8 = QLabel(self.frame_19)
-        self.label_8.setObjectName(u"label_8")
-
-        self.gridLayout_3.addWidget(self.label_8, 3, 0, 1, 1)
-
-        self.pushButton_7 = QPushButton(self.frame_19)
-        self.pushButton_7.setObjectName(u"pushButton_7")
-        self.pushButton_7.setMinimumSize(QSize(45, 45))
-        self.pushButton_7.setMaximumSize(QSize(45, 45))
-        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
-        self.pushButton_7.setIcon(icon4)
-
-        self.gridLayout_3.addWidget(self.pushButton_7, 0, 3, 1, 1)
-
-        self.label_7 = QLabel(self.frame_19)
-        self.label_7.setObjectName(u"label_7")
-
-        self.gridLayout_3.addWidget(self.label_7, 0, 0, 1, 1)
-
-        self.pushButton_9 = QPushButton(self.frame_19)
-        self.pushButton_9.setObjectName(u"pushButton_9")
-        self.pushButton_9.setMinimumSize(QSize(45, 45))
-        self.pushButton_9.setMaximumSize(QSize(45, 45))
-        self.pushButton_9.setIcon(icon2)
-
-        self.gridLayout_3.addWidget(self.pushButton_9, 0, 4, 1, 1)
-
-        self.pushButton_8 = QPushButton(self.frame_19)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-        self.pushButton_8.setMinimumSize(QSize(45, 45))
-        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditCopy))
-        self.pushButton_8.setIcon(icon5)
-
-        self.gridLayout_3.addWidget(self.pushButton_8, 3, 4, 1, 1)
-
-        self.comboBox_4 = QComboBox(self.frame_19)
-        self.comboBox_4.setObjectName(u"comboBox_4")
-        self.comboBox_4.setMinimumSize(QSize(0, 45))
-
-        self.gridLayout_3.addWidget(self.comboBox_4, 3, 1, 1, 3)
-
-        self.lineEdit_3 = QLineEdit(self.frame_19)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setMinimumSize(QSize(0, 45))
-
-        self.gridLayout_3.addWidget(self.lineEdit_3, 0, 1, 1, 2)
-
-
-        self.verticalLayout_12.addWidget(self.frame_19)
-
-        self.frame_20 = QFrame(self.profile_settings)
-        self.frame_20.setObjectName(u"frame_20")
-        self.frame_20.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.verticalLayout_12.addWidget(self.frame_20)
-
-        self.verticalLayout_12.setStretch(0, 1)
-        self.verticalLayout_12.setStretch(1, 5)
-
-        self.horizontalLayout_13.addWidget(self.profile_settings)
-
-
-        self.verticalLayout_7.addWidget(self.frame_17)
-
-        self.verticalLayout_7.setStretch(0, 7)
-
-        self.verticalLayout_6.addWidget(self.frame_6)
-
-        self.verticalLayout_6.setStretch(0, 2)
-        self.verticalLayout_6.setStretch(1, 6)
-
-        self.horizontalLayout_5.addWidget(self.groupBox_4)
+        self.horizontalLayout_5.addWidget(self.frame_6)
 
         self.horizontalLayout_5.setStretch(0, 4)
-        self.horizontalLayout_5.setStretch(1, 2)
 
         self.verticalLayout_3.addWidget(self.frame_2)
 
@@ -958,7 +845,6 @@ class Ui_InstancePage(object):
         self.gridLayout.addWidget(self.frame_3, 0, 0, 1, 1)
 
         self.gridLayout.setRowStretch(0, 6)
-        self.gridLayout.setRowStretch(1, 3)
         self.gridLayout.setColumnStretch(0, 6)
         self.gridLayout.setColumnStretch(1, 2)
 
@@ -1008,8 +894,8 @@ class Ui_InstancePage(object):
 
     def retranslateUi(self, InstancePage):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
-        self.config_panel_gb.setTitle(QCoreApplication.translate("InstancePage", u"Configuration Panel", None))
         self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
+        self.config_panel_gb.setTitle(QCoreApplication.translate("InstancePage", u"Configuration Panel", None))
         self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
 
         self.comboBox_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
@@ -1034,20 +920,10 @@ class Ui_InstancePage(object):
         self.groupBox_4.setTitle(QCoreApplication.translate("InstancePage", u"Game Settings", None))
         self.label_5.setText(QCoreApplication.translate("InstancePage", u"Kick & Reload", None))
         self.spinBox.setSuffix(QCoreApplication.translate("InstancePage", u"  Mins", None))
-        self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break", None))
+        self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break (Local Time)", None))
         self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
         self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
-        self.profile_settings.setTitle(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
-        self.label_6.setText(QCoreApplication.translate("InstancePage", u"Load Profile", None))
-        self.comboBox_3.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
-        self.comboBox_3.setItemText(1, QCoreApplication.translate("InstancePage", u"Alt", None))
-
-        self.pushButton_6.setText("")
-        self.label_8.setText(QCoreApplication.translate("InstancePage", u"Copy Profile", None))
-        self.pushButton_7.setText("")
-        self.label_7.setText(QCoreApplication.translate("InstancePage", u"Profile Name", None))
-        self.pushButton_9.setText("")
-        self.pushButton_8.setText("")
+        self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("InstancePage", u"Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("InstancePage", u"General", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QCoreApplication.translate("InstancePage", u"Join Rally", None))
