@@ -678,7 +678,7 @@ class Ui_InstancePage(object):
         self.scheduler_table_.setDragEnabled(True)
         self.scheduler_table_.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.scheduler_table_.setDefaultDropAction(Qt.DropAction.IgnoreAction)
-        self.scheduler_table_.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.scheduler_table_.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         self.scheduler_table_.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectColumns)
         self.scheduler_table_.setShowGrid(True)
         self.scheduler_table_.setGridStyle(Qt.PenStyle.SolidLine)

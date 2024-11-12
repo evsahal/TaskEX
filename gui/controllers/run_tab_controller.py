@@ -1,4 +1,4 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QItemSelectionModel
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
     QComboBox, QLineEdit, QLabel, QVBoxLayout
@@ -16,11 +16,21 @@ def setup_scheduler_table(main_window, index):
     # Accessing the scheduler table
     scheduler_table = getattr(main_window.widgets, f"scheduler_table_{index}")
 
+    # Set the selection mode to Single Selection for selecting individual cells
+    scheduler_table.setSelectionMode(QAbstractItemView.SingleSelection)
+    # scheduler_table.setSelectionBehavior(QAbstractItemView.SelectItems)  # Allow selecting individual cells
+    scheduler_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+    # Enable drag and drop for internal reordering
+    scheduler_table.setDragEnabled(True)
+    scheduler_table.setAcceptDrops(True)
+    scheduler_table.setDragDropMode(QAbstractItemView.InternalMove)  # Allows row reordering
+    scheduler_table.setDefaultDropAction(Qt.MoveAction)
+
+    scheduler_table.itemSelectionChanged.connect(lambda: selected_scheduler_task(main_window, index))
+
     # Hide the vertical header (row numbers)
     scheduler_table.verticalHeader().setVisible(False)
-
-    # Set the selection behavior to select only cells, not entire rows
-    scheduler_table.setSelectionBehavior(QAbstractItemView.SelectItems)
 
     # Stretch the first column
     scheduler_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
@@ -259,22 +269,44 @@ def add_new_task(main_window, index):
     row_position = scheduler_table.rowCount() - 1
     scheduler_table.insertRow(row_position)
 
-    scheduler_table.setRowHeight(row_position, 40)
-
-    task_item = QTableWidgetItem("New Task")
-    task_item.setFlags(task_item.flags() | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+    # Task name column (selectable)
+    task_item = QTableWidgetItem(f"New Task {row_position}")
+    task_item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)  # Make only the task name column selectable
     scheduler_table.setItem(row_position, 0, task_item)
 
+    # Action column (non-selectable)
     delete_button = QPushButton()
     delete_button.setIcon(QIcon(":/icons/images/icons/icon_delete_3.png"))
     delete_button.setFixedSize(40, 40)
-    delete_button.clicked.connect(lambda: remove_task_row(scheduler_table, row_position))
+    delete_button.clicked.connect(lambda: remove_task_row(scheduler_table, delete_button))
 
     scheduler_table.setCellWidget(row_position, 1, delete_button)
-    scheduler_table.selectRow(row_position)
+    non_selectable_item = QTableWidgetItem()  # Placeholder item to disable selection
+    non_selectable_item.setFlags(Qt.ItemIsEnabled)  # Make non-selectable
+    scheduler_table.setItem(row_position, 1, non_selectable_item)
+
+    # Clear any previous selections
+    scheduler_table.clearSelection()
+
+    # Select the task item after adding
+    scheduler_table.setCurrentCell(row_position, 0, QItemSelectionModel.Select)
 
 
-def remove_task_row(scheduler_table, row_position):
+def remove_task_row(scheduler_table, delete_button):
+    # Get the current row of the delete button
+    row_position = scheduler_table.indexAt(delete_button.pos()).row()
     footer_row = scheduler_table.rowCount() - 1
-    if row_position < footer_row:
+
+    if row_position != footer_row and row_position >= 0:
         scheduler_table.removeRow(row_position)
+        # Clear any previous selections
+        scheduler_table.clearSelection()
+
+def selected_scheduler_task(main_window, index):
+    scheduler_table = getattr(main_window.widgets, f"scheduler_table_{index}")
+    selected_items = scheduler_table.selectedItems()
+    if selected_items and selected_items[0].column() == 0:  # Only proceed if column 0 (Task Name) is selected
+        task_text = selected_items[0].text()
+        print(f"Selected Task: {task_text}")
+    else:
+        scheduler_table.clearSelection()  # Clear selection if an invalid cell is selected
