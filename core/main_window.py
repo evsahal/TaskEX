@@ -12,6 +12,7 @@ from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from db.db_setup import init_db, get_session
 from db.models import MonsterCategory, MonsterLogic, MonsterImage, BossMonster, MonsterLevel
+from features.ui.join_rally_ui import load_join_rally_ui
 from gui.controllers.bm_blackmarket_controller import init_bm_blackmarket_ui
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
@@ -42,8 +43,8 @@ class MainWindow(QMainWindow):
         init_steps = [
             ("Loading Configurations", self.load_configurations),
             ("Loading UI Settings",self.load_ui_settings),
-            ("Initializing ADB", self.init_adb),
             ("Initializing Instances", self.init_instance),
+            ("Initializing ADB", self.init_adb),
             ("Finalizing Setup", self.finalize_setup)
         ]
 
@@ -102,6 +103,7 @@ class MainWindow(QMainWindow):
 
         # Setup BM BlackMarket UI
         init_bm_blackmarket_ui(self)
+
 
         # TOGGLE MENU
         # ///////////////////////////////////////////////////////////////

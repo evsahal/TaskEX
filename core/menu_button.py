@@ -10,6 +10,7 @@ from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLa
 from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
+from features.ui.join_rally_ui import load_join_rally_ui
 from gui.controllers.run_tab_controller import init_run_tab
 from gui.generated.instance_page import Ui_InstancePage
 from utils.dialog_utils import show_error_dialog, show_confirmation_dialog
@@ -160,6 +161,9 @@ def add_new_instance_page(main_window,index):
     instance_ui = Ui_InstancePage()
     instance_ui.setupUi(new_page)
 
+    # Load Join Rally UI
+    load_join_rally_ui(instance_ui)
+
     # Add the new page to the stackedWidget
     main_window.widgets.stackedWidget.addWidget(new_page)
 
@@ -251,9 +255,9 @@ def initialize_instances(main_window, num_instances):
 
     :param main_window: The instance of the main window to access widgets.
     :param num_instances: The number of instances to initialize.
-    :param selection: The menu needs to be selected or not.
     """
     for _ in range(num_instances):
+        # Setup new instance
         add_new_menu_button(main_window,False)
 
 # Function to find the next number for btn_emu_ buttons

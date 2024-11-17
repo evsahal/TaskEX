@@ -1,14 +1,13 @@
 import os
 
 from PySide6.QtGui import QPixmap
-from PySide6.QtWidgets import QFrame, QCheckBox, QDialog, QWidget, QMessageBox
-from requests import session
-from sqlalchemy import asc
+from PySide6.QtWidgets import QCheckBox, QDialog, QWidget, QMessageBox
 
 from core.custom_widgets.FlowLayout import FlowLayout
-from core.services.bm_monsters_service import get_all_boss_monster_data, export_selected_bosses
+from core.services.bm_monsters_service import export_selected_bosses, \
+    get_all_boss_monster_data_for_bm
 from db.db_setup import get_session
-from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic
+from db.models import BossMonster
 from gui.widgets.MonsterEditDialog import MonsterEditDialog
 from gui.widgets.MonsterProfileWidget import MonsterProfileWidget
 from gui.widgets.MonsterUploadDialog import MonsterUploadDialog
@@ -41,7 +40,7 @@ def init_bm_monster_ui(main_window):
     monsters_list_frame.setLayout(flow_layout)
 
     # Get all the bosses
-    boss_monsters = get_all_boss_monster_data()
+    boss_monsters = get_all_boss_monster_data_for_bm()
 
     # Pass the data to add the widgets
     for boss in boss_monsters:
