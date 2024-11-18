@@ -162,7 +162,7 @@ def add_new_instance_page(main_window,index):
     instance_ui.setupUi(new_page)
 
     # Load Join Rally UI
-    load_join_rally_ui(instance_ui)
+    load_join_rally_ui(instance_ui,main_window)
 
     # Add the new page to the stackedWidget
     main_window.widgets.stackedWidget.addWidget(new_page)

@@ -7,9 +7,11 @@ from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from core.services.bm_monsters_service import fetch_boss_monster_data
 from db.db_setup import get_session
 from db.models import BossMonster
+from gui.widgets.GeneralsSelectionDialog import GeneralsSelectionDialog
+from gui.widgets.PresetConfigDialog import PresetConfigDialog
 
 
-def load_join_rally_ui(instance_ui):
+def load_join_rally_ui(instance_ui,main_window):
     # For Logic 1
     jr_monster_list1_frame = getattr(instance_ui, "jr_monster_list1_frame_")
     flow_layout_1 =  FlowLayout()
@@ -40,6 +42,24 @@ def load_join_rally_ui(instance_ui):
         elif boss.monster_logic.id == 4:
             setup_logic_4(boss, instance_ui, flow_layout_2)
 
+    # Join Rally Settings
+    # Connect the preset config dialog
+    preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
+    preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window))
+    # Connect the general selection dialog
+    generals_selection_btn = getattr(instance_ui, "jr_general_config_btn_")
+    generals_selection_btn.clicked.connect(lambda :openGeneralSelectionSettings(main_window))
+
+
+def openPresetSettings(main_window):
+    preset_config_dialog = PresetConfigDialog(main_window)
+    preset_config_dialog.show()
+
+def openGeneralSelectionSettings(main_window):
+    general_selection_dialog = GeneralsSelectionDialog(main_window,1)
+
+    general_selection_dialog.show()
+
 def setup_logic_1(boss,instance_ui,flow_layout):
     # print(f"Name : {boss.preview_name} :: Logic : {boss.monster_logic.id}")
     checkbox = QCheckBox(boss.preview_name)
@@ -69,7 +89,7 @@ def setup_logic_2(boss,instance_ui,flow_layout):
     combo_box = QCheckComboBox(placeholderText="None")
     combo_box.setObjectName(f"jr_combobox_boss{boss.id}___")
     combo_box.setFixedHeight(40)
-    combo_box.setMinimumWidth(150)
+    combo_box.setMinimumWidth(135)
     setattr(instance_ui, combo_box.objectName(), combo_box)
 
     # Populate the QCheckComboBox with levels
@@ -105,7 +125,7 @@ def setup_logic_3(boss,instance_ui,flow_layout):
     combo_box = QCheckComboBox(placeholderText="None")
     combo_box.setObjectName(f"jr_combobox_boss{boss.id}___")
     combo_box.setFixedHeight(40)
-    combo_box.setMinimumWidth(150)
+    combo_box.setMinimumWidth(135)
     setattr(instance_ui, combo_box.objectName(), combo_box)
 
     # Populate the QCheckComboBox with levels
@@ -139,7 +159,7 @@ def setup_logic_4(boss,instance_ui,flow_layout):
     button = QPushButton("Select Levels")
     button.setObjectName(f"jr_button_boss{boss.id}___")
     button.setFixedHeight(40)
-    button.setMinimumWidth(150)
+    button.setMinimumWidth(135)
     setattr(instance_ui, button.objectName(), button)
 
     # Disable it by default
