@@ -1509,7 +1509,7 @@ border-radius: 5px;</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="rotate_preset_settings_1">
+                       <widget class="QPushButton" name="rotate_preset_settings_">
                         <property name="minimumSize">
                          <size>
                           <width>25</width>
@@ -1583,7 +1583,7 @@ QPushButton:checked {
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_one_1">
+                          <widget class="QPushButton" name="rotate_preset_one___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1608,7 +1608,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_two_1">
+                          <widget class="QPushButton" name="rotate_preset_two___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1633,7 +1633,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_three_1">
+                          <widget class="QPushButton" name="rotate_preset_three___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1658,7 +1658,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_four_1">
+                          <widget class="QPushButton" name="rotate_preset_four___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1704,7 +1704,7 @@ QPushButton:checked {
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_five_1">
+                          <widget class="QPushButton" name="rotate_preset_five___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1729,7 +1729,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_six_1">
+                          <widget class="QPushButton" name="rotate_preset_six___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1754,7 +1754,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_seven_1">
+                          <widget class="QPushButton" name="rotate_preset_seven___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1779,7 +1779,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_eight_1">
+                          <widget class="QPushButton" name="rotate_preset_eight___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1852,7 +1852,7 @@ QPushButton:checked {
                        <number>0</number>
                       </property>
                       <item alignment="Qt::AlignmentFlag::AlignTop">
-                       <widget class="QCheckBox" name="auto_use_stamina_1">
+                       <widget class="QCheckBox" name="auto_use_stamina___">
                         <property name="text">
                          <string>Auto Use Stamina</string>
                         </property>
@@ -1877,7 +1877,7 @@ QPushButton:checked {
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QComboBox" name="auto_use_stamina_options_1">
+                       <widget class="QComboBox" name="auto_use_stamina_options___">
                         <item>
                          <property name="text">
                           <string>Min Stamina</string>
@@ -1949,7 +1949,7 @@ QPushButton:checked {
                        <number>3</number>
                       </property>
                       <item>
-                       <widget class="QPushButton" name="jr_general_config_btn_1">
+                       <widget class="QPushButton" name="jr_general_config_btn_">
                         <property name="minimumSize">
                          <size>
                           <width>0</width>

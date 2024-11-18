@@ -938,7 +938,7 @@ color: rgb(161, 110, 235);</string>
       <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Preset Configuration is bind to the Emulator Instance you are on!</string>
+         <string>The Preset Configuration is bound to the instance you are currently on.</string>
         </property>
        </widget>
       </item>

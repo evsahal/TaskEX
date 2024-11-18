@@ -836,7 +836,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_2_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_2_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
         self.preset_2_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
-        self.label_5.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset Configuration is bind to the Emulator Instance you are on!", None))
+        self.label_5.setText(QCoreApplication.translate("PresetConfigDialog", u"The Preset Configuration is bound to the instance you are currently on.", None))
         self.cancel_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Cancel", None))
         self.save_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Save", None))
     # retranslateUi
