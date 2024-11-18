@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QAbstract
     QLineEdit, QPushButton, QScrollArea, QSizePolicy,
     QSpinBox, QTabWidget, QTableWidget, QTableWidgetItem,
     QTextEdit, QTimeEdit, QVBoxLayout, QWidget)
+import resources_rc
 
 class Ui_InstancePage(object):
     def setupUi(self, InstancePage):
@@ -869,25 +870,42 @@ class Ui_InstancePage(object):
         self.skip_monsters_gb.setObjectName(u"skip_monsters_gb")
         self.horizontalLayout_12 = QHBoxLayout(self.skip_monsters_gb)
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.scrollArea = QScrollArea(self.skip_monsters_gb)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
-        self.scrollArea.setWidgetResizable(True)
+        self.jr_monster_list_scroll_area = QScrollArea(self.skip_monsters_gb)
+        self.jr_monster_list_scroll_area.setObjectName(u"jr_monster_list_scroll_area")
+        self.jr_monster_list_scroll_area.setFrameShape(QFrame.Shape.NoFrame)
+        self.jr_monster_list_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1067, 524))
-        self.horizontalLayout_13 = QHBoxLayout(self.scrollAreaWidgetContents)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.jr_monster_list_frame_ = QFrame(self.scrollAreaWidgetContents)
-        self.jr_monster_list_frame_.setObjectName(u"jr_monster_list_frame_")
-        self.jr_monster_list_frame_.setFrameShape(QFrame.Shape.NoFrame)
-        self.jr_monster_list_frame_.setFrameShadow(QFrame.Shadow.Raised)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
+        self.verticalLayout_15 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_15.setSpacing(11)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.jr_monster_list1_frame_ = QFrame(self.scrollAreaWidgetContents)
+        self.jr_monster_list1_frame_.setObjectName(u"jr_monster_list1_frame_")
+        sizePolicy1.setHeightForWidth(self.jr_monster_list1_frame_.sizePolicy().hasHeightForWidth())
+        self.jr_monster_list1_frame_.setSizePolicy(sizePolicy1)
+        self.jr_monster_list1_frame_.setFrameShape(QFrame.Shape.NoFrame)
+        self.jr_monster_list1_frame_.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_13.addWidget(self.jr_monster_list_frame_)
+        self.verticalLayout_15.addWidget(self.jr_monster_list1_frame_, 0, Qt.AlignmentFlag.AlignTop)
 
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.jr_monster_list2_frame_ = QFrame(self.scrollAreaWidgetContents)
+        self.jr_monster_list2_frame_.setObjectName(u"jr_monster_list2_frame_")
+        sizePolicy1.setHeightForWidth(self.jr_monster_list2_frame_.sizePolicy().hasHeightForWidth())
+        self.jr_monster_list2_frame_.setSizePolicy(sizePolicy1)
+        self.jr_monster_list2_frame_.setFrameShape(QFrame.Shape.NoFrame)
+        self.jr_monster_list2_frame_.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_12.addWidget(self.scrollArea)
+        self.verticalLayout_15.addWidget(self.jr_monster_list2_frame_)
+
+        self.jr_monster_list_scroll_area.setWidget(self.scrollAreaWidgetContents)
+
+        self.horizontalLayout_12.addWidget(self.jr_monster_list_scroll_area)
 
 
         self.verticalLayout_13.addWidget(self.skip_monsters_gb)
@@ -904,6 +922,233 @@ class Ui_InstancePage(object):
         self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.groupBox_6 = QGroupBox(self.frame_17)
         self.groupBox_6.setObjectName(u"groupBox_6")
+        self.verticalLayout_16 = QVBoxLayout(self.groupBox_6)
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.frame_18 = QFrame(self.groupBox_6)
+        self.frame_18.setObjectName(u"frame_18")
+        self.frame_18.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_18.setFrameShadow(QFrame.Shadow.Raised)
+        self.gridLayout_3 = QGridLayout(self.frame_18)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.gridLayout_3.setHorizontalSpacing(7)
+        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.frame_748 = QFrame(self.frame_18)
+        self.frame_748.setObjectName(u"frame_748")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.frame_748.sizePolicy().hasHeightForWidth())
+        self.frame_748.setSizePolicy(sizePolicy2)
+        self.frame_748.setMaximumSize(QSize(16777215, 16777215))
+        self.frame_748.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_748.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_39 = QVBoxLayout(self.frame_748)
+        self.verticalLayout_39.setObjectName(u"verticalLayout_39")
+        self.widget_1082 = QWidget(self.frame_748)
+        self.widget_1082.setObjectName(u"widget_1082")
+        self.horizontalLayout_769 = QHBoxLayout(self.widget_1082)
+        self.horizontalLayout_769.setSpacing(7)
+        self.horizontalLayout_769.setObjectName(u"horizontalLayout_769")
+        self.horizontalLayout_769.setContentsMargins(0, 0, 0, 0)
+        self.label_234 = QLabel(self.widget_1082)
+        self.label_234.setObjectName(u"label_234")
+
+        self.horizontalLayout_769.addWidget(self.label_234, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.rotate_preset_settings_1 = QPushButton(self.widget_1082)
+        self.rotate_preset_settings_1.setObjectName(u"rotate_preset_settings_1")
+        self.rotate_preset_settings_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_settings_1.setMaximumSize(QSize(25, 25))
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/images/icons/cil-settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.rotate_preset_settings_1.setIcon(icon4)
+        self.rotate_preset_settings_1.setCheckable(False)
+
+        self.horizontalLayout_769.addWidget(self.rotate_preset_settings_1)
+
+
+        self.verticalLayout_39.addWidget(self.widget_1082)
+
+        self.widget_1083 = QWidget(self.frame_748)
+        self.widget_1083.setObjectName(u"widget_1083")
+        self.widget_1083.setStyleSheet(u"QPushButton {\n"
+"    background-color: #777;\n"
+"}\n"
+"QPushButton:checked {\n"
+"    background-color: #FF79C6;\n"
+"}\n"
+"")
+        self.verticalLayout_1317 = QVBoxLayout(self.widget_1083)
+        self.verticalLayout_1317.setObjectName(u"verticalLayout_1317")
+        self.verticalLayout_1317.setContentsMargins(0, 0, 0, 0)
+        self.widget_1084 = QWidget(self.widget_1083)
+        self.widget_1084.setObjectName(u"widget_1084")
+        self.horizontalLayout_770 = QHBoxLayout(self.widget_1084)
+        self.horizontalLayout_770.setSpacing(7)
+        self.horizontalLayout_770.setObjectName(u"horizontalLayout_770")
+        self.horizontalLayout_770.setContentsMargins(0, 0, 0, 0)
+        self.rotate_preset_one_1 = QPushButton(self.widget_1084)
+        self.rotate_preset_one_1.setObjectName(u"rotate_preset_one_1")
+        self.rotate_preset_one_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_one_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_one_1.setCheckable(True)
+
+        self.horizontalLayout_770.addWidget(self.rotate_preset_one_1)
+
+        self.rotate_preset_two_1 = QPushButton(self.widget_1084)
+        self.rotate_preset_two_1.setObjectName(u"rotate_preset_two_1")
+        self.rotate_preset_two_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_two_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_two_1.setCheckable(True)
+
+        self.horizontalLayout_770.addWidget(self.rotate_preset_two_1)
+
+        self.rotate_preset_three_1 = QPushButton(self.widget_1084)
+        self.rotate_preset_three_1.setObjectName(u"rotate_preset_three_1")
+        self.rotate_preset_three_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_three_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_three_1.setCheckable(True)
+
+        self.horizontalLayout_770.addWidget(self.rotate_preset_three_1)
+
+        self.rotate_preset_four_1 = QPushButton(self.widget_1084)
+        self.rotate_preset_four_1.setObjectName(u"rotate_preset_four_1")
+        self.rotate_preset_four_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_four_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_four_1.setCheckable(True)
+
+        self.horizontalLayout_770.addWidget(self.rotate_preset_four_1)
+
+
+        self.verticalLayout_1317.addWidget(self.widget_1084, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.widget_1085 = QWidget(self.widget_1083)
+        self.widget_1085.setObjectName(u"widget_1085")
+        self.horizontalLayout_771 = QHBoxLayout(self.widget_1085)
+        self.horizontalLayout_771.setSpacing(7)
+        self.horizontalLayout_771.setObjectName(u"horizontalLayout_771")
+        self.horizontalLayout_771.setContentsMargins(0, 0, 0, 0)
+        self.rotate_preset_five_1 = QPushButton(self.widget_1085)
+        self.rotate_preset_five_1.setObjectName(u"rotate_preset_five_1")
+        self.rotate_preset_five_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_five_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_five_1.setCheckable(True)
+
+        self.horizontalLayout_771.addWidget(self.rotate_preset_five_1)
+
+        self.rotate_preset_six_1 = QPushButton(self.widget_1085)
+        self.rotate_preset_six_1.setObjectName(u"rotate_preset_six_1")
+        self.rotate_preset_six_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_six_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_six_1.setCheckable(True)
+
+        self.horizontalLayout_771.addWidget(self.rotate_preset_six_1)
+
+        self.rotate_preset_seven_1 = QPushButton(self.widget_1085)
+        self.rotate_preset_seven_1.setObjectName(u"rotate_preset_seven_1")
+        self.rotate_preset_seven_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_seven_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_seven_1.setCheckable(True)
+
+        self.horizontalLayout_771.addWidget(self.rotate_preset_seven_1)
+
+        self.rotate_preset_eight_1 = QPushButton(self.widget_1085)
+        self.rotate_preset_eight_1.setObjectName(u"rotate_preset_eight_1")
+        self.rotate_preset_eight_1.setMinimumSize(QSize(25, 25))
+        self.rotate_preset_eight_1.setMaximumSize(QSize(25, 25))
+        self.rotate_preset_eight_1.setCheckable(True)
+
+        self.horizontalLayout_771.addWidget(self.rotate_preset_eight_1)
+
+
+        self.verticalLayout_1317.addWidget(self.widget_1085, 0, Qt.AlignmentFlag.AlignLeft)
+
+
+        self.verticalLayout_39.addWidget(self.widget_1083)
+
+
+        self.gridLayout_3.addWidget(self.frame_748, 0, 0, 1, 1)
+
+        self.frame_749 = QFrame(self.frame_18)
+        self.frame_749.setObjectName(u"frame_749")
+        self.frame_749.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_749.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_40 = QVBoxLayout(self.frame_749)
+        self.verticalLayout_40.setSpacing(7)
+        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalLayout_40.setContentsMargins(11, 11, 11, 11)
+        self.widget_36 = QWidget(self.frame_749)
+        self.widget_36.setObjectName(u"widget_36")
+        self.horizontalLayout_763 = QHBoxLayout(self.widget_36)
+        self.horizontalLayout_763.setObjectName(u"horizontalLayout_763")
+        self.horizontalLayout_763.setContentsMargins(0, 0, 0, 0)
+        self.auto_use_stamina_1 = QCheckBox(self.widget_36)
+        self.auto_use_stamina_1.setObjectName(u"auto_use_stamina_1")
+
+        self.horizontalLayout_763.addWidget(self.auto_use_stamina_1, 0, Qt.AlignmentFlag.AlignTop)
+
+
+        self.verticalLayout_40.addWidget(self.widget_36)
+
+        self.widget_37 = QWidget(self.frame_749)
+        self.widget_37.setObjectName(u"widget_37")
+        self.verticalLayout_168 = QVBoxLayout(self.widget_37)
+        self.verticalLayout_168.setObjectName(u"verticalLayout_168")
+        self.verticalLayout_168.setContentsMargins(0, 7, 0, 0)
+        self.auto_use_stamina_options_1 = QComboBox(self.widget_37)
+        self.auto_use_stamina_options_1.addItem("")
+        self.auto_use_stamina_options_1.addItem("")
+        self.auto_use_stamina_options_1.setObjectName(u"auto_use_stamina_options_1")
+
+        self.verticalLayout_168.addWidget(self.auto_use_stamina_options_1)
+
+
+        self.verticalLayout_40.addWidget(self.widget_37)
+
+
+        self.gridLayout_3.addWidget(self.frame_749, 0, 1, 1, 1)
+
+        self.frame_750 = QFrame(self.frame_18)
+        self.frame_750.setObjectName(u"frame_750")
+        self.frame_750.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_750.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_1319 = QVBoxLayout(self.frame_750)
+        self.verticalLayout_1319.setObjectName(u"verticalLayout_1319")
+        self.widget_38 = QWidget(self.frame_750)
+        self.widget_38.setObjectName(u"widget_38")
+        self.verticalLayout_1316 = QVBoxLayout(self.widget_38)
+        self.verticalLayout_1316.setSpacing(7)
+        self.verticalLayout_1316.setObjectName(u"verticalLayout_1316")
+        self.verticalLayout_1316.setContentsMargins(0, 2, 0, 0)
+        self.label_7 = QLabel(self.widget_38)
+        self.label_7.setObjectName(u"label_7")
+
+        self.verticalLayout_1316.addWidget(self.label_7, 0, Qt.AlignmentFlag.AlignTop)
+
+
+        self.verticalLayout_1319.addWidget(self.widget_38)
+
+        self.widget_239 = QWidget(self.frame_750)
+        self.widget_239.setObjectName(u"widget_239")
+        self.verticalLayout_1318 = QVBoxLayout(self.widget_239)
+        self.verticalLayout_1318.setObjectName(u"verticalLayout_1318")
+        self.verticalLayout_1318.setContentsMargins(0, 8, 0, 3)
+        self.jr_general_config_btn_1 = QPushButton(self.widget_239)
+        self.jr_general_config_btn_1.setObjectName(u"jr_general_config_btn_1")
+        self.jr_general_config_btn_1.setMinimumSize(QSize(0, 35))
+        self.jr_general_config_btn_1.setMaximumSize(QSize(16777215, 16777215))
+
+        self.verticalLayout_1318.addWidget(self.jr_general_config_btn_1)
+
+
+        self.verticalLayout_1319.addWidget(self.widget_239)
+
+
+        self.gridLayout_3.addWidget(self.frame_750, 0, 2, 1, 1)
+
+
+        self.verticalLayout_16.addWidget(self.frame_18, 0, Qt.AlignmentFlag.AlignLeft)
+
 
         self.verticalLayout_14.addWidget(self.groupBox_6)
 
@@ -984,6 +1229,49 @@ class Ui_InstancePage(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))
         self.skip_monsters_gb.setTitle(QCoreApplication.translate("InstancePage", u"Skip Monsters", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("InstancePage", u"Join Settings", None))
+        self.label_234.setText(QCoreApplication.translate("InstancePage", u"Preset Configuration", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_settings_1.setToolTip(QCoreApplication.translate("InstancePage", u"Preset Settings", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_settings_1.setText("")
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_one_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 1", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_one_1.setText(QCoreApplication.translate("InstancePage", u"1", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_two_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 2", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_two_1.setText(QCoreApplication.translate("InstancePage", u"2", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_three_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 3", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_three_1.setText(QCoreApplication.translate("InstancePage", u"3", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_four_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 4", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_four_1.setText(QCoreApplication.translate("InstancePage", u"4", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_five_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 5", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_five_1.setText(QCoreApplication.translate("InstancePage", u"5", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_six_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 6", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_six_1.setText(QCoreApplication.translate("InstancePage", u"6", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_seven_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 7", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_seven_1.setText(QCoreApplication.translate("InstancePage", u"7", None))
+#if QT_CONFIG(tooltip)
+        self.rotate_preset_eight_1.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 8", None))
+#endif // QT_CONFIG(tooltip)
+        self.rotate_preset_eight_1.setText(QCoreApplication.translate("InstancePage", u"8", None))
+        self.auto_use_stamina_1.setText(QCoreApplication.translate("InstancePage", u"Auto Use Stamina", None))
+        self.auto_use_stamina_options_1.setItemText(0, QCoreApplication.translate("InstancePage", u"Min Stamina", None))
+        self.auto_use_stamina_options_1.setItemText(1, QCoreApplication.translate("InstancePage", u"Max Stamina", None))
+
+        self.label_7.setText(QCoreApplication.translate("InstancePage", u"Rally General Selection", None))
+        self.jr_general_config_btn_1.setText(QCoreApplication.translate("InstancePage", u"Configure", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_hunting_tab_), QCoreApplication.translate("InstancePage", u"Monster Hunting", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.resource_gathering_tab_), QCoreApplication.translate("InstancePage", u"Resource Gathering", None))

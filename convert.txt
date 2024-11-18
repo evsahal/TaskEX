@@ -6,6 +6,8 @@ pyside6-uic gui/ui_files/monster_edit_dialog.ui -o gui/generated/monster_edit_di
 pyside6-uic gui/ui_files/monster_upload_dialog.ui -o gui/generated/monster_upload_dialog.py
 pyside6-uic gui/ui_files/black_market_profile.ui -o gui/generated/black_market_profile.py
 pyside6-uic gui/ui_files/champion_profile.ui -o gui/generated/champion_profile.py
+pyside6-uic gui/ui_files/generals_selection.ui -o gui/generated/generals_selection.py
+pyside6-uic gui/ui_files/preset_configuration.ui -o gui/generated/preset_configuration.py
 
 
 pyside6-uic gui/ui_files/splash_screen.ui -o gui/generated/splash_screen.py
