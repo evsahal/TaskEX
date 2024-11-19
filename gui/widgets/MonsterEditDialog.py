@@ -494,7 +494,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             self.monster.monster_image.click_pos = None
 
         # Store monster levels
-        self.update_monster_levels()
+        self.update_monster_levels(session)
 
         # Return the new monster object without saving
         if not self.monster_id:
@@ -526,7 +526,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             session.close()
             self.accept()
 
-    def update_monster_levels(self):
+    def update_monster_levels(self,session):
         """
         Handle updating the monster.levels object based on the UI input.
         For existing monsters, update the DB records. For new monsters, reset the levels list.
@@ -534,37 +534,42 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
         # Scenario 1: For existing monsters (already in the DB, with a valid monster_id)
         if self.monster_id:
-            # Get the current levels from the database and map them by their unique ID
-            existing_levels = {level.id: level for level in self.monster.levels} if self.monster.levels else {}
+            # Get the current levels from the database and map them by their level number
+            existing_levels = {level.level: level for level in self.monster.levels} if self.monster.levels else {}
 
-            ui_level_ids = []  # To track levels that are still present in the UI
+            ui_level_numbers = []  # To track levels present in the UI
 
             for level_row in self.level_rows:
                 # Retrieve data from the UI inputs (level number, name, power)
-                level_number = level_row[1].text().strip()
+                level_number = int(level_row[1].text().strip())  # Ensure level_number is an integer
                 name = level_row[2].text().strip()
                 power = level_row[3].text().strip()
 
-                # If the row represents an existing level (has level_id), update it
-                if hasattr(level_row[1], 'level_id'):
-                    level_id = level_row[1].level_id
-                    if level_id in existing_levels:
-                        # Update the existing level
-                        monster_level = existing_levels[level_id]
-                        monster_level.level = level_number
+                # If the level already exists, update it
+                if level_number in existing_levels:
+                    monster_level = existing_levels[level_number]
+                    # Update only if there are changes
+                    if (
+                            monster_level.name != name or
+                            monster_level.power != power
+                    ):
                         monster_level.name = name
                         monster_level.power = power
-                        ui_level_ids.append(level_id)  # Track the updated level
+
+                    ui_level_numbers.append(level_number)  # Track this level as updated
 
                 else:
-                    # Add a new level for newly created rows (those without level_id)
+                    # Add a new level for levels that don't exist in the DB
                     new_level = MonsterLevel(level=level_number, name=name, power=power)
                     self.monster.levels.append(new_level)  # Append the new level to the monster object
 
             # Identify levels that were removed in the UI and delete them
-            levels_to_delete = [level for level_id, level in existing_levels.items() if level_id not in ui_level_ids]
+            levels_to_delete = [level for level_number, level in existing_levels.items() if
+                                level_number not in ui_level_numbers]
+
             for level in levels_to_delete:
-                self.monster.levels.remove(level)
+                # Mark the level for deletion from the database
+                session.delete(level)
 
         # Scenario 2: For new monsters (monster_id is None)
         else:
@@ -574,7 +579,7 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # Re-populate the levels list from the UI
             for level_row in self.level_rows:
                 # Extract data from the UI inputs (level number, name, power)
-                level_number = level_row[1].text().strip()
+                level_number = int(level_row[1].text().strip())  # Ensure level_number is an integer
                 name = level_row[2].text().strip()
                 power = level_row[3].text().strip()
 
