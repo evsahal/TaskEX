@@ -1099,6 +1099,7 @@ class Ui_InstancePage(object):
         self.auto_use_stamina_options___.addItem("")
         self.auto_use_stamina_options___.addItem("")
         self.auto_use_stamina_options___.setObjectName(u"auto_use_stamina_options___")
+        self.auto_use_stamina_options___.setMinimumSize(QSize(0, 40))
 
         self.verticalLayout_168.addWidget(self.auto_use_stamina_options___)
 
@@ -1107,44 +1108,6 @@ class Ui_InstancePage(object):
 
 
         self.gridLayout_3.addWidget(self.frame_749, 0, 1, 1, 1)
-
-        self.frame_750 = QFrame(self.frame_18)
-        self.frame_750.setObjectName(u"frame_750")
-        self.frame_750.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_750.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_1319 = QVBoxLayout(self.frame_750)
-        self.verticalLayout_1319.setObjectName(u"verticalLayout_1319")
-        self.widget_38 = QWidget(self.frame_750)
-        self.widget_38.setObjectName(u"widget_38")
-        self.verticalLayout_1316 = QVBoxLayout(self.widget_38)
-        self.verticalLayout_1316.setSpacing(7)
-        self.verticalLayout_1316.setObjectName(u"verticalLayout_1316")
-        self.verticalLayout_1316.setContentsMargins(0, 2, 0, 0)
-        self.label_7 = QLabel(self.widget_38)
-        self.label_7.setObjectName(u"label_7")
-
-        self.verticalLayout_1316.addWidget(self.label_7, 0, Qt.AlignmentFlag.AlignTop)
-
-
-        self.verticalLayout_1319.addWidget(self.widget_38)
-
-        self.widget_239 = QWidget(self.frame_750)
-        self.widget_239.setObjectName(u"widget_239")
-        self.verticalLayout_1318 = QVBoxLayout(self.widget_239)
-        self.verticalLayout_1318.setObjectName(u"verticalLayout_1318")
-        self.verticalLayout_1318.setContentsMargins(0, 8, 0, 3)
-        self.jr_general_config_btn_ = QPushButton(self.widget_239)
-        self.jr_general_config_btn_.setObjectName(u"jr_general_config_btn_")
-        self.jr_general_config_btn_.setMinimumSize(QSize(0, 35))
-        self.jr_general_config_btn_.setMaximumSize(QSize(16777215, 16777215))
-
-        self.verticalLayout_1318.addWidget(self.jr_general_config_btn_)
-
-
-        self.verticalLayout_1319.addWidget(self.widget_239)
-
-
-        self.gridLayout_3.addWidget(self.frame_750, 0, 2, 1, 1)
 
 
         self.verticalLayout_16.addWidget(self.frame_18, 0, Qt.AlignmentFlag.AlignLeft)
@@ -1229,7 +1192,7 @@ class Ui_InstancePage(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))
         self.skip_monsters_gb.setTitle(QCoreApplication.translate("InstancePage", u"Skip Monsters", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("InstancePage", u"Join Settings", None))
-        self.label_234.setText(QCoreApplication.translate("InstancePage", u"Preset Configuration", None))
+        self.label_234.setText(QCoreApplication.translate("InstancePage", u"Select March Preset", None))
 #if QT_CONFIG(tooltip)
         self.jr_rotate_preset_settings_.setToolTip(QCoreApplication.translate("InstancePage", u"Preset Settings", None))
 #endif // QT_CONFIG(tooltip)
@@ -1270,8 +1233,6 @@ class Ui_InstancePage(object):
         self.auto_use_stamina_options___.setItemText(0, QCoreApplication.translate("InstancePage", u"Min Stamina", None))
         self.auto_use_stamina_options___.setItemText(1, QCoreApplication.translate("InstancePage", u"Max Stamina", None))
 
-        self.label_7.setText(QCoreApplication.translate("InstancePage", u"Rally General Selection", None))
-        self.jr_general_config_btn_.setText(QCoreApplication.translate("InstancePage", u"Configure", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_hunting_tab_), QCoreApplication.translate("InstancePage", u"Monster Hunting", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.resource_gathering_tab_), QCoreApplication.translate("InstancePage", u"Resource Gathering", None))

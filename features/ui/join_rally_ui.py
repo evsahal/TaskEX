@@ -46,19 +46,13 @@ def load_join_rally_ui(instance_ui,main_window):
     # Connect the preset config dialog
     preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
     preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window))
-    # Connect the general selection dialog
-    generals_selection_btn = getattr(instance_ui, "jr_general_config_btn_")
-    generals_selection_btn.clicked.connect(lambda :openGeneralSelectionSettings(main_window))
 
 
 def openPresetSettings(main_window):
     preset_config_dialog = PresetConfigDialog(main_window)
     preset_config_dialog.show()
 
-def openGeneralSelectionSettings(main_window):
-    general_selection_dialog = GeneralsSelectionDialog(main_window,1)
 
-    general_selection_dialog.show()
 
 def setup_logic_1(boss,instance_ui,flow_layout):
     # print(f"Name : {boss.preview_name} :: Logic : {boss.monster_logic.id}")

@@ -9,58 +9,13 @@ from core.custom_widgets.QToggle import QToggle
 from db.db_setup import get_session
 from db.models import General
 from gui.widgets.GeneralProfileWidget import GeneralProfileWidget
+from gui.widgets.GeneralsSelectionDialog import GeneralsSelectionDialog
 
 
 def init_scan_general_ui(main_window):
-    # Set up scan type
-    # Create a vertical layout for the frame
-    frame_layout = QVBoxLayout()
 
-    # Create an instance of the custom QCheckComboBox
-    cb = QCheckComboBox(placeholderText="Scan Type")
-    cb.setObjectName("scan_generals_type")
-    setattr(main_window.widgets, cb.objectName(), cb)
-    cb.setMinimumWidth(180)
-    cb.setMinimumHeight(45)
-    # model = cb.model()
-    cb.addItem("Epic Historic")
-    cb.setItemCheckState(0, Qt.Unchecked)
-    cb.addItem("Legendary Historic")
-    cb.setItemCheckState(1, Qt.Unchecked)
-
-    # Add the MultiSelectComboBox to the frame layout
-    frame_layout.addWidget(cb)
-    frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
-
-    # Set the layout to the sg_scan_type frame
-    main_window.widgets.sg_scan_type.setFrameShape(QFrame.NoFrame)
-    main_window.widgets.sg_scan_type.setLayout(frame_layout)
-
-    # Set up scan filter
-    # Create a vertical layout for the frame
-    frame_layout = QVBoxLayout()
-
-    # Create an instance of the custom QCheckComboBox
-    cb = QCheckComboBox(placeholderText="Scan Filter")
-    cb.setObjectName("scan_generals_filter")
-    setattr(main_window.widgets, cb.objectName(), cb)
-    cb.setMinimumWidth(130)
-    cb.setMinimumHeight(45)
-    # model = cb.model()
-    cb.addItem("Favorite")
-    cb.setItemCheckState(0, Qt.Unchecked)
-    cb.addItem("Idle")
-    cb.setItemCheckState(1, Qt.Unchecked)
-
-
-    # Add the MultiSelectComboBox to the frame layout
-    frame_layout.addWidget(cb)
-    frame_layout.setContentsMargins(0, frame_layout.contentsMargins().top(), 0, frame_layout.contentsMargins().bottom())
-
-    # Set the layout to the sg_scan_type frame
-    main_window.widgets.sg_scan_filter.setFrameShape(QFrame.NoFrame)
-    main_window.widgets.sg_scan_filter.setLayout(frame_layout)
-
+    # Connect Manage General Presets Button
+    getattr(main_window.widgets, "general_preset_btn").clicked.connect(lambda: open_manage_general_presets_dialog(main_window))
 
     # Set up view toggle
     toggle_layout = QHBoxLayout(main_window.widgets.toggle_general_view_frame)
@@ -112,6 +67,15 @@ def init_scan_general_ui(main_window):
     # Pass the data to add the widgets
     for general in generals:
         add_general_to_frame(main_window,general)
+
+def open_manage_general_presets_dialog(main_window):
+    general_selection_dialog = GeneralsSelectionDialog(main_window)
+    session = get_session()
+    all_generals = General.get_all_valid_general_names(session)
+    for gen in all_generals:
+        print(gen)
+    general_selection_dialog.all_generals_main.addItems(all_generals)
+    general_selection_dialog.show()
 
 
 def add_general_to_frame(main_window,general):

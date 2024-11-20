@@ -1,15 +1,11 @@
 import os
-import random
 import tempfile
 from datetime import datetime
-from tempfile import template
 
 import cv2
-import markdown
 from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QIcon, QImage
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, \
-    QMessageBox, QWidget, QFrame
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QMessageBox, QWidget
 from sqlalchemy.orm import joinedload
 
 from core.controllers.emulator_controller import check_port_already_in_use, monster_template_scan, \

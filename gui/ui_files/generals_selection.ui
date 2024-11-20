@@ -9,33 +9,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>679</width>
+    <width>695</width>
     <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Manage General Presets</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
-	background-color: rgb(40, 44, 52);
-	border: 1px solid rgb(44, 49, 58);
+background-color: rgba(40, 44, 52, 0.9);
 }
-
-QWidget{
-	color: rgb(221, 221, 221);
-	font: 10pt &quot;Segoe UI&quot;;
-}
-
-QSpinBox {
-   background-color: rgba(40, 44, 52, 0.9);
-	border-radius: 5px;
-	border: 2px solid rgb(33, 37, 43);
-	padding-left :10px;
-selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(255, 121, 198);
-}
-
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 QListWidget */
@@ -97,19 +81,7 @@ QTabBar::tab:hover {
 }
 
 
-QPushButton {
-	border: 2px solid rgb(52, 59, 72);
-	border-radius: 5px;	
-	background-color: rgb(52, 59, 72);
-}
-QPushButton:hover {
-	background-color: rgb(57, 65, 80);
-	border: 2px solid rgb(61, 70, 86);
-}
-QPushButton:pressed {	
-	background-color: rgb(35, 40, 49);
-	border: 2px solid rgb(43, 50, 61);
-}
+
 
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,87 +104,6 @@ QToolTip {
 
 QLabel { font-size: 11px; color: rgb(113, 126, 149);  }
 
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-QTableWidget */
-QTableWidget {	
-	background-color: transparent;
-	padding: 10px;
-	border-radius: 5px;
-	gridline-color: rgb(44, 49, 58);
-	border-bottom: 1px solid rgb(44, 49, 60);
-}
-QTableWidget::item{
-	border-color: rgb(44, 49, 60);
-	padding-left: 5px;
-	padding-right: 5px;
-	gridline-color: rgb(44, 49, 60);
-}
-QTableWidget::item:selected{
-	background-color: rgb(189, 147, 249);
-}
-QHeaderView::section{
-	background-color: rgb(33, 37, 43);
-	max-width: 30px;
-	border: 1px solid rgb(44, 49, 58);
-	border-style: none;
-    border-bottom: 1px solid rgb(44, 49, 60);
-    border-right: 1px solid rgb(44, 49, 60);
-}
-QTableWidget::horizontalHeader {	
-	background-color: rgb(33, 37, 43);
-}
-QHeaderView::section:horizontal
-{
-    border: 1px solid rgb(33, 37, 43);
-	background-color: rgb(33, 37, 43);
-	padding: 3px;
-	border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
-QHeaderView::section:vertical
-{
-    border: 1px solid rgb(44, 49, 60);
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-LineEdit */
-QLineEdit {
-	background-color: rgb(33, 37, 43);
-	border-radius: 5px;
-	border: 2px solid rgb(33, 37, 43);
-	padding-left: 10px;
-	selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(255, 121, 198);
-}
-QLineEdit:hover {
-	border: 2px solid rgb(64, 71, 88);
-}
-QLineEdit:focus {
-	border: 2px solid rgb(91, 101, 124);
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-PlainTextEdit */
-QPlainTextEdit {
-	background-color: rgb(27, 29, 35);
-	border-radius: 5px;
-	padding: 10px;
-	selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(255, 121, 198);
-}
-QPlainTextEdit  QScrollBar:vertical {
-    width: 8px;
- }
-QPlainTextEdit  QScrollBar:horizontal {
-    height: 8px;
- }
-QPlainTextEdit:hover {
-	border: 2px solid rgb(64, 71, 88);
-}
-QPlainTextEdit:focus {
-	border: 2px solid rgb(91, 101, 124);
-}
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 ScrollBars */
@@ -293,41 +184,6 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
  }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
-CheckBox */
-QCheckBox::indicator {
-    border: 3px solid rgb(52, 59, 72);
-	width: 15px;
-	height: 15px;
-	border-radius: 10px;
-    background: rgb(44, 49, 60);
-}
-QCheckBox::indicator:hover {
-    border: 3px solid rgb(58, 66, 81);
-}
-QCheckBox::indicator:checked {
-    background: 3px solid rgb(52, 59, 72);
-	border: 3px solid rgb(52, 59, 72);	
-	background-image: url(:/icons/images/icons/cil-check-alt.png);
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-RadioButton */
-QRadioButton::indicator {
-    border: 3px solid rgb(52, 59, 72);
-	width: 15px;
-	height: 15px;
-	border-radius: 10px;
-    background: rgb(44, 49, 60);
-}
-QRadioButton::indicator:hover {
-    border: 3px solid rgb(58, 66, 81);
-}
-QRadioButton::indicator:checked {
-    background: 3px solid rgb(94, 106, 130);
-	border: 3px solid rgb(52, 59, 72);	
-}
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
 ComboBox */
 QComboBox{
 	background-color: rgb(27, 29, 35);
@@ -359,75 +215,6 @@ QComboBox QAbstractItemView {
 	selection-background-color: rgb(39, 44, 54);
 }
 
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-Sliders */
-QSlider::groove:horizontal {
-    border-radius: 5px;
-    height: 10px;
-	margin: 0px;
-	background-color: rgb(52, 59, 72);
-}
-QSlider::groove:horizontal:hover {
-	background-color: rgb(55, 62, 76);
-}
-QSlider::handle:horizontal {
-    background-color: rgb(189, 147, 249);
-    border: none;
-    height: 10px;
-    width: 10px;
-    margin: 0px;
-	border-radius: 5px;
-}
-QSlider::handle:horizontal:hover {
-    background-color: rgb(195, 155, 255);
-}
-QSlider::handle:horizontal:pressed {
-    background-color: rgb(255, 121, 198);
-}
-
-QSlider::groove:vertical {
-    border-radius: 5px;
-    width: 10px;
-    margin: 0px;
-	background-color: rgb(52, 59, 72);
-}
-QSlider::groove:vertical:hover {
-	background-color: rgb(55, 62, 76);
-}
-QSlider::handle:vertical {
-    background-color: rgb(189, 147, 249);
-	border: none;
-    height: 10px;
-    width: 10px;
-    margin: 0px;
-	border-radius: 5px;
-}
-QSlider::handle:vertical:hover {
-    background-color: rgb(195, 155, 255);
-}
-QSlider::handle:vertical:pressed {
-    background-color: rgb(255, 121, 198);
-}
-
-
-/* /////////////////////////////////////////////////////////////////////////////////////////////////
-CommandLinkButton */
-QCommandLinkButton {	
-	color: rgb(255, 121, 198);
-	border-radius: 5px;
-	padding: 5px;
-	color: rgb(255, 170, 255);
-}
-QCommandLinkButton:hover {	
-	color: rgb(255, 170, 255);
-	background-color: rgb(44, 49, 60);
-}
-QCommandLinkButton:pressed {	
-	color: rgb(189, 147, 249);
-	background-color: rgb(52, 58, 71);
-}
-
-
 /* QGroupBox */
 QGroupBox { border: 1px solid  rgb(255, 121, 198); border-radius: 5px; margin-top: 0.5em; }
 QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }
@@ -436,25 +223,196 @@ QGroupBox::title { color: rgb(161, 110, 235); }
 
 </string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10,0,1">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,15,1,1">
    <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="label">
-        <property name="styleSheet">
-         <string notr="true">font: 700 18pt &quot;Segoe UI&quot;;
-color: rgb(161, 110, 235);</string>
+       <widget class="QFrame" name="frame_10">
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
-        <property name="text">
-         <string>Rally General Selection</string>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Manage Preset</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item alignment="Qt::AlignmentFlag::AlignLeft">
+             <widget class="QFrame" name="frame_11">
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QComboBox" name="comboBox_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>180</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="placeholderText">
+                  <string>Select Preset</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="QIcon::ThemeIcon::ListAdd"/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignmentFlag::AlignRight">
+             <widget class="QFrame" name="frame_12">
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="pushButton_2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>130</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>  Save Preset</string>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
@@ -463,12 +421,15 @@ color: rgb(161, 110, 235);</string>
    <item>
     <widget class="QFrame" name="frame_2">
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
@@ -600,7 +561,7 @@ color: rgb(161, 110, 235);</string>
 color: rgb(161, 110, 235);</string>
                   </property>
                   <property name="text">
-                   <string>Selected Generals</string>
+                   <string>Selected Generals (Main Generals)</string>
                   </property>
                  </widget>
                 </item>
@@ -778,7 +739,7 @@ color: rgb(161, 110, 235);</string>
 color: rgb(161, 110, 235);</string>
                   </property>
                   <property name="text">
-                   <string>Selected Generals</string>
+                   <string>Selected Generals (Assistant Generals)</string>
                   </property>
                  </widget>
                 </item>
@@ -832,7 +793,7 @@ color: rgb(161, 110, 235);</string>
    <item>
     <widget class="QFrame" name="frame_8">
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
@@ -859,29 +820,35 @@ color: rgb(161, 110, 235);</string>
          <item alignment="Qt::AlignmentFlag::AlignLeft">
           <widget class="QFrame" name="frame_9">
            <property name="frameShape">
-            <enum>QFrame::Shape::StyledPanel</enum>
+            <enum>QFrame::Shape::NoFrame</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Shadow::Raised</enum>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="spacing">
+             <number>7</number>
+            </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>7</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>7</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="widget_7" native="true">
               <layout class="QVBoxLayout" name="verticalLayout_14">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
                <property name="bottomMargin">
-                <number>11</number>
+                <number>0</number>
                </property>
                <item>
                 <widget class="QLabel" name="label_9">
@@ -891,11 +858,11 @@ color: rgb(161, 110, 235);</string>
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="general_category_dd">
+                <widget class="QComboBox" name="category_combobox">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>0</height>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -906,6 +873,9 @@ color: rgb(161, 110, 235);</string>
                  </property>
                  <property name="currentIndex">
                   <number>0</number>
+                 </property>
+                 <property name="placeholderText">
+                  <string>Select Category</string>
                  </property>
                  <item>
                   <property name="text">
@@ -938,18 +908,105 @@ color: rgb(161, 110, 235);</string>
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="general_filter_widget" native="true"/>
+             <widget class="QWidget" name="widget_4" native="true">
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>General View</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="view__combobox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="placeholderText">
+                  <string>Select View</string>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Details View</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>List View</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="general_filter_widget" native="true">
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>General Filter</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckComboBox" name="comboBox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>130</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="currentIndex">
+                  <number>-1</number>
+                 </property>
+                 <property name="placeholderText">
+                  <string>None</string>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>Favorite</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Idle</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
             <item>
              <widget class="QWidget" name="widget_2" native="true">
               <layout class="QVBoxLayout" name="verticalLayout_9">
                <property name="spacing">
-                <number>5</number>
+                <number>7</number>
                </property>
                <property name="sizeConstraint">
                 <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
                </property>
                <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -960,11 +1017,11 @@ color: rgb(161, 110, 235);</string>
                 </widget>
                </item>
                <item>
-                <widget class="QSpinBox" name="swipe_attempts">
+                <widget class="QSpinBox" name="swipe_attempts_spinbox">
                  <property name="minimumSize">
                   <size>
-                   <width>100</width>
-                   <height>35</height>
+                   <width>110</width>
+                   <height>40</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -978,6 +1035,9 @@ color: rgb(161, 110, 235);</string>
                  </property>
                  <property name="maximum">
                   <number>20</number>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
                  </property>
                  <property name="profile_id" stdset="0">
                   <number>0</number>
@@ -999,18 +1059,30 @@ color: rgb(161, 110, 235);</string>
    <item>
     <widget class="QFrame" name="frame_3">
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>11</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item alignment="Qt::AlignmentFlag::AlignRight">
-       <widget class="QPushButton" name="exit_general_selection">
+       <widget class="QPushButton" name="exit_btn">
         <property name="minimumSize">
          <size>
-          <width>80</width>
-          <height>32</height>
+          <width>100</width>
+          <height>40</height>
          </size>
         </property>
         <property name="text">
@@ -1023,6 +1095,13 @@ color: rgb(161, 110, 235);</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCheckComboBox</class>
+   <extends>QComboBox</extends>
+   <header>core.custom_widgets.QCheckComboBox</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -20,6 +20,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFram
     QLineEdit, QMainWindow, QPlainTextEdit, QPushButton,
     QScrollArea, QSizePolicy, QStackedWidget, QTabWidget,
     QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+
+from core.custom_widgets.QCheckComboBox import QCheckComboBox
 import resources_rc
 
 class Ui_MainWindow(object):
@@ -1218,19 +1220,21 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16.addWidget(self.scan_generals_view)
 
-        self.sg_scan_type = QFrame(self.frame_8)
-        self.sg_scan_type.setObjectName(u"sg_scan_type")
-        self.sg_scan_type.setFrameShape(QFrame.Shape.StyledPanel)
-        self.sg_scan_type.setFrameShadow(QFrame.Shadow.Raised)
+        self.scan_generals_type = QCheckComboBox(self.frame_8)
+        self.scan_generals_type.addItem("")
+        self.scan_generals_type.addItem("")
+        self.scan_generals_type.setObjectName(u"scan_generals_type")
+        self.scan_generals_type.setMinimumSize(QSize(0, 45))
 
-        self.horizontalLayout_16.addWidget(self.sg_scan_type)
+        self.horizontalLayout_16.addWidget(self.scan_generals_type)
 
-        self.sg_scan_filter = QFrame(self.frame_8)
-        self.sg_scan_filter.setObjectName(u"sg_scan_filter")
-        self.sg_scan_filter.setFrameShape(QFrame.Shape.StyledPanel)
-        self.sg_scan_filter.setFrameShadow(QFrame.Shadow.Raised)
+        self.scan_generals_filter = QCheckComboBox(self.frame_8)
+        self.scan_generals_filter.addItem("")
+        self.scan_generals_filter.addItem("")
+        self.scan_generals_filter.setObjectName(u"scan_generals_filter")
+        self.scan_generals_filter.setMinimumSize(QSize(130, 45))
 
-        self.horizontalLayout_16.addWidget(self.sg_scan_filter)
+        self.horizontalLayout_16.addWidget(self.scan_generals_filter)
 
         self.scan_generals_port = QLineEdit(self.frame_8)
         self.scan_generals_port.setObjectName(u"scan_generals_port")
@@ -1310,6 +1314,12 @@ class Ui_MainWindow(object):
         self.scan_general_console.setReadOnly(True)
 
         self.verticalLayout_19.addWidget(self.scan_general_console)
+
+        self.general_preset_btn = QPushButton(self.scan_general_console_frame)
+        self.general_preset_btn.setObjectName(u"general_preset_btn")
+        self.general_preset_btn.setMinimumSize(QSize(0, 45))
+
+        self.verticalLayout_19.addWidget(self.general_preset_btn)
 
 
         self.horizontalLayout_15.addWidget(self.scan_general_console_frame)
@@ -1692,11 +1702,20 @@ class Ui_MainWindow(object):
         self.scan_generals_view.setItemText(1, QCoreApplication.translate("MainWindow", u"List View", None))
 
         self.scan_generals_view.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan View", None))
+        self.scan_generals_type.setItemText(0, QCoreApplication.translate("MainWindow", u"Epic Historic", None))
+        self.scan_generals_type.setItemText(1, QCoreApplication.translate("MainWindow", u"Legendary Historic", None))
+
+        self.scan_generals_type.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Type", None))
+        self.scan_generals_filter.setItemText(0, QCoreApplication.translate("MainWindow", u"Favorite", None))
+        self.scan_generals_filter.setItemText(1, QCoreApplication.translate("MainWindow", u"Idle", None))
+
+        self.scan_generals_filter.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Scan Filter", None))
         self.scan_generals_port.setText("")
         self.scan_generals_port.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Port No.", None))
         self.scan_generals_btn.setText(QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.scan_general_console.setPlainText(QCoreApplication.translate("MainWindow", u"Note: Double-tap on the general's name tag to rename it.\n"
 "", None))
+        self.general_preset_btn.setText(QCoreApplication.translate("MainWindow", u"Manage General Presets", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.scan_generals), QCoreApplication.translate("MainWindow", u"Scan Generals", None))
         self.upload_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Upload Monsters", None))
         self.export_monsters_btn.setText(QCoreApplication.translate("MainWindow", u"Export Monsters", None))

@@ -21,31 +21,17 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDial
     QPushButton, QSizePolicy, QSpinBox, QTabWidget,
     QVBoxLayout, QWidget)
 
+from core.custom_widgets.QCheckComboBox import QCheckComboBox
+
 class Ui_GeneralsSelectionDialog(object):
     def setupUi(self, GeneralsSelectionDialog):
         if not GeneralsSelectionDialog.objectName():
             GeneralsSelectionDialog.setObjectName(u"GeneralsSelectionDialog")
         GeneralsSelectionDialog.setWindowModality(Qt.WindowModality.ApplicationModal)
-        GeneralsSelectionDialog.resize(679, 760)
+        GeneralsSelectionDialog.resize(695, 760)
         GeneralsSelectionDialog.setStyleSheet(u"QDialog{\n"
-"	background-color: rgb(40, 44, 52);\n"
-"	border: 1px solid rgb(44, 49, 58);\n"
+"background-color: rgba(40, 44, 52, 0.9);\n"
 "}\n"
-"\n"
-"QWidget{\n"
-"	color: rgb(221, 221, 221);\n"
-"	font: 10pt \"Segoe UI\";\n"
-"}\n"
-"\n"
-"QSpinBox {\n"
-"   background-color: rgba(40, 44, 52, 0.9);\n"
-"	border-radius: 5px;\n"
-"	border: 2px solid rgb(33, 37, 43);\n"
-"	padding-left :10px;\n"
-"selection-color: rgb(255, 255, 255);\n"
-"	selection-background-color: rgb(255, 121, 198);\n"
-"}\n"
-"\n"
 "\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "QListWidget */\n"
@@ -58,8 +44,7 @@ class Ui_GeneralsSelectionDialog(object):
 "QListWidget::item {\n"
 "    background-color: rgba(40, 44, 52, 0.8); /* Slightly lighter background for items */\n"
 "    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Subtle separator */\n"
-"    padding: 10px; /* Adjust spacing around text"
-                        " */\n"
+"    padding: 10px; /* Adjust spacing around text */\n"
 "}\n"
 "\n"
 "QListWidget::item:hover {\n"
@@ -69,7 +54,8 @@ class Ui_GeneralsSelectionDialog(object):
 "\n"
 "QListWidget::item:selected {\n"
 "    background-color:  rgba(40, 44, 52, 0.8); /* Darker background for selected items */\n"
-"    color: #ffffff; /* White text for better visibility */\n"
+"    color: #ffffff; /* White text for b"
+                        "etter visibility */\n"
 "}\n"
 "\n"
 "\n"
@@ -95,8 +81,7 @@ class Ui_GeneralsSelectionDialog(object):
 "    margin-right:2px;\n"
 "}\n"
 "QTabBar::tab:selected {  \n"
-"    color: rg"
-                        "b(161, 110, 235);\n"
+"    color: rgb(161, 110, 235);\n"
 "    background-color: rgba(35, 40, 48, 0.9);\n"
 "    margin-top: 0px;\n"
 "}\n"
@@ -109,22 +94,11 @@ class Ui_GeneralsSelectionDialog(object):
 "}\n"
 "\n"
 "\n"
-"QPushButton {\n"
-"	border: 2px solid rgb(52, 59, 72);\n"
-"	border-radius: 5px;	\n"
-"	background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QPushButton:hover {\n"
-"	background-color: rgb(57, 65, 80);\n"
-"	border: 2px solid rgb(61, 70, 86);\n"
-"}\n"
-"QPushButton:pressed {	\n"
-"	background-color: rgb(35, 40, 49);\n"
-"	border: 2px solid rgb(43, 50, 61);\n"
-"}\n"
 "\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
+"\n"
+"/* ///////////////////////////////////////////"
+                        "//////////////////////////////////////////////////////\n"
 "Tooltip */\n"
 "QToolTip {\n"
 "	color: #ffffff;\n"
@@ -132,8 +106,7 @@ class Ui_GeneralsSelectionDialog(object):
 "	border: 1px solid rgb(44, 49, 58);\n"
 "	background-image: none;\n"
 "	background-position: left center;\n"
-"    background-repeat: no-rep"
-                        "eat;\n"
+"    background-repeat: no-repeat;\n"
 "	border: none;\n"
 "	border-left: 2px solid rgb(255, 121, 198);\n"
 "	text-align: left;\n"
@@ -145,89 +118,6 @@ class Ui_GeneralsSelectionDialog(object):
 "\n"
 "QLabel { font-size: 11px; color: rgb(113, 126, 149);  }\n"
 "\n"
-"\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"QTableWidget */\n"
-"QTableWidget {	\n"
-"	background-color: transparent;\n"
-"	padding: 10px;\n"
-"	border-radius: 5px;\n"
-"	gridline-color: rgb(44, 49, 58);\n"
-"	border-bottom: 1px solid rgb(44, 49, 60);\n"
-"}\n"
-"QTableWidget::item{\n"
-"	border-color: rgb(44, 49, 60);\n"
-"	padding-left: 5px;\n"
-"	padding-right: 5px;\n"
-"	gridline-color: rgb(44, 49, 60);\n"
-"}\n"
-"QTableWidget::item:selected{\n"
-"	background-color: rgb(189, 147, 249);\n"
-"}\n"
-"QHeaderView::section{\n"
-"	background-color: rgb(33, 37, 43);\n"
-"	max-width: 30px;\n"
-"	border: 1px solid rgb(44, 49, 58);\n"
-"	border-style: none;\n"
-"    border-bottom: 1px solid rgb(44, 49, 60);\n"
-"    border-right: 1px solid rgb(44, 49"
-                        ", 60);\n"
-"}\n"
-"QTableWidget::horizontalHeader {	\n"
-"	background-color: rgb(33, 37, 43);\n"
-"}\n"
-"QHeaderView::section:horizontal\n"
-"{\n"
-"    border: 1px solid rgb(33, 37, 43);\n"
-"	background-color: rgb(33, 37, 43);\n"
-"	padding: 3px;\n"
-"	border-top-left-radius: 7px;\n"
-"    border-top-right-radius: 7px;\n"
-"}\n"
-"QHeaderView::section:vertical\n"
-"{\n"
-"    border: 1px solid rgb(44, 49, 60);\n"
-"}\n"
-"\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"LineEdit */\n"
-"QLineEdit {\n"
-"	background-color: rgb(33, 37, 43);\n"
-"	border-radius: 5px;\n"
-"	border: 2px solid rgb(33, 37, 43);\n"
-"	padding-left: 10px;\n"
-"	selection-color: rgb(255, 255, 255);\n"
-"	selection-background-color: rgb(255, 121, 198);\n"
-"}\n"
-"QLineEdit:hover {\n"
-"	border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QLineEdit:focus {\n"
-"	border: 2px solid rgb(91, 101, 124);\n"
-"}\n"
-"\n"
-"/* //////////////////////////////////////////////////////////////////////////////////////////////"
-                        "///\n"
-"PlainTextEdit */\n"
-"QPlainTextEdit {\n"
-"	background-color: rgb(27, 29, 35);\n"
-"	border-radius: 5px;\n"
-"	padding: 10px;\n"
-"	selection-color: rgb(255, 255, 255);\n"
-"	selection-background-color: rgb(255, 121, 198);\n"
-"}\n"
-"QPlainTextEdit  QScrollBar:vertical {\n"
-"    width: 8px;\n"
-" }\n"
-"QPlainTextEdit  QScrollBar:horizontal {\n"
-"    height: 8px;\n"
-" }\n"
-"QPlainTextEdit:hover {\n"
-"	border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QPlainTextEdit:focus {\n"
-"	border: 2px solid rgb(91, 101, 124);\n"
-"}\n"
 "\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "ScrollBars */\n"
@@ -245,8 +135,8 @@ class Ui_GeneralsSelectionDialog(object):
 "}\n"
 "QScrollBar::add-line:horizontal {\n"
 "    border: none;\n"
-"    backg"
-                        "round: rgb(55, 63, 77);\n"
+"    background"
+                        ": rgb(55, 63, 77);\n"
 "    width: 20px;\n"
 "	border-top-right-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
@@ -283,8 +173,8 @@ class Ui_GeneralsSelectionDialog(object):
 "	border-radius: 4px\n"
 " }\n"
 " QScrollBar::add-line:vertical {\n"
-"    "
-                        " border: none;\n"
+"     bord"
+                        "er: none;\n"
 "    background: rgb(55, 63, 77);\n"
 "     height: 20px;\n"
 "	border-bottom-left-radius: 4px;\n"
@@ -310,53 +200,17 @@ class Ui_GeneralsSelectionDialog(object):
 " }\n"
 "\n"
 "/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"CheckBox */\n"
-"QCheckBox::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
-"	width: 15px;\n"
-"	height: 15px;\n"
-"	border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
-"}\n"
-"QCheckBo"
-                        "x::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
-"}\n"
-"QCheckBox::indicator:checked {\n"
-"    background: 3px solid rgb(52, 59, 72);\n"
-"	border: 3px solid rgb(52, 59, 72);	\n"
-"	background-image: url(:/icons/images/icons/cil-check-alt.png);\n"
-"}\n"
-"\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"RadioButton */\n"
-"QRadioButton::indicator {\n"
-"    border: 3px solid rgb(52, 59, 72);\n"
-"	width: 15px;\n"
-"	height: 15px;\n"
-"	border-radius: 10px;\n"
-"    background: rgb(44, 49, 60);\n"
-"}\n"
-"QRadioButton::indicator:hover {\n"
-"    border: 3px solid rgb(58, 66, 81);\n"
-"}\n"
-"QRadioButton::indicator:checked {\n"
-"    background: 3px solid rgb(94, 106, 130);\n"
-"	border: 3px solid rgb(52, 59, 72);	\n"
-"}\n"
-"\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
 "ComboBox */\n"
 "QComboBox{\n"
 "	background-color: rgb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
-"	border: 2px solid rg"
-                        "b(33, 37, 43);\n"
+"	border: 2px solid rgb(33, 37, 43);\n"
 "	padding: 5px;\n"
 "	padding-left: 10px;\n"
 "}\n"
 "QComboBox:hover{\n"
-"	border: 2px solid rgb(64, 71, 88);\n"
+""
+                        "	border: 2px solid rgb(64, 71, 88);\n"
 "}\n"
 "QComboBox::drop-down {\n"
 "	subcontrol-origin: padding;\n"
@@ -378,77 +232,6 @@ class Ui_GeneralsSelectionDialog(object):
 "	selection-background-color: rgb(39, 44, 54);\n"
 "}\n"
 "\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"Sliders */\n"
-"QSlider::groove:horizontal {\n"
-"    border-radius: 5px;\n"
-"    height: 10px;\n"
-"	margin: 0px;\n"
-"	background-color: rgb(52, 59, 72);"
-                        "\n"
-"}\n"
-"QSlider::groove:horizontal:hover {\n"
-"	background-color: rgb(55, 62, 76);\n"
-"}\n"
-"QSlider::handle:horizontal {\n"
-"    background-color: rgb(189, 147, 249);\n"
-"    border: none;\n"
-"    height: 10px;\n"
-"    width: 10px;\n"
-"    margin: 0px;\n"
-"	border-radius: 5px;\n"
-"}\n"
-"QSlider::handle:horizontal:hover {\n"
-"    background-color: rgb(195, 155, 255);\n"
-"}\n"
-"QSlider::handle:horizontal:pressed {\n"
-"    background-color: rgb(255, 121, 198);\n"
-"}\n"
-"\n"
-"QSlider::groove:vertical {\n"
-"    border-radius: 5px;\n"
-"    width: 10px;\n"
-"    margin: 0px;\n"
-"	background-color: rgb(52, 59, 72);\n"
-"}\n"
-"QSlider::groove:vertical:hover {\n"
-"	background-color: rgb(55, 62, 76);\n"
-"}\n"
-"QSlider::handle:vertical {\n"
-"    background-color: rgb(189, 147, 249);\n"
-"	border: none;\n"
-"    height: 10px;\n"
-"    width: 10px;\n"
-"    margin: 0px;\n"
-"	border-radius: 5px;\n"
-"}\n"
-"QSlider::handle:vertical:hover {\n"
-"    background-color: rgb(195, 155, 255);\n"
-"}\n"
-"QSlider::handle:vertical:pressed {"
-                        "\n"
-"    background-color: rgb(255, 121, 198);\n"
-"}\n"
-"\n"
-"\n"
-"/* /////////////////////////////////////////////////////////////////////////////////////////////////\n"
-"CommandLinkButton */\n"
-"QCommandLinkButton {	\n"
-"	color: rgb(255, 121, 198);\n"
-"	border-radius: 5px;\n"
-"	padding: 5px;\n"
-"	color: rgb(255, 170, 255);\n"
-"}\n"
-"QCommandLinkButton:hover {	\n"
-"	color: rgb(255, 170, 255);\n"
-"	background-color: rgb(44, 49, 60);\n"
-"}\n"
-"QCommandLinkButton:pressed {	\n"
-"	color: rgb(189, 147, 249);\n"
-"	background-color: rgb(52, 58, 71);\n"
-"}\n"
-"\n"
-"\n"
 "/* QGroupBox */\n"
 "QGroupBox { border: 1px solid  rgb(255, 121, 198); border-radius: 5px; margin-top: 0.5em; }\n"
 "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }\n"
@@ -460,26 +243,99 @@ class Ui_GeneralsSelectionDialog(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.frame = QFrame(GeneralsSelectionDialog)
         self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame.setFrameShape(QFrame.Shape.NoFrame)
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.frame)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.label = QLabel(self.frame)
-        self.label.setObjectName(u"label")
-        self.label.setStyleSheet(u"font: 700 18pt \"Segoe UI\";\n"
-"color: rgb(161, 110, 235);")
+        self.frame_10 = QFrame(self.frame)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_7 = QHBoxLayout(self.frame_10)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.groupBox = QGroupBox(self.frame_10)
+        self.groupBox.setObjectName(u"groupBox")
+        self.horizontalLayout_8 = QHBoxLayout(self.groupBox)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.frame_11 = QFrame(self.groupBox)
+        self.frame_11.setObjectName(u"frame_11")
+        self.frame_11.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_6 = QHBoxLayout(self.frame_11)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.comboBox_2 = QComboBox(self.frame_11)
+        self.comboBox_2.setObjectName(u"comboBox_2")
+        self.comboBox_2.setMinimumSize(QSize(180, 40))
 
-        self.verticalLayout_2.addWidget(self.label)
+        self.horizontalLayout_6.addWidget(self.comboBox_2)
+
+        self.pushButton = QPushButton(self.frame_11)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(40, 40))
+        self.pushButton.setMaximumSize(QSize(40, 40))
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MailMessageNew))
+        self.pushButton.setIcon(icon)
+
+        self.horizontalLayout_6.addWidget(self.pushButton)
+
+        self.pushButton_3 = QPushButton(self.frame_11)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setMinimumSize(QSize(40, 40))
+        self.pushButton_3.setMaximumSize(QSize(40, 40))
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
+        self.pushButton_3.setIcon(icon1)
+
+        self.horizontalLayout_6.addWidget(self.pushButton_3)
+
+        self.pushButton_4 = QPushButton(self.frame_11)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pushButton_4.setMinimumSize(QSize(40, 40))
+        self.pushButton_4.setMaximumSize(QSize(40, 40))
+        icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
+        self.pushButton_4.setIcon(icon2)
+
+        self.horizontalLayout_6.addWidget(self.pushButton_4)
+
+
+        self.horizontalLayout_8.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.frame_12 = QFrame(self.groupBox)
+        self.frame_12.setObjectName(u"frame_12")
+        self.frame_12.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_9 = QHBoxLayout(self.frame_12)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
+        self.pushButton_2 = QPushButton(self.frame_12)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setMinimumSize(QSize(130, 40))
+        self.pushButton_2.setMaximumSize(QSize(16777215, 40))
+        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
+        self.pushButton_2.setIcon(icon3)
+
+        self.horizontalLayout_9.addWidget(self.pushButton_2)
+
+
+        self.horizontalLayout_8.addWidget(self.frame_12, 0, Qt.AlignmentFlag.AlignRight)
+
+
+        self.horizontalLayout_7.addWidget(self.groupBox)
+
+
+        self.verticalLayout_2.addWidget(self.frame_10)
 
 
         self.verticalLayout.addWidget(self.frame)
 
         self.frame_2 = QFrame(GeneralsSelectionDialog)
         self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_2)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(-1, 0, -1, -1)
         self.tabWidget = QTabWidget(self.frame_2)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tab = QWidget()
@@ -662,7 +518,7 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.frame_8 = QFrame(GeneralsSelectionDialog)
         self.frame_8.setObjectName(u"frame_8")
-        self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_8.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_16 = QVBoxLayout(self.frame_8)
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
@@ -673,61 +529,100 @@ class Ui_GeneralsSelectionDialog(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.frame_9 = QFrame(self.groupBox_3)
         self.frame_9.setObjectName(u"frame_9")
-        self.frame_9.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_9.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_5 = QHBoxLayout(self.frame_9)
+        self.horizontalLayout_5.setSpacing(7)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 7, 0, 7)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.widget_7 = QWidget(self.frame_9)
         self.widget_7.setObjectName(u"widget_7")
         self.verticalLayout_14 = QVBoxLayout(self.widget_7)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.verticalLayout_14.setContentsMargins(-1, -1, -1, 11)
+        self.verticalLayout_14.setContentsMargins(-1, 0, -1, 0)
         self.label_9 = QLabel(self.widget_7)
         self.label_9.setObjectName(u"label_9")
 
         self.verticalLayout_14.addWidget(self.label_9)
 
-        self.general_category_dd = QComboBox(self.widget_7)
-        self.general_category_dd.addItem("")
-        self.general_category_dd.addItem("")
-        self.general_category_dd.addItem("")
-        self.general_category_dd.addItem("")
-        self.general_category_dd.addItem("")
-        self.general_category_dd.setObjectName(u"general_category_dd")
-        self.general_category_dd.setMinimumSize(QSize(0, 0))
-        self.general_category_dd.setMaximumSize(QSize(160, 16777215))
+        self.category_combobox = QComboBox(self.widget_7)
+        self.category_combobox.addItem("")
+        self.category_combobox.addItem("")
+        self.category_combobox.addItem("")
+        self.category_combobox.addItem("")
+        self.category_combobox.addItem("")
+        self.category_combobox.setObjectName(u"category_combobox")
+        self.category_combobox.setMinimumSize(QSize(0, 40))
+        self.category_combobox.setMaximumSize(QSize(160, 16777215))
 
-        self.verticalLayout_14.addWidget(self.general_category_dd)
+        self.verticalLayout_14.addWidget(self.category_combobox)
 
 
         self.horizontalLayout_5.addWidget(self.widget_7)
 
+        self.widget_4 = QWidget(self.frame_9)
+        self.widget_4.setObjectName(u"widget_4")
+        self.verticalLayout_11 = QVBoxLayout(self.widget_4)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(-1, 0, -1, 0)
+        self.label_7 = QLabel(self.widget_4)
+        self.label_7.setObjectName(u"label_7")
+
+        self.verticalLayout_11.addWidget(self.label_7)
+
+        self.view__combobox = QComboBox(self.widget_4)
+        self.view__combobox.addItem("")
+        self.view__combobox.addItem("")
+        self.view__combobox.setObjectName(u"view__combobox")
+        self.view__combobox.setMinimumSize(QSize(0, 40))
+
+        self.verticalLayout_11.addWidget(self.view__combobox)
+
+
+        self.horizontalLayout_5.addWidget(self.widget_4)
+
         self.general_filter_widget = QWidget(self.frame_9)
         self.general_filter_widget.setObjectName(u"general_filter_widget")
+        self.verticalLayout_12 = QVBoxLayout(self.general_filter_widget)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setContentsMargins(-1, 0, -1, 0)
+        self.label_8 = QLabel(self.general_filter_widget)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_12.addWidget(self.label_8)
+
+        self.comboBox = QCheckComboBox(self.general_filter_widget)
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(130, 40))
+
+        self.verticalLayout_12.addWidget(self.comboBox)
+
 
         self.horizontalLayout_5.addWidget(self.general_filter_widget)
 
         self.widget_2 = QWidget(self.frame_9)
         self.widget_2.setObjectName(u"widget_2")
         self.verticalLayout_9 = QVBoxLayout(self.widget_2)
-        self.verticalLayout_9.setSpacing(5)
+        self.verticalLayout_9.setSpacing(7)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.verticalLayout_9.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.verticalLayout_9.setContentsMargins(-1, 0, -1, -1)
+        self.verticalLayout_9.setContentsMargins(-1, 0, -1, 0)
         self.label_6 = QLabel(self.widget_2)
         self.label_6.setObjectName(u"label_6")
 
         self.verticalLayout_9.addWidget(self.label_6)
 
-        self.swipe_attempts = QSpinBox(self.widget_2)
-        self.swipe_attempts.setObjectName(u"swipe_attempts")
-        self.swipe_attempts.setMinimumSize(QSize(100, 35))
-        self.swipe_attempts.setMaximumSize(QSize(100, 35))
-        self.swipe_attempts.setMaximum(20)
-        self.swipe_attempts.setProperty(u"profile_id", 0)
+        self.swipe_attempts_spinbox = QSpinBox(self.widget_2)
+        self.swipe_attempts_spinbox.setObjectName(u"swipe_attempts_spinbox")
+        self.swipe_attempts_spinbox.setMinimumSize(QSize(110, 40))
+        self.swipe_attempts_spinbox.setMaximumSize(QSize(100, 35))
+        self.swipe_attempts_spinbox.setMaximum(20)
+        self.swipe_attempts_spinbox.setValue(5)
+        self.swipe_attempts_spinbox.setProperty(u"profile_id", 0)
 
-        self.verticalLayout_9.addWidget(self.swipe_attempts)
+        self.verticalLayout_9.addWidget(self.swipe_attempts_spinbox)
 
 
         self.horizontalLayout_5.addWidget(self.widget_2)
@@ -743,55 +638,73 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.frame_3 = QFrame(GeneralsSelectionDialog)
         self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_3)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.exit_general_selection = QPushButton(self.frame_3)
-        self.exit_general_selection.setObjectName(u"exit_general_selection")
-        self.exit_general_selection.setMinimumSize(QSize(80, 32))
+        self.horizontalLayout_3.setContentsMargins(0, 0, 11, 0)
+        self.exit_btn = QPushButton(self.frame_3)
+        self.exit_btn.setObjectName(u"exit_btn")
+        self.exit_btn.setMinimumSize(QSize(100, 40))
 
-        self.horizontalLayout_3.addWidget(self.exit_general_selection, 0, Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout_3.addWidget(self.exit_btn, 0, Qt.AlignmentFlag.AlignRight)
 
 
         self.verticalLayout.addWidget(self.frame_3)
 
-        self.verticalLayout.setStretch(0, 1)
-        self.verticalLayout.setStretch(1, 10)
+        self.verticalLayout.setStretch(1, 15)
+        self.verticalLayout.setStretch(2, 1)
         self.verticalLayout.setStretch(3, 1)
 
         self.retranslateUi(GeneralsSelectionDialog)
 
         self.tabWidget.setCurrentIndex(0)
-        self.general_category_dd.setCurrentIndex(0)
+        self.category_combobox.setCurrentIndex(0)
+        self.comboBox.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(GeneralsSelectionDialog)
     # setupUi
 
     def retranslateUi(self, GeneralsSelectionDialog):
-        GeneralsSelectionDialog.setWindowTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Dialog", None))
-        self.label.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Rally General Selection", None))
+        GeneralsSelectionDialog.setWindowTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage General Presets", None))
+        self.groupBox.setTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage Preset", None))
+        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Preset", None))
+        self.pushButton.setText("")
+        self.pushButton_3.setText("")
+        self.pushButton_4.setText("")
+        self.pushButton_2.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"  Save Preset", None))
         self.label_2.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"All Generals", None))
         self.all_generals_main.setProperty(u"item_info", "")
-        self.label_3.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals", None))
+        self.label_3.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals (Main Generals)", None))
         self.selected_generals_main.setProperty(u"item_info", "")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("GeneralsSelectionDialog", u"Main General", None))
         self.label_4.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"All Generals", None))
         self.all_generals_assistant.setProperty(u"item_info", "")
-        self.label_5.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals", None))
+        self.label_5.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals (Assistant Generals)", None))
         self.selected_generals_assistant.setProperty(u"item_info", "")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("GeneralsSelectionDialog", u"Assistant General", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Filter Settings", None))
         self.label_9.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"General Category", None))
-        self.general_category_dd.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"All", None))
-        self.general_category_dd.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"Military", None))
-        self.general_category_dd.setItemText(2, QCoreApplication.translate("GeneralsSelectionDialog", u"Development", None))
-        self.general_category_dd.setItemText(3, QCoreApplication.translate("GeneralsSelectionDialog", u"Duty", None))
-        self.general_category_dd.setItemText(4, QCoreApplication.translate("GeneralsSelectionDialog", u"Subordinate City", None))
+        self.category_combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"All", None))
+        self.category_combobox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"Military", None))
+        self.category_combobox.setItemText(2, QCoreApplication.translate("GeneralsSelectionDialog", u"Development", None))
+        self.category_combobox.setItemText(3, QCoreApplication.translate("GeneralsSelectionDialog", u"Duty", None))
+        self.category_combobox.setItemText(4, QCoreApplication.translate("GeneralsSelectionDialog", u"Subordinate City", None))
 
+        self.category_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Category", None))
+        self.label_7.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"General View", None))
+        self.view__combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Details View", None))
+        self.view__combobox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"List View", None))
+
+        self.view__combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select View", None))
+        self.label_8.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"General Filter", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Favorite", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"Idle", None))
+
+        self.comboBox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"None", None))
         self.label_6.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Swipe Attempts", None))
-        self.swipe_attempts.setSuffix(QCoreApplication.translate("GeneralsSelectionDialog", u" Times", None))
-        self.exit_general_selection.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Exit", None))
+        self.swipe_attempts_spinbox.setSuffix(QCoreApplication.translate("GeneralsSelectionDialog", u" Times", None))
+        self.exit_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Exit", None))
     # retranslateUi
 

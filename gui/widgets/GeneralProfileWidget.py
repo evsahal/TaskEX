@@ -1,6 +1,5 @@
 import os
 
-from PIL.ImImagePlugin import number
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget

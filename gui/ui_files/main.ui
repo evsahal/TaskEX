@@ -2095,23 +2095,49 @@ QComboBox QAbstractItemView {
                                   </widget>
                                  </item>
                                  <item>
-                                  <widget class="QFrame" name="sg_scan_type">
-                                   <property name="frameShape">
-                                    <enum>QFrame::Shape::StyledPanel</enum>
+                                  <widget class="QCheckComboBox" name="scan_generals_type">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>45</height>
+                                    </size>
                                    </property>
-                                   <property name="frameShadow">
-                                    <enum>QFrame::Shadow::Raised</enum>
+                                   <property name="placeholderText">
+                                    <string>Scan Type</string>
                                    </property>
+                                   <item>
+                                    <property name="text">
+                                     <string>Epic Historic</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Legendary Historic</string>
+                                    </property>
+                                   </item>
                                   </widget>
                                  </item>
                                  <item>
-                                  <widget class="QFrame" name="sg_scan_filter">
-                                   <property name="frameShape">
-                                    <enum>QFrame::Shape::StyledPanel</enum>
+                                  <widget class="QCheckComboBox" name="scan_generals_filter">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>130</width>
+                                     <height>45</height>
+                                    </size>
                                    </property>
-                                   <property name="frameShadow">
-                                    <enum>QFrame::Shadow::Raised</enum>
+                                   <property name="placeholderText">
+                                    <string>Scan Filter</string>
                                    </property>
+                                   <item>
+                                    <property name="text">
+                                     <string>Favorite</string>
+                                    </property>
+                                   </item>
+                                   <item>
+                                    <property name="text">
+                                     <string>Idle</string>
+                                    </property>
+                                   </item>
                                   </widget>
                                  </item>
                                  <item>
@@ -2283,6 +2309,19 @@ border-radius: 5px;</string>
                                    <property name="plainText">
                                     <string>Note: Double-tap on the general's name tag to rename it.
 </string>
+                                   </property>
+                                  </widget>
+                                 </item>
+                                 <item>
+                                  <widget class="QPushButton" name="general_preset_btn">
+                                   <property name="minimumSize">
+                                    <size>
+                                     <width>0</width>
+                                     <height>45</height>
+                                    </size>
+                                   </property>
+                                   <property name="text">
+                                    <string>Manage General Presets</string>
                                    </property>
                                   </widget>
                                  </item>
@@ -2940,6 +2979,13 @@ border-radius: 5px;</string>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCheckComboBox</class>
+   <extends>QComboBox</extends>
+   <header>core.custom_widgets.QCheckComboBox</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>
