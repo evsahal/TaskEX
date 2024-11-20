@@ -51,12 +51,11 @@ QTabWidget::pane {
   border: 2px solid rgb(33, 37, 43);
   top:-1px; 
   left:2px;
-  background-color: rgba(40, 44, 52, 0.9);
+  background-color: rgba(30, 35, 43, 0.9); 
 } 
 
 QTabBar::tab {  
-	background-color: rgba(30, 35, 43, 0.9); 
-   /* background-color: rgba(50, 55, 65, 0.9);*/
+    background-color: rgba(35, 40, 48, 0.9);
     min-width: 150px; 
     min-height:28px;
     padding: 0px  0px; 
@@ -69,7 +68,7 @@ QTabBar::tab {
 }
 QTabBar::tab:selected {  
     color: rgb(161, 110, 235);
-    background-color: rgba(35, 40, 48, 0.9);
+    background-color: rgba(30, 35, 43, 0.9); 
     margin-top: 0px;
 }
 QTabBar::tab:hover {  
@@ -261,7 +260,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item alignment="Qt::AlignmentFlag::AlignLeft">
-             <widget class="QFrame" name="frame_11">
+             <widget class="QFrame" name="manage_preset_frame">
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
               </property>
@@ -282,7 +281,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                 <number>0</number>
                </property>
                <item>
-                <widget class="QComboBox" name="comboBox_2">
+                <widget class="QComboBox" name="preset_combobox">
                  <property name="minimumSize">
                   <size>
                    <width>180</width>
@@ -292,10 +291,15 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                  <property name="placeholderText">
                   <string>Select Preset</string>
                  </property>
+                 <item>
+                  <property name="text">
+                   <string>Default</string>
+                  </property>
+                 </item>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="edit_btn">
                  <property name="minimumSize">
                   <size>
                    <width>40</width>
@@ -317,7 +321,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="delete_btn">
                  <property name="minimumSize">
                   <size>
                    <width>40</width>
@@ -339,7 +343,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_4">
+                <widget class="QPushButton" name="add_btn">
                  <property name="minimumSize">
                   <size>
                    <width>40</width>
@@ -385,7 +389,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                 <number>0</number>
                </property>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="save_btn">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>

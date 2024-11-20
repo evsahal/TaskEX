@@ -64,12 +64,11 @@ class Ui_GeneralsSelectionDialog(object):
 "  border: 2px solid rgb(33, 37, 43);\n"
 "  top:-1px; \n"
 "  left:2px;\n"
-"  background-color: rgba(40, 44, 52, 0.9);\n"
+"  background-color: rgba(30, 35, 43, 0.9); \n"
 "} \n"
 "\n"
 "QTabBar::tab {  \n"
-"	background-color: rgba(30, 35, 43, 0.9); \n"
-"   /* background-color: rgba(50, 55, 65, 0.9);*/\n"
+"    background-color: rgba(35, 40, 48, 0.9);\n"
 "    min-width: 150px; \n"
 "    min-height:28px;\n"
 "    padding: 0px  0px; \n"
@@ -82,7 +81,7 @@ class Ui_GeneralsSelectionDialog(object):
 "}\n"
 "QTabBar::tab:selected {  \n"
 "    color: rgb(161, 110, 235);\n"
-"    background-color: rgba(35, 40, 48, 0.9);\n"
+"    background-color: rgba(30, 35, 43, 0.9); \n"
 "    margin-top: 0px;\n"
 "}\n"
 "QTabBar::tab:hover {  \n"
@@ -97,8 +96,8 @@ class Ui_GeneralsSelectionDialog(object):
 "\n"
 "\n"
 "\n"
-"/* ///////////////////////////////////////////"
-                        "//////////////////////////////////////////////////////\n"
+"/* ////////////////////////////////////////////////////////////////////////////////////////////"
+                        "/////\n"
 "Tooltip */\n"
 "QToolTip {\n"
 "	color: #ffffff;\n"
@@ -135,10 +134,10 @@ class Ui_GeneralsSelectionDialog(object):
 "}\n"
 "QScrollBar::add-line:horizontal {\n"
 "    border: none;\n"
-"    background"
-                        ": rgb(55, 63, 77);\n"
+"    background: rgb(55, 63, 77);\n"
 "    width: 20px;\n"
-"	border-top-right-radius: 4px;\n"
+"	bord"
+                        "er-top-right-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
 "    subcontrol-position: right;\n"
 "    subcontrol-origin: margin;\n"
@@ -173,10 +172,10 @@ class Ui_GeneralsSelectionDialog(object):
 "	border-radius: 4px\n"
 " }\n"
 " QScrollBar::add-line:vertical {\n"
-"     bord"
-                        "er: none;\n"
+"     border: none;\n"
 "    background: rgb(55, 63, 77);\n"
-"     height: 20px;\n"
+""
+                        "     height: 20px;\n"
 "	border-bottom-left-radius: 4px;\n"
 "    border-bottom-right-radius: 4px;\n"
 "     subcontrol-position: bottom;\n"
@@ -209,10 +208,10 @@ class Ui_GeneralsSelectionDialog(object):
 "	padding-left: 10px;\n"
 "}\n"
 "QComboBox:hover{\n"
-""
-                        "	border: 2px solid rgb(64, 71, 88);\n"
+"	border: 2px solid rgb(64, 71, 88);\n"
 "}\n"
-"QComboBox::drop-down {\n"
+"QCo"
+                        "mboBox::drop-down {\n"
 "	subcontrol-origin: padding;\n"
 "	subcontrol-position: top right;\n"
 "	width: 25px; \n"
@@ -258,48 +257,49 @@ class Ui_GeneralsSelectionDialog(object):
         self.groupBox.setObjectName(u"groupBox")
         self.horizontalLayout_8 = QHBoxLayout(self.groupBox)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.frame_11 = QFrame(self.groupBox)
-        self.frame_11.setObjectName(u"frame_11")
-        self.frame_11.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_6 = QHBoxLayout(self.frame_11)
+        self.manage_preset_frame = QFrame(self.groupBox)
+        self.manage_preset_frame.setObjectName(u"manage_preset_frame")
+        self.manage_preset_frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.manage_preset_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_6 = QHBoxLayout(self.manage_preset_frame)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
-        self.comboBox_2 = QComboBox(self.frame_11)
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setMinimumSize(QSize(180, 40))
+        self.preset_combobox = QComboBox(self.manage_preset_frame)
+        self.preset_combobox.addItem("")
+        self.preset_combobox.setObjectName(u"preset_combobox")
+        self.preset_combobox.setMinimumSize(QSize(180, 40))
 
-        self.horizontalLayout_6.addWidget(self.comboBox_2)
+        self.horizontalLayout_6.addWidget(self.preset_combobox)
 
-        self.pushButton = QPushButton(self.frame_11)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(40, 40))
-        self.pushButton.setMaximumSize(QSize(40, 40))
+        self.edit_btn = QPushButton(self.manage_preset_frame)
+        self.edit_btn.setObjectName(u"edit_btn")
+        self.edit_btn.setMinimumSize(QSize(40, 40))
+        self.edit_btn.setMaximumSize(QSize(40, 40))
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.MailMessageNew))
-        self.pushButton.setIcon(icon)
+        self.edit_btn.setIcon(icon)
 
-        self.horizontalLayout_6.addWidget(self.pushButton)
+        self.horizontalLayout_6.addWidget(self.edit_btn)
 
-        self.pushButton_3 = QPushButton(self.frame_11)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(40, 40))
-        self.pushButton_3.setMaximumSize(QSize(40, 40))
+        self.delete_btn = QPushButton(self.manage_preset_frame)
+        self.delete_btn.setObjectName(u"delete_btn")
+        self.delete_btn.setMinimumSize(QSize(40, 40))
+        self.delete_btn.setMaximumSize(QSize(40, 40))
         icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
-        self.pushButton_3.setIcon(icon1)
+        self.delete_btn.setIcon(icon1)
 
-        self.horizontalLayout_6.addWidget(self.pushButton_3)
+        self.horizontalLayout_6.addWidget(self.delete_btn)
 
-        self.pushButton_4 = QPushButton(self.frame_11)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setMinimumSize(QSize(40, 40))
-        self.pushButton_4.setMaximumSize(QSize(40, 40))
+        self.add_btn = QPushButton(self.manage_preset_frame)
+        self.add_btn.setObjectName(u"add_btn")
+        self.add_btn.setMinimumSize(QSize(40, 40))
+        self.add_btn.setMaximumSize(QSize(40, 40))
         icon2 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.ListAdd))
-        self.pushButton_4.setIcon(icon2)
+        self.add_btn.setIcon(icon2)
 
-        self.horizontalLayout_6.addWidget(self.pushButton_4)
+        self.horizontalLayout_6.addWidget(self.add_btn)
 
 
-        self.horizontalLayout_8.addWidget(self.frame_11, 0, Qt.AlignmentFlag.AlignLeft)
+        self.horizontalLayout_8.addWidget(self.manage_preset_frame, 0, Qt.AlignmentFlag.AlignLeft)
 
         self.frame_12 = QFrame(self.groupBox)
         self.frame_12.setObjectName(u"frame_12")
@@ -308,14 +308,14 @@ class Ui_GeneralsSelectionDialog(object):
         self.horizontalLayout_9 = QHBoxLayout(self.frame_12)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.pushButton_2 = QPushButton(self.frame_12)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMinimumSize(QSize(130, 40))
-        self.pushButton_2.setMaximumSize(QSize(16777215, 40))
+        self.save_btn = QPushButton(self.frame_12)
+        self.save_btn.setObjectName(u"save_btn")
+        self.save_btn.setMinimumSize(QSize(130, 40))
+        self.save_btn.setMaximumSize(QSize(16777215, 40))
         icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
-        self.pushButton_2.setIcon(icon3)
+        self.save_btn.setIcon(icon3)
 
-        self.horizontalLayout_9.addWidget(self.pushButton_2)
+        self.horizontalLayout_9.addWidget(self.save_btn)
 
 
         self.horizontalLayout_8.addWidget(self.frame_12, 0, Qt.AlignmentFlag.AlignRight)
@@ -669,11 +669,13 @@ class Ui_GeneralsSelectionDialog(object):
     def retranslateUi(self, GeneralsSelectionDialog):
         GeneralsSelectionDialog.setWindowTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage General Presets", None))
         self.groupBox.setTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage Preset", None))
-        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Preset", None))
-        self.pushButton.setText("")
-        self.pushButton_3.setText("")
-        self.pushButton_4.setText("")
-        self.pushButton_2.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"  Save Preset", None))
+        self.preset_combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Default", None))
+
+        self.preset_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Preset", None))
+        self.edit_btn.setText("")
+        self.delete_btn.setText("")
+        self.add_btn.setText("")
+        self.save_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"  Save Preset", None))
         self.label_2.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"All Generals", None))
         self.all_generals_main.setProperty(u"item_info", "")
         self.label_3.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals (Main Generals)", None))

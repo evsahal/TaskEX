@@ -72,8 +72,7 @@ def open_manage_general_presets_dialog(main_window):
     general_selection_dialog = GeneralsSelectionDialog(main_window)
     session = get_session()
     all_generals = General.get_all_valid_general_names(session)
-    for gen in all_generals:
-        print(gen)
+
     general_selection_dialog.all_generals_main.addItems(all_generals)
     general_selection_dialog.show()
 
