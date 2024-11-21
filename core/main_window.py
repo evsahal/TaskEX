@@ -3,6 +3,8 @@ import os
 from PySide6.QtCore import Qt, QTimer, Signal
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame, QApplication
+from requests import session
+from sqlalchemy.exc import NoResultFound
 
 from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
 from core.app_settings import Settings
@@ -11,7 +13,8 @@ from core.instance_manager import setup_port_display_table, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from db.db_setup import init_db, get_session
-from db.models import MonsterCategory, MonsterLogic, MonsterImage, BossMonster, MonsterLevel
+from db.models import MonsterCategory, MonsterLogic, MonsterImage, BossMonster, MonsterLevel, GeneralPreset, General
+from db.models.general_preset import GeneralCategory, GeneralView, PresetGeneralAssignment
 from features.ui.join_rally_ui import load_join_rally_ui
 from gui.controllers.bm_blackmarket_controller import init_bm_blackmarket_ui
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
@@ -59,6 +62,28 @@ class MainWindow(QMainWindow):
     def load_configurations(self):
         # Initialize the database and create tables
         init_db()
+        session = get_session()
+        # Fetch the general by ID
+        general_1 = session.query(General).filter(General.id == 30).one()
+        general_2 = session.query(General).filter(General.id == 32).one()
+
+        preset = GeneralPreset(
+            name="Military Preset 2",
+            general_category=GeneralCategory.military,
+            general_view=GeneralView.details,
+            general_filter="favorite,idle",
+            swipe_attempts=3
+        )
+        session.add(preset)
+        session.commit()
+
+        # Assuming you have a preset and general object
+        assignment1 = PresetGeneralAssignment(preset_id=preset.id, general_id=general_1.id, is_main_general=True)
+        assignment2 = PresetGeneralAssignment(preset_id=preset.id, general_id=general_2.id, is_main_general=False)
+
+        session.add_all([assignment1, assignment2])
+        session.commit()
+
 
 
     def load_ui_settings(self):

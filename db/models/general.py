@@ -1,6 +1,7 @@
 import enum
 
 from sqlalchemy import Column, Integer, String, Enum, Float
+from sqlalchemy.orm import relationship
 
 from db.db_setup import Base
 
@@ -27,6 +28,13 @@ class General(Base):
     image_resolution = Column(Enum(ImageResolution), nullable=False, default=ImageResolution.p540)  # Default to 540p
     type = Column(Enum(GeneralType), nullable=False)
     scale = Column(Float, nullable=True)
+
+    # Relationship with PresetGeneralAssignment
+    assigned_presets = relationship(
+        "PresetGeneralAssignment",
+        cascade="all, delete",
+        back_populates="general",
+    )
 
     def __repr__(self):
         return f"<General(id={self.id},name={self.name}, type={self.type.value}, resolution={self.image_resolution.value}, details_image={self.details_image_name},list_image={self.list_image_name},scale={self.scale})>"
