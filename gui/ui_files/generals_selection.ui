@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>695</width>
+    <width>705</width>
     <height>760</height>
    </rect>
   </property>
@@ -291,11 +291,6 @@ QGroupBox::title { color: rgb(161, 110, 235); }
                  <property name="placeholderText">
                   <string>Select Preset</string>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>Default</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
                <item>
@@ -928,7 +923,7 @@ color: rgb(161, 110, 235);</string>
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="view__combobox">
+                <widget class="QComboBox" name="view_combobox">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -970,7 +965,7 @@ color: rgb(161, 110, 235);</string>
                 </widget>
                </item>
                <item>
-                <widget class="QCheckComboBox" name="comboBox">
+                <widget class="QCheckComboBox" name="filter_combobox">
                  <property name="minimumSize">
                   <size>
                    <width>130</width>

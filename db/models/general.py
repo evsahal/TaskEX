@@ -55,14 +55,3 @@ class General(Base):
             query = query.filter(cls.type == general_type)  # Filter by specific type if provided
 
         return query.all()
-
-    @classmethod
-    def get_all_valid_general_names(cls, session):
-        """
-        Find all generals where the scale field is not null.
-
-        :param session: The SQLAlchemy session to use for the query.
-        :return: A list of General objects with a non-null scale.
-        """
-        results = session.query(cls.name).filter(cls.scale.isnot(None)).all()
-        return [name[0] for name in results]  # Extract the name from each tuple

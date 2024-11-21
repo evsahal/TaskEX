@@ -28,7 +28,7 @@ class Ui_GeneralsSelectionDialog(object):
         if not GeneralsSelectionDialog.objectName():
             GeneralsSelectionDialog.setObjectName(u"GeneralsSelectionDialog")
         GeneralsSelectionDialog.setWindowModality(Qt.WindowModality.ApplicationModal)
-        GeneralsSelectionDialog.resize(695, 760)
+        GeneralsSelectionDialog.resize(705, 760)
         GeneralsSelectionDialog.setStyleSheet(u"QDialog{\n"
 "background-color: rgba(40, 44, 52, 0.9);\n"
 "}\n"
@@ -265,7 +265,6 @@ class Ui_GeneralsSelectionDialog(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.preset_combobox = QComboBox(self.manage_preset_frame)
-        self.preset_combobox.addItem("")
         self.preset_combobox.setObjectName(u"preset_combobox")
         self.preset_combobox.setMinimumSize(QSize(180, 40))
 
@@ -570,13 +569,13 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.verticalLayout_11.addWidget(self.label_7)
 
-        self.view__combobox = QComboBox(self.widget_4)
-        self.view__combobox.addItem("")
-        self.view__combobox.addItem("")
-        self.view__combobox.setObjectName(u"view__combobox")
-        self.view__combobox.setMinimumSize(QSize(0, 40))
+        self.view_combobox = QComboBox(self.widget_4)
+        self.view_combobox.addItem("")
+        self.view_combobox.addItem("")
+        self.view_combobox.setObjectName(u"view_combobox")
+        self.view_combobox.setMinimumSize(QSize(0, 40))
 
-        self.verticalLayout_11.addWidget(self.view__combobox)
+        self.verticalLayout_11.addWidget(self.view_combobox)
 
 
         self.horizontalLayout_5.addWidget(self.widget_4)
@@ -591,13 +590,13 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.verticalLayout_12.addWidget(self.label_8)
 
-        self.comboBox = QCheckComboBox(self.general_filter_widget)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMinimumSize(QSize(130, 40))
+        self.filter_combobox = QCheckComboBox(self.general_filter_widget)
+        self.filter_combobox.addItem("")
+        self.filter_combobox.addItem("")
+        self.filter_combobox.setObjectName(u"filter_combobox")
+        self.filter_combobox.setMinimumSize(QSize(130, 40))
 
-        self.verticalLayout_12.addWidget(self.comboBox)
+        self.verticalLayout_12.addWidget(self.filter_combobox)
 
 
         self.horizontalLayout_5.addWidget(self.general_filter_widget)
@@ -660,7 +659,7 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.tabWidget.setCurrentIndex(0)
         self.category_combobox.setCurrentIndex(0)
-        self.comboBox.setCurrentIndex(-1)
+        self.filter_combobox.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(GeneralsSelectionDialog)
@@ -669,8 +668,6 @@ class Ui_GeneralsSelectionDialog(object):
     def retranslateUi(self, GeneralsSelectionDialog):
         GeneralsSelectionDialog.setWindowTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage General Presets", None))
         self.groupBox.setTitle(QCoreApplication.translate("GeneralsSelectionDialog", u"Manage Preset", None))
-        self.preset_combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Default", None))
-
         self.preset_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Preset", None))
         self.edit_btn.setText("")
         self.delete_btn.setText("")
@@ -696,15 +693,15 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.category_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select Category", None))
         self.label_7.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"General View", None))
-        self.view__combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Details View", None))
-        self.view__combobox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"List View", None))
+        self.view_combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Details View", None))
+        self.view_combobox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"List View", None))
 
-        self.view__combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select View", None))
+        self.view_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"Select View", None))
         self.label_8.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"General Filter", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Favorite", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"Idle", None))
+        self.filter_combobox.setItemText(0, QCoreApplication.translate("GeneralsSelectionDialog", u"Favorite", None))
+        self.filter_combobox.setItemText(1, QCoreApplication.translate("GeneralsSelectionDialog", u"Idle", None))
 
-        self.comboBox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"None", None))
+        self.filter_combobox.setPlaceholderText(QCoreApplication.translate("GeneralsSelectionDialog", u"None", None))
         self.label_6.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Swipe Attempts", None))
         self.swipe_attempts_spinbox.setSuffix(QCoreApplication.translate("GeneralsSelectionDialog", u" Times", None))
         self.exit_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Exit", None))

@@ -1,22 +1,147 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout
+from requests import session
 
+from db.db_setup import get_session
+from db.models import GeneralPreset, General, PresetGeneralAssignment
 from gui.generated.generals_selection import Ui_GeneralsSelectionDialog
 
 
 class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
     def __init__(self, parent):
         super(GeneralsSelectionDialog, self).__init__(parent)
-
         self.setupUi(self)
+
+        self.preset_id = None
+        self.all_generals = None
+
+        self.load_presets()
         self.connect_preset_buttons()
+        # Fetch generals from the database
+        self.load_all_generals()
+
+        self.populate_generals_widgets()
+
+    def load_all_generals(self):
+        session = get_session()
+        self.all_generals = session.query(General).filter(General.scale.isnot(None)).all()
+
+    def populate_generals_widgets(self):
+        """
+        Populate the list widgets for both main and assistant generals.
+        """
+        # Clear existing items
+        self.all_generals_main.clear()
+        self.selected_generals_main.clear()
+        self.all_generals_assistant.clear()
+        self.selected_generals_assistant.clear()
+
+        session = get_session()
+
+        # Query for all selected generals (both main and assistant) for the given preset_id
+        selected_generals = session.query(General.name, PresetGeneralAssignment.is_main_general).join(
+            PresetGeneralAssignment).filter(
+            PresetGeneralAssignment.preset_id == self.preset_id
+        ).all()
+
+        # Separate the selected generals into main and assistant
+        selected_generals_main_names = [general.name for general in selected_generals if general.is_main_general]
+        selected_generals_assistant_names = [general.name for general in selected_generals if
+                                             not general.is_main_general]
+
+        # Iterate through all generals and populate the widgets
+        for general in self.all_generals:
+            if general.name in selected_generals_main_names:
+                self.selected_generals_main.addItem(general.name)
+            else:
+                self.all_generals_main.addItem(general.name)
+
+            if general.name in selected_generals_assistant_names:
+                self.selected_generals_assistant.addItem(general.name)
+            else:
+                self.all_generals_assistant.addItem(general.name)
+
+        session.close()
 
     def connect_preset_buttons(self):
         # Initialize event connections
         self.edit_btn.clicked.connect(self.enable_edit_mode)
         self.delete_btn.clicked.connect(self.delete_preset)
         self.add_btn.clicked.connect(self.add_new_preset)
+        self.preset_combobox.currentIndexChanged.connect(self.on_preset_changed)
+
+
+
+    def load_presets(self):
+        """
+        Load all presets from the database and populate the combo box.
+        """
+
+        session = get_session()
+
+        # Query for all GeneralPresets
+        presets = session.query(GeneralPreset).all()
+
+        # Populate the combo box with preset names
+        for preset in presets:
+            self.preset_combobox.addItem(preset.name)
+
+        # After populating, select the default option based on self.preset_id
+        if self.preset_id is None:
+            # If preset_id is None, select the first item (index 0)
+            self.preset_combobox.setCurrentIndex(0)
+            # Set self.preset_id to the ID of the first preset
+            self.preset_id = presets[0].id
+        else:
+            # If preset_id is not None, find the preset by ID and select it
+            for index, preset in enumerate(presets):
+                if preset.id == self.preset_id:
+                    self.preset_combobox.setCurrentIndex(index)
+                    break
+
+
+        session.close()
+
+    def on_preset_changed(self):
+        """
+        Handle the event when the preset is changed.
+        Update the UI with settings based on the selected preset.
+        """
+        # Get the selected preset name
+        selected_preset_name = self.preset_combobox.currentText()
+
+        session = get_session()
+
+        # Fetch the preset object based on the selected name
+        selected_preset = session.query(GeneralPreset).filter_by(name=selected_preset_name).first()
+
+        if selected_preset:
+            self.preset_id = selected_preset.id
+            # Set category_combobox value
+            self.category_combobox.setCurrentText(selected_preset.general_category.value)
+
+            # Set view_combobox value
+            self.view_combobox.setCurrentText(selected_preset.general_view.value)
+
+            # Set filter_combobox value (custom combobox with checkboxes)
+            filter_values = selected_preset.general_filter.split(",") if selected_preset.general_filter else []
+            for index in range(self.filter_combobox.count()):
+                item_text = self.filter_combobox.itemText(index)
+                if item_text.lower() in filter_values:
+                    self.filter_combobox.setItemCheckState(index, Qt.Checked)
+                else:
+                    self.filter_combobox.setItemCheckState(index, Qt.Unchecked)
+            # Ensure the placeholder text is updated with the selected items by repainting the widget
+            self.filter_combobox.repaint()
+
+            # Set swipe_attempts_spinbox value
+            self.swipe_attempts_spinbox.setValue(selected_preset.swipe_attempts)
+
+            # Update the general list widgets
+            self.populate_generals_widgets()
+
+        session.close()
 
     def add_new_preset(self):
         """

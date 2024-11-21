@@ -64,11 +64,11 @@ class MainWindow(QMainWindow):
         init_db()
         # session = get_session()
         # # Fetch the general by ID
-        # general_1 = session.query(General).filter(General.id == 32).one()
-        # general_2 = session.query(General).filter(General.id == 30).one()
+        # general_1 = session.query(General).filter(General.id == 19).one()
+        # general_2 = session.query(General).filter(General.id == 20).one()
         #
         # preset = GeneralPreset(
-        #     name="Military Preset",
+        #     name="Farming Preset",
         #     general_category=GeneralCategory.military,
         #     general_view=GeneralView.list_view,
         #     general_filter="favorite,idle",
