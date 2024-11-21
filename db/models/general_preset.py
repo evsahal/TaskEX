@@ -17,7 +17,7 @@ class GeneralCategory(enum.Enum):
 
 # Enum for GeneralPreset Views
 class GeneralView(enum.Enum):
-    details = "Details View"
+    details_view = "Details View"
     list_view = "List View"
 
 
@@ -33,10 +33,10 @@ class GeneralPreset(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True)
-    general_category = Column(Enum(GeneralCategory), nullable=False)
-    general_view = Column(Enum(GeneralView), nullable=False)
-    general_filter = Column(String, nullable=True)  # Comma-separated or JSON
-    swipe_attempts = Column(Integer, nullable=False, default=0)
+    general_category = Column(Enum(GeneralCategory), nullable=False, default=GeneralCategory.all)
+    general_view = Column(Enum(GeneralView), nullable=False,default=GeneralView.details_view)
+    general_filter = Column(String, nullable=True,default=None)  # Comma-separated or JSON
+    swipe_attempts = Column(Integer, nullable=False, default=5)
 
     # Relationship with PresetGeneralAssignment
     assigned_generals = relationship(
