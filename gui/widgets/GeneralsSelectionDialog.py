@@ -529,4 +529,3 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
 
         finally:
             session.close()
-            # Test
