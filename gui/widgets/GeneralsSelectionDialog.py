@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout, QMessageBox
 from requests import session
 
 from db.db_setup import get_session
@@ -70,6 +70,7 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         self.delete_btn.clicked.connect(self.delete_preset)
         self.add_btn.clicked.connect(self.add_new_preset)
         self.preset_combobox.currentIndexChanged.connect(self.on_preset_changed)
+        self.exit_btn.clicked.connect(lambda: self.close())
 
 
 
@@ -199,11 +200,34 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         """
         Save the new preset entered by the user.
         """
-        new_name = preset_line_edit.text()
+        new_name = preset_line_edit.text().strip()
 
-        if new_name.strip():  # Add only if the name is not empty
-            self.preset_combobox.addItem(new_name)
-            self.preset_combobox.setCurrentIndex(self.preset_combobox.count() - 1)
+        if not new_name:  # Check if the name is empty
+            QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
+            return
+
+        session = get_session()
+
+        # Check if the preset name already exists in the database
+        existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
+        if existing_preset:
+            QMessageBox.warning(self, "Error", "A preset with this name already exists.")
+            session.close()
+            return
+
+        # Create a new preset entry in the database
+        new_preset = GeneralPreset(name=new_name)
+        session.add(new_preset)
+        session.commit()
+
+        # Add the new preset to the combo box and select it
+        self.preset_combobox.addItem(new_name)
+        self.preset_combobox.setCurrentIndex(self.preset_combobox.count() - 1)
+
+        # Set the current preset ID to the newly created preset's ID
+        self.preset_id = new_preset.id
+
+        session.close()
 
         # Clean up and show the original UI
         self.remove_preset_edit_widgets()
@@ -264,16 +288,52 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         setattr(self, save_button.objectName(), save_button)
         setattr(self, cancel_button.objectName(), cancel_button)
 
-
     def save_preset_name(self, preset_line_edit):
         """
         Save the edited preset name.
         """
-        new_name = preset_line_edit.text()
+        new_name = preset_line_edit.text().strip()
+
+        if not new_name:  # Check if the name is empty
+            QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
+            return
+
+        # Get the current preset from the combo box
+        current_index = self.preset_combobox.currentIndex()
+        current_name = self.preset_combobox.itemText(current_index)
+
+        # Skip validation if the name hasn't changed
+        if new_name == current_name:
+            self.remove_preset_edit_widgets()
+            self.preset_combobox.show()
+            self.edit_btn.show()
+            self.delete_btn.show()
+            self.add_btn.show()
+            return
+
+        session = get_session()
+
+        # Check if a preset with the new name already exists in the database
+        existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
+        if existing_preset:
+            QMessageBox.warning(self, "Error", "A preset with this name already exists.")
+            session.close()
+            return
+
+        # Fetch the current preset from the database
+        selected_preset = session.query(GeneralPreset).filter_by(name=current_name).first()
+
+        # Update the preset name in the database
+        selected_preset.name = new_name
+        session.commit()
 
         # Update combo box with the new name
-        current_index = self.preset_combobox.currentIndex()
         self.preset_combobox.setItemText(current_index, new_name)
+
+        # Update the current preset ID
+        self.preset_id = selected_preset.id
+
+        session.close()
 
         # Clean up edit mode
         self.remove_preset_edit_widgets()
@@ -318,9 +378,62 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
 
     def delete_preset(self):
         """
-        Delete the currently selected preset from the combo box.
+        Delete the currently selected preset from the combo box and the database.
         """
         current_index = self.preset_combobox.currentIndex()
 
-        if current_index != -1:
+        # Ensure a preset is selected
+        if current_index == -1:
+            QMessageBox.warning(self, "Error", "No preset selected to delete.")
+            return
+
+        # Ensure there's more than one preset in the combo box
+        if self.preset_combobox.count() == 1:
+            QMessageBox.warning(self, "Error", "At least one preset must remain. Cannot delete the last preset.")
+            return
+
+        # Get the current preset name
+        preset_name = self.preset_combobox.itemText(current_index)
+
+        # Show confirmation dialog
+        confirm = QMessageBox.question(
+            self,
+            "Delete Preset",
+            f"Are you sure you want to delete the preset '{preset_name}'?",
+            QMessageBox.Yes | QMessageBox.No,
+        )
+
+        if confirm != QMessageBox.Yes:
+            return  # User chose not to delete
+
+        session = get_session()
+
+        try:
+            # Fetch the preset from the database
+            preset = session.query(GeneralPreset).filter_by(name=preset_name).first()
+
+            if not preset:
+                QMessageBox.warning(self, "Error", "Selected preset not found in the database.")
+                return
+
+            # Delete the preset (related rows in PresetGeneralAssignment are removed automatically)
+            session.delete(preset)
+            session.commit()
+
+            # Remove the preset from the combo box
             self.preset_combobox.removeItem(current_index)
+
+            # Update the preset_id with the newly selected preset
+            new_selected_name = self.preset_combobox.currentText()  # Get the name of the newly selected preset
+            new_selected_preset = session.query(GeneralPreset).filter_by(name=new_selected_name).first()
+
+            if new_selected_preset:
+                self.preset_id = new_selected_preset.id
+
+
+        except Exception as e:
+            session.rollback()
+            QMessageBox.critical(self, "Error", f"An error occurred while deleting the preset: {str(e)}")
+
+        finally:
+            session.close()
