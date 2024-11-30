@@ -62,28 +62,6 @@ class MainWindow(QMainWindow):
     def load_configurations(self):
         # Initialize the database and create tables
         init_db()
-        # session = get_session()
-        # # Fetch the general by ID
-        # general_1 = session.query(General).filter(General.id == 19).one()
-        # general_2 = session.query(General).filter(General.id == 20).one()
-        #
-        # preset = GeneralPreset(
-        #     name="Farming Preset",
-        #     general_category=GeneralCategory.military,
-        #     general_view=GeneralView.list_view,
-        #     general_filter="favorite,idle",
-        #     swipe_attempts=7
-        # )
-        # session.add(preset)
-        # session.commit()
-        #
-        # # Assuming you have a preset and general object
-        # assignment1 = PresetGeneralAssignment(preset_id=preset.id, general_id=general_1.id, is_main_general=True)
-        # assignment2 = PresetGeneralAssignment(preset_id=preset.id, general_id=general_2.id, is_main_general=False)
-        #
-        # session.add_all([assignment1, assignment2])
-        # session.commit()
-
 
 
     def load_ui_settings(self):

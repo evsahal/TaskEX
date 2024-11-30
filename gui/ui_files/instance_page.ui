@@ -427,7 +427,7 @@ QPushButton:pressed {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="run_tab_">
       <attribute name="title">

@@ -1148,7 +1148,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.comboBox_2.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 

@@ -17,11 +17,11 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         self.preset_id = preset_id
         self.all_generals = None
 
-        self.load_presets()
+
         self.connect_preset_buttons()
         # Fetch generals from the database
         self.load_all_generals()
-
+        self.load_presets()
         self.populate_generals_widgets()
 
     def load_all_generals(self):

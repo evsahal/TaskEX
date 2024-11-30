@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
-    <height>731</height>
+    <width>637</width>
+    <height>809</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -406,37 +406,191 @@ QGroupBox::title { color: rgb(161, 110, 235); }
   <property name="modal">
    <bool>false</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <item alignment="Qt::AlignmentFlag::AlignTop">
     <widget class="QWidget" name="widget_2" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_12">
-      <property name="bottomMargin">
+     <layout class="QVBoxLayout" name="verticalLayout_11">
+      <property name="topMargin">
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="widget_3" native="true">
-        <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0">
+       <widget class="QGroupBox" name="general_preset_groupBox">
+        <property name="styleSheet">
+         <string notr="true">#general_preset_groupBox { 
+	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; 
+}
+</string>
+        </property>
+        <property name="title">
+         <string> General Configuration</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
          <property name="leftMargin">
-          <number>0</number>
+          <number>11</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
+          <number>5</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>5</number>
          </property>
          <item>
-          <widget class="QLabel" name="label_10">
-           <property name="styleSheet">
-            <string notr="true">font: 700 18pt &quot;Segoe UI&quot;;
-color: rgb(161, 110, 235);</string>
+          <widget class="QFrame" name="frame_2">
+           <property name="frameShape">
+            <enum>QFrame::Shape::NoFrame</enum>
            </property>
-           <property name="text">
-            <string>Set up Presets</string>
+           <property name="frameShadow">
+            <enum>QFrame::Shadow::Raised</enum>
            </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,3">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="frame_3">
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QFrame" name="frame">
+                 <property name="frameShape">
+                  <enum>QFrame::Shape::NoFrame</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Shadow::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>2</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QFrame" name="frame_5">
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::NoFrame</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Raised</enum>
+                    </property>
+                    <layout class="QHBoxLayout" name="horizontalLayout_4">
+                     <property name="leftMargin">
+                      <number>3</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>5</number>
+                     </property>
+                     <item>
+                      <widget class="QLabel" name="label_11">
+                       <property name="styleSheet">
+                        <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+                       </property>
+                       <property name="text">
+                        <string>Select a General Preset</string>
+                       </property>
+                       <property name="margin">
+                        <number>0</number>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignmentFlag::AlignRight">
+                   <widget class="QPushButton" name="general_presets_btn">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>25</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>25</width>
+                      <height>25</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset theme="QIcon::ThemeIcon::DocumentProperties"/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="general_preset_combobox">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_4">
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="topMargin">
+                <number>30</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+              </layout>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -451,11 +605,14 @@ color: rgb(161, 110, 235);</string>
       <property name="topMargin">
        <number>0</number>
       </property>
+      <property name="spacing">
+       <number>11</number>
+      </property>
       <item row="2" column="0">
        <widget class="QFrame" name="preset_frame_5">
         <property name="styleSheet">
          <string notr="true">#preset_frame_5 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -500,7 +657,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_5_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -514,7 +671,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_8">
         <property name="styleSheet">
          <string notr="true">#preset_frame_8 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -559,7 +716,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_8_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -573,7 +730,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_1">
         <property name="styleSheet">
          <string notr="true">#preset_frame_1 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid   rgb(29, 33, 38); border-radius: 5px; 
 }
 </string>
         </property>
@@ -618,7 +775,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_1_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -632,7 +789,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_4">
         <property name="styleSheet">
          <string notr="true">#preset_frame_4 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -677,7 +834,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_4_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -691,7 +848,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_6">
         <property name="styleSheet">
          <string notr="true">#preset_frame_6 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -736,7 +893,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_6_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -750,7 +907,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_3">
         <property name="styleSheet">
          <string notr="true">#preset_frame_3 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -795,7 +952,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_3_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -809,7 +966,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_7">
         <property name="styleSheet">
          <string notr="true">#preset_frame_7 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -854,7 +1011,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_7_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -868,7 +1025,7 @@ color: rgb(161, 110, 235);</string>
        <widget class="QFrame" name="preset_frame_2">
         <property name="styleSheet">
          <string notr="true">#preset_frame_2 { 
-	border: 1px solid  rgb(29, 33, 38); 
+	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; 
 }
 </string>
         </property>
@@ -913,7 +1070,7 @@ color: rgb(161, 110, 235);</string>
          <item>
           <widget class="QCheckBox" name="preset_2_option_3">
            <property name="text">
-            <string>Reset to One Troop(Top Tier) </string>
+            <string>Reset to One Troop</string>
            </property>
            <property name="id" stdset="0">
             <number>0</number>
@@ -926,25 +1083,6 @@ color: rgb(161, 110, 235);</string>
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::Shape::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Shadow::Raised</enum>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_6">
-      <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>The Preset Configuration is bound to the instance you are currently on.</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item alignment="Qt::AlignmentFlag::AlignRight">
     <widget class="QWidget" name="widget_4" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
@@ -952,8 +1090,8 @@ color: rgb(161, 110, 235);</string>
        <widget class="QPushButton" name="cancel_preset_config">
         <property name="minimumSize">
          <size>
-          <width>85</width>
-          <height>30</height>
+          <width>100</width>
+          <height>40</height>
          </size>
         </property>
         <property name="text">
@@ -971,12 +1109,12 @@ color: rgb(161, 110, 235);</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>85</width>
-          <height>30</height>
+          <width>130</width>
+          <height>40</height>
          </size>
         </property>
         <property name="text">
-         <string>Save</string>
+         <string>Save to Profile</string>
         </property>
        </widget>
       </item>

@@ -29,6 +29,7 @@ class Ui_GeneralsSelectionDialog(object):
             GeneralsSelectionDialog.setObjectName(u"GeneralsSelectionDialog")
         GeneralsSelectionDialog.setWindowModality(Qt.WindowModality.ApplicationModal)
         GeneralsSelectionDialog.resize(705, 760)
+        GeneralsSelectionDialog.setMinimumSize(QSize(705, 760))
         GeneralsSelectionDialog.setStyleSheet(u"QDialog{\n"
 "background-color: rgba(40, 44, 52, 0.9);\n"
 "}\n"

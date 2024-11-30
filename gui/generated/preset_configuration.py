@@ -15,15 +15,16 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QPushButton,
-    QSizePolicy, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog,
+    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
+    QLabel, QPushButton, QSizePolicy, QVBoxLayout,
+    QWidget)
 
 class Ui_PresetConfigDialog(object):
     def setupUi(self, PresetConfigDialog):
         if not PresetConfigDialog.objectName():
             PresetConfigDialog.setObjectName(u"PresetConfigDialog")
-        PresetConfigDialog.resize(603, 731)
+        PresetConfigDialog.resize(637, 809)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -424,23 +425,100 @@ class Ui_PresetConfigDialog(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.widget_2 = QWidget(PresetConfigDialog)
         self.widget_2.setObjectName(u"widget_2")
-        self.verticalLayout_12 = QVBoxLayout(self.widget_2)
-        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.verticalLayout_12.setContentsMargins(-1, -1, -1, 0)
-        self.widget_3 = QWidget(self.widget_2)
-        self.widget_3.setObjectName(u"widget_3")
-        self.verticalLayout_11 = QVBoxLayout(self.widget_3)
+        self.verticalLayout_11 = QVBoxLayout(self.widget_2)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.label_10 = QLabel(self.widget_3)
-        self.label_10.setObjectName(u"label_10")
-        self.label_10.setStyleSheet(u"font: 700 18pt \"Segoe UI\";\n"
-"color: rgb(161, 110, 235);")
+        self.verticalLayout_11.setContentsMargins(-1, 0, -1, -1)
+        self.general_preset_groupBox = QGroupBox(self.widget_2)
+        self.general_preset_groupBox.setObjectName(u"general_preset_groupBox")
+        self.general_preset_groupBox.setStyleSheet(u"#general_preset_groupBox { \n"
+"	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; \n"
+"}\n"
+"")
+        self.horizontalLayout_6 = QHBoxLayout(self.general_preset_groupBox)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalLayout_6.setContentsMargins(11, 5, -1, 5)
+        self.frame_2 = QFrame(self.general_preset_groupBox)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.frame_3 = QFrame(self.frame_2)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_6 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_6.setSpacing(0)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, -1, -1, -1)
+        self.frame = QFrame(self.frame_3)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 2, 0)
+        self.frame_5 = QFrame(self.frame)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(3, 0, 0, 5)
+        self.label_11 = QLabel(self.frame_5)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setStyleSheet(u"font: 10pt \"Segoe UI\";")
+        self.label_11.setMargin(0)
 
-        self.verticalLayout_11.addWidget(self.label_10)
+        self.horizontalLayout_4.addWidget(self.label_11)
 
 
-        self.verticalLayout_12.addWidget(self.widget_3)
+        self.horizontalLayout_2.addWidget(self.frame_5)
+
+        self.general_presets_btn = QPushButton(self.frame)
+        self.general_presets_btn.setObjectName(u"general_presets_btn")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.general_presets_btn.sizePolicy().hasHeightForWidth())
+        self.general_presets_btn.setSizePolicy(sizePolicy1)
+        self.general_presets_btn.setMinimumSize(QSize(25, 25))
+        self.general_presets_btn.setMaximumSize(QSize(25, 25))
+        icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
+        self.general_presets_btn.setIcon(icon)
+
+        self.horizontalLayout_2.addWidget(self.general_presets_btn, 0, Qt.AlignmentFlag.AlignRight)
+
+
+        self.verticalLayout_6.addWidget(self.frame)
+
+        self.general_preset_combobox = QComboBox(self.frame_3)
+        self.general_preset_combobox.setObjectName(u"general_preset_combobox")
+        self.general_preset_combobox.setMinimumSize(QSize(100, 40))
+
+        self.verticalLayout_6.addWidget(self.general_preset_combobox)
+
+
+        self.horizontalLayout_3.addWidget(self.frame_3)
+
+        self.frame_4 = QFrame(self.frame_2)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_4)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalLayout_5.setContentsMargins(-1, 30, 0, -1)
+
+        self.horizontalLayout_3.addWidget(self.frame_4)
+
+        self.horizontalLayout_3.setStretch(0, 2)
+        self.horizontalLayout_3.setStretch(1, 3)
+
+        self.horizontalLayout_6.addWidget(self.frame_2)
+
+
+        self.verticalLayout_11.addWidget(self.general_preset_groupBox)
 
 
         self.verticalLayout.addWidget(self.widget_2, 0, Qt.AlignmentFlag.AlignTop)
@@ -448,12 +526,13 @@ class Ui_PresetConfigDialog(object):
         self.preset_frames = QWidget(PresetConfigDialog)
         self.preset_frames.setObjectName(u"preset_frames")
         self.gridLayout = QGridLayout(self.preset_frames)
+        self.gridLayout.setSpacing(11)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(-1, 0, -1, -1)
         self.preset_frame_5 = QFrame(self.preset_frames)
         self.preset_frame_5.setObjectName(u"preset_frame_5")
         self.preset_frame_5.setStyleSheet(u"#preset_frame_5 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_5.setFrameShape(QFrame.Shape.StyledPanel)
@@ -491,7 +570,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_8 = QFrame(self.preset_frames)
         self.preset_frame_8.setObjectName(u"preset_frame_8")
         self.preset_frame_8.setStyleSheet(u"#preset_frame_8 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_8.setFrameShape(QFrame.Shape.StyledPanel)
@@ -529,7 +608,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_1 = QFrame(self.preset_frames)
         self.preset_frame_1.setObjectName(u"preset_frame_1")
         self.preset_frame_1.setStyleSheet(u"#preset_frame_1 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid   rgb(29, 33, 38); border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_1.setFrameShape(QFrame.Shape.StyledPanel)
@@ -567,7 +646,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_4 = QFrame(self.preset_frames)
         self.preset_frame_4.setObjectName(u"preset_frame_4")
         self.preset_frame_4.setStyleSheet(u"#preset_frame_4 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_4.setFrameShape(QFrame.Shape.StyledPanel)
@@ -605,7 +684,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_6 = QFrame(self.preset_frames)
         self.preset_frame_6.setObjectName(u"preset_frame_6")
         self.preset_frame_6.setStyleSheet(u"#preset_frame_6 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_6.setFrameShape(QFrame.Shape.StyledPanel)
@@ -643,7 +722,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_3 = QFrame(self.preset_frames)
         self.preset_frame_3.setObjectName(u"preset_frame_3")
         self.preset_frame_3.setStyleSheet(u"#preset_frame_3 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_3.setFrameShape(QFrame.Shape.StyledPanel)
@@ -681,7 +760,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_7 = QFrame(self.preset_frames)
         self.preset_frame_7.setObjectName(u"preset_frame_7")
         self.preset_frame_7.setStyleSheet(u"#preset_frame_7 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid  rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_7.setFrameShape(QFrame.Shape.StyledPanel)
@@ -719,7 +798,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_frame_2 = QFrame(self.preset_frames)
         self.preset_frame_2.setObjectName(u"preset_frame_2")
         self.preset_frame_2.setStyleSheet(u"#preset_frame_2 { \n"
-"	border: 1px solid  rgb(29, 33, 38); \n"
+"	border: 1px solid rgb(29, 33, 38);  border-radius: 5px; \n"
 "}\n"
 "")
         self.preset_frame_2.setFrameShape(QFrame.Shape.StyledPanel)
@@ -757,38 +836,21 @@ class Ui_PresetConfigDialog(object):
 
         self.verticalLayout.addWidget(self.preset_frames, 0, Qt.AlignmentFlag.AlignTop)
 
-        self.frame = QFrame(PresetConfigDialog)
-        self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_6 = QVBoxLayout(self.frame)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.label_5 = QLabel(self.frame)
-        self.label_5.setObjectName(u"label_5")
-
-        self.verticalLayout_6.addWidget(self.label_5, 0, Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignVCenter)
-
-
-        self.verticalLayout.addWidget(self.frame)
-
         self.widget_4 = QWidget(PresetConfigDialog)
         self.widget_4.setObjectName(u"widget_4")
         self.horizontalLayout = QHBoxLayout(self.widget_4)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.cancel_preset_config = QPushButton(self.widget_4)
         self.cancel_preset_config.setObjectName(u"cancel_preset_config")
-        self.cancel_preset_config.setMinimumSize(QSize(85, 30))
+        self.cancel_preset_config.setMinimumSize(QSize(100, 40))
 
         self.horizontalLayout.addWidget(self.cancel_preset_config, 0, Qt.AlignmentFlag.AlignRight)
 
         self.save_preset_config = QPushButton(self.widget_4)
         self.save_preset_config.setObjectName(u"save_preset_config")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.save_preset_config.sizePolicy().hasHeightForWidth())
         self.save_preset_config.setSizePolicy(sizePolicy1)
-        self.save_preset_config.setMinimumSize(QSize(85, 30))
+        self.save_preset_config.setMinimumSize(QSize(130, 40))
 
         self.horizontalLayout.addWidget(self.save_preset_config, 0, Qt.AlignmentFlag.AlignRight)
 
@@ -803,41 +865,42 @@ class Ui_PresetConfigDialog(object):
 
     def retranslateUi(self, PresetConfigDialog):
         PresetConfigDialog.setWindowTitle(QCoreApplication.translate("PresetConfigDialog", u"Dialog", None))
-        self.label_10.setText(QCoreApplication.translate("PresetConfigDialog", u"Set up Presets", None))
+        self.general_preset_groupBox.setTitle(QCoreApplication.translate("PresetConfigDialog", u" General Configuration", None))
+        self.label_11.setText(QCoreApplication.translate("PresetConfigDialog", u"Select a General Preset", None))
+        self.general_presets_btn.setText("")
         self.label_6.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 5", None))
         self.preset_5_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_5_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_5_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_5_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_9.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 8", None))
         self.preset_8_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_8_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_8_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_8_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 1", None))
         self.preset_1_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_1_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_1_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_1_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_4.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 4", None))
         self.preset_4_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_4_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_4_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_4_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_7.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 6", None))
         self.preset_6_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_6_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_6_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_6_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 3", None))
         self.preset_3_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_3_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_3_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_3_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_8.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 7", None))
         self.preset_7_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_7_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_7_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
+        self.preset_7_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.label_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Preset 2", None))
         self.preset_2_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_2_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
-        self.preset_2_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop(Top Tier) ", None))
-        self.label_5.setText(QCoreApplication.translate("PresetConfigDialog", u"The Preset Configuration is bound to the instance you are currently on.", None))
+        self.preset_2_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
         self.cancel_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Cancel", None))
-        self.save_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Save", None))
+        self.save_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Save to Profile", None))
     # retranslateUi
 
