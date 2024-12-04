@@ -1,5 +1,6 @@
 from tabnanny import check
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QCheckBox, QFrame, QVBoxLayout, QPushButton
 
 from core.custom_widgets.FlowLayout import FlowLayout
@@ -87,8 +88,9 @@ def setup_logic_2(boss,instance_ui,flow_layout):
     setattr(instance_ui, combo_box.objectName(), combo_box)
 
     # Populate the QCheckComboBox with levels
-    for level in boss.levels:
+    for i,level in enumerate(boss.levels):
         combo_box.addItem(f"Level {level.level}")
+        combo_box.setItemCheckState(i, Qt.Unchecked)
 
     # Disable it by default
     combo_box.setDisabled(True)
@@ -123,8 +125,9 @@ def setup_logic_3(boss,instance_ui,flow_layout):
     setattr(instance_ui, combo_box.objectName(), combo_box)
 
     # Populate the QCheckComboBox with levels
-    for level in boss.levels:
+    for i,level in enumerate(boss.levels):
         combo_box.addItem(level.name)
+        combo_box.setItemCheckState(i, Qt.Unchecked)
 
     # Disable it by default
     combo_box.setDisabled(True)

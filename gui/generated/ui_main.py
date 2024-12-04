@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1280, 720)
+        MainWindow.resize(1328, 852)
         MainWindow.setMinimumSize(QSize(940, 560))
         self.styleSheet = QWidget(MainWindow)
         self.styleSheet.setObjectName(u"styleSheet")
@@ -938,7 +938,7 @@ class Ui_MainWindow(object):
         self.extraCenterArea.setWidgetResizable(True)
         self.extraCenterAreaWidgetContents = QWidget()
         self.extraCenterAreaWidgetContents.setObjectName(u"extraCenterAreaWidgetContents")
-        self.extraCenterAreaWidgetContents.setGeometry(QRect(0, 0, 16, 405))
+        self.extraCenterAreaWidgetContents.setGeometry(QRect(0, 0, 16, 537))
         self.extraCenterArea.setWidget(self.extraCenterAreaWidgetContents)
 
         self.verticalLayout_10.addWidget(self.extraCenterArea)
@@ -1391,7 +1391,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1118, 388))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1454,7 +1454,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1118, 514))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_17 = QHBoxLayout(self.scrollAreaWidgetContents_4)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.blackmarket_list_frame = QFrame(self.scrollAreaWidgetContents_4)
@@ -1491,7 +1491,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1118, 514))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 98, 24))
         self.horizontalLayout_18 = QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.champions_list_frame = QFrame(self.scrollAreaWidgetContents_3)
@@ -1642,7 +1642,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)

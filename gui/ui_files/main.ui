@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>720</height>
+    <width>1328</width>
+    <height>852</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1429,7 +1429,7 @@ QTableWidget::item {
                      <x>0</x>
                      <y>0</y>
                      <width>16</width>
-                     <height>405</height>
+                     <height>537</height>
                     </rect>
                    </property>
                   </widget>
@@ -1866,7 +1866,7 @@ QTableWidget::item {
                       <string notr="true">background: transparent;</string>
                      </property>
                      <property name="currentIndex">
-                      <number>3</number>
+                      <number>0</number>
                      </property>
                      <widget class="QWidget" name="home">
                       <property name="styleSheet">
@@ -2463,8 +2463,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>388</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2590,8 +2590,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -2655,8 +2655,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1118</width>
-                                   <height>514</height>
+                                   <width>98</width>
+                                   <height>24</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_18">

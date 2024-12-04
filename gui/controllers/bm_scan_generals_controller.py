@@ -64,6 +64,12 @@ def init_scan_general_ui(main_window):
     generals = session.query(General).all()
     session.close()
 
+    # Ensure all items are unchecked when initialized
+    for i in range(main_window.widgets.scan_generals_type.count()):
+        main_window.widgets.scan_generals_type.setItemCheckState(i, Qt.Unchecked)
+    for i in range(main_window.widgets.scan_generals_filter.count()):
+        main_window.widgets.scan_generals_filter.setItemCheckState(i, Qt.Unchecked)
+
     # Pass the data to add the widgets
     for general in generals:
         add_general_to_frame(main_window,general)
