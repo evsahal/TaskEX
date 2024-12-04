@@ -49,6 +49,13 @@ class QCheckComboBox(QComboBox):
         self.__updateItemDelegate()
         self.update_checked_items()  # Ensure the placeholder text is initially set
 
+
+    def showEvent(self, event):
+        super(QCheckComboBox, self).showEvent(event)
+        for i in range(self.count()):
+            self.setItemCheckState(i, Qt.Unchecked)
+        self.update_checked_items()
+
     def showPopup(self):
         """Reimplemented."""
         super(QCheckComboBox, self).showPopup()
