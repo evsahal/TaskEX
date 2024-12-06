@@ -1,7 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QDialog, QLineEdit, QPushButton, QHBoxLayout, QMessageBox
-from requests import session
 
 from db.db_setup import get_session
 from db.models import GeneralPreset, General, PresetGeneralAssignment

@@ -1,10 +1,5 @@
-import os
-
 from PySide6.QtCore import Qt, QTimer, Signal
-from PySide6.QtGui import QFont
-from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame, QApplication
-from requests import session
-from sqlalchemy.exc import NoResultFound
+from PySide6.QtWidgets import QMainWindow, QScrollArea, QFrame
 
 from config.settings import TITLE, TITLE_DESCRIPTION, CREDITS, VERSION
 from core.app_settings import Settings
@@ -13,15 +8,14 @@ from core.instance_manager import setup_port_display_table, reload_ports
 from core.menu_button import connect_buttons, initialize_instances
 from core.ui_functions import UIFunctions
 from db.db_setup import init_db, get_session
-from db.models import MonsterCategory, MonsterLogic, MonsterImage, BossMonster, MonsterLevel, GeneralPreset, General
-from db.models.general_preset import GeneralCategory, GeneralView, PresetGeneralAssignment
-from features.ui.join_rally_ui import load_join_rally_ui
+from db.models import Instance
 from gui.controllers.bm_blackmarket_controller import init_bm_blackmarket_ui
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 from utils.image_recognition_utils import setup_tesseract
+
 
 # os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 
@@ -156,8 +150,22 @@ class MainWindow(QMainWindow):
 
 
     def init_instance(self):
-        # Load the Default Instances
-        initialize_instances(self, 1)
+
+        session = get_session()
+        # Query all instances from the database
+        instances = session.query(Instance).all()
+
+        if not instances:
+            # Load the Default Instances when no data found in db
+            initialize_instances(self, 1)
+        else:
+            # Load the instance from db when there are some data in db
+            for i, instance in enumerate(instances, start=1):
+                initialize_instances(self,i,instance)
+
+        session.close()
+
+
 
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU

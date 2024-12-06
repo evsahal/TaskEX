@@ -3,13 +3,60 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
     QComboBox, QLineEdit, QLabel, QVBoxLayout
 
+from db.db_setup import get_session
+from db.models import Profile
 
-def init_run_tab(main_window, index):
+
+def init_run_tab(main_window, index, instance):
     # Setup scheduler table
     setup_scheduler_table(main_window, index)
 
     # Initialize preset control buttons
     initialize_preset_buttons(main_window, index)
+
+    # Populate the profile combobox
+    populate_profile_combo(getattr(main_window.widgets, f"emu_profile_{index}"))
+
+    # Load the emulator data(name,port and profile)
+    if instance:
+        load_instance_data(main_window,instance,index)
+
+
+def populate_profile_combo(combobox):
+    session = get_session()
+    try:
+        # Query all profiles from the database
+        profiles = session.query(Profile).all()
+
+        # Add profiles to the combobox
+        for profile in profiles:
+            combobox.addItem(profile.name, profile.id)
+
+    finally:
+        # Close the session to avoid connection leaks
+        session.close()
+
+def load_instance_data(main_window,instance,index ):
+
+    # Select the profile
+    profile_combobox = getattr(main_window.widgets, f"emu_profile_{index}")
+    for i in range(profile_combobox.count()):
+        # Get the user data (profile_id) of the current item
+        item_data = profile_combobox.itemData(i)
+        if item_data == instance.profile_id:
+            # Set the combobox index to the matching item
+            profile_combobox.setCurrentIndex(i)
+
+    # Set the emulator name
+    emulator_name_ledit = getattr(main_window.widgets, f"emu_name_{index}")
+    # print(f"Instance Name: {instance.emulator_name}")
+    emulator_name_ledit.setText(instance.emulator_name if instance.emulator_name else f"Emulator {index}")
+
+    # Set emulator port
+    emulator_port_ledit = getattr(main_window.widgets, f"emu_port_{index}")
+    emulator_port_ledit.setText(str(instance.emulator_port) if instance.emulator_port else "")
+
+
 
 
 def setup_scheduler_table(main_window, index):

@@ -97,11 +97,8 @@ def logout():
     settings.setValue("logged_in", False)
     sys.exit()
 
-def add_new_menu_button(main_window,selection = True):
-    """
-    Add a new menu button dynamically with a specific stylesheet.
-    :param main_window: The instance of the main window to access widgets.
-    """
+def add_new_menu_button(main_window,selection = True,instance=None):
+
     # Get the next index for adding the instance
     next_index = get_next_btn_emu_number(main_window)
 
@@ -142,7 +139,7 @@ def add_new_menu_button(main_window,selection = True):
     new_button.clicked.connect(lambda: handle_button_click(main_window, new_button))
 
     # Setup a new instance page
-    add_new_instance_page(main_window,next_index)
+    add_new_instance_page(main_window,next_index,instance)
 
     # Simulate a button click to trigger the event
     new_button.click()
@@ -151,7 +148,7 @@ def add_new_menu_button(main_window,selection = True):
 
     add_instance_controls(main_window,next_index)
 
-def add_new_instance_page(main_window,index):
+def add_new_instance_page(main_window,index,instance):
 
     # Create a new page for the stackedWidget
     new_page = QWidget()
@@ -170,6 +167,7 @@ def add_new_instance_page(main_window,index):
     # Register dynamically created widgets to main_window.widgets
     setattr(main_window.widgets, new_page.objectName(), new_page)
 
+
     # Loop through all the attributes in instance_ui that are widgets and update the object name
     for attr_name in dir(instance_ui):
         # Ignore special methods and attributes
@@ -180,6 +178,7 @@ def add_new_instance_page(main_window,index):
             if hasattr(widget, 'objectName'):
                 # Only update names that end with '_'
                 if widget.objectName().endswith('_') or widget.objectName().endswith('___'):
+                    # print(widget.objectName())
                     new_name = f"{widget.objectName()}{index}"
                     widget.setObjectName(new_name)
                     # print(widget.objectName())
@@ -194,7 +193,7 @@ def add_new_instance_page(main_window,index):
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
 
     # Setup Run Tab
-    init_run_tab(main_window,index)
+    init_run_tab(main_window,index,instance)
 
 def delete_instance_check(main_window,index):
     total_instance = count_btn_emu_instances(main_window)
@@ -249,16 +248,16 @@ def remove_widget(widget):
         # print("Widget is None, nothing to remove.")
         pass
 
-def initialize_instances(main_window, num_instances):
+def initialize_instances(main_window, num_instances,instance=None):
     """
     Initialize a specified number of emulator instances upon loading.
 
     :param main_window: The instance of the main window to access widgets.
     :param num_instances: The number of instances to initialize.
+    :param instance: The instance contains the instance data like emulator name, port and the profile.
     """
-    for _ in range(num_instances):
-        # Setup new instance
-        add_new_menu_button(main_window,False)
+
+    add_new_menu_button(main_window,False,instance)
 
 # Function to find the next number for btn_emu_ buttons
 def get_next_btn_emu_number(main_window):

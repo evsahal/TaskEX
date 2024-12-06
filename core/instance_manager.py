@@ -1,5 +1,5 @@
 import socket
-
+import subprocess
 import psutil
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QCursor
@@ -41,7 +41,11 @@ def add_instance_controls(main_window,index):
     sync_lineedits(emu_line_edit, getattr(main_window.widgets, f"emu_name_{index}"),getattr(main_window.widgets, f"btn_emu_{index}"))
 
     # Set default emulator name
-    emu_line_edit.setText(f"Emulator {index}")
+    if not getattr(main_window.widgets, f"emu_name_{index}").text().strip():
+        emu_line_edit.setText(f"Emulator {index}")
+    # Invoke lineedit to sync the name
+    else:
+        emu_line_edit.setText(getattr(main_window.widgets, f"emu_name_{index}").text().strip())
 
     # 2. Create a QLineEdit for port number
     port_line_edit = QLineEdit()
@@ -54,6 +58,10 @@ def add_instance_controls(main_window,index):
 
     # Sync instance manager emulator port and run tab emulator port
     sync_lineedits(port_line_edit, getattr(main_window.widgets, f"emu_port_{index}"))
+
+    # Invoke lineedit to sync the port
+    if getattr(main_window.widgets, f"emu_port_{index}").text().strip():
+        port_line_edit.setText(getattr(main_window.widgets, f"emu_port_{index}").text().strip())
 
     # 3. Create a "Play" button with a run icon
     play_button = QPushButton()
@@ -195,9 +203,6 @@ def find_emulator_ports():
 
     return emulator_ports
 
-
-import socket
-import subprocess
 
 def is_emulator_port_available(port: int) -> bool:
     """

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'instance_page.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -519,12 +519,11 @@ class Ui_InstancePage(object):
         self.horizontalLayout_8.setSpacing(8)
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalLayout_8.setContentsMargins(7, 0, 0, 0)
-        self.comboBox_2 = QComboBox(self.frame_10)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setMinimumSize(QSize(170, 45))
+        self.emu_profile_ = QComboBox(self.frame_10)
+        self.emu_profile_.setObjectName(u"emu_profile_")
+        self.emu_profile_.setMinimumSize(QSize(170, 45))
 
-        self.horizontalLayout_8.addWidget(self.comboBox_2)
+        self.horizontalLayout_8.addWidget(self.emu_profile_)
 
         self.emu_name_ = QLineEdit(self.frame_10)
         self.emu_name_.setObjectName(u"emu_name_")
@@ -826,13 +825,71 @@ class Ui_InstancePage(object):
 
         self.verticalLayout_7.addWidget(self.groupBox_4)
 
+        self.groupBox_5 = QGroupBox(self.frame_6)
+        self.groupBox_5.setObjectName(u"groupBox_5")
+        self.verticalLayout_17 = QVBoxLayout(self.groupBox_5)
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.frame_20 = QFrame(self.groupBox_5)
+        self.frame_20.setObjectName(u"frame_20")
+        self.frame_20.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_20)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.comboBox = QComboBox(self.frame_20)
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(0, 45))
+
+        self.horizontalLayout_13.addWidget(self.comboBox)
+
+        self.pushButton = QPushButton(self.frame_20)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(45, 45))
+        self.pushButton.setMaximumSize(QSize(45, 45))
+        self.pushButton.setStyleSheet(u"background:transparent;")
+        self.pushButton.setIcon(icon1)
+
+        self.horizontalLayout_13.addWidget(self.pushButton)
+
+        self.pushButton_2 = QPushButton(self.frame_20)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setMinimumSize(QSize(45, 45))
+        self.pushButton_2.setMaximumSize(QSize(45, 45))
+        self.pushButton_2.setStyleSheet(u"background:transparent;")
+        self.pushButton_2.setIcon(icon2)
+
+        self.horizontalLayout_13.addWidget(self.pushButton_2)
+
+        self.pushButton_3 = QPushButton(self.frame_20)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setMinimumSize(QSize(45, 45))
+        self.pushButton_3.setMaximumSize(QSize(45, 45))
+        self.pushButton_3.setStyleSheet(u"background:transparent;")
+        self.pushButton_3.setIcon(icon3)
+
+        self.horizontalLayout_13.addWidget(self.pushButton_3)
+
+
+        self.verticalLayout_17.addWidget(self.frame_20)
+
+        self.frame_19 = QFrame(self.groupBox_5)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.verticalLayout_17.addWidget(self.frame_19)
+
+
+        self.verticalLayout_7.addWidget(self.groupBox_5)
+
         self.groupBox_2 = QGroupBox(self.frame_6)
         self.groupBox_2.setObjectName(u"groupBox_2")
 
         self.verticalLayout_7.addWidget(self.groupBox_2)
 
         self.verticalLayout_7.setStretch(0, 2)
-        self.verticalLayout_7.setStretch(1, 8)
+        self.verticalLayout_7.setStretch(1, 2)
+        self.verticalLayout_7.setStretch(2, 8)
 
         self.horizontalLayout_5.addWidget(self.frame_6)
 
@@ -1148,8 +1205,8 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(2)
-        self.comboBox_2.setCurrentIndex(-1)
+        self.tabWidget.setCurrentIndex(0)
+        self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
 
@@ -1160,9 +1217,7 @@ class Ui_InstancePage(object):
         InstancePage.setWindowTitle(QCoreApplication.translate("InstancePage", u"Form", None))
         self.groupBox.setTitle(QCoreApplication.translate("InstancePage", u"Console", None))
         self.config_panel_gb.setTitle(QCoreApplication.translate("InstancePage", u"Configuration Panel", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("InstancePage", u"Default", None))
-
-        self.comboBox_2.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
+        self.emu_profile_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Choose a Profile", None))
         self.emu_name_.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Emulator Name", None))
         self.emu_port_.setInputMask("")
         self.emu_port_.setText("")
@@ -1187,7 +1242,12 @@ class Ui_InstancePage(object):
         self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break (Local Time)", None))
         self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
         self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
-        self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Profile Settings", None))
+        self.groupBox_5.setTitle(QCoreApplication.translate("InstancePage", u"Manage Profile", None))
+        self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Profile", None))
+        self.pushButton.setText("")
+        self.pushButton_2.setText("")
+        self.pushButton_3.setText("")
+        self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Other Settings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.run_tab_), QCoreApplication.translate("InstancePage", u"Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))
         self.skip_monsters_gb.setTitle(QCoreApplication.translate("InstancePage", u"Skip Monsters", None))

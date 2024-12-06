@@ -427,7 +427,7 @@ QPushButton:pressed {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="run_tab_">
       <attribute name="title">
@@ -603,7 +603,7 @@ border-radius: 5px;</string>
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QComboBox" name="comboBox_2">
+                    <widget class="QComboBox" name="emu_profile_">
                      <property name="minimumSize">
                       <size>
                        <width>170</width>
@@ -616,11 +616,6 @@ border-radius: 5px;</string>
                      <property name="placeholderText">
                       <string>Choose a Profile</string>
                      </property>
-                     <item>
-                      <property name="text">
-                       <string>Default</string>
-                      </property>
-                     </item>
                     </widget>
                    </item>
                    <item>
@@ -1066,7 +1061,7 @@ border-radius: 5px;</string>
                   <property name="frameShadow">
                    <enum>QFrame::Shadow::Raised</enum>
                   </property>
-                  <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,8">
+                  <layout class="QVBoxLayout" name="verticalLayout_7" stretch="2,2,8">
                    <property name="leftMargin">
                     <number>0</number>
                    </property>
@@ -1285,9 +1280,140 @@ border-radius: 5px;</string>
                     </widget>
                    </item>
                    <item>
+                    <widget class="QGroupBox" name="groupBox_5">
+                     <property name="title">
+                      <string>Manage Profile</string>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_17">
+                      <item>
+                       <widget class="QFrame" name="frame_20">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::NoFrame</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_13">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QComboBox" name="comboBox">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="placeholderText">
+                            <string>Select Profile</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="pushButton">
+                           <property name="minimumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">background:transparent;</string>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                           <property name="icon">
+                            <iconset theme="QIcon::ThemeIcon::MailMessageNew"/>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="pushButton_2">
+                           <property name="minimumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">background:transparent;</string>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                           <property name="icon">
+                            <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="pushButton_3">
+                           <property name="minimumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>45</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">background:transparent;</string>
+                           </property>
+                           <property name="text">
+                            <string/>
+                           </property>
+                           <property name="icon">
+                            <iconset theme="QIcon::ThemeIcon::ListAdd"/>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QFrame" name="frame_19">
+                        <property name="frameShape">
+                         <enum>QFrame::Shape::StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                         <enum>QFrame::Shadow::Raised</enum>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
                     <widget class="QGroupBox" name="groupBox_2">
                      <property name="title">
-                      <string>Profile Settings</string>
+                      <string>Other Settings</string>
                      </property>
                     </widget>
                    </item>
