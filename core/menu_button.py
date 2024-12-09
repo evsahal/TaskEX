@@ -6,10 +6,14 @@ from PySide6.QtCore import QSize, Qt, QSettings
 from PySide6.QtGui import QIcon, QCursor, QFont, QPalette
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
     QSpacerItem, QMessageBox
+from requests import session
+from sqlalchemy.orm.loading import instances
 
 from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
+from db.db_setup import get_session
+from db.models import Instance
 from features.ui.join_rally_ui import load_join_rally_ui
 from gui.controllers.run_tab_controller import init_run_tab
 from gui.generated.instance_page import Ui_InstancePage
@@ -191,6 +195,19 @@ def add_new_instance_page(main_window,index,instance):
 
     # Connect delete instance button
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
+    session = get_session()
+    try:
+        # if instance is None, then create a new entry
+        if instance is None:
+            instance = Instance(emulator_name=f'Emulator {index}')
+            session.add(instance)
+            session.commit()
+        # store the instance id to the delete instance button as a property
+        getattr(main_window.widgets, f"delete_instance_{index}").setProperty('instance_id',instance.id)
+    except Exception as e:
+        print(e)
+    finally:
+        session.close()
 
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
@@ -202,7 +219,20 @@ def delete_instance_check(main_window,index):
         show_error_dialog(main_window, "Error", "Last instance can't be deleted.")
     else:
         if show_confirmation_dialog(main_window,"confirm","Are you sure you want to delete this instance?"):
-            delete_instance(main_window,index)
+            instance_id = getattr(main_window.widgets, f"delete_instance_{index}").property('instance_id')
+            session = get_session()
+            try:
+                # Query the instance by ID
+                instance = session.query(Instance).get(instance_id)
+                if instance:
+                    session.delete(instance)  # Delete the instance
+                    session.commit()  # Commit the transaction
+                    delete_instance(main_window,index)
+            except Exception as e:
+                session.rollback()  # Roll back in case of an error
+            finally:
+                session.close()  # Close the session
+
 
 def delete_instance(main_window,index):
 

@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxL
     QComboBox, QLineEdit, QLabel, QVBoxLayout
 
 from db.db_setup import get_session
-from db.models import Profile
+from db.models import Profile, Instance
 
 
 def init_run_tab(main_window, index, instance):
@@ -20,6 +20,7 @@ def init_run_tab(main_window, index, instance):
     # Load the emulator data(name,port and profile)
     if instance:
         load_instance_data(main_window,instance,index)
+        setup_instance_edit_handlers(main_window, index)
 
 
 def populate_profile_combo(combobox):
@@ -37,9 +38,10 @@ def populate_profile_combo(combobox):
         session.close()
 
 def load_instance_data(main_window,instance,index ):
-
     # Select the profile
     profile_combobox = getattr(main_window.widgets, f"emu_profile_{index}")
+    # set the instance id as property for profile combobox
+    profile_combobox.setProperty('instance_id', instance.id)
     for i in range(profile_combobox.count()):
         # Get the user data (profile_id) of the current item
         item_data = profile_combobox.itemData(i)
@@ -49,14 +51,117 @@ def load_instance_data(main_window,instance,index ):
 
     # Set the emulator name
     emulator_name_ledit = getattr(main_window.widgets, f"emu_name_{index}")
+    # set the instance id as property for emulator name line edit
+    emulator_name_ledit.setProperty('instance_id', instance.id)
     # print(f"Instance Name: {instance.emulator_name}")
     emulator_name_ledit.setText(instance.emulator_name if instance.emulator_name else f"Emulator {index}")
 
     # Set emulator port
     emulator_port_ledit = getattr(main_window.widgets, f"emu_port_{index}")
+    # set the instance id as property for emulator port line edit
+    emulator_port_ledit.setProperty('instance_id', instance.id)
     emulator_port_ledit.setText(str(instance.emulator_port) if instance.emulator_port else "")
 
+def setup_instance_edit_handlers(main_window, index):
+    """
+    Sets up event handlers for instance widgets to update the database on change.
 
+    Args:
+        main_window: The main window containing the widgets.
+        index: The index of the instance being edited.
+    """
+    # Connect profile combobox changes
+    profile_combobox = getattr(main_window.widgets, f"emu_profile_{index}")
+    profile_combobox.currentIndexChanged.connect(
+        lambda: update_instance_profile(main_window, index)
+    )
+
+    # Connect emulator name line edit changes
+    emulator_name_ledit = getattr(main_window.widgets, f"emu_name_{index}")
+    emulator_name_ledit.editingFinished.connect(
+        lambda: update_instance_emulator_name(main_window, index)
+    )
+
+    # Connect emulator port line edit changes
+    emulator_port_ledit = getattr(main_window.widgets, f"emu_port_{index}")
+    emulator_port_ledit.editingFinished.connect(
+        lambda: update_instance_emulator_port(main_window, index)
+    )
+
+def update_instance_profile(main_window, index):
+    """
+    Updates the profile_id of the instance in the database.
+
+    Args:
+        main_window: The main window containing the widgets.
+        index: The index of the instance being edited.
+    """
+    profile_combobox = getattr(main_window.widgets, f"emu_profile_{index}")
+    instance_id = profile_combobox.property("instance_id")
+    selected_profile_id = profile_combobox.currentData()
+
+    if instance_id is not None:
+        session = get_session()
+        try:
+            instance = session.query(Instance).get(instance_id)
+            if instance:
+                instance.profile_id = selected_profile_id
+                session.commit()
+        finally:
+            session.close()
+
+
+def update_instance_emulator_name(main_window, index):
+    """
+    Updates the emulator_name of the instance in the database.
+
+    Args:
+        main_window: The main window containing the widgets.
+        index: The index of the instance being edited.
+    """
+    emulator_name_ledit = getattr(main_window.widgets, f"emu_name_{index}")
+    instance_id = emulator_name_ledit.property("instance_id")
+    new_name = emulator_name_ledit.text()
+
+    # Default name if the line edit is empty
+    default_name = f"Emulator {index}"
+    if not new_name:
+        new_name = default_name
+        emulator_name_ledit.setText(new_name)
+
+
+    if instance_id is not None:
+        session = get_session()
+        try:
+            instance = session.query(Instance).get(instance_id)
+            if instance:
+                instance.emulator_name = new_name
+                session.commit()
+        finally:
+            session.close()
+
+
+def update_instance_emulator_port(main_window, index):
+    """
+    Updates the emulator_port of the instance in the database.
+
+    Args:
+        main_window: The main window containing the widgets.
+        index: The index of the instance being edited.
+    """
+    emulator_port_ledit = getattr(main_window.widgets, f"emu_port_{index}")
+    instance_id = emulator_port_ledit.property("instance_id")
+    new_port = emulator_port_ledit.text()
+
+    if instance_id is not None:
+        session = get_session()
+        try:
+            instance = session.query(Instance).get(instance_id)
+            if instance:
+                instance.emulator_port = int(new_port) if new_port.isdigit() else None
+                session.commit()
+        finally:
+            session.close()
 
 
 def setup_scheduler_table(main_window, index):
