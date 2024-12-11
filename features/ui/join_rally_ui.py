@@ -2,17 +2,18 @@ from tabnanny import check
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QCheckBox, QFrame, QVBoxLayout, QPushButton
+from pathos.profile import profile
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from core.services.bm_monsters_service import fetch_boss_monster_data
 from db.db_setup import get_session
 from db.models import BossMonster
-from gui.widgets.GeneralsSelectionDialog import GeneralsSelectionDialog
 from gui.widgets.PresetConfigDialog import PresetConfigDialog
 
 
-def load_join_rally_ui(instance_ui,main_window):
+def load_join_rally_ui(instance_ui,main_window,index):
+
     # For Logic 1
     jr_monster_list1_frame = getattr(instance_ui, "jr_monster_list1_frame_")
     flow_layout_1 =  FlowLayout()
@@ -22,6 +23,7 @@ def load_join_rally_ui(instance_ui,main_window):
     jr_monster_list2_frame = getattr(instance_ui, "jr_monster_list2_frame_")
     flow_layout_2 =  FlowLayout()
     jr_monster_list2_frame.setLayout(flow_layout_2)
+
     session = get_session()
 
     # Fetch Logic 1, Category 1 (no sorting by preview_name, keep the order by ID)
@@ -43,14 +45,15 @@ def load_join_rally_ui(instance_ui,main_window):
         elif boss.monster_logic.id == 4:
             setup_logic_4(boss, instance_ui, flow_layout_2)
 
-    # Join Rally Settings
+    ###--- Join Rally Settings ---###
+
     # Connect the preset config dialog
     preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
-    preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window))
+    preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window,index))
 
 
-def openPresetSettings(main_window):
-    preset_config_dialog = PresetConfigDialog(main_window)
+def openPresetSettings(main_window,index):
+    preset_config_dialog = PresetConfigDialog(main_window,index)
     preset_config_dialog.show()
 
 

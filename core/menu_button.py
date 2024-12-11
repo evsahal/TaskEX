@@ -162,15 +162,11 @@ def add_new_instance_page(main_window,index,instance):
     instance_ui = Ui_InstancePage()
     instance_ui.setupUi(new_page)
 
-    # Load Join Rally UI
-    load_join_rally_ui(instance_ui,main_window)
-
     # Add the new page to the stackedWidget
     main_window.widgets.stackedWidget.addWidget(new_page)
 
     # Register dynamically created widgets to main_window.widgets
     setattr(main_window.widgets, new_page.objectName(), new_page)
-
 
     # Loop through all the attributes in instance_ui that are widgets and update the object name
     for attr_name in dir(instance_ui):
@@ -188,7 +184,6 @@ def add_new_instance_page(main_window,index,instance):
                     # print(widget.objectName())
                     # Register the renamed widget
                     setattr(main_window.widgets, new_name, widget)
-
 
     # Connect run button
     getattr(main_window.widgets, f"run_btn_{index}").clicked.connect(lambda: handle_run_button(main_window, index))
@@ -211,6 +206,9 @@ def add_new_instance_page(main_window,index,instance):
 
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
+
+    # Load Join Rally UI
+    load_join_rally_ui(instance_ui,main_window,index)
 
 def delete_instance_check(main_window,index):
     total_instance = count_btn_emu_instances(main_window)

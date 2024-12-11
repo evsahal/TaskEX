@@ -1087,7 +1087,7 @@ color: rgb(161, 110, 235);</string>
     <widget class="QWidget" name="widget_4" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item alignment="Qt::AlignmentFlag::AlignRight">
-       <widget class="QPushButton" name="cancel_preset_config">
+       <widget class="QPushButton" name="cancel_preset_config_btn">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -1100,7 +1100,7 @@ color: rgb(161, 110, 235);</string>
        </widget>
       </item>
       <item alignment="Qt::AlignmentFlag::AlignRight">
-       <widget class="QPushButton" name="save_preset_config">
+       <widget class="QPushButton" name="save_preset_config_btn">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>

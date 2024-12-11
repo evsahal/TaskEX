@@ -3,14 +3,15 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QDialog, QMessageBox
 
 from db.db_setup import get_session
-from db.models import GeneralPreset
+from db.models import GeneralPreset, JoinRallyPresetConfiguration, JoinRallyPresetOption
 from gui.generated.preset_configuration import Ui_PresetConfigDialog
 from gui.widgets.GeneralsSelectionDialog import GeneralsSelectionDialog
 
 
 class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
-    def __init__(self, parent):
+    def __init__(self, parent,index):
         super(PresetConfigDialog, self).__init__(parent)
+        self.profile_id = getattr(parent.widgets, f"emu_profile_{index}").currentData()
         self.preset_data = []  # To store all preset data
         self.preset_id = None  # To store the currently selected preset ID
         self.init_ui()
@@ -21,11 +22,14 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
         self.setFixedSize(600, 730)
         self.setWindowModality(Qt.ApplicationModal)
         self.general_presets_btn.clicked.connect(self.open_manage_general_presets_dialog)
-        self.cancel_preset_config.clicked.connect(lambda: self.close())
+        self.cancel_preset_config_btn.clicked.connect(lambda: self.close())
         self.general_presets_btn.setIcon(QIcon(":/icons/images/icons/cil-settings.png"))
 
         # Connect combo box value change to update preset ID
         self.general_preset_combobox.currentIndexChanged.connect(self.update_preset_id)
+
+        # Connect the save button to save the preset config
+        self.save_preset_config_btn.clicked.connect(self.save_preset_config)
 
         # Populate the general_preset_combobox with preset names
         self.load_general_presets()
@@ -50,7 +54,7 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
 
             # Populate combo box with preset names
             for preset in general_presets:
-                self.general_preset_combobox.addItem(preset.name)
+                self.general_preset_combobox.addItem(preset.name,preset.id)
 
             # Set the selected preset based on self.preset_id
             if self.preset_id is None:
@@ -84,12 +88,7 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
         """
         Update the preset ID when the combo box value changes.
         """
-        selected_name = self.general_preset_combobox.currentText()
-        for preset in self.preset_data:
-            if preset.name == selected_name:
-                self.preset_id = preset.id
-                print(f"CP - 0 {self.preset_id}")
-                break
+        self.preset_id = self.general_preset_combobox.currentData()
 
     def open_manage_general_presets_dialog(self):
         """
@@ -104,3 +103,62 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
         else:
             QMessageBox.warning(self, "No Preset Selected", "Please select a valid preset before proceeding.")
 
+    def save_preset_config(self):
+
+        session = get_session()
+        try:
+            # Get the currently selected general preset ID from the combobox
+            general_preset_id = self.general_preset_combobox.currentData()
+
+            # Fetch the current preset configuration from the database
+            preset_config = session.query(JoinRallyPresetConfiguration).filter_by(profile_id=self.profile_id).first()
+
+            if not preset_config:
+                # print("Preset configuration not found!")
+                return
+
+            # Update the general preset ID
+            preset_config.general_preset_id = general_preset_id
+
+            # Loop through all 8 presets to update their options
+            for i in range(1, 9):
+                # Dynamically get the preset frame and options
+                frame_name = f"preset_frame_{i}"
+                option_1_name = f"preset_{i}_option_1"
+                option_2_name = f"preset_{i}_option_2"
+                option_3_name = f"preset_{i}_option_3"
+
+                # Ensure the frame exists (safe lookup)
+                preset_frame = getattr(self, frame_name, None)
+                if not preset_frame:
+                    # print(f"Frame {frame_name} not found!")
+                    continue
+
+                # Retrieve options dynamically
+                option_1 = getattr(self, option_1_name).isChecked()
+                option_2 = getattr(self, option_2_name).isChecked()
+                option_3 = getattr(self, option_3_name).isChecked()
+
+                # Find the corresponding preset option in the database
+                preset_option = (
+                    session.query(JoinRallyPresetOption)
+                    .filter_by(preset_configuration_id=preset_config.id, preset_number=i)
+                    .first()
+                )
+
+                if preset_option:
+                    # Update the options
+                    preset_option.use_selected_generals = option_1
+                    preset_option.skip_no_general = option_2
+                    preset_option.reset_to_one_troop = option_3
+
+            # Commit the changes to the database
+            session.commit()
+        except Exception as e:
+            print(e)
+
+        finally:
+            # Close the session
+            session.close()
+            # Close the dialog
+            self.close()

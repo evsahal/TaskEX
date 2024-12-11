@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'preset_configuration.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -840,19 +840,19 @@ class Ui_PresetConfigDialog(object):
         self.widget_4.setObjectName(u"widget_4")
         self.horizontalLayout = QHBoxLayout(self.widget_4)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.cancel_preset_config = QPushButton(self.widget_4)
-        self.cancel_preset_config.setObjectName(u"cancel_preset_config")
-        self.cancel_preset_config.setMinimumSize(QSize(100, 40))
+        self.cancel_preset_config_btn = QPushButton(self.widget_4)
+        self.cancel_preset_config_btn.setObjectName(u"cancel_preset_config_btn")
+        self.cancel_preset_config_btn.setMinimumSize(QSize(100, 40))
 
-        self.horizontalLayout.addWidget(self.cancel_preset_config, 0, Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout.addWidget(self.cancel_preset_config_btn, 0, Qt.AlignmentFlag.AlignRight)
 
-        self.save_preset_config = QPushButton(self.widget_4)
-        self.save_preset_config.setObjectName(u"save_preset_config")
-        sizePolicy1.setHeightForWidth(self.save_preset_config.sizePolicy().hasHeightForWidth())
-        self.save_preset_config.setSizePolicy(sizePolicy1)
-        self.save_preset_config.setMinimumSize(QSize(130, 40))
+        self.save_preset_config_btn = QPushButton(self.widget_4)
+        self.save_preset_config_btn.setObjectName(u"save_preset_config_btn")
+        sizePolicy1.setHeightForWidth(self.save_preset_config_btn.sizePolicy().hasHeightForWidth())
+        self.save_preset_config_btn.setSizePolicy(sizePolicy1)
+        self.save_preset_config_btn.setMinimumSize(QSize(130, 40))
 
-        self.horizontalLayout.addWidget(self.save_preset_config, 0, Qt.AlignmentFlag.AlignRight)
+        self.horizontalLayout.addWidget(self.save_preset_config_btn, 0, Qt.AlignmentFlag.AlignRight)
 
 
         self.verticalLayout.addWidget(self.widget_4, 0, Qt.AlignmentFlag.AlignRight)
@@ -900,7 +900,7 @@ class Ui_PresetConfigDialog(object):
         self.preset_2_option_1.setText(QCoreApplication.translate("PresetConfigDialog", u"Use Selected Generals", None))
         self.preset_2_option_2.setText(QCoreApplication.translate("PresetConfigDialog", u"Skip Preset with No General", None))
         self.preset_2_option_3.setText(QCoreApplication.translate("PresetConfigDialog", u"Reset to One Troop", None))
-        self.cancel_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Cancel", None))
-        self.save_preset_config.setText(QCoreApplication.translate("PresetConfigDialog", u"Save to Profile", None))
+        self.cancel_preset_config_btn.setText(QCoreApplication.translate("PresetConfigDialog", u"Cancel", None))
+        self.save_preset_config_btn.setText(QCoreApplication.translate("PresetConfigDialog", u"Save to Profile", None))
     # retranslateUi
 
