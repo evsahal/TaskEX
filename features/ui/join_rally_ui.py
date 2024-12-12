@@ -51,6 +51,28 @@ def load_join_rally_ui(instance_ui,main_window,index):
     preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
     preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window,index))
 
+    # Make Preset buttons checked for at least one preset option
+    # Generate march preset button names dynamically
+    button_names = [f"rotate_preset_{i}___" for i in range(1, 9)]
+
+    # Find march preset buttons dynamically using the object names
+    buttons = [getattr(instance_ui, name, None) for name in button_names]
+
+    # Ensure all march preset buttons are valid
+    buttons = [btn for btn in buttons if btn is not None]
+
+    # Connect the toggled signal of each button to the on_button_toggled function
+    for button in buttons:
+        button.toggled.connect(lambda checked, btn=button: on_button_toggled(btn, buttons))
+
+def on_button_toggled(button, buttons):
+    # Perform the check only if the march preset button is being unchecked
+    if not button.isChecked():
+        # Check if all march preset buttons are unchecked
+        if not any(btn.isChecked() for btn in buttons):
+            # Re-check the march preset button being toggled off
+            button.setChecked(True)
+
 
 def openPresetSettings(main_window,index):
     preset_config_dialog = PresetConfigDialog(main_window,index)

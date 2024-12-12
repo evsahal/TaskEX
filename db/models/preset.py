@@ -33,6 +33,7 @@ class JoinRallyPresetOption(Base):
     id = Column(Integer, primary_key=True)
     preset_configuration_id = Column(Integer, ForeignKey("jr_preset_configurations.id", ondelete="CASCADE"), nullable=False)
     preset_number = Column(Integer, nullable=False)  # 1 to 8
+    preset_selected = Column(Boolean, default=False)
     use_selected_generals = Column(Boolean, default=False)
     skip_no_general = Column(Boolean, default=False)
     reset_to_one_troop = Column(Boolean, default=False)

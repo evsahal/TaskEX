@@ -427,7 +427,7 @@ QPushButton:pressed {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="run_tab_">
       <attribute name="title">
@@ -1667,7 +1667,7 @@ border-radius: 5px;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QWidget" name="widget_1083" native="true">
+                    <widget class="QWidget" name="march_preset_widget_" native="true">
                      <property name="styleSheet">
                       <string notr="true">QPushButton {
     background-color: #777;
@@ -1709,7 +1709,7 @@ QPushButton:checked {
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_one___">
+                          <widget class="QPushButton" name="rotate_preset_1___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1731,10 +1731,13 @@ QPushButton:checked {
                            <property name="checkable">
                             <bool>true</bool>
                            </property>
+                           <property name="checked">
+                            <bool>true</bool>
+                           </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_two___">
+                          <widget class="QPushButton" name="rotate_preset_2___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1759,7 +1762,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_three___">
+                          <widget class="QPushButton" name="rotate_preset_3___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1784,7 +1787,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_four___">
+                          <widget class="QPushButton" name="rotate_preset_4___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1830,7 +1833,7 @@ QPushButton:checked {
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_five___">
+                          <widget class="QPushButton" name="rotate_preset_5___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1855,7 +1858,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_six___">
+                          <widget class="QPushButton" name="rotate_preset_6___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1880,7 +1883,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_seven___">
+                          <widget class="QPushButton" name="rotate_preset_7___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
@@ -1905,7 +1908,7 @@ QPushButton:checked {
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="rotate_preset_eight___">
+                          <widget class="QPushButton" name="rotate_preset_8___">
                            <property name="minimumSize">
                             <size>
                              <width>25</width>
