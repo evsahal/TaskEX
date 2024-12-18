@@ -2,13 +2,13 @@ from tabnanny import check
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QCheckBox, QFrame, QVBoxLayout, QPushButton
-from pathos.profile import profile
 
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from core.services.bm_monsters_service import fetch_boss_monster_data
 from db.db_setup import get_session
-from db.models import BossMonster
+from db.models import BossMonster, MonsterLevel
+from gui.widgets.LevelSelectionDialog import LevelSelectionDialog
 from gui.widgets.PresetConfigDialog import PresetConfigDialog
 
 
@@ -183,6 +183,7 @@ def setup_logic_4(boss,instance_ui,flow_layout):
     button.setFixedHeight(40)
     button.setMinimumWidth(135)
     setattr(instance_ui, button.objectName(), button)
+    button.clicked.connect(lambda: open_level_dialog(button, boss.id))
 
     # Disable it by default
     button.setDisabled(True)
@@ -209,11 +210,78 @@ def switch_monster_checkbox(instance_ui, boss_id, default=True):
         combobox = getattr(instance_ui, f"jr_combobox_boss{boss_id}___")
         if checkbox.isChecked():
             combobox.setDisabled(False)
+            combobox.setCursor(Qt.ArrowCursor)  # Normal cursor
         else:
             # Uncheck all items in the combo box when disabled
             for i in combobox.checkedIndices():
                 combobox.setItemCheckState(i, False)
             combobox.setDisabled(True)
+            combobox.setCursor(Qt.ForbiddenCursor)  # Restricted cursor
     else:  # Handle the button
         button = getattr(instance_ui, f"jr_button_boss{boss_id}___")
-        button.setDisabled(not checkbox.isChecked())
+        if checkbox.isChecked():
+            button.setDisabled(False)
+        else:
+            button.setDisabled(True)
+            # Clear the selected levels stored in the button
+            button.setProperty("skipped_levels", [])
+
+def open_level_dialog(button, boss_id):
+    """
+    Open the level selection dialog and store selected levels in the button.
+    """
+    # Retrieve the previously selected IDs stored in the button
+    selected_ids = button.property("selected_ids") or []
+
+
+
+    # Get all the monster levels
+    boss_levels = get_boss_levels(boss_id)
+
+    # Open the dialog with selected IDs and level data
+    dialog = LevelSelectionDialog(selected_ids, boss_levels,get_boss_preview_name(boss_id))
+
+    if dialog.exec():
+        # Save the selected levels back to the button
+        button.setProperty("selected_ids", dialog.selected_ids)
+        print(f"Selected Levels: {dialog.selected_ids}")
+
+
+def get_boss_levels(boss_id):
+    """
+    Fetch all level details for a specific boss from the database.
+
+    :param boss_id: ID of the boss to fetch levels for.
+    :return: List of MonsterLevel objects.
+    """
+    session = get_session()
+    try:
+        # Query and return MonsterLevel instances
+        levels = (
+            session.query(MonsterLevel)
+            .filter(MonsterLevel.boss_monster_id == boss_id)
+            .order_by(MonsterLevel.level.asc())
+            .all()
+        )
+        return levels
+    finally:
+        session.close()
+
+def get_boss_preview_name(boss_id):
+    """
+    Fetch the preview name of a boss by its ID.
+
+    :param boss_id: ID of the boss.
+    :return: Preview name of the boss or None if not found.
+    """
+    session = get_session()
+    try:
+        # Query the preview_name from the BossMonster table
+        preview_name = (
+            session.query(BossMonster.preview_name)
+            .filter(BossMonster.id == boss_id)
+            .scalar()
+        )
+        return preview_name
+    finally:
+        session.close()
