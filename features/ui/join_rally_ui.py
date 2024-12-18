@@ -178,7 +178,7 @@ def setup_logic_4(boss,instance_ui,flow_layout):
     vert_layout.addWidget(check_box)
 
     # Add a Pushbutton for listing boss levels
-    button = QPushButton("Select Levels")
+    button = QPushButton("Skip Levels")
     button.setObjectName(f"jr_button_boss{boss.id}___")
     button.setFixedHeight(40)
     button.setMinimumWidth(135)

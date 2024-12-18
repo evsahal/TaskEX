@@ -15,7 +15,7 @@ class LevelSelectionDialog(QDialog):
         """
         super().__init__(parent)
         self.setWindowTitle(preview_name)
-        self.resize(750, 570)
+        self.resize(750, 550)
 
         # Store selected level IDs
         self.selected_ids = set(selected_ids)
