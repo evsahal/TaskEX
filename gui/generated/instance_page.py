@@ -725,6 +725,64 @@ class Ui_InstancePage(object):
         self.verticalLayout_7 = QVBoxLayout(self.frame_6)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.groupBox_5 = QGroupBox(self.frame_6)
+        self.groupBox_5.setObjectName(u"groupBox_5")
+        self.verticalLayout_17 = QVBoxLayout(self.groupBox_5)
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.frame_20 = QFrame(self.groupBox_5)
+        self.frame_20.setObjectName(u"frame_20")
+        self.frame_20.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_20)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.comboBox = QComboBox(self.frame_20)
+        self.comboBox.setObjectName(u"comboBox")
+        self.comboBox.setMinimumSize(QSize(0, 45))
+
+        self.horizontalLayout_13.addWidget(self.comboBox)
+
+        self.pushButton = QPushButton(self.frame_20)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(45, 45))
+        self.pushButton.setMaximumSize(QSize(45, 45))
+        self.pushButton.setStyleSheet(u"background:transparent;")
+        self.pushButton.setIcon(icon1)
+
+        self.horizontalLayout_13.addWidget(self.pushButton)
+
+        self.pushButton_2 = QPushButton(self.frame_20)
+        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.pushButton_2.setMinimumSize(QSize(45, 45))
+        self.pushButton_2.setMaximumSize(QSize(45, 45))
+        self.pushButton_2.setStyleSheet(u"background:transparent;")
+        icon4 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSaveAs))
+        self.pushButton_2.setIcon(icon4)
+
+        self.horizontalLayout_13.addWidget(self.pushButton_2)
+
+        self.pushButton_3 = QPushButton(self.frame_20)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pushButton_3.setMinimumSize(QSize(45, 45))
+        self.pushButton_3.setMaximumSize(QSize(45, 45))
+        self.pushButton_3.setStyleSheet(u"background:transparent;")
+        self.pushButton_3.setIcon(icon3)
+
+        self.horizontalLayout_13.addWidget(self.pushButton_3)
+
+
+        self.verticalLayout_17.addWidget(self.frame_20)
+
+        self.frame_19 = QFrame(self.groupBox_5)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.verticalLayout_17.addWidget(self.frame_19)
+
+
+        self.verticalLayout_7.addWidget(self.groupBox_5)
+
         self.groupBox_4 = QGroupBox(self.frame_6)
         self.groupBox_4.setObjectName(u"groupBox_4")
         self.verticalLayout_6 = QVBoxLayout(self.groupBox_4)
@@ -825,70 +883,13 @@ class Ui_InstancePage(object):
 
         self.verticalLayout_7.addWidget(self.groupBox_4)
 
-        self.groupBox_5 = QGroupBox(self.frame_6)
-        self.groupBox_5.setObjectName(u"groupBox_5")
-        self.verticalLayout_17 = QVBoxLayout(self.groupBox_5)
-        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
-        self.frame_20 = QFrame(self.groupBox_5)
-        self.frame_20.setObjectName(u"frame_20")
-        self.frame_20.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_13 = QHBoxLayout(self.frame_20)
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
-        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.comboBox = QComboBox(self.frame_20)
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMinimumSize(QSize(0, 45))
-
-        self.horizontalLayout_13.addWidget(self.comboBox)
-
-        self.pushButton = QPushButton(self.frame_20)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(45, 45))
-        self.pushButton.setMaximumSize(QSize(45, 45))
-        self.pushButton.setStyleSheet(u"background:transparent;")
-        self.pushButton.setIcon(icon1)
-
-        self.horizontalLayout_13.addWidget(self.pushButton)
-
-        self.pushButton_2 = QPushButton(self.frame_20)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setMinimumSize(QSize(45, 45))
-        self.pushButton_2.setMaximumSize(QSize(45, 45))
-        self.pushButton_2.setStyleSheet(u"background:transparent;")
-        self.pushButton_2.setIcon(icon2)
-
-        self.horizontalLayout_13.addWidget(self.pushButton_2)
-
-        self.pushButton_3 = QPushButton(self.frame_20)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setMinimumSize(QSize(45, 45))
-        self.pushButton_3.setMaximumSize(QSize(45, 45))
-        self.pushButton_3.setStyleSheet(u"background:transparent;")
-        self.pushButton_3.setIcon(icon3)
-
-        self.horizontalLayout_13.addWidget(self.pushButton_3)
-
-
-        self.verticalLayout_17.addWidget(self.frame_20)
-
-        self.frame_19 = QFrame(self.groupBox_5)
-        self.frame_19.setObjectName(u"frame_19")
-        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.verticalLayout_17.addWidget(self.frame_19)
-
-
-        self.verticalLayout_7.addWidget(self.groupBox_5)
-
         self.groupBox_2 = QGroupBox(self.frame_6)
         self.groupBox_2.setObjectName(u"groupBox_2")
 
         self.verticalLayout_7.addWidget(self.groupBox_2)
 
-        self.verticalLayout_7.setStretch(0, 2)
-        self.verticalLayout_7.setStretch(1, 2)
+        self.verticalLayout_7.setStretch(0, 1)
+        self.verticalLayout_7.setStretch(1, 1)
         self.verticalLayout_7.setStretch(2, 8)
 
         self.horizontalLayout_5.addWidget(self.frame_6)
@@ -1016,9 +1017,9 @@ class Ui_InstancePage(object):
         self.jr_rotate_preset_settings_.setObjectName(u"jr_rotate_preset_settings_")
         self.jr_rotate_preset_settings_.setMinimumSize(QSize(25, 25))
         self.jr_rotate_preset_settings_.setMaximumSize(QSize(25, 25))
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/images/icons/cil-settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.jr_rotate_preset_settings_.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/images/icons/cil-settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.jr_rotate_preset_settings_.setIcon(icon5)
         self.jr_rotate_preset_settings_.setCheckable(False)
 
         self.horizontalLayout_769.addWidget(self.jr_rotate_preset_settings_)
@@ -1206,7 +1207,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
@@ -1237,17 +1238,17 @@ class Ui_InstancePage(object):
         ___qtablewidgetitem = self.scheduler_table_.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("InstancePage", u"Tasks", None));
         self.label.setText(QCoreApplication.translate("InstancePage", u"Scheduler Status", None))
+        self.groupBox_5.setTitle(QCoreApplication.translate("InstancePage", u"Manage Profile", None))
+        self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Profile", None))
+        self.pushButton.setText("")
+        self.pushButton_2.setText("")
+        self.pushButton_3.setText("")
         self.groupBox_4.setTitle(QCoreApplication.translate("InstancePage", u"Game Settings", None))
         self.label_5.setText(QCoreApplication.translate("InstancePage", u"Kick & Reload", None))
         self.spinBox.setSuffix(QCoreApplication.translate("InstancePage", u"  Mins", None))
         self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break (Local Time)", None))
         self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
         self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
-        self.groupBox_5.setTitle(QCoreApplication.translate("InstancePage", u"Manage Profile", None))
-        self.comboBox.setPlaceholderText(QCoreApplication.translate("InstancePage", u"Select Profile", None))
-        self.pushButton.setText("")
-        self.pushButton_2.setText("")
-        self.pushButton_3.setText("")
         self.groupBox_2.setTitle(QCoreApplication.translate("InstancePage", u"Other Settings", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.run_tab_), QCoreApplication.translate("InstancePage", u"Run", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))

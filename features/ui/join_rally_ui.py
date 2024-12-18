@@ -224,7 +224,7 @@ def switch_monster_checkbox(instance_ui, boss_id, default=True):
         else:
             button.setDisabled(True)
             # Clear the selected levels stored in the button
-            button.setProperty("skipped_levels", [])
+            button.setProperty("selected_ids", [])
 
 def open_level_dialog(button, boss_id):
     """
