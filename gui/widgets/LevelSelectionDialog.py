@@ -59,7 +59,7 @@ class LevelSelectionDialog(QDialog):
 
         for group_start in range(0, total_levels, levels_per_group):
             group_end = min(group_start + levels_per_group, total_levels)
-            group_label = f"Skip Levels {self.level_data[group_start].level} - {self.level_data[group_end - 1].level}"
+            group_label = f"Skip Level {self.level_data[group_start].level} - {self.level_data[group_end - 1].level}"
             group_box = QCheckBox(group_label)
 
             # Connect group checkbox with a proper function to avoid lambda issues
@@ -140,6 +140,7 @@ class LevelSelectionDialog(QDialog):
             group_box.blockSignals(False)
 
         self.update_selected_ids()
+
 
     def update_selected_ids(self):
         """

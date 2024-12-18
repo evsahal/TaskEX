@@ -240,11 +240,12 @@ def open_level_dialog(button, boss_id):
 
     # Open the dialog with selected IDs and level data
     dialog = LevelSelectionDialog(selected_ids, boss_levels,get_boss_preview_name(boss_id))
-
+    dialog.update_group_checkbox_state()
     if dialog.exec():
         # Save the selected levels back to the button
         button.setProperty("selected_ids", dialog.selected_ids)
-        print(f"Selected Levels: {dialog.selected_ids}")
+        # print(f"Selected Levels: {dialog.selected_ids}")
+
 
 
 def get_boss_levels(boss_id):
