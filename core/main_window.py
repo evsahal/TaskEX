@@ -160,8 +160,8 @@ class MainWindow(QMainWindow):
             initialize_instances(self, 1)
         else:
             # Load the instance from db when there are some data in db
-            for i, instance in enumerate(instances, start=1):
-                initialize_instances(self,i,instance)
+            for instance in instances:
+                initialize_instances(self,instance)
 
         session.close()
 

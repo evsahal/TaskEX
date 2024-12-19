@@ -1,3 +1,5 @@
+from time import sleep
+
 from PySide6.QtCore import Qt, QItemSelectionModel
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
@@ -456,7 +458,6 @@ def enable_profile_edit_mode(main_window, index):
     setattr(main_window, cancel_button.objectName(), cancel_button)
     setattr(main_window, delete_button.objectName(), delete_button)
 
-
 def save_profile_name(main_window, index, profile_line_edit):
     # Access combo box and update its selected item
     profile_combo = getattr(main_window.widgets, f"profile_combobox_{index}")
@@ -466,7 +467,6 @@ def save_profile_name(main_window, index, profile_line_edit):
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
-
 
 def cancel_edit_mode(main_window, index):
     # Access the main frame and its child widgets
@@ -491,7 +491,6 @@ def cancel_edit_mode(main_window, index):
             widget.deleteLater()
             delattr(main_window, widget_name)
 
-
 def delete_profile(main_window, index):
     # Access the profile combo box and delete the current profile
     profile_combo = getattr(main_window.widgets, f"profile_combobox_{index}")
@@ -501,7 +500,6 @@ def delete_profile(main_window, index):
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
-
 
 def enable_add_mode(main_window, index):
     # Access the main frame and its child widgets
@@ -555,16 +553,65 @@ def enable_add_mode(main_window, index):
     setattr(main_window, save_button.objectName(), save_button)
     setattr(main_window, cancel_button.objectName(), cancel_button)
 
-
 def add_new_profile(main_window, index, profile_line_edit):
-    # Access the profile combo box and add the new profile
-    profile_combo = getattr(main_window.widgets, f"profile_combobox_{index}")
-    new_profile = profile_line_edit.text()
-    if new_profile:
-        profile_combo.addItem(new_profile)
+    """
+    Add a new profile to the database and update UI elements.
+
+    Args:
+        main_window: The main window containing widgets.
+        index: The index of the current tab.
+        profile_line_edit: QLineEdit containing the new profile name.
+        session: SQLAlchemy session for database operations.
+    """
+
+    # Get the new profile name from the line edit
+    new_profile_name = profile_line_edit.text().strip()
+
+    # Validate the profile name
+    if not new_profile_name:
+        QMessageBox.critical(main_window, "Error", "Profile name cannot be empty.")
+        return
+    session = get_session()
+    # Check if the profile name already exists in the database
+    if session.query(Profile).filter_by(name=new_profile_name).first():
+        QMessageBox.critical(main_window, "Error", f"The profile '{new_profile_name}' already exists.")
+        return
+
+    # Add the new profile to the database
+    try:
+        new_profile = Profile(name=new_profile_name)
+        session.add(new_profile)
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        QMessageBox.critical(main_window, "Error", f"Error saving profile to database")
+        return
+
+    # Update the combo boxes
+    from core.menu_button import get_active_instance_indexes
+    instance_indexes = get_active_instance_indexes(main_window)
+    for instance_index in instance_indexes:
+        # Access the combo boxes
+        profile_combo = getattr(main_window.widgets, f"profile_combobox_{instance_index}")
+        emu_profile_combo = getattr(main_window.widgets, f"emu_profile_{instance_index}")
+
+        profile_combo.addItem(new_profile.name,new_profile.id)
+        if instance_index == index:
+            profile_combo.setCurrentText(new_profile_name)
+
+        # Temporarily disconnect the signal to avoid triggering events
+        try:
+            emu_profile_combo.blockSignals(True)
+            emu_profile_combo.addItem(new_profile.name,new_profile.id)
+        finally:
+            emu_profile_combo.blockSignals(False)
+            session.close()
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
+    QMessageBox.information(main_window, "Information", f"Profile '{new_profile_name}' has been successfully added.")
+
+
 
 def confirm_save_controls(main_window, index):
     """

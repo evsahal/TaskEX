@@ -1192,16 +1192,6 @@ border-radius: 5px;</string>
                         </layout>
                        </widget>
                       </item>
-                      <item>
-                       <widget class="QFrame" name="frame_19">
-                        <property name="frameShape">
-                         <enum>QFrame::Shape::StyledPanel</enum>
-                        </property>
-                        <property name="frameShadow">
-                         <enum>QFrame::Shadow::Raised</enum>
-                        </property>
-                       </widget>
-                      </item>
                      </layout>
                     </widget>
                    </item>
@@ -1481,8 +1471,8 @@ border-radius: 5px;</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>33</width>
-                  <height>56</height>
+                  <width>1067</width>
+                  <height>524</height>
                  </rect>
                 </property>
                 <property name="sizePolicy">

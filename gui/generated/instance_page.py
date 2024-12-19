@@ -773,13 +773,6 @@ class Ui_InstancePage(object):
 
         self.verticalLayout_17.addWidget(self.manage_profile_frame_)
 
-        self.frame_19 = QFrame(self.groupBox_5)
-        self.frame_19.setObjectName(u"frame_19")
-        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.verticalLayout_17.addWidget(self.frame_19)
-
 
         self.verticalLayout_7.addWidget(self.groupBox_5)
 
@@ -934,7 +927,7 @@ class Ui_InstancePage(object):
         self.jr_monster_list_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 33, 56))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1067, 524))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)

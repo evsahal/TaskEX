@@ -276,7 +276,7 @@ def remove_widget(widget):
         # print("Widget is None, nothing to remove.")
         pass
 
-def initialize_instances(main_window, num_instances,instance=None):
+def initialize_instances(main_window,instance=None):
     """
     Initialize a specified number of emulator instances upon loading.
 
@@ -321,3 +321,35 @@ def count_btn_emu_instances(main_window):
             count += 1  # Increment the count for each valid btn_emu_ button
 
     return count
+
+def get_active_instance_indexes(main_window):
+    """
+    Get the indexes of active instances by analyzing buttons in the topMenu frame.
+
+    Args:
+        main_window: The main window containing widgets.
+
+    Returns:
+        A list of integers representing active instance indexes.
+    """
+    # Access the topMenu frame
+    top_menu = main_window.widgets.topMenu
+
+    # Initialize a list to store indexes
+    active_indexes = []
+
+    # Loop through all child widgets of topMenu
+    for child in top_menu.findChildren(QPushButton):
+        object_name = child.objectName()
+
+        # Check if the object name starts with 'btn_emu_'
+        if object_name.startswith("btn_emu_"):
+            try:
+                # Extract the index number from the object name
+                index = int(object_name.split("_")[-1])
+                active_indexes.append(index)
+            except ValueError:
+                # Skip if the name doesn't have a valid integer suffix
+                continue
+
+    return active_indexes
