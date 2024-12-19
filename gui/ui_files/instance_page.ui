@@ -1081,7 +1081,7 @@ border-radius: 5px;</string>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_17">
                       <item>
-                       <widget class="QFrame" name="frame_20">
+                       <widget class="QFrame" name="manage_profile_frame_">
                         <property name="frameShape">
                          <enum>QFrame::Shape::NoFrame</enum>
                         </property>
@@ -1102,7 +1102,7 @@ border-radius: 5px;</string>
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QComboBox" name="comboBox">
+                          <widget class="QComboBox" name="profile_combobox_">
                            <property name="minimumSize">
                             <size>
                              <width>0</width>
@@ -1115,7 +1115,7 @@ border-radius: 5px;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton">
+                          <widget class="QPushButton" name="edit_profile_btn_">
                            <property name="minimumSize">
                             <size>
                              <width>45</width>
@@ -1140,7 +1140,7 @@ border-radius: 5px;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_2">
+                          <widget class="QPushButton" name="save_profile_btn_">
                            <property name="minimumSize">
                             <size>
                              <width>45</width>
@@ -1165,7 +1165,7 @@ border-radius: 5px;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_3">
+                          <widget class="QPushButton" name="add_profile_btn_">
                            <property name="minimumSize">
                             <size>
                              <width>45</width>
@@ -1481,8 +1481,8 @@ border-radius: 5px;</string>
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>1067</width>
-                  <height>524</height>
+                  <width>33</width>
+                  <height>56</height>
                  </rect>
                 </property>
                 <property name="sizePolicy">

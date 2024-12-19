@@ -176,7 +176,7 @@ def add_new_instance_page(main_window,index,instance):
             widget = getattr(instance_ui, attr_name)
             # Check if it's a QWidget with objectName
             if hasattr(widget, 'objectName'):
-                # Only update names that end with '_'
+                # Only update names that end with '_' or '___'
                 if widget.objectName().endswith('_') or widget.objectName().endswith('___'):
                     # print(widget.objectName())
                     new_name = f"{widget.objectName()}{index}"
