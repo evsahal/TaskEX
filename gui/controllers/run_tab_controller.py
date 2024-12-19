@@ -488,6 +488,7 @@ def cancel_edit_mode(main_window, index):
         widget = getattr(main_window, widget_name, None)
         if widget:
             layout.removeWidget(widget)
+            widget.hide()
             widget.deleteLater()
             delattr(main_window, widget_name)
 
@@ -609,7 +610,7 @@ def add_new_profile(main_window, index, profile_line_edit):
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
-    QMessageBox.information(main_window, "Information", f"Profile '{new_profile_name}' has been successfully added.")
+    QMessageBox.information(main_window, "Information", f"Profile '{new_profile.name}' has been successfully added.")
 
 
 
