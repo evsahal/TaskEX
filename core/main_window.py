@@ -157,7 +157,7 @@ class MainWindow(QMainWindow):
 
         if not instances:
             # Load the Default Instances when no data found in db
-            initialize_instances(self, 1)
+            initialize_instances(self)
         else:
             # Load the instance from db when there are some data in db
             for instance in instances:

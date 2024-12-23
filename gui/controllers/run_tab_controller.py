@@ -104,6 +104,7 @@ def update_instance_profile(main_window, index):
         main_window: The main window containing the widgets.
         index: The index of the instance being edited.
     """
+    # print(f"Profile changed {index}")
     profile_combobox = getattr(main_window.widgets, f"emu_profile_{index}")
     instance_id = profile_combobox.property("instance_id")
     selected_profile_id = profile_combobox.currentData()
@@ -493,11 +494,64 @@ def cancel_edit_mode(main_window, index):
             delattr(main_window, widget_name)
 
 def delete_profile(main_window, index):
-    # Access the profile combo box and delete the current profile
+    """
+    Deletes the current profile from the database and updates the UI.
+    """
+    # Access the profile combo box
     profile_combo = getattr(main_window.widgets, f"profile_combobox_{index}")
+    profile_name = profile_combo.currentText()
     current_index = profile_combo.currentIndex()
-    if current_index >= 0:
-        profile_combo.removeItem(current_index)
+
+    # Check if there is only one profile remaining
+    if profile_combo.count() <= 1:
+        QMessageBox.critical(main_window, "Error", "At least one profile must be present!")
+        return
+
+    # Show confirmation dialog
+    confirmation = QMessageBox.question(
+        main_window,
+        "Confirm Deletion",
+        f"Are you sure you want to delete the profile '{profile_name}'?",
+        QMessageBox.Yes | QMessageBox.No
+    )
+    if confirmation != QMessageBox.Yes:
+        return
+
+    # Get the current profile ID
+    profile_id = profile_combo.itemData(current_index)
+    session = get_session()
+
+    # Query and delete the profile from the database using the ID
+    profile = session.query(Profile).filter_by(id=profile_id).first()
+    if profile:
+        session.delete(profile)
+        session.commit()
+    session.close()
+
+
+    # Update the combo boxes
+    from core.menu_button import get_active_instance_indexes
+    instance_indexes = get_active_instance_indexes(main_window)
+    for instance_index in instance_indexes:
+        # Access the combo boxes
+        profile_combobox = getattr(main_window.widgets, f"profile_combobox_{instance_index}")
+        emu_profile_combo = getattr(main_window.widgets, f"emu_profile_{instance_index}")
+
+        # Remove the profile from the combo box
+        profile_combobox.removeItem(current_index)
+
+        # Update Emulator profile combobox
+        if emu_profile_combo.currentData() == profile_id:
+            if current_index != 0:
+                emu_profile_combo.setCurrentIndex(0)
+            else:
+                emu_profile_combo.setCurrentIndex(1)
+        # Remove the profile from the emulator profile combo box
+        emu_profile_combo.removeItem(current_index)
+
+
+    # Show success dialog
+    QMessageBox.information(main_window, "Profile", f"Profile '{profile_name}' deleted successfully!")
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)

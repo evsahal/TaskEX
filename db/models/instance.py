@@ -19,9 +19,3 @@ class Instance(Base):
     # Relationships
     profile = relationship("Profile", back_populates="instances")
 
-# Update the Profile class to include the relationship
-Profile.instances = relationship(
-    "Instance",
-    back_populates="profile",
-    cascade="all, delete-orphan"
-)

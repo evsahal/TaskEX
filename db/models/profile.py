@@ -18,3 +18,8 @@ class Profile(Base):
         back_populates="profile",
         cascade="all, delete-orphan"
     )
+
+    instances = relationship(
+        "Instance",
+        back_populates="profile"
+    )
