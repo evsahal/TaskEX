@@ -460,11 +460,52 @@ def enable_profile_edit_mode(main_window, index):
     setattr(main_window, delete_button.objectName(), delete_button)
 
 def save_profile_name(main_window, index, profile_line_edit):
-    # Access combo box and update its selected item
+    # Access the current profile combo box and details
     profile_combo = getattr(main_window.widgets, f"profile_combobox_{index}")
-    new_name = profile_line_edit.text()
     current_index = profile_combo.currentIndex()
-    profile_combo.setItemText(current_index, new_name)
+    profile_id = profile_combo.itemData(current_index)  # Get the profile ID
+    new_name = profile_line_edit.text().strip()  # Get the new name and trim whitespace
+
+    # Validate the new name
+    if not new_name:
+        QMessageBox.critical(main_window, "Error", "Profile name cannot be empty!")
+        return
+
+    # Check if the new name already exists in the database
+    session = get_session()
+    existing_profile = session.query(Profile).filter(Profile.name == new_name).first()
+    if existing_profile and existing_profile.id != profile_id:
+        QMessageBox.critical(main_window, "Error", "A profile with this name already exists!")
+        session.close()
+        return
+
+    # Update the profile name in the database
+    profile = session.query(Profile).filter_by(id=profile_id).first()
+    if profile:
+        profile.name = new_name
+        session.commit()
+    session.close()
+
+    # Update all instance combo boxes with the new profile name
+    from core.menu_button import get_active_instance_indexes
+    instance_indexes = get_active_instance_indexes(main_window)
+    for instance_index in instance_indexes:
+        # Access the combo boxes
+        profile_combobox = getattr(main_window.widgets, f"profile_combobox_{instance_index}")
+        emu_profile_combo = getattr(main_window.widgets, f"emu_profile_{instance_index}")
+
+        # Update the name in the profile combo box
+        for i in range(profile_combobox.count()):
+            if profile_combobox.itemData(i) == profile_id:
+                profile_combobox.setItemText(i, new_name)
+
+        # Update the name in the emulator profile combo box
+        for i in range(emu_profile_combo.count()):
+            if emu_profile_combo.itemData(i) == profile_id:
+                emu_profile_combo.setItemText(i, new_name)
+
+    # Show success message
+    QMessageBox.information(main_window, "Success", "Profile name updated successfully!")
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
