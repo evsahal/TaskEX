@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'general_profile.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -86,18 +86,29 @@ class Ui_General_Profile(object):
 
         self.frame_2 = QFrame(General_Profile)
         self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_2)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_2)
+        self.verticalLayout_3.setSpacing(15)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.delete_general_btn = QPushButton(self.frame_2)
         self.delete_general_btn.setObjectName(u"delete_general_btn")
         self.delete_general_btn.setMaximumSize(QSize(45, 45))
+        self.delete_general_btn.setStyleSheet(u"border: none; ")
         icon = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.EditDelete))
         self.delete_general_btn.setIcon(icon)
 
-        self.horizontalLayout_2.addWidget(self.delete_general_btn)
+        self.verticalLayout_3.addWidget(self.delete_general_btn)
+
+        self.warning_btn = QPushButton(self.frame_2)
+        self.warning_btn.setObjectName(u"warning_btn")
+        self.warning_btn.setMaximumSize(QSize(45, 45))
+        self.warning_btn.setStyleSheet(u"border: none; ")
+        icon1 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DialogWarning))
+        self.warning_btn.setIcon(icon1)
+
+        self.verticalLayout_3.addWidget(self.warning_btn)
 
 
         self.horizontalLayout.addWidget(self.frame_2, 0, Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
@@ -114,5 +125,6 @@ class Ui_General_Profile(object):
         General_Profile.setWindowTitle(QCoreApplication.translate("General_Profile", u"Form", None))
         self.general_icon_label.setText("")
         self.delete_general_btn.setText("")
+        self.warning_btn.setText("")
     # retranslateUi
 

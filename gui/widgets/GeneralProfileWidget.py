@@ -42,6 +42,17 @@ class GeneralProfileWidget(QWidget):
         self.ui.delete_general_btn.setObjectName(f"delete_general_{self.data.id}")
         self.ui.delete_general_btn.clicked.connect(self.delete_general_profile)
 
+        self.ui.warning_btn.clicked.connect(lambda :self.scan_console.emit("List View template not found for this general"))
+        self.update_warning_button_visibility()
+
+    def update_warning_button_visibility(self):
+        """Update the visibility of the warning button based on the scale value."""
+        if self.data.scale is None or self.data.scale == "":
+            self.ui.warning_btn.show()  # Show if scale is None or empty
+        else:
+            print("Hiding")
+            self.ui.warning_btn.hide()  # Hide if scale is not None or empty
+
     def delete_general_profile(self):
         """
         Remove the current general profile widget from the layout and the UI, and delete the record from the database.

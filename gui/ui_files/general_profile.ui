@@ -154,12 +154,15 @@
    <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop">
     <widget class="QFrame" name="frame_2">
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>15</number>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -180,11 +183,33 @@
           <height>45</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">border: none; </string>
+        </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="warning_btn">
+        <property name="maximumSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: none; </string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::DialogWarning"/>
         </property>
        </widget>
       </item>
