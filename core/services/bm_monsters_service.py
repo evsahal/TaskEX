@@ -6,6 +6,7 @@ import zipfile
 import cv2
 import numpy as np
 import yaml
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QMessageBox, QFileDialog, QVBoxLayout, QWidget, QLabel
 from sqlalchemy import asc
 from sqlalchemy.orm import joinedload
@@ -14,7 +15,7 @@ from core.custom_widgets.SelectionTool import SelectionTool
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterImage, MonsterCategory, MonsterLogic, MonsterLevel
 from utils.helper_utils import copy_image_to_template, copy_image_to_preview
-from utils.image_recognition_utils import template_match_coordinates
+from utils.image_recognition_utils import template_match_coordinates, crop_image, convert_cv_to_qimage
 
 
 def get_all_boss_monster_data_for_bm():
@@ -312,3 +313,47 @@ def start_simulate_monster_click(thread):
 
     except Exception as e:
         print(f"[ERROR] Failed to simulate the click: {e}")
+
+
+def generate_template_image(thread):
+    """Generate the monster template image """
+    try:
+        # Change the icon to loading and disable the button
+        thread.ref.find_template_btn.setIcon(QIcon.fromTheme("sync-synchronizing"))
+        thread.ref.find_template_btn.blockSignals(True)
+
+        captured_images = []
+        for i in range(20):  # Capture 20 frames
+            if not thread._running:
+                break
+
+            # Capture and crop the screenshot
+            cropped = crop_image(
+                thread.adb_manager.take_screenshot(),
+                thread.ref.selection_tool.selected_area
+            )
+
+            # Ensure the cropped image is valid before saving
+            if cropped is not None:
+                # cv2.imwrite(rf"E:\Projects\PyCharmProjects\TaskEX\temp\test\t_{i}.png", cropped)
+                captured_images.append(cropped)
+
+        # Generate the template from the captured images
+        template, best_threshold = generate_monster_template(captured_images)
+
+        # Emit the template and threshold once processing is done
+        thread.ref.template_ready.emit(template, best_threshold)
+
+    except Exception as e:
+        print(f"[ERROR] Failed to generate template: {e}")
+
+    finally:
+        # Reset the icon and re-enable the button
+        thread.ref.reset_template_btn.emit()
+
+def capture_template_ss(thread):
+    # Capture the image
+    captured_image = thread.adb_manager.take_screenshot()
+
+    # Emit the signal to update the Selection Tool Widget
+    thread.ref.frame_ready.emit(convert_cv_to_qimage(captured_image))

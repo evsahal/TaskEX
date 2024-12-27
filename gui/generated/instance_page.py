@@ -474,13 +474,13 @@ class Ui_InstancePage(object):
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(11, 11, 11, 11)
-        self.textEdit = QTextEdit(self.groupBox)
-        self.textEdit.setObjectName(u"textEdit")
-        self.textEdit.setStyleSheet(u"background-color: rgb(0,0,0);\n"
+        self.console_ = QTextEdit(self.groupBox)
+        self.console_.setObjectName(u"console_")
+        self.console_.setStyleSheet(u"background-color: rgb(0,0,0);\n"
 "font: 9pt \"Source Code Pro\";\n"
 "border-radius: 5px;")
 
-        self.verticalLayout_4.addWidget(self.textEdit)
+        self.verticalLayout_4.addWidget(self.console_)
 
 
         self.horizontalLayout_3.addWidget(self.groupBox)
@@ -927,7 +927,7 @@ class Ui_InstancePage(object):
         self.jr_monster_list_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 1067, 524))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 33, 56))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)

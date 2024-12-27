@@ -145,3 +145,23 @@ class ADBManager:
         else:
             # print("Device not connected or found.")
             pass
+
+    def get_screen_resolution(self) -> Optional[tuple[int, int]]:
+        """
+        Retrieve the screen resolution of the connected device.
+        Returns:
+            A tuple (width, height) if successful, otherwise None.
+        """
+        try:
+            # Execute the ADB command to get screen resolution
+            result = self.device.shell("wm size")
+            if "Physical size:" in result:
+                resolution = result.split("Physical size:")[-1].strip()
+                width, height = map(int, resolution.split("x"))
+                return width, height
+            else:
+                print(f"Unexpected output while getting resolution: {result}")
+        except Exception as e:
+            print(f"Error retrieving screen resolution: {e}")
+
+        return None
