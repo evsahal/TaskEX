@@ -227,8 +227,8 @@ def scan_generals_list_view(thread,pending_generals):
                     cv2.imwrite(f"{image_directory}\\{general.list_image_name}",crop_img)
                     session.commit()
                     thread.scan_general_console.emit(f"Updated list view template for {general.name}.")
-                    # Update the warning button # TODO fix this warning button
-                    getattr(thread.main_window.widgets,f"general_profile_{general.id}").update_warning_button_visibility()
+                    # Update the warning button
+                    getattr(thread.main_window.widgets,f"general_profile_{general.id}").update_warning_button_visibility(general.scale)
                     # Update the list view ui,
                     # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
                     toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
