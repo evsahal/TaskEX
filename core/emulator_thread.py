@@ -134,7 +134,6 @@ class EmulatorThread(QThread):
             return False  # Validation fails if unable to fetch time
 
         # Compare current date with expiry date
-        print(get_expire())
         expiry_date = datetime.strptime(get_expire(), "%Y-%m-%d")
         if current_utc.date() > expiry_date.date():
             self.logger.error(f"Bot expired on {expiry_date.date()}")
