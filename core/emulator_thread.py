@@ -1,6 +1,10 @@
+from datetime import datetime
 import os
 
+import ntplib
 from PySide6.QtCore import QThread, Signal
+
+from config.settings import get_expire
 from core.services.bm_monsters_service import start_simulate_monster_click, \
     generate_template_image, capture_template_ss
 from core.services.bm_scan_generals_service import start_scan_generals
@@ -84,8 +88,12 @@ class EmulatorThread(QThread):
     def validate_run(self):
         """
         Validates the emulator environment before running operations.
-        Checks device connection and screen resolution.
+        Checks expiry, device connection and screen resolution.
         """
+        # Check expiry date
+        if not self.validate_expiry():
+            return False
+
         # Check if the device is connected
         if not self.adb_manager.device:
             error_message = f"No device found on port {self.port}"
@@ -108,7 +116,30 @@ class EmulatorThread(QThread):
             self.error.emit(self.index, error_message)
             return False
 
-        self.logger.info("Validation passed. Device is connected and resolution is valid.")
+        self.logger.info("Validation passed. Device is now connected.")
+        return True
+
+    def validate_expiry(self):
+        """
+        Validates the bot's expiry date using an NTP server.
+        Returns True if valid, False if expired or unable to verify.
+        """
+        try:
+            # Query current time from NTP server
+            ntp_client = ntplib.NTPClient()
+            response = ntp_client.request('pool.ntp.org', version=3)
+            current_utc = datetime.utcfromtimestamp(response.tx_time)
+        except Exception as e:
+            self.logger.error(f"Error fetching time from NTP server: {e}")
+            return False  # Validation fails if unable to fetch time
+
+        # Compare current date with expiry date
+        print(get_expire())
+        expiry_date = datetime.strptime(get_expire(), "%Y-%m-%d")
+        if current_utc.date() > expiry_date.date():
+            self.logger.error(f"Bot expired on {expiry_date.date()}")
+            return False
+        # self.logger.info(f"Expiry check passed. Current date: {current_utc.date()}, Expiry date: {expiry_date.date()}.")
         return True
 
     def run(self):
@@ -137,16 +168,16 @@ class EmulatorThread(QThread):
             self.error.emit(self.index, str(e))
         finally:
             self.finished.emit(self.index, self._running)
-            if self._running:
-                self.stop()
+            self.stop()
 
     def stop(self):
         """
         Stops the thread safely.
         """
-        self._running = False
-        self.adb_manager.disconnect_device()
-        self.logger.info("Thread stopped and disconnected.")
+        if self._running:
+            self._running = False
+            self.adb_manager.disconnect_device()
+            self.logger.info("Thread stopped and disconnected.")
 
     def run_emulator_instance(self):
         """
