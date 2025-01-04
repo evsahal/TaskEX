@@ -111,7 +111,7 @@ class EmulatorThread(QThread):
         resolution = self.adb_manager.get_screen_resolution()
         print(resolution)
         if resolution != (540, 960) and resolution != (960, 540):
-            error_message = f"Unsupported screen resolution: {resolution}. Expected: (540, 960)."
+            error_message = f"Unsupported screen resolution: {resolution[0]}x{resolution[1]}. Expected: 540x960."
             self.logger.error(error_message)
             self.error.emit(self.index, error_message)
             return False
@@ -186,7 +186,8 @@ class EmulatorThread(QThread):
 
     def run_join_rally(self):
         controls = get_join_rally_controls(self.main_window, self.index)
-        print(controls)
+        # print(controls)
+
         # count = 0
         # while self._running:
         #     try:

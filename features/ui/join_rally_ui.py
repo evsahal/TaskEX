@@ -1,8 +1,5 @@
-from tabnanny import check
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QCheckBox, QFrame, QVBoxLayout, QPushButton
-
 from core.custom_widgets.FlowLayout import FlowLayout
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from core.services.bm_monsters_service import fetch_boss_monster_data
@@ -32,18 +29,18 @@ def load_join_rally_ui(instance_ui,main_window,index):
     boss_monsters += fetch_boss_monster_data(session, 1, None, BossMonster.preview_name)
     for boss in boss_monsters:
         if boss.monster_logic.id == 1:
-            setup_logic_1(boss,instance_ui,flow_layout_1)
+            setup_logic_1(boss,instance_ui,main_window,flow_layout_1)
 
     # Fetch Logics 2, 3, and 4 (sorted by preview_name)
     boss_monsters = fetch_boss_monster_data(session, [2, 3, 4], None, BossMonster.preview_name)
     for boss in boss_monsters:
         # print(f"Name : {boss.preview_name} :: Logic : {boss.monster_logic.id}")
         if boss.monster_logic.id == 2:
-            setup_logic_2(boss, instance_ui, flow_layout_2)
+            setup_logic_2(boss, instance_ui, main_window, flow_layout_2)
         elif boss.monster_logic.id == 3:
-            setup_logic_3(boss, instance_ui, flow_layout_2)
+            setup_logic_3(boss, instance_ui, main_window, flow_layout_2)
         elif boss.monster_logic.id == 4:
-            setup_logic_4(boss, instance_ui, flow_layout_2)
+            setup_logic_4(boss, instance_ui, main_window, flow_layout_2)
 
     ###--- Join Rally Settings ---###
 
@@ -80,17 +77,18 @@ def openPresetSettings(main_window,index):
 
 
 
-def setup_logic_1(boss,instance_ui,flow_layout):
+def setup_logic_1(boss,instance_ui,main_window,flow_layout):
     # print(f"Name : {boss.preview_name} :: Logic : {boss.monster_logic.id}")
     checkbox = QCheckBox(boss.preview_name)
     checkbox.setObjectName(f"jr_checkbox_boss{boss.id}___")
     # Custom property to store the boss id and logic
-    checkbox.setProperty("boss_id", boss.id)
-    checkbox.setProperty("logic", boss.monster_logic.id)
+    # checkbox.setProperty("boss_id", boss.id)
+    checkbox.setProperty("level_id", boss.levels[0].id)
+    # checkbox.setProperty("logic", boss.monster_logic.id)
     setattr(instance_ui, checkbox.objectName(), checkbox)
     flow_layout.addWidget(checkbox)
 
-def setup_logic_2(boss,instance_ui,flow_layout):
+def setup_logic_2(boss,instance_ui,main_window,flow_layout):
     frame = QFrame()
     vert_layout = QVBoxLayout()
     vert_layout.setContentsMargins(0, 0, 10, 5)
@@ -115,6 +113,7 @@ def setup_logic_2(boss,instance_ui,flow_layout):
     # Populate the QCheckComboBox with levels
     for i,level in enumerate(boss.levels):
         combo_box.addItem(f"Level {level.level}")
+        combo_box.setItemData(i, level.id)
         combo_box.setItemCheckState(i, Qt.Unchecked)
 
     # Disable it by default
@@ -127,7 +126,7 @@ def setup_logic_2(boss,instance_ui,flow_layout):
     # Add the frame to the flow layout
     flow_layout.addWidget(frame)
 
-def setup_logic_3(boss,instance_ui,flow_layout):
+def setup_logic_3(boss,instance_ui,main_window,flow_layout):
     frame = QFrame()
     vert_layout = QVBoxLayout()
     vert_layout.setContentsMargins(0, 0, 10, 5)
@@ -152,6 +151,7 @@ def setup_logic_3(boss,instance_ui,flow_layout):
     # Populate the QCheckComboBox with levels
     for i,level in enumerate(boss.levels):
         combo_box.addItem(level.name)
+        combo_box.setItemData(i, level.id)
         combo_box.setItemCheckState(i, Qt.Unchecked)
 
     # Disable it by default
@@ -165,21 +165,25 @@ def setup_logic_3(boss,instance_ui,flow_layout):
     flow_layout.addWidget(frame)
 
 
-def setup_logic_4(boss,instance_ui,flow_layout):
+def setup_logic_4(boss,instance_ui,main_window,flow_layout):
     frame = QFrame()
     vert_layout = QVBoxLayout()
     vert_layout.setContentsMargins(0, 0, 10, 5)
 
     # Add a checkbox for the boss
-    check_box = QCheckBox(boss.preview_name)
-    check_box.setObjectName(f"jr_checkbox_boss{boss.id}___")
-    setattr(instance_ui, check_box.objectName(), check_box)
-    check_box.stateChanged.connect(lambda: switch_monster_checkbox(instance_ui, boss.id,False))
-    vert_layout.addWidget(check_box)
+    checkbox = QCheckBox(boss.preview_name)
+    checkbox.setObjectName(f"jr_checkbox_boss{boss.id}___")
+    # Custom property to store the boss id and logic
+    checkbox.setProperty("boss_id", boss.id)
+    checkbox.setProperty("logic", boss.monster_logic.id)
+    setattr(instance_ui, checkbox.objectName(), checkbox)
+    checkbox.stateChanged.connect(lambda: switch_monster_checkbox(instance_ui, boss.id,False))
+    vert_layout.addWidget(checkbox)
 
     # Add a Pushbutton for listing boss levels
     button = QPushButton("Skip Levels")
     button.setObjectName(f"jr_button_boss{boss.id}___")
+    button.setProperty("selected_ids", [])
     button.setFixedHeight(40)
     button.setMinimumWidth(135)
     setattr(instance_ui, button.objectName(), button)

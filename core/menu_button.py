@@ -74,7 +74,6 @@ def handle_button_click(main_window, btn):
         page = getattr(main_window.widgets, page_name)
         # page = main_window.findChild(QWidget, page_name)
 
-
         if page:
             # Set the corresponding page in the stackedWidget
             main_window.widgets.stackedWidget.setCurrentWidget(page)
@@ -168,6 +167,9 @@ def add_new_instance_page(main_window,index,instance):
     # Register dynamically created widgets to main_window.widgets
     setattr(main_window.widgets, new_page.objectName(), new_page)
 
+    # Load Join Rally UI
+    load_join_rally_ui(instance_ui, main_window, index)
+
     # Loop through all the attributes in instance_ui that are widgets and update the object name
     for attr_name in dir(instance_ui):
         # Ignore special methods and attributes
@@ -207,8 +209,6 @@ def add_new_instance_page(main_window,index,instance):
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
 
-    # Load Join Rally UI
-    load_join_rally_ui(instance_ui,main_window,index)
 
 def delete_instance_check(main_window,index):
     total_instance = count_btn_emu_instances(main_window)
