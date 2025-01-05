@@ -8,6 +8,8 @@ from db.models import MonsterLevel
 
 
 def get_join_rally_controls(main_window, index):
+
+    # GET MONSTER DATA TO JOIN
     jr_monster_list1_frame = getattr(main_window.widgets,f"jr_monster_list1_frame_{index}")
     jr_monster_list2_frame = getattr(main_window.widgets,f"jr_monster_list2_frame_{index}")
     selected_level_ids = []
@@ -59,6 +61,26 @@ def get_join_rally_controls(main_window, index):
 
     session.close()
 
-    for level in levels:
-        # print(level.boss_monster.monster_logic_id)
-        print(level.level,level.name)
+    # for level in levels:
+    #     # print(level.boss_monster.monster_logic_id)
+    #     print(level.level,level.name)
+
+    # GET JOIN RALLY SETTINGS
+    settings = {}
+    # Selected presets and its settings
+
+    # Auto use stamina
+    auto_use_stamina_checkbox = getattr(main_window.widgets, f"jr_auto_use_stamina___{index}")
+    auto_use_stamina_combobox = getattr(main_window.widgets, f"jr_auto_use_stamina_options___{index}")
+    settings["auto_use_stamina"] = {
+        "enabled": auto_use_stamina_checkbox.isChecked(),  # Checkbox value
+        "option": None if not auto_use_stamina_checkbox.isChecked() else auto_use_stamina_combobox.currentText()
+    }
+
+    # combine the dict to return the values
+    join_rally_controls = {
+        # "data": levels,
+        "settings": settings
+    }
+
+    return join_rally_controls

@@ -983,6 +983,46 @@ class Ui_InstancePage(object):
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setHorizontalSpacing(7)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.frame_749 = QFrame(self.frame_18)
+        self.frame_749.setObjectName(u"frame_749")
+        self.frame_749.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_749.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_40 = QVBoxLayout(self.frame_749)
+        self.verticalLayout_40.setSpacing(7)
+        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
+        self.verticalLayout_40.setContentsMargins(11, 11, 11, 11)
+        self.widget_36 = QWidget(self.frame_749)
+        self.widget_36.setObjectName(u"widget_36")
+        self.horizontalLayout_763 = QHBoxLayout(self.widget_36)
+        self.horizontalLayout_763.setObjectName(u"horizontalLayout_763")
+        self.horizontalLayout_763.setContentsMargins(0, 0, 0, 0)
+        self.jr_auto_use_stamina___ = QCheckBox(self.widget_36)
+        self.jr_auto_use_stamina___.setObjectName(u"jr_auto_use_stamina___")
+
+        self.horizontalLayout_763.addWidget(self.jr_auto_use_stamina___, 0, Qt.AlignmentFlag.AlignTop)
+
+
+        self.verticalLayout_40.addWidget(self.widget_36)
+
+        self.widget_37 = QWidget(self.frame_749)
+        self.widget_37.setObjectName(u"widget_37")
+        self.verticalLayout_168 = QVBoxLayout(self.widget_37)
+        self.verticalLayout_168.setObjectName(u"verticalLayout_168")
+        self.verticalLayout_168.setContentsMargins(0, 7, 0, 0)
+        self.jr_auto_use_stamina_options___ = QComboBox(self.widget_37)
+        self.jr_auto_use_stamina_options___.addItem("")
+        self.jr_auto_use_stamina_options___.addItem("")
+        self.jr_auto_use_stamina_options___.setObjectName(u"jr_auto_use_stamina_options___")
+        self.jr_auto_use_stamina_options___.setMinimumSize(QSize(0, 40))
+
+        self.verticalLayout_168.addWidget(self.jr_auto_use_stamina_options___)
+
+
+        self.verticalLayout_40.addWidget(self.widget_37)
+
+
+        self.gridLayout_3.addWidget(self.frame_749, 0, 1, 1, 1)
+
         self.frame_748 = QFrame(self.frame_18)
         self.frame_748.setObjectName(u"frame_748")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
@@ -1121,45 +1161,43 @@ class Ui_InstancePage(object):
 
         self.gridLayout_3.addWidget(self.frame_748, 0, 0, 1, 1)
 
-        self.frame_749 = QFrame(self.frame_18)
-        self.frame_749.setObjectName(u"frame_749")
-        self.frame_749.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_749.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_40 = QVBoxLayout(self.frame_749)
-        self.verticalLayout_40.setSpacing(7)
-        self.verticalLayout_40.setObjectName(u"verticalLayout_40")
-        self.verticalLayout_40.setContentsMargins(11, 11, 11, 11)
-        self.widget_36 = QWidget(self.frame_749)
-        self.widget_36.setObjectName(u"widget_36")
-        self.horizontalLayout_763 = QHBoxLayout(self.widget_36)
-        self.horizontalLayout_763.setObjectName(u"horizontalLayout_763")
-        self.horizontalLayout_763.setContentsMargins(0, 0, 0, 0)
-        self.auto_use_stamina___ = QCheckBox(self.widget_36)
-        self.auto_use_stamina___.setObjectName(u"auto_use_stamina___")
+        self.frame_19 = QFrame(self.frame_18)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_18 = QVBoxLayout(self.frame_19)
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.widget = QWidget(self.frame_19)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_14 = QHBoxLayout(self.widget)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.jr_march_speed___ = QCheckBox(self.widget)
+        self.jr_march_speed___.setObjectName(u"jr_march_speed___")
 
-        self.horizontalLayout_763.addWidget(self.auto_use_stamina___, 0, Qt.AlignmentFlag.AlignTop)
+        self.horizontalLayout_14.addWidget(self.jr_march_speed___)
 
 
-        self.verticalLayout_40.addWidget(self.widget_36)
+        self.verticalLayout_18.addWidget(self.widget)
 
-        self.widget_37 = QWidget(self.frame_749)
-        self.widget_37.setObjectName(u"widget_37")
-        self.verticalLayout_168 = QVBoxLayout(self.widget_37)
-        self.verticalLayout_168.setObjectName(u"verticalLayout_168")
-        self.verticalLayout_168.setContentsMargins(0, 7, 0, 0)
-        self.auto_use_stamina_options___ = QComboBox(self.widget_37)
-        self.auto_use_stamina_options___.addItem("")
-        self.auto_use_stamina_options___.addItem("")
-        self.auto_use_stamina_options___.setObjectName(u"auto_use_stamina_options___")
-        self.auto_use_stamina_options___.setMinimumSize(QSize(0, 40))
+        self.widget_2 = QWidget(self.frame_19)
+        self.widget_2.setObjectName(u"widget_2")
+        self.horizontalLayout_15 = QHBoxLayout(self.widget_2)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 7, 0, 0)
+        self.jr_march_speed_configure___ = QPushButton(self.widget_2)
+        self.jr_march_speed_configure___.setObjectName(u"jr_march_speed_configure___")
+        self.jr_march_speed_configure___.setMinimumSize(QSize(0, 40))
+        icon6 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
+        self.jr_march_speed_configure___.setIcon(icon6)
 
-        self.verticalLayout_168.addWidget(self.auto_use_stamina_options___)
-
-
-        self.verticalLayout_40.addWidget(self.widget_37)
+        self.horizontalLayout_15.addWidget(self.jr_march_speed_configure___)
 
 
-        self.gridLayout_3.addWidget(self.frame_749, 0, 1, 1, 1)
+        self.verticalLayout_18.addWidget(self.widget_2)
+
+
+        self.gridLayout_3.addWidget(self.frame_19, 0, 2, 1, 1)
 
 
         self.verticalLayout_16.addWidget(self.frame_18, 0, Qt.AlignmentFlag.AlignLeft)
@@ -1200,7 +1238,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
@@ -1247,6 +1285,10 @@ class Ui_InstancePage(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))
         self.skip_monsters_gb.setTitle(QCoreApplication.translate("InstancePage", u"Skip Monsters", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("InstancePage", u"Join Settings", None))
+        self.jr_auto_use_stamina___.setText(QCoreApplication.translate("InstancePage", u"Auto Use Stamina", None))
+        self.jr_auto_use_stamina_options___.setItemText(0, QCoreApplication.translate("InstancePage", u"Min Stamina", None))
+        self.jr_auto_use_stamina_options___.setItemText(1, QCoreApplication.translate("InstancePage", u"Max Stamina", None))
+
         self.label_234.setText(QCoreApplication.translate("InstancePage", u"Select March Preset", None))
 #if QT_CONFIG(tooltip)
         self.jr_rotate_preset_settings_.setToolTip(QCoreApplication.translate("InstancePage", u"Preset Settings", None))
@@ -1284,10 +1326,8 @@ class Ui_InstancePage(object):
         self.rotate_preset_8___.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 8", None))
 #endif // QT_CONFIG(tooltip)
         self.rotate_preset_8___.setText(QCoreApplication.translate("InstancePage", u"8", None))
-        self.auto_use_stamina___.setText(QCoreApplication.translate("InstancePage", u"Auto Use Stamina", None))
-        self.auto_use_stamina_options___.setItemText(0, QCoreApplication.translate("InstancePage", u"Min Stamina", None))
-        self.auto_use_stamina_options___.setItemText(1, QCoreApplication.translate("InstancePage", u"Max Stamina", None))
-
+        self.jr_march_speed___.setText(QCoreApplication.translate("InstancePage", u"Boost March Speed", None))
+        self.jr_march_speed_configure___.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_hunting_tab_), QCoreApplication.translate("InstancePage", u"Monster Hunting", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.resource_gathering_tab_), QCoreApplication.translate("InstancePage", u"Resource Gathering", None))

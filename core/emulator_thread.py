@@ -186,7 +186,7 @@ class EmulatorThread(QThread):
 
     def run_join_rally(self):
         controls = get_join_rally_controls(self.main_window, self.index)
-        # print(controls)
+        print(controls)
 
         # count = 0
         # while self._running:
