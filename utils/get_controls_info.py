@@ -4,7 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 from db.db_setup import get_session
-from db.models import MonsterLevel
+from db.models import MonsterLevel, JoinRallyPresetOption, PresetGeneralAssignment, GeneralPreset, \
+    JoinRallyPresetConfiguration
 
 
 def get_join_rally_controls(main_window, index):
@@ -59,15 +60,94 @@ def get_join_rally_controls(main_window, index):
         .where(MonsterLevel.id.in_(selected_level_ids))
     ).scalars().all()
 
-    session.close()
+
 
     # for level in levels:
     #     # print(level.boss_monster.monster_logic_id)
     #     print(level.level,level.name)
 
     # GET JOIN RALLY SETTINGS
-    settings = {}
+    settings = {"selected_presets": {"presets": {}, "general_preset_config": None, "main_generals": None, "assistant_generals": None}}
+
     # Selected presets and its settings
+    selected_presets = []
+    # Start capturing march preset settings
+    for preset_number in range(1, 9):  # Iterate through all 8 presets
+        preset_button = getattr(main_window.widgets, f"rotate_preset_{preset_number}___{index}")
+        if preset_button.isChecked():  # Check if the preset is selected
+            selected_presets.append(preset_number)
+
+    # Fetch preset options from the database for the selected presets
+    try:
+        profile_id = getattr(main_window.widgets, f"emu_profile_{index}").currentData()
+        preset_config = session.query(JoinRallyPresetConfiguration).filter_by(profile_id=profile_id).first()
+        preset_options = session.query(JoinRallyPresetOption).filter(
+            JoinRallyPresetOption.preset_configuration_id == preset_config.id,
+            JoinRallyPresetOption.preset_number.in_(selected_presets)
+        ).all()
+
+        # Process each selected preset's options
+        use_selected_generals_flag = False
+
+        for option in preset_options:
+            # Add preset settings under 'presets' key with the preset number as key
+            settings["selected_presets"]["presets"][option.preset_number] = {
+                "use_selected_generals": option.use_selected_generals,
+                "skip_no_general": option.skip_no_general,
+                "reset_to_one_troop": option.reset_to_one_troop,
+            }
+
+            # Check if any selected preset has 'use_selected_generals' enabled
+            if option.use_selected_generals:
+                use_selected_generals_flag = True
+
+        # If 'use_selected_generals' is enabled, fetch GeneralPreset and PresetGeneralAssignment data
+        if use_selected_generals_flag:
+            general_preset = session.query(GeneralPreset).filter_by(id=preset_config.general_preset_id).first()
+            if general_preset:
+                settings["selected_presets"]["general_preset_config"] = {
+                    "id": general_preset.id,
+                    "name": general_preset.name,
+                    "general_category": general_preset.general_category.value,
+                    "general_view": general_preset.general_view.value,
+                    "general_filter": general_preset.general_filter,
+                    "swipe_attempts": general_preset.swipe_attempts
+                }
+
+                main_generals = session.query(PresetGeneralAssignment).filter_by(
+                    preset_id=general_preset.id,
+                    is_main_general=True
+                ).all()
+
+                assistant_generals = session.query(PresetGeneralAssignment).filter_by(
+                    preset_id=general_preset.id,
+                    is_main_general=False
+                ).all()
+
+                settings["selected_presets"]["main_generals"] = [
+                    {
+                        "id": gen.general.id,  "name": gen.general.name,  "details_image_name": gen.general.details_image_name,
+                        "list_image_name": gen.general.list_image_name
+                    }
+                    for gen in main_generals
+                ]
+
+                settings["selected_presets"]["assistant_generals"] = [
+                    {
+                        "id": gen.general.id, "name": gen.general.name,
+                        "details_image_name": gen.general.details_image_name,
+                        "list_image_name": gen.general.list_image_name
+                    }
+                    for gen in assistant_generals
+                ]
+
+
+    except Exception as e:
+        print(e)
+
+    finally:
+        session.close()
+
 
     # Auto use stamina
     auto_use_stamina_checkbox = getattr(main_window.widgets, f"jr_auto_use_stamina___{index}")
