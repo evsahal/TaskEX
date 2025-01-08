@@ -12,8 +12,7 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
     def __init__(self, parent,index):
         super(PresetConfigDialog, self).__init__(parent)
         self.profile_id = getattr(parent.widgets, f"emu_profile_{index}").currentData()
-        self.preset_data = []  # To store all preset data
-        self.preset_id = None  # To store the currently selected preset ID
+        self.general_preset_id = None  # To store the currently selected preset ID
         self.init_ui()
 
     def init_ui(self):
@@ -34,6 +33,9 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
         # Populate the general_preset_combobox with preset names
         self.load_general_presets()
 
+        # Load profile-specific preset options
+        self.load_profile_preset_options()
+
     def load_general_presets(self):
         """
         Load general preset names from the database and populate the combo box.
@@ -46,9 +48,6 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
             # Query all general presets
             general_presets = session.query(GeneralPreset).all()
 
-            # Store preset data in a class variable
-            self.preset_data = general_presets
-
             # Clear the combo box before adding items
             self.general_preset_combobox.clear()
 
@@ -56,16 +55,16 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
             for preset in general_presets:
                 self.general_preset_combobox.addItem(preset.name,preset.id)
 
-            # Set the selected preset based on self.preset_id
-            if self.preset_id is None:
+            # Set the selected preset based on self.general_preset_id
+            if self.general_preset_id is None:
                 # If no preset_id is set, select the first option by default
                 if general_presets:
-                    self.preset_id = general_presets[0].id
+                    self.general_preset_id = general_presets[0].id
                     self.general_preset_combobox.setCurrentIndex(0)
             else:
                 # If preset_id is set, check if it exists in the new list
                 matching_preset_index = next(
-                    (index for index, preset in enumerate(general_presets) if preset.id == self.preset_id),
+                    (index for index, preset in enumerate(general_presets) if preset.id == self.general_preset_id),
                     None
                 )
                 if matching_preset_index is not None:
@@ -73,29 +72,79 @@ class PresetConfigDialog(QDialog, Ui_PresetConfigDialog):
                     self.general_preset_combobox.setCurrentIndex(matching_preset_index)
                 elif general_presets:
                     # If not found, fall back to the first option
-                    self.preset_id = general_presets[0].id
+                    self.general_preset_id = general_presets[0].id
                     self.general_preset_combobox.setCurrentIndex(0)
                 else:
                     # If no presets exist, set preset_id to None
-                    self.preset_id = None
+                    self.general_preset_id = None
         finally:
             # Reconnect the signal after loading
             self.general_preset_combobox.blockSignals(False)
             # Close the session to avoid connection issues
             session.close()
 
+    def load_profile_preset_options(self):
+        """
+        Load the preset options and general preset ID based on the selected profile.
+        """
+        session = get_session()
+        try:
+            # Fetch the preset configuration for the selected profile
+            preset_config = session.query(JoinRallyPresetConfiguration).filter_by(profile_id=self.profile_id).first()
+
+
+            # Set the general preset ID and load the value to the combobox
+            self.general_preset_id = preset_config.general_preset_id
+
+            # Access the combobox
+            general_preset_combobox = getattr(self, f"general_preset_combobox")
+
+            # Find the index of the item with the data matching general_preset_id
+            index = general_preset_combobox.findData(preset_config.general_preset_id)
+
+            # If the index is valid, set it as the current index
+            if index != -1:
+                general_preset_combobox.setCurrentIndex(index)
+            else:
+                # Handle case where the ID is not found, e.g., set to the first item or show a warning
+                general_preset_combobox.setCurrentIndex(0)
+
+
+            # Fetch all preset options associated with this configuration
+            preset_options = session.query(JoinRallyPresetOption).filter_by(
+                preset_configuration_id=preset_config.id).all()
+
+            # Populate the UI for each preset option
+            for option in preset_options:
+                # Access widgets dynamically by preset number
+                use_generals_checkbox = getattr(self, f"preset_{option.preset_number}_option_1")
+                skip_no_general_checkbox = getattr(self, f"preset_{option.preset_number}_option_2")
+                reset_to_one_troop_checkbox = getattr(self,f"preset_{option.preset_number}_option_3")
+
+                # Update the checkbox states based on the database values
+                use_generals_checkbox.setChecked(option.use_selected_generals)
+                skip_no_general_checkbox.setChecked(option.skip_no_general)
+                reset_to_one_troop_checkbox.setChecked(option.reset_to_one_troop)
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"An error occurred while loading presets: {e}")
+        finally:
+            # Ensure the session is closed
+            session.close()
+
+
     def update_preset_id(self):
         """
         Update the preset ID when the combo box value changes.
         """
-        self.preset_id = self.general_preset_combobox.currentData()
+        self.general_preset_id = self.general_preset_combobox.currentData()
 
     def open_manage_general_presets_dialog(self):
         """
         Open the GeneralsSelectionDialog and pass the selected preset ID.
         """
-        if self.preset_id is not None:
-            general_selection_dialog = GeneralsSelectionDialog(self, self.preset_id)
+        if self.general_preset_id is not None:
+            general_selection_dialog = GeneralsSelectionDialog(self, self.general_preset_id)
             general_selection_dialog.exec()  # Use exec() for modal dialog
 
             # After the dialog closes, reload presets

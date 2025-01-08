@@ -4,9 +4,10 @@ from PySide6.QtCore import Qt, QItemSelectionModel
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
     QComboBox, QLineEdit, QLabel, QVBoxLayout, QMessageBox, QFrame
+from sqlalchemy import select
 
 from db.db_setup import get_session
-from db.models import Profile, Instance
+from db.models import Profile, Instance, GeneralPreset, JoinRallyPresetConfiguration, JoinRallyPresetOption
 
 
 def init_run_tab(main_window, index, instance):
@@ -707,7 +708,42 @@ def add_new_profile(main_window, index, profile_line_edit):
     cancel_edit_mode(main_window, index)
     QMessageBox.information(main_window, "Information", f"Profile '{new_profile.name}' has been successfully added.")
 
+    # Create the default entries for preset configurations and preset options
+    session = get_session()
+    profile_id = getattr(main_window.widgets, f"profile_combobox_{index}").currentData()
 
+    # Fetch the first general preset ID
+    general_preset = session.execute(
+        select(GeneralPreset.id).order_by(GeneralPreset.id.asc()).limit(1)
+    ).scalar()
+
+    # Insert a new entry into `jr_preset_configurations`
+    new_preset_configuration = JoinRallyPresetConfiguration(
+        profile_id=profile_id,
+        general_preset_id=general_preset
+    )
+    session.add(new_preset_configuration)
+    # Flush to get the new `jr_preset_configuration_id`
+    session.flush()
+
+    # Create 8 entries in `jr_preset_options`
+    preset_options = []
+    for preset_number in range(1, 9):
+        preset_options.append(
+            JoinRallyPresetOption(
+                preset_configuration_id=new_preset_configuration.id,
+                preset_number=preset_number,
+                # preset_selected=(preset_number == 1),  # True for the first preset, False for others
+                use_selected_generals=False,
+                skip_no_general=False,
+                reset_to_one_troop=False
+            )
+        )
+
+    # Bulk insert the preset options
+    session.bulk_save_objects(preset_options)
+    session.commit()
+    session.close()
 
 def confirm_save_controls(main_window, index):
     """
