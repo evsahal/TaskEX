@@ -368,52 +368,6 @@ QGroupBox::title { color: rgb(161, 110, 235); }
               </layout>
              </widget>
             </item>
-            <item alignment="Qt::AlignmentFlag::AlignRight">
-             <widget class="QFrame" name="frame_12">
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Shadow::Raised</enum>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QPushButton" name="save_btn">
-                 <property name="minimumSize">
-                  <size>
-                   <width>130</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>  Save Preset</string>
-                 </property>
-                 <property name="icon">
-                  <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
            </layout>
           </widget>
          </item>
@@ -1061,7 +1015,7 @@ color: rgb(161, 110, 235);</string>
      </layout>
     </widget>
    </item>
-   <item>
+   <item alignment="Qt::AlignmentFlag::AlignRight">
     <widget class="QFrame" name="frame_3">
      <property name="frameShape">
       <enum>QFrame::Shape::NoFrame</enum>
@@ -1092,6 +1046,28 @@ color: rgb(161, 110, 235);</string>
         </property>
         <property name="text">
          <string>Exit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="save_btn">
+        <property name="minimumSize">
+         <size>
+          <width>130</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>  Save Preset</string>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
         </property>
        </widget>
       </item>

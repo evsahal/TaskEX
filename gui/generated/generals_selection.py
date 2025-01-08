@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'generals_selection.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -300,25 +300,6 @@ class Ui_GeneralsSelectionDialog(object):
 
 
         self.horizontalLayout_8.addWidget(self.manage_preset_frame, 0, Qt.AlignmentFlag.AlignLeft)
-
-        self.frame_12 = QFrame(self.groupBox)
-        self.frame_12.setObjectName(u"frame_12")
-        self.frame_12.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_9 = QHBoxLayout(self.frame_12)
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.save_btn = QPushButton(self.frame_12)
-        self.save_btn.setObjectName(u"save_btn")
-        self.save_btn.setMinimumSize(QSize(130, 40))
-        self.save_btn.setMaximumSize(QSize(16777215, 40))
-        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
-        self.save_btn.setIcon(icon3)
-
-        self.horizontalLayout_9.addWidget(self.save_btn)
-
-
-        self.horizontalLayout_8.addWidget(self.frame_12, 0, Qt.AlignmentFlag.AlignRight)
 
 
         self.horizontalLayout_7.addWidget(self.groupBox)
@@ -649,8 +630,17 @@ class Ui_GeneralsSelectionDialog(object):
 
         self.horizontalLayout_3.addWidget(self.exit_btn, 0, Qt.AlignmentFlag.AlignRight)
 
+        self.save_btn = QPushButton(self.frame_3)
+        self.save_btn.setObjectName(u"save_btn")
+        self.save_btn.setMinimumSize(QSize(130, 40))
+        self.save_btn.setMaximumSize(QSize(16777215, 40))
+        icon3 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentSave))
+        self.save_btn.setIcon(icon3)
 
-        self.verticalLayout.addWidget(self.frame_3)
+        self.horizontalLayout_3.addWidget(self.save_btn)
+
+
+        self.verticalLayout.addWidget(self.frame_3, 0, Qt.AlignmentFlag.AlignRight)
 
         self.verticalLayout.setStretch(1, 15)
         self.verticalLayout.setStretch(2, 1)
@@ -673,7 +663,6 @@ class Ui_GeneralsSelectionDialog(object):
         self.edit_btn.setText("")
         self.delete_btn.setText("")
         self.add_btn.setText("")
-        self.save_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"  Save Preset", None))
         self.label_2.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"All Generals", None))
         self.all_generals_main.setProperty(u"item_info", "")
         self.label_3.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Selected Generals (Main Generals)", None))
@@ -706,5 +695,6 @@ class Ui_GeneralsSelectionDialog(object):
         self.label_6.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Swipe Attempts", None))
         self.swipe_attempts_spinbox.setSuffix(QCoreApplication.translate("GeneralsSelectionDialog", u" Times", None))
         self.exit_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"Exit", None))
+        self.save_btn.setText(QCoreApplication.translate("GeneralsSelectionDialog", u"  Save Preset", None))
     # retranslateUi
 

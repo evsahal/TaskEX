@@ -8,6 +8,7 @@ pyside6-uic gui/ui_files/black_market_profile.ui -o gui/generated/black_market_p
 pyside6-uic gui/ui_files/champion_profile.ui -o gui/generated/champion_profile.py
 pyside6-uic gui/ui_files/generals_selection.ui -o gui/generated/generals_selection.py
 pyside6-uic gui/ui_files/preset_configuration.ui -o gui/generated/preset_configuration.py
+pyside6-uic gui/ui_files/march_speed_selection.ui -o gui/generated/march_speed_selection.py
 
 
 pyside6-uic gui/ui_files/splash_screen.ui -o gui/generated/splash_screen.py
