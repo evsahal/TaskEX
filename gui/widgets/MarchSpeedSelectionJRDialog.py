@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QDialog, QMessageBox
-
+from PySide6.QtCore import Qt
 from gui.generated.march_speed_selection import Ui_MarchSpeedSelectionJRDialog
 
 class MarchSpeedSelectionJRDialog(QDialog, Ui_MarchSpeedSelectionJRDialog):
@@ -8,6 +8,8 @@ class MarchSpeedSelectionJRDialog(QDialog, Ui_MarchSpeedSelectionJRDialog):
         self.button = button  # Reference to the button with settings
         self.index = index
         self.init_ui()
+        # Set the dialog to non-modal
+        self.setWindowModality(Qt.ApplicationModal)
 
     def init_ui(self):
         self.setupUi(self)
