@@ -209,6 +209,14 @@ def add_new_instance_page(main_window,index,instance):
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
 
+    # Load the first profile in the list as default
+    emu_profile = getattr(main_window.widgets, f"emu_profile_{index}")
+    # Check if the combo box has any items
+    if emu_profile.count() > 0:
+        # Select the first option
+        emu_profile.setCurrentIndex(0)
+
+
 
 def delete_instance_check(main_window,index):
     total_instance = count_btn_emu_instances(main_window)
