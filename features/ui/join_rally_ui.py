@@ -6,6 +6,7 @@ from core.services.bm_monsters_service import fetch_boss_monster_data
 from db.db_setup import get_session
 from db.models import BossMonster, MonsterLevel
 from gui.widgets.LevelSelectionDialog import LevelSelectionDialog
+from gui.widgets.MarchSpeedSelectionJRDialog import MarchSpeedSelectionJRDialog
 from gui.widgets.PresetConfigDialog import PresetConfigDialog
 
 
@@ -46,7 +47,7 @@ def load_join_rally_ui(instance_ui,main_window,index):
 
     # Connect the preset config dialog
     preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
-    preset_config_btn.clicked.connect(lambda :openPresetSettings(main_window,index))
+    preset_config_btn.clicked.connect(lambda :open_preset_settings(main_window,index))
 
     # Make Preset buttons checked for at least one preset option
     # Generate march preset button names dynamically
@@ -62,6 +63,21 @@ def load_join_rally_ui(instance_ui,main_window,index):
     for button in buttons:
         button.toggled.connect(lambda checked, btn=button: on_button_toggled(btn, buttons))
 
+    # Access the march speed config button
+    march_speed_configure_btn = getattr(instance_ui, "jr_march_speed_configure___")
+
+    # Initialize default settings for this button
+    march_speed_configure_btn.setProperty('config_values',{
+        "use_free_boost": True,
+        "use_free_boost_gems": False,
+        "boost_hours": 1,
+        "boost_repeat_times": 9999,
+    })
+
+    # Connect boost march speed config button
+    march_speed_configure_btn.clicked.connect(lambda: open_march_speed_config_settings(march_speed_configure_btn,main_window, index))
+
+
 def on_button_toggled(button, buttons):
     # Perform the check only if the march preset button is being unchecked
     if not button.isChecked():
@@ -71,10 +87,13 @@ def on_button_toggled(button, buttons):
             button.setChecked(True)
 
 
-def openPresetSettings(main_window,index):
+def open_preset_settings(main_window,index):
     preset_config_dialog = PresetConfigDialog(main_window,index)
     preset_config_dialog.show()
 
+def open_march_speed_config_settings(btn,main_window,index):
+    march_speed_config_dialog = MarchSpeedSelectionJRDialog(main_window,btn,index)
+    march_speed_config_dialog.show()
 
 
 def setup_logic_1(boss,instance_ui,main_window,flow_layout):

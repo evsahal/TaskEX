@@ -157,9 +157,17 @@ def get_join_rally_controls(main_window, index):
         "option": None if not auto_use_stamina_checkbox.isChecked() else auto_use_stamina_combobox.currentText()
     }
 
+    # March Speed Boost
+    march_speed_boost_checkbox = getattr(main_window.widgets, f"jr_march_speed___{index}")
+    march_speed_boost_config_btn = getattr(main_window.widgets, f"jr_march_speed_configure___{index}")
+    settings["march_speed_boost"] = {
+        "enabled": march_speed_boost_checkbox.isChecked(),  # Checkbox value
+        "option": None if not march_speed_boost_checkbox.isChecked() else march_speed_boost_config_btn.property('config_values')
+    }
+
     # combine the dict to return the values
     join_rally_controls = {
-        # "data": levels,
+        "data": levels,
         "settings": settings
     }
 
