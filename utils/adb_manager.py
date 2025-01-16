@@ -94,8 +94,6 @@ class ADBManager:
             self.device.shell(f"input swipe {x1} {y1} {x2} {y2} {duration}")
             # print(f"Swiped on device {self.device.serial} from ({x1}, {y1}) to ({x2}, {y2}) over {duration} ms.")
 
-
-
     def take_screenshot(self) -> Optional[np.ndarray]:
         """
         Take a screenshot of the specified device and return the screenshot as a NumPy array.

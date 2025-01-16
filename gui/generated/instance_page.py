@@ -800,12 +800,13 @@ class Ui_InstancePage(object):
 
         self.horizontalLayout.addWidget(self.label_5)
 
-        self.spinBox = QSpinBox(self.frame_15)
-        self.spinBox.setObjectName(u"spinBox")
-        self.spinBox.setMinimumSize(QSize(120, 40))
-        self.spinBox.setValue(5)
+        self.kick_reload_spinbox___ = QSpinBox(self.frame_15)
+        self.kick_reload_spinbox___.setObjectName(u"kick_reload_spinbox___")
+        self.kick_reload_spinbox___.setMinimumSize(QSize(120, 40))
+        self.kick_reload_spinbox___.setMaximum(999)
+        self.kick_reload_spinbox___.setValue(5)
 
-        self.horizontalLayout.addWidget(self.spinBox)
+        self.horizontalLayout.addWidget(self.kick_reload_spinbox___)
 
 
         self.verticalLayout_11.addWidget(self.frame_15, 0, Qt.AlignmentFlag.AlignLeft)
@@ -1278,7 +1279,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
@@ -1316,7 +1317,7 @@ class Ui_InstancePage(object):
         self.add_profile_btn_.setText("")
         self.groupBox_4.setTitle(QCoreApplication.translate("InstancePage", u"Game Settings", None))
         self.label_5.setText(QCoreApplication.translate("InstancePage", u"Kick & Reload", None))
-        self.spinBox.setSuffix(QCoreApplication.translate("InstancePage", u"  Mins", None))
+        self.kick_reload_spinbox___.setSuffix(QCoreApplication.translate("InstancePage", u"  Min(s)", None))
         self.checkBox.setText(QCoreApplication.translate("InstancePage", u"Add Break (Local Time)", None))
         self.label_3.setText(QCoreApplication.translate("InstancePage", u"Start Time", None))
         self.label_4.setText(QCoreApplication.translate("InstancePage", u"End Time", None))
@@ -1368,7 +1369,7 @@ class Ui_InstancePage(object):
         self.rotate_preset_8___.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 8", None))
 #endif // QT_CONFIG(tooltip)
         self.rotate_preset_8___.setText(QCoreApplication.translate("InstancePage", u"8", None))
-        self.jr_prioritize_rallies___.setText(QCoreApplication.translate("InstancePage", u"Prioritize Rallies", None))
+        self.jr_prioritize_rallies___.setText(QCoreApplication.translate("InstancePage", u"Boss Join Priority", None))
         self.jr_prioritize_rallies_config_btn_.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_hunting_tab_), QCoreApplication.translate("InstancePage", u"Monster Hunting", None))

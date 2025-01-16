@@ -427,7 +427,7 @@ QPushButton:pressed {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="run_tab_">
       <attribute name="title">
@@ -1254,7 +1254,7 @@ border-radius: 5px;</string>
                              </widget>
                             </item>
                             <item>
-                             <widget class="QSpinBox" name="spinBox">
+                             <widget class="QSpinBox" name="kick_reload_spinbox___">
                               <property name="minimumSize">
                                <size>
                                 <width>120</width>
@@ -1262,7 +1262,10 @@ border-radius: 5px;</string>
                                </size>
                               </property>
                               <property name="suffix">
-                               <string>  Mins</string>
+                               <string>  Min(s)</string>
+                              </property>
+                              <property name="maximum">
+                               <number>999</number>
                               </property>
                               <property name="value">
                                <number>5</number>
@@ -2122,7 +2125,7 @@ QPushButton:checked {
                          <bool>false</bool>
                         </property>
                         <property name="text">
-                         <string>Prioritize Rallies</string>
+                         <string>Boss Join Priority</string>
                         </property>
                        </widget>
                       </item>

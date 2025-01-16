@@ -1,7 +1,10 @@
+import time
 from datetime import datetime
 import os
 
+import cv2
 import ntplib
+import numpy as np
 from PySide6.QtCore import QThread, Signal
 
 from config.settings import get_expire
@@ -9,10 +12,12 @@ from core.services.bm_monsters_service import start_simulate_monster_click, \
     generate_template_image, capture_template_ss
 from core.services.bm_scan_generals_service import start_scan_generals
 from db.models import General
+from features.logic.join_rally import run_join_rally
 from utils.adb_manager import ADBManager
 import logging
 
-from utils.get_controls_info import get_join_rally_controls
+from utils.get_controls_info import get_game_settings_controls
+from utils.image_recognition_utils import is_template_match, template_match_coordinates
 
 
 class EmulatorThread(QThread):
@@ -34,6 +39,7 @@ class EmulatorThread(QThread):
         self._running = True
         self.adb_manager = ADBManager(port)
         self.logger = self.configure_logger()
+        self.game_settings = {}
 
     def configure_logger(self):
         """
@@ -152,6 +158,7 @@ class EmulatorThread(QThread):
 
             # Perform the operation based on the type
             if self.operation_type == "emu":
+                self.game_settings = get_game_settings_controls(self.main_window,self.index)
                 self.run_emulator_instance()
             elif self.operation_type == "scan_general":
                 start_scan_generals(self)
@@ -182,25 +189,65 @@ class EmulatorThread(QThread):
         """
         Runs the emulator instance based on the mode.
         """
-        self.run_join_rally()
+        run_join_rally(self)
 
-    def run_join_rally(self):
-        controls = get_join_rally_controls(self.main_window, self.index)
-        print(controls)
+    def capture_and_validate_screen(self,kick_timer=True, ads=True):
+        src_img = self.adb_manager.take_screenshot()
+        restart_img = cv2.imread("assets/540p/other/restart_btn.png")
+        world_map_btn = cv2.imread("assets/540p/other/explore_world_map_btn.png")
+        if kick_timer and is_template_match(src_img, restart_img):
+            # print("kick timer activated")
+            self.logger.info(f"Kick & Reload activated for {self.game_settings['kick_reload']} min(s)")
+            time.sleep(self.game_settings['kick_reload'] * 60)
+            # print("kick timer done")
+            self.logger.info("Kick timer done. Restart initiated")
+            # Restart the game
+            src_img = self.adb_manager.take_screenshot()
+            restart = template_match_coordinates(src_img, restart_img)
+            if restart:
+                self.adb_manager.tap(restart[0], restart[1])
+                time.sleep(7)
+                src_img = self.adb_manager.take_screenshot()
+            else:
+                # When restart button is gone, restart the game by starting it again
+                self.adb_manager.launch_evony(False)
+                time.sleep(1)
+                self.adb_manager.launch_evony(True)
+            start_time = time.time()
+            timeout = 60
+            while not is_template_match(src_img, world_map_btn):
+                # Wait a bit before the next screenshot to reduce CPU usage
+                time.sleep(1)
+                # Check if the timeout has been reached
+                elapsed_time = time.time() - start_time
+                if elapsed_time > timeout:
+                    # print("Game stuck in loading screen. Restarting...")
+                    self.logger.info("Game stuck in loading screen. Restarting...")
+                    self.adb_manager.launch_evony(False)  # Close the game
+                    time.sleep(1)  # Wait for a few seconds before relaunching
+                    self.adb_manager.launch_evony(True)  # Relaunch the game
+                    start_time = time.time()  # Reset the start time after relaunching
 
-        # count = 0
-        # while self._running:
-        #     try:
-        #         if self.index == 1:
-        #             self.adb_manager.swipe(100, 300, 500, 300)
-        #         else:
-        #             self.adb_manager.swipe(250, 100, 250, 700)
-        #
-        #         count += 1
-        #         if count > 20:
-        #             break
-        #     except Exception as e:
-        #         self.logger.error(f"Error during emulator operation: {e}")
-        #         self.error.emit(self.index, str(e))
-        #         break
+                # print("Still loading")
+                # Capture the new image
+                src_img = self.adb_manager.take_screenshot()
+
+        if ads:
+            for i in range(1, 7):
+                ads_img = cv2.imread(f"assets/540p/other/x{i}.png")
+                if is_template_match(src_img, ads_img):
+                    if i == 6:
+                        pair_image = cv2.imread(f"assets/540p/other/x{i}_pair.png")
+                        if not is_template_match(src_img, pair_image):
+                            continue
+                    # print("Ads found")
+                    self.logger.info("Closing the ads/pop-ups")
+                    ads_match = template_match_coordinates(src_img, ads_img)
+                    self.adb_manager.tap(ads_match[0],ads_match[1])
+                    time.sleep(1)
+                    src_img = self.adb_manager.take_screenshot()
+                    break
+        return src_img
+
+
 
