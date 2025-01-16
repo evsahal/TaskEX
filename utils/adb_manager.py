@@ -117,6 +117,15 @@ class ADBManager:
             print("Device not connected or found.")
             return None
 
+    def press_back(self) -> None:
+        """
+        Perform a back button press operation on the specified device.
+        """
+        if self.device:
+            self.device.shell("input keyevent KEYCODE_BACK")  # ADB command for back button
+            # print(f"Back button pressed on device {self.device.serial}.")
+
+
     def launch_evony(self, start: bool = True) -> None:
         """
         Start or stop the Evony app on the connected device using adbutils.

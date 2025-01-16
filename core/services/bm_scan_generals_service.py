@@ -58,7 +58,7 @@ def start_scan_generals(thread):
             return False
 
     # Navigate to the generals window
-    if not navigate_generals_window(device):
+    if not navigate_generals_window(thread):
         thread.scan_general_console.emit("Failed to navigate to generals window.")
         thread.scan_general_error.emit()
         return False
