@@ -53,7 +53,7 @@ def navigate_join_rally_window(thread):
     # Take the ss
     src_img = thread.capture_and_validate_screen()
 
-    ongoing_rally_btn_img = cv2.imread('assets/540p/other/ongoing_rally_btn.png')
+    ongoing_rally_btn_img = cv2.imread('assets/540p/join rally/ongoing_rally_btn.png')
     ongoing_rally_btn_match = template_match_coordinates(src_img,ongoing_rally_btn_img)
     if ongoing_rally_btn_match:
         # Tap the ongoing rally button and return success
@@ -74,7 +74,7 @@ def navigate_join_rally_window(thread):
     thread.adb_manager.tap(alliance_btn_match[0], alliance_btn_match[1])
     time.sleep(1)
     src_img = thread.capture_and_validate_screen()
-    alliance_war_window_option_img = cv2.imread('assets/540p/other/alliance_war_window_option.png')
+    alliance_war_window_option_img = cv2.imread('assets/540p/join rally/alliance_war_window_option.png')
     alliance_war_window_option_match = template_match_coordinates(src_img, alliance_war_window_option_img)
     if not alliance_war_window_option_match:
         return False
@@ -86,9 +86,9 @@ def navigate_join_rally_window(thread):
     return True
 
 def ensure_and_setup_pvp_war_window_screen(thread):
-    alliance_war_window_tag_img = cv2.imread('assets/540p/other/alliance_war_window_tag.png')
-    battle_logs_btn_img = cv2.imread('assets/540p/other/battle_logs_btn.png')
-    pvp_war_tab_img = cv2.imread('assets/540p/other/pvp_war_tab.png')
+    alliance_war_window_tag_img = cv2.imread('assets/540p/join rally/alliance_war_window_tag.png')
+    battle_logs_btn_img = cv2.imread('assets/540p/join rally/battle_logs_btn.png')
+    pvp_war_tab_img = cv2.imread('assets/540p/join rally/pvp_war_tab.png')
 
     src_img = thread.capture_and_validate_screen()
 
@@ -111,8 +111,8 @@ def ensure_and_setup_pvp_war_window_screen(thread):
         return False
 
     # Now verify only Monster War option is selected
-    war_checked_img = cv2.imread('assets/540p/other/war_checked.png')
-    war_unchecked_img = cv2.imread('assets/540p/other/war_unchecked.png')
+    war_checked_img = cv2.imread('assets/540p/join rally/war_checked.png')
+    war_unchecked_img = cv2.imread('assets/540p/join rally/war_unchecked.png')
 
     # Crop the monster war and war option checkbox image area
     src_img_height,src_img_width,_ = src_img.shape
