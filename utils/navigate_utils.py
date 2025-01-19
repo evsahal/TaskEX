@@ -43,8 +43,7 @@ def navigate_generals_window(thread):
 def navigate_join_rally_window(thread):
 
     # Check if it already opened the right window by checking for the battle logs button and verify the options selected
-    if not ensure_and_setup_pvp_war_window_screen(thread):
-        return False
+    ensure_and_setup_pvp_war_window_screen(thread)
 
     # Else, then make sure the game screen is inside alliance city or world map
     if not ensure_alliance_city_or_world_map_screen(thread):
