@@ -1,9 +1,11 @@
 from utils.get_controls_info import get_join_rally_controls
+from utils.navigate_utils import navigate_join_rally_window
 
 
 def run_join_rally(thread):
     controls = get_join_rally_controls(thread.main_window, thread.index)
     # print(controls)
+    navigate_join_rally_window(thread)
 
     count = 0
     while thread._running:
