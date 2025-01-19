@@ -8,7 +8,6 @@ from time import sleep
 import cv2
 import numpy as np
 import unicodedata
-from adbutils import device
 from pytesseract import pytesseract
 
 from db.db_setup import get_session
@@ -25,7 +24,6 @@ from utils.text_extraction_util import filter_general_name
 
 def start_scan_generals(thread):
     main_window = thread.main_window
-    device = thread.adb_manager
     # Check all the options are selected
     if not is_general_scan_options_valid(thread):
         return False
@@ -83,7 +81,7 @@ def start_scan_generals(thread):
     # print(f"Selected items: {checked_items}") # ['Favorite', 'Idle']
 
     # Apply Filters
-    apply_general_filter(device,0 in checked_indices,1 in checked_indices, thread.main_window.scan_general_console)
+    apply_general_filter(thread.adb_manager,0 in checked_indices,1 in checked_indices, thread.main_window.scan_general_console)
 
     # Start Scanning.
     scan_view = main_window.widgets.scan_generals_view
@@ -94,7 +92,6 @@ def start_scan_generals(thread):
 
 def scan_generals_details_view(thread):
     main_window = thread.main_window
-    device = thread.adb_manager
     scan_types = main_window.widgets.scan_generals_type
     # print(scan_types.checkedIndices())
 
@@ -106,7 +103,7 @@ def scan_generals_details_view(thread):
         while True:
             sleep(1)
             # Take screenshot
-            src_img = device.take_screenshot()
+            src_img = thread.capture_and_validate_screen(ads=False)
             # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\tmp\\{generate_unique_filename("src")}.png", src_img)
             # Loop through the frames
             for frame_type, frame_images in scan_frames.items():
@@ -154,9 +151,9 @@ def scan_generals_details_view(thread):
 
             # Swipe logic for scrolling through the list
             if counter == 0:
-                device.swipe(330, 680, 330, 580, 1000)
+                thread.adb_manager.swipe(330, 680, 330, 580, 1000)
             else:
-                device.swipe(330, 680, 330, 350, 3800)
+                thread.adb_manager.swipe(330, 680, 330, 350, 3800)
 
             # Check the end of generals list
             if previous_src_img is not None:
@@ -181,7 +178,6 @@ def scan_generals_details_view(thread):
 
 def scan_generals_list_view(thread,pending_generals):
     main_window = thread.main_window
-    device = thread.adb_manager
 
     # Define the directory to save the image
     image_directory = os.path.join("assets", "540p", "generals")
@@ -195,10 +191,11 @@ def scan_generals_list_view(thread,pending_generals):
     previous_src_img = None
     session = get_session()
     try:
+        swipe_counter = 0
         while True:
             sleep(1)
             # Take screenshot
-            src_img = device.take_screenshot()
+            src_img = thread.capture_and_validate_screen(ads=False)
 
             # Get all the generals with frames
             cropped_generals = extract_general_with_frames(src_img,selected_frames)
@@ -246,7 +243,8 @@ def scan_generals_list_view(thread,pending_generals):
                 return True
 
             # Swipe for scrolling through the list
-            device.swipe(330, 780, 330, 350, 3800)
+            y_end = 350 if swipe_counter == 0 else 320
+            thread.adb_manager.swipe(330, 780, 330, y_end, 3800)
 
             # Check the end of generals list
             if previous_src_img is not None:
@@ -259,7 +257,7 @@ def scan_generals_list_view(thread,pending_generals):
                     thread.stop()  # Stop the thread properly
                     return True
             previous_src_img = crop_bottom_half(src_img)
-            # break  # temp break to exit the program after taking one ss
+            swipe_counter += 1
 
     except Exception as e:
         print(e)
