@@ -16,7 +16,7 @@ def select_general_view(thread,view):
     }
 
     # Capture a screenshot
-    src_img = thread.adb_manager.take_screenshot()
+    src_img = thread.capture_and_validate_screen(ads=False)
 
     #  Load the template image
     template_img = cv2.imread(view_templates[view])
@@ -57,7 +57,7 @@ def select_general_category(thread,category):
     }
 
     # Capture a screenshot
-    src_img = thread.adb_manager.take_screenshot()
+    src_img = thread.capture_and_validate_screen(ads=False)
 
     # Load the template image to verify
     template_img = cv2.imread(f"{category_templates[category]}_selected.png")
@@ -79,7 +79,7 @@ def select_general_category(thread,category):
         return True
     return False
 
-def apply_general_filter(device,favorite=False, idle=False,signal=None):
+def apply_general_filter(thread,favorite=False, idle=False,signal=None):
 
 
     # Define all the template images
@@ -89,7 +89,7 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
     idle_unchecked_img = cv2.imread(f"{template_loc}\\idle_unchecked.png")
 
     # Capture a screenshot
-    src_img = device.take_screenshot()
+    src_img = thread.capture_and_validate_screen(ads=False)
 
     if favorite:
         # Check if favorite is checked,if not check it
@@ -104,7 +104,7 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
                     signal.emit("Applying favorite filter now.")
                 # print("Selecting Favorite Filter")
                 # self.invokeScanGeneralsConsole("Applying the favorite filter")
-                device.tap(src_img_match[0],src_img_match[1])
+                thread.adb_manager.tap(src_img_match[0],src_img_match[1])
     else:
         # Check if favorite is unchecked,if not uncheck it
         if is_template_match(src_img, favorite_unchecked_img):
@@ -117,7 +117,7 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
                 # print("Clearing Favorite Filter")
                 if signal:
                     signal.emit("Clearing the favorite filter.")
-                device.tap(src_img_match[0],src_img_match[1])
+                thread.adb_manager.tap(src_img_match[0],src_img_match[1])
 
     if idle:
         # Check if idle is checked,if not check it
@@ -133,7 +133,7 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
                     signal.emit("Applying idle filter now.")
                 # print("Selecting Idle Filter")
                 # self.invokeScanGeneralsConsole("Applying the idle filter")
-                device.tap(src_img_match[0], src_img_match[1])
+                thread.adb_manager.tap(src_img_match[0], src_img_match[1])
     else:
         # Check if idle is unchecked,if not uncheck it
         if is_template_match(src_img, idle_unchecked_img):
@@ -146,7 +146,7 @@ def apply_general_filter(device,favorite=False, idle=False,signal=None):
                 if signal:
                     signal.emit("Clearing the idle filter.")
                 # print("Clearing Idle Filter")
-                device.tap(src_img_match[0], src_img_match[1])
+                thread.adb_manager.tap(src_img_match[0], src_img_match[1])
 
 def crop_general_template_list_view(image):
     # Get the image dimensions

@@ -81,7 +81,7 @@ def start_scan_generals(thread):
     # print(f"Selected items: {checked_items}") # ['Favorite', 'Idle']
 
     # Apply Filters
-    apply_general_filter(thread.adb_manager,0 in checked_indices,1 in checked_indices, thread.main_window.scan_general_console)
+    apply_general_filter(thread,0 in checked_indices,1 in checked_indices, thread.main_window.scan_general_console)
 
     # Start Scanning.
     scan_view = main_window.widgets.scan_generals_view
