@@ -1,11 +1,18 @@
 import os
 import ctypes
+import sys
+
+from PySide6.QtGui import QGuiApplication
+
 
 def set_approximate_dpi():
     user32 = ctypes.windll.user32
+    user32.SetProcessDPIAware()
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
     print(f"Reported resolution: {screen_width}x{screen_height}")
+
+
 
     # Map screen sizes to DPI
     # Approximate DPI based on screen width and height
@@ -15,6 +22,9 @@ def set_approximate_dpi():
         dpi = 144
     elif screen_width >= 2560 or screen_height >= 1440:  # 2K Displays
         dpi = 120
+
+    elif screen_width >= 1920 or screen_height >= 1080:  # 1680x1050 Displays
+        dpi = 96
     elif screen_width >= 1680 or screen_height >= 1050:  # 1680x1050 Displays
         print("CP - 1")
         dpi = 110
