@@ -1,7 +1,5 @@
-import os
-
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QParallelAnimationGroup, QEvent, QTimer
-from PySide6.QtGui import QIcon, QColor, QFont
+from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QPushButton, QGraphicsDropShadowEffect, QSizeGrip, QApplication
 
 from core.app_settings import Settings
@@ -145,7 +143,7 @@ class UIFunctions():
             left_width = 0
         # Check values
         if right_box_width == 0 and direction == "right":
-            right_width = 180
+            right_width = 200
         else:
             right_width = 0       
 

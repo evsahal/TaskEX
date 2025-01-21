@@ -1,12 +1,9 @@
 import sys
-import time
 
-from PySide6 import QtCore
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QLineEdit, QProgressBar, QMainWindow, QWidget
-from PySide6.QtCore import Qt, Signal, QPropertyAnimation, QPoint, QEasingCurve, QTimer, QSettings
+from PySide6.QtCore import Qt, Signal, QTimer, QSettings
+from PySide6.QtWidgets import QMainWindow
 
 from config.settings import VERSION
-from core.app_settings import Settings
 from gui.generated.splash_screen import Ui_SplashScreen
 
 

@@ -5,3 +5,4 @@ from .blackmarket import BlackMarket,BlackMarketItem
 from .profile import Profile
 from .instance import Instance
 from .preset import JoinRallyPresetOption,JoinRallyPresetConfiguration
+from .screen_config import ScreenConfig

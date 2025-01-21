@@ -18,8 +18,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QFrame,
     QGridLayout, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QMainWindow, QPlainTextEdit, QPushButton,
-    QScrollArea, QSizePolicy, QStackedWidget, QTabWidget,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+    QScrollArea, QSizePolicy, QSpinBox, QStackedWidget,
+    QTabWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 import resources_rc
@@ -1391,7 +1392,7 @@ class Ui_MainWindow(object):
         self.bm_monsters_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 1166, 513))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 966, 513))
         self.horizontalLayout_14 = QHBoxLayout(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setContentsMargins(11, 11, 11, 11)
@@ -1454,7 +1455,7 @@ class Ui_MainWindow(object):
         self.bm_black_market_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 1166, 646))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 966, 646))
         self.horizontalLayout_17 = QHBoxLayout(self.scrollAreaWidgetContents_4)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.blackmarket_list_frame = QFrame(self.scrollAreaWidgetContents_4)
@@ -1491,7 +1492,7 @@ class Ui_MainWindow(object):
         self.bm_champions_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 1166, 646))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 966, 646))
         self.horizontalLayout_18 = QHBoxLayout(self.scrollAreaWidgetContents_3)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.champions_list_frame = QFrame(self.scrollAreaWidgetContents_3)
@@ -1531,6 +1532,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
         self.themeSettingsTopDetail = QFrame(self.extraRightBox)
         self.themeSettingsTopDetail.setObjectName(u"themeSettingsTopDetail")
+        self.themeSettingsTopDetail.setMinimumSize(QSize(0, 0))
         self.themeSettingsTopDetail.setMaximumSize(QSize(16777215, 3))
         self.themeSettingsTopDetail.setFrameShape(QFrame.Shape.NoFrame)
         self.themeSettingsTopDetail.setFrameShadow(QFrame.Shadow.Raised)
@@ -1547,23 +1549,98 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.topMenus = QFrame(self.contentSettings)
         self.topMenus.setObjectName(u"topMenus")
+        self.topMenus.setMinimumSize(QSize(0, 0))
         self.topMenus.setFrameShape(QFrame.Shape.NoFrame)
         self.topMenus.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_14 = QVBoxLayout(self.topMenus)
         self.verticalLayout_14.setSpacing(0)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.btn_support = QPushButton(self.topMenus)
-        self.btn_support.setObjectName(u"btn_support")
-        sizePolicy.setHeightForWidth(self.btn_support.sizePolicy().hasHeightForWidth())
-        self.btn_support.setSizePolicy(sizePolicy)
-        self.btn_support.setMinimumSize(QSize(0, 45))
-        self.btn_support.setFont(font)
-        self.btn_support.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.btn_support.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.btn_support.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-coffee.png);")
+        self.frame_7 = QFrame(self.topMenus)
+        self.frame_7.setObjectName(u"frame_7")
+        self.frame_7.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_7.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_18 = QVBoxLayout(self.frame_7)
+        self.verticalLayout_18.setSpacing(0)
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.verticalLayout_18.setContentsMargins(0, 0, 0, 11)
+        self.btn_screen_settings = QPushButton(self.frame_7)
+        self.btn_screen_settings.setObjectName(u"btn_screen_settings")
+        self.btn_screen_settings.setEnabled(False)
+        sizePolicy.setHeightForWidth(self.btn_screen_settings.sizePolicy().hasHeightForWidth())
+        self.btn_screen_settings.setSizePolicy(sizePolicy)
+        self.btn_screen_settings.setMinimumSize(QSize(0, 45))
+        self.btn_screen_settings.setFont(font)
+        self.btn_screen_settings.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.btn_screen_settings.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.btn_screen_settings.setStyleSheet(u"background-image: url(:/icons/images/icons/cil-screen-desktop.png);")
 
-        self.verticalLayout_14.addWidget(self.btn_support)
+        self.verticalLayout_18.addWidget(self.btn_screen_settings)
+
+        self.line_2 = QFrame(self.frame_7)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_2.setFrameShape(QFrame.Shape.HLine)
+
+        self.verticalLayout_18.addWidget(self.line_2)
+
+        self.frame_9 = QFrame(self.frame_7)
+        self.frame_9.setObjectName(u"frame_9")
+        self.frame_9.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_9.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_24 = QVBoxLayout(self.frame_9)
+        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
+        self.frame_10 = QFrame(self.frame_9)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_20 = QHBoxLayout(self.frame_10)
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.label = QLabel(self.frame_10)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_20.addWidget(self.label)
+
+        self.dpi_spinbox = QSpinBox(self.frame_10)
+        self.dpi_spinbox.setObjectName(u"dpi_spinbox")
+        self.dpi_spinbox.setMinimumSize(QSize(70, 40))
+        self.dpi_spinbox.setMinimum(75)
+        self.dpi_spinbox.setMaximum(500)
+        self.dpi_spinbox.setValue(96)
+
+        self.horizontalLayout_20.addWidget(self.dpi_spinbox)
+
+
+        self.verticalLayout_24.addWidget(self.frame_10, 0, Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignVCenter)
+
+        self.label_4 = QLabel(self.frame_9)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setStyleSheet(u"QLabel {\n"
+"        color: #BBBBBB;  /* Light gray for dark mode */\n"
+"        font-size: 13px; /* Slightly small font size */\n"
+"        font-weight: normal;  /* Not too bold */\n"
+" \n"
+"        border-radius: 4px; /* Smooth edges for style */\n"
+"        padding: 5px; /* Add padding for aesthetics */\n"
+"    }\n"
+"")
+        self.label_4.setTextFormat(Qt.TextFormat.MarkdownText)
+
+        self.verticalLayout_24.addWidget(self.label_4, 0, Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignVCenter)
+
+
+        self.verticalLayout_18.addWidget(self.frame_9)
+
+        self.line = QFrame(self.frame_7)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.Shape.HLine)
+        self.line.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.verticalLayout_18.addWidget(self.line)
+
+
+        self.verticalLayout_14.addWidget(self.frame_7)
 
         self.btn_logout = QPushButton(self.topMenus)
         self.btn_logout.setObjectName(u"btn_logout")
@@ -1724,7 +1801,9 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monsters), QCoreApplication.translate("MainWindow", u"Monsters", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.black_market), QCoreApplication.translate("MainWindow", u"Black Market", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.champions), QCoreApplication.translate("MainWindow", u"Champions", None))
-        self.btn_support.setText(QCoreApplication.translate("MainWindow", u"Support", None))
+        self.btn_screen_settings.setText(QCoreApplication.translate("MainWindow", u"Screen Settings", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Screen DPI", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Restart to apply DPI settings!", None))
         self.btn_logout.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
         self.creditsLabel.setText(QCoreApplication.translate("MainWindow", u"By: ", None))
         self.version.setText(QCoreApplication.translate("MainWindow", u"v1.0.3", None))

@@ -79,7 +79,7 @@ def navigate_join_rally_window(thread):
     # Tap the alliance war window icon
     thread.adb_manager.tap(alliance_war_window_option_match[0], alliance_war_window_option_match[1])
     time.sleep(1)
-    src_img = thread.capture_and_validate_screen()
+    # src_img = thread.capture_and_validate_screen()
     ensure_and_setup_pvp_war_window_screen(thread)
     return True
 
