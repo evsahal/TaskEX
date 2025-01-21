@@ -41,10 +41,13 @@ class EmulatorThread(QThread):
         self.logger = self.configure_logger()
         self.game_settings = {}
 
-    def configure_logger(self):
+    def configure_logger(self, console=True):
         """
         Configures and returns a logger based on the operation type and ensures unique logger instances.
-        Logs to both a file and optionally a QTextEdit widget for "emu".
+        Logs to a file and optionally to a QTextEdit widget for "emu" if `console` is True.
+
+        Parameters:
+            console (bool): If True, logs are printed to the bot's QTextEdit console. Default is True.
         """
         # Create a unique logger name based on operation_type and index
         if self.operation_type == "emu":
@@ -71,13 +74,8 @@ class EmulatorThread(QThread):
             file_handler.setFormatter(file_formatter)
             logger.addHandler(file_handler)
 
-            # Stream handler for console (optional for emu)
-            stream_handler = logging.StreamHandler()
-            stream_handler.setFormatter(file_formatter)
-            logger.addHandler(stream_handler)
-
-            # QTextEdit handler (for "emu" only)
-            if self.operation_type == "emu":
+            # QTextEdit handler (for "emu" only if console is True)
+            if self.operation_type == "emu" and console:
                 console_widget = getattr(self.main_window.widgets, f"console_{self.index}", None)
                 if console_widget:
                     class QTextEditHandler(logging.Handler):

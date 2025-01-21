@@ -20,5 +20,5 @@ def run_join_rally(thread):
             if count > 20:
                 break
         except Exception as e:
-            thread.logger.error(f"Error during emulator operation: {e}")
+            # thread.logger.error(f"Error during emulator operation: {e}")
             break
