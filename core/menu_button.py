@@ -6,6 +6,7 @@ from PySide6.QtCore import QSize, Qt, QSettings
 from PySide6.QtGui import QIcon, QCursor, QFont, QPalette
 from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
     QSpacerItem, QMessageBox
+from numpy.lib.npyio import savez
 from requests import session
 from sqlalchemy.orm.loading import instances
 
@@ -13,12 +14,12 @@ from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls
 from core.ui_functions import UIFunctions
 from db.db_setup import get_session
-from db.models import Instance
+from db.models import Instance, ScreenConfig
 from features.ui.join_rally_ui import load_join_rally_ui
 from gui.controllers.run_tab_controller import init_run_tab
 from gui.generated.instance_page import Ui_InstancePage
 from utils.dialog_utils import show_error_dialog, show_confirmation_dialog
-from utils.helper_utils import extract_number_from_string
+from utils.helper_utils import extract_number_from_string, get_screen_resolution
 
 
 def handle_button_click(main_window, btn):
@@ -94,6 +95,22 @@ def connect_buttons(main_window):
     main_window.widgets.btn_add.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_add))
     main_window.widgets.btn_bot_manager.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_bot_manager))
     main_window.widgets.btn_logout.clicked.connect(lambda: handle_button_click(main_window, main_window.widgets.btn_logout))
+    main_window.widgets.dpi_spinbox.valueChanged.connect(lambda :save_screen_dpi(main_window.widgets.dpi_spinbox))
+
+def save_screen_dpi(dpi_spinbox):
+    session = get_session()
+    dpi = dpi_spinbox.value()
+    screen_resolution = get_screen_resolution()
+    try:
+        screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
+        screen_config.dpi = dpi  # Update the DPI value
+        print(f"Updated DPI for {screen_resolution} to {dpi}")
+    except Exception as e:
+        print(e)
+    finally:
+        session.commit()
+        session.close()
+
 
 def logout():
     settings = QSettings("TaskEnforceX", "TaskEX")

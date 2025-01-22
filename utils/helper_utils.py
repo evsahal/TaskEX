@@ -1,3 +1,4 @@
+import ctypes
 import os
 import re
 import shutil
@@ -63,3 +64,10 @@ def copy_image_to_template(file, file_name):
         except Exception as e:
             print(f"Error copying file: {e}")
 
+def get_screen_resolution():
+    """Fetch the real screen resolution."""
+    user32 = ctypes.windll.user32
+    user32.SetProcessDPIAware()
+    screen_width = user32.GetSystemMetrics(0)
+    screen_height = user32.GetSystemMetrics(1)
+    return f"{screen_width}x{screen_height}"

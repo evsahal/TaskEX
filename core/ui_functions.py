@@ -1,9 +1,15 @@
+import ctypes
+
 from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QParallelAnimationGroup, QEvent, QTimer
 from PySide6.QtGui import QIcon, QColor
 from PySide6.QtWidgets import QPushButton, QGraphicsDropShadowEffect, QSizeGrip, QApplication
+from sqlalchemy.exc import NoResultFound
 
 from core.app_settings import Settings
 from core.custom_grips import CustomGrip
+from db.db_setup import get_session
+from db.models import ScreenConfig
+from utils.helper_utils import get_screen_resolution
 
 # GLOBALS
 # ///////////////////////////////////////////////////////////////
@@ -287,4 +293,16 @@ class UIFunctions():
         # Move the window to the center of the screen
         self.move(center_x, center_y)
 
+    def setup_screen_dpi_ui(main_window):
+        screen_resolution = get_screen_resolution()
+        session = get_session()
+        try:
+            # Check if the resolution exists in the database
+            screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
+            dpi = screen_config.dpi
+            main_window.widgets.dpi_spinbox.setValue(dpi)
+        except Exception as e:
+            print(e)
+        finally:
+            session.close()
 

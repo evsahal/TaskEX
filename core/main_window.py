@@ -110,6 +110,8 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         UIFunctions.uiDefinitions(self)
 
+        # Setup the Screen DPI
+        UIFunctions.setup_screen_dpi_ui(self)
 
         # LEFT MENUS
         # Connect buttons directly to click events
@@ -206,3 +208,4 @@ class MainWindow(QMainWindow):
         #     print('Mouse click: LEFT CLICK')
         # if event.buttons() == Qt.RightButton:
         #     print('Mouse click: RIGHT CLICK')
+
