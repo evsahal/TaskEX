@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from db.db_setup import Base
-from db.models import Profile
 
 
 class Instance(Base):

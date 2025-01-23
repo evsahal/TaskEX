@@ -1196,7 +1196,7 @@ border-radius: 5px;</string>
                     </widget>
                    </item>
                    <item>
-                    <widget class="QGroupBox" name="groupBox_4">
+                    <widget class="QGroupBox" name="game_settings_groupbox_">
                      <property name="title">
                       <string>Game Settings</string>
                      </property>
@@ -1321,7 +1321,7 @@ border-radius: 5px;</string>
                                 <number>0</number>
                                </property>
                                <item>
-                                <widget class="QCheckBox" name="checkBox">
+                                <widget class="QCheckBox" name="add_break_checkbox___">
                                  <property name="text">
                                   <string>Add Break (Local Time)</string>
                                  </property>
@@ -1352,7 +1352,7 @@ border-radius: 5px;</string>
                                 <number>0</number>
                                </property>
                                <item row="1" column="3">
-                                <widget class="QTimeEdit" name="timeEdit">
+                                <widget class="QTimeEdit" name="break_end_time___">
                                  <property name="minimumSize">
                                   <size>
                                    <width>110</width>
@@ -1365,7 +1365,7 @@ border-radius: 5px;</string>
                                 </widget>
                                </item>
                                <item row="1" column="1">
-                                <widget class="QTimeEdit" name="timeEdit_2">
+                                <widget class="QTimeEdit" name="break_start_time___">
                                  <property name="minimumSize">
                                   <size>
                                    <width>110</width>
@@ -2189,9 +2189,9 @@ QPushButton:checked {
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="monster_hunting_tab_">
+     <widget class="QWidget" name="monster_setter_tab_">
       <attribute name="title">
-       <string>Monster Hunting</string>
+       <string>Monster Setter</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="resource_gathering_tab_">

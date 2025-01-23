@@ -45,6 +45,13 @@ def load_join_rally_ui(instance_ui,main_window,index):
 
     ###--- Join Rally Settings ---###
 
+    # Set the type as the property for the push button (profile saving logic)
+    for i in range(1, 9):
+        object_name = f"rotate_preset_{i}___"
+        widget = getattr(instance_ui, object_name, None)  # Get the widget dynamically
+        if widget:  # Check if the widget exists
+            widget.setProperty("type", "checkable")  # Set the custom property
+
     # Connect the preset config dialog
     preset_config_btn = getattr(instance_ui, "jr_rotate_preset_settings_")
     preset_config_btn.clicked.connect(lambda :open_preset_settings(main_window,index))
@@ -65,9 +72,10 @@ def load_join_rally_ui(instance_ui,main_window,index):
 
     # Access the march speed config button
     march_speed_configure_btn = getattr(instance_ui, "jr_march_speed_configure___")
+    march_speed_configure_btn.setProperty('type','value')
 
     # Initialize default settings for this button
-    march_speed_configure_btn.setProperty('config_values',{
+    march_speed_configure_btn.setProperty('value',{
         "use_free_boost": True,
         "use_free_boost_gems": False,
         "boost_hours": 1,
@@ -76,7 +84,6 @@ def load_join_rally_ui(instance_ui,main_window,index):
 
     # Connect boost march speed config button
     march_speed_configure_btn.clicked.connect(lambda: open_march_speed_config_settings(march_speed_configure_btn,main_window, index))
-
 
 def on_button_toggled(button, buttons):
     # Perform the check only if the march preset button is being unchecked
@@ -202,9 +209,10 @@ def setup_logic_4(boss,instance_ui,main_window,flow_layout):
     # Add a Pushbutton for listing boss levels
     button = QPushButton("Skip Levels")
     button.setObjectName(f"jr_button_boss{boss.id}___")
-    button.setProperty("selected_ids", [])
+    button.setProperty("value", [])
     button.setFixedHeight(40)
     button.setMinimumWidth(135)
+    button.setProperty("type", "value")  # Set the custom property
     setattr(instance_ui, button.objectName(), button)
     button.clicked.connect(lambda: open_level_dialog(button, boss.id))
 
@@ -247,16 +255,14 @@ def switch_monster_checkbox(instance_ui, boss_id, default=True):
         else:
             button.setDisabled(True)
             # Clear the selected levels stored in the button
-            button.setProperty("selected_ids", [])
+            button.setProperty("value", [])
 
 def open_level_dialog(button, boss_id):
     """
     Open the level selection dialog and store selected levels in the button.
     """
     # Retrieve the previously selected IDs stored in the button
-    selected_ids = button.property("selected_ids") or []
-
-
+    selected_ids = button.property("value") or []
 
     # Get all the monster levels
     boss_levels = get_boss_levels(boss_id)
@@ -266,7 +272,7 @@ def open_level_dialog(button, boss_id):
     dialog.update_group_checkbox_state()
     if dialog.exec():
         # Save the selected levels back to the button
-        button.setProperty("selected_ids", dialog.selected_ids)
+        button.setProperty("value", list(dialog.selected_ids))  # Convert the set to a list
         # print(f"Selected Levels: {dialog.selected_ids}")
 
 

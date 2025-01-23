@@ -1,13 +1,16 @@
+import json
+import re
 from time import sleep
 
 from PySide6.QtCore import Qt, QItemSelectionModel
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
-    QComboBox, QLineEdit, QLabel, QVBoxLayout, QMessageBox, QFrame
+    QComboBox, QLineEdit, QLabel, QVBoxLayout, QMessageBox, QFrame, QCheckBox, QSpinBox, QTimeEdit
 from sqlalchemy import select
 
+from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from db.db_setup import get_session
-from db.models import Profile, Instance, GeneralPreset, JoinRallyPresetConfiguration, JoinRallyPresetOption
+from db.models import Profile, Instance, GeneralPreset, JoinRallyPresetConfiguration, JoinRallyPresetOption, ProfileData
 
 
 def init_run_tab(main_window, index, instance):
@@ -764,7 +767,114 @@ def confirm_save_controls(main_window, index):
     )
 
     if reply == QMessageBox.Yes:
+        save_controls_to_profile(main_window,index)
         QMessageBox.information(main_window, "Success", f"Controls saved to profile '{selected_profile}'.")
+
+
+def save_controls_to_profile(main_window, index):
+    """
+    Save widget data from a dynamically generated page into a profile dictionary.
+
+    :param main_window: The main window containing widgets
+    :param index: The index of the emulator page
+    :return: Dictionary of widget data categorized by widget type
+    """
+    # Initialize the dictionary to store widget data
+    widgets_dict = {}
+
+    # Get the page containing the widgets
+    page_emu = getattr(main_window.widgets, f"page_emu_{index}", None)
+    if not page_emu:
+        raise ValueError(f"Page for index {index} not found!")
+
+    # Loop through all child widgets of the page
+    for widget in page_emu.findChildren(QWidget):
+        object_name = widget.objectName()
+
+        # Check if the object name ends with '___' followed by digits
+        if re.search(r'___\d+$', object_name):
+            # Clean the object name by removing the trailing digits after '___'
+            generated_obj_name = re.sub(r'___\d+$', '___', object_name)
+
+            # Get widget data (type and value)
+            widget_data = return_widget_data(widget, generated_obj_name)
+
+            # Skip unsupported widgets
+            if not widget_data:
+                continue
+
+            # Add data to the appropriate key in the dictionary
+            widgets_dict.setdefault(widget.__class__.__name__, []).append(widget_data)
+
+    # Save it to the db
+    # Get the profile id
+    profile_id = getattr(main_window.widgets,f'profile_combobox_{index}').currentText()
+    session = get_session()
+    try:
+        # Check if there's already a ProfileData entry for this profile
+        profile_data = session.query(ProfileData).filter_by(profile_id=profile_id).first()
+
+        if profile_data:
+            # Update existing entry
+            profile_data.settings = json.dumps(widgets_dict)
+        else:
+            # Create new entry
+            profile_data = ProfileData(profile_id=profile_id, settings=json.dumps(widgets_dict))
+            session.add(profile_data)
+        # Commit changes
+        session.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        session.close()
+
+    # print(widgets_dict)
+
+def return_widget_data(widget, object_name):
+    """
+    Return the widget type and its data for saving into the profile.
+
+    :param widget: The widget instance
+    :param object_name: The cleaned object name
+    :return: Tuple of widget type (str) and widget data (dict)
+    """
+    widget_data = None
+
+    if isinstance(widget, QCheckBox):
+        widget_data = {"object_name": object_name, "value": widget.isChecked()}
+    elif isinstance(widget, QLineEdit):
+        widget_data = {"object_name": object_name, "value": widget.text()}
+    elif isinstance(widget, QSpinBox):
+        widget_data = {"object_name": object_name, "value": widget.value()}
+    elif isinstance(widget, QTimeEdit):
+        widget_data = {"object_name": object_name, "value": widget.time().toString()}
+    elif isinstance(widget, QCheckComboBox):
+        if not widget.isEnabled():
+            widget_data = {"object_name": object_name, "value": []}
+        else:
+            selected_values = []
+            for i in range(widget.count()):
+                if widget.itemCheckState(i) == Qt.Checked:
+                    selected_values.append(widget.itemData(i))
+            widget_data = {"object_name": object_name, "value": selected_values}
+    elif isinstance(widget, QComboBox):
+        widget_data = {"object_name": object_name, "value": widget.currentText()}
+    elif isinstance(widget, QPushButton):
+        widget_data = {"object_name": object_name, 'type': widget.property('type')}
+        if widget.property('type') == 'checkable':
+            widget_data["value"] = widget.isChecked()
+        elif widget.property('type') == 'value':
+            widget_data["value"] = widget.property('value')
+            # print(widget.__class__.__name__)
+            # print(widget.property('value'))
+            # # print(widget_data)
+            # print(f"Object Name: {widget.objectName()}")
+    else:
+        # Optionally log unsupported widget types for debugging
+        # print(f"Unsupported widget type: {widget.__class__.__name__}")
+        pass
+
+    return widget_data
 
 
 ### SCHEDULER TABLE ###

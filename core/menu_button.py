@@ -306,7 +306,6 @@ def initialize_instances(main_window,instance=None):
     Initialize a specified number of emulator instances upon loading.
 
     :param main_window: The instance of the main window to access widgets.
-    :param num_instances: The number of instances to initialize.
     :param instance: The instance contains the instance data like emulator name, port and the profile.
     """
 

@@ -11,11 +11,11 @@ class MarchSpeedSelectionJRDialog(QDialog, Ui_MarchSpeedSelectionJRDialog):
         # Set the dialog to non-modal
         self.setWindowModality(Qt.ApplicationModal)
 
+
     def init_ui(self):
         self.setupUi(self)
-
-        # Load the settings from the button's config_values
-        settings = self.button.property('config_values')
+        # Load the settings from the button's property
+        settings = self.button.property('value')
         self.use_free_boost.setChecked(settings["use_free_boost"])
         self.use_free_boost_gems.setChecked(settings["use_free_boost_gems"])
         self.boost_hours.setValue(settings["boost_hours"])
@@ -28,8 +28,8 @@ class MarchSpeedSelectionJRDialog(QDialog, Ui_MarchSpeedSelectionJRDialog):
         self.exit_btn.clicked.connect(self.close)
 
     def update_settings(self):
-        # Update the button's config_values with the current dialog values
-        self.button.setProperty('config_values',{
+        # Update the button's property with the current dialog values
+        self.button.setProperty('value',{
             "use_free_boost": self.use_free_boost.isChecked(),
             "use_free_boost_gems": self.use_free_boost_gems.isChecked(),
             "boost_hours": self.boost_hours.value(),
