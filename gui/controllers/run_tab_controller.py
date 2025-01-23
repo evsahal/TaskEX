@@ -2,7 +2,7 @@ import json
 import re
 from time import sleep
 
-from PySide6.QtCore import Qt, QItemSelectionModel
+from PySide6.QtCore import Qt, QItemSelectionModel, QThreadPool, QTime
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QHeaderView, QTableWidgetItem, QPushButton, QHBoxLayout, QWidget, QAbstractItemView, \
     QComboBox, QLineEdit, QLabel, QVBoxLayout, QMessageBox, QFrame, QCheckBox, QSpinBox, QTimeEdit
@@ -11,6 +11,7 @@ from sqlalchemy import select
 from core.custom_widgets.QCheckComboBox import QCheckComboBox
 from db.db_setup import get_session
 from db.models import Profile, Instance, GeneralPreset, JoinRallyPresetConfiguration, JoinRallyPresetOption, ProfileData
+from features.utils.profile_load_worker import ProfileLoadWorker
 
 
 def init_run_tab(main_window, index, instance):
@@ -767,11 +768,11 @@ def confirm_save_controls(main_window, index):
     )
 
     if reply == QMessageBox.Yes:
-        save_controls_to_profile(main_window,index)
+        save_profile_controls(main_window,index)
         QMessageBox.information(main_window, "Success", f"Controls saved to profile '{selected_profile}'.")
 
 
-def save_controls_to_profile(main_window, index):
+def save_profile_controls(main_window, index):
     """
     Save widget data from a dynamically generated page into a profile dictionary.
 
@@ -875,6 +876,69 @@ def return_widget_data(widget, object_name):
         pass
 
     return widget_data
+
+def load_profile_controls(main_window, index):
+    """
+    Load profile controls using QThreadPool for efficiency.
+
+    :param main_window: The main application window containing widgets.
+    :param index: The index of the profile page to load controls for.
+    """
+    # Get profile ID from the combobox
+    profile_id = getattr(main_window.widgets, f"emu_profile_{index}").currentData()
+    print(f"Current Data {profile_id}")
+    # Create a worker and connect its signals
+    worker = ProfileLoadWorker(profile_id)
+    worker.profile_loaded_signal.connect(lambda settings: on_profile_loaded(settings, main_window, index))
+
+
+    # Run the worker using QThreadPool
+    QThreadPool.globalInstance().start(worker)
+
+
+def on_profile_loaded(settings, main_window, index):
+    """
+    Update the main window with the loaded profile settings.
+
+    :param settings: Dictionary of profile settings.
+    :param main_window: The main application window containing widgets.
+    :param index: The index of the profile page to load controls for.
+    """
+    print("Inside profile loaded")
+    page_emu = getattr(main_window.widgets, f"page_emu_{index}", None)
+    if not page_emu:
+        print(f"Page for index {index} not found!")
+        return
+
+    # Update widgets with loaded settings
+    for widget_type, widgets_data in settings.items():
+        for widget_data in widgets_data:
+            object_name = widget_data.get("object_name")
+            value = widget_data.get("value")
+
+            # Find the widget by its object name
+            widget = getattr(main_window.widgets,f"{object_name}{index}")
+            if not widget:
+                continue
+
+            # Update the widget
+            if isinstance(widget, QCheckBox):
+                widget.setChecked(value)
+            elif isinstance(widget, QLineEdit):
+                widget.setText(value)
+            elif isinstance(widget, QSpinBox):
+                widget.setValue(value)
+            elif isinstance(widget, QTimeEdit):
+                time = QTime.fromString(value, "HH:mm")
+                if time.isValid():
+                    widget.setTime(time)
+            # elif isinstance(widget, QComboBox):
+            #     index = widget.findText(value)
+            #     if index != -1:
+            #         widget.setCurrentIndex(index)
+
+    print("Profile loaded successfully!")
+
 
 
 ### SCHEDULER TABLE ###

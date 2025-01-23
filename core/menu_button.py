@@ -16,7 +16,7 @@ from core.ui_functions import UIFunctions
 from db.db_setup import get_session
 from db.models import Instance, ScreenConfig
 from features.ui.join_rally_ui import load_join_rally_ui
-from gui.controllers.run_tab_controller import init_run_tab
+from gui.controllers.run_tab_controller import init_run_tab, load_profile_controls
 from gui.generated.instance_page import Ui_InstancePage
 from utils.dialog_utils import show_error_dialog, show_confirmation_dialog
 from utils.helper_utils import extract_number_from_string, get_screen_resolution
@@ -167,6 +167,9 @@ def add_new_menu_button(main_window,selection = True,instance=None):
         UIFunctions.resetStyle(main_window, '')
 
     add_instance_controls(main_window,next_index)
+
+    # Load the Profile
+    load_profile_controls(main_window,next_index)
 
 def add_new_instance_page(main_window,index,instance):
 

@@ -168,7 +168,6 @@ class MainWindow(QMainWindow):
         session.close()
 
 
-
     def finalize_setup(self):
         # SET HOME PAGE AND SELECT MENU
         # ///////////////////////////////////////////////////////////////
