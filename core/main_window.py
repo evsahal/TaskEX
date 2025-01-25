@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.widgets = self.ui
+        self.worker_refs = {} # Store references to profile workers here
 
         # Connect the splash screen's guest login signal to a method to start initialization
         splash_screen.load_signal.connect(lambda: self.perform_initialization(splash_screen))

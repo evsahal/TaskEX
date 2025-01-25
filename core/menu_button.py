@@ -58,7 +58,7 @@ def handle_button_click(main_window, btn):
     # CALL ADD INSTANCE FUNCTION
     elif btnName == "btn_add":
         # Call function to add a new dynamic button
-        add_new_menu_button(main_window)
+        setup_and_load_instance(main_window)
 
     # CALL LOGOUT FUNCTION
     elif btnName == "btn_logout":
@@ -117,7 +117,7 @@ def logout():
     settings.setValue("logged_in", False)
     sys.exit()
 
-def add_new_menu_button(main_window,selection = True,instance=None):
+def setup_and_load_instance(main_window,selection = True,instance=None):
 
     # Get the next index for adding the instance
     next_index = get_next_btn_emu_number(main_window)
@@ -168,8 +168,11 @@ def add_new_menu_button(main_window,selection = True,instance=None):
 
     add_instance_controls(main_window,next_index)
 
+    # print(next_index)
     # Load the Profile
-    load_profile_controls(main_window,next_index)
+    profile_id = getattr(main_window.widgets, f"emu_profile_{next_index}").currentData() # Get profile ID from the combobox
+    # print(f"Loading profile for instance {next_index} with profile_id {profile_id}")
+    load_profile_controls(main_window,next_index,profile_id)
 
 def add_new_instance_page(main_window,index,instance):
 
@@ -229,10 +232,10 @@ def add_new_instance_page(main_window,index,instance):
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
 
-    # Load the first profile in the list as default
+    # Load the first profile in the list as default if no profile is selected
     emu_profile = getattr(main_window.widgets, f"emu_profile_{index}")
-    # Check if the combo box has any items
-    if emu_profile.count() > 0:
+    # Check if the combo box has not selected any items, then select the first option
+    if emu_profile.currentIndex() == -1 and emu_profile.count() > 0:
         # Select the first option
         emu_profile.setCurrentIndex(0)
 
@@ -312,7 +315,7 @@ def initialize_instances(main_window,instance=None):
     :param instance: The instance contains the instance data like emulator name, port and the profile.
     """
 
-    add_new_menu_button(main_window,False,instance)
+    setup_and_load_instance(main_window,False,instance)
 
 # Function to find the next number for btn_emu_ buttons
 def get_next_btn_emu_number(main_window):

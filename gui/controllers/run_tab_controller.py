@@ -808,8 +808,7 @@ def save_profile_controls(main_window, index):
             widgets_dict.setdefault(widget.__class__.__name__, []).append(widget_data)
 
     # Save it to the db
-    # Get the profile id
-    profile_id = getattr(main_window.widgets,f'profile_combobox_{index}').currentText()
+    profile_id = getattr(main_window.widgets,f'profile_combobox_{index}').currentData() # Get the profile id
     session = get_session()
     try:
         # Check if there's already a ProfileData entry for this profile
@@ -877,20 +876,20 @@ def return_widget_data(widget, object_name):
 
     return widget_data
 
-def load_profile_controls(main_window, index):
+def load_profile_controls(main_window, index,profile_id):
     """
     Load profile controls using QThreadPool for efficiency.
 
     :param main_window: The main application window containing widgets.
     :param index: The index of the profile page to load controls for.
+    :param profile_id: profile id to load the controls
     """
-    # Get profile ID from the combobox
-    profile_id = getattr(main_window.widgets, f"emu_profile_{index}").currentData()
-    print(f"Current Data {profile_id}")
-    # Create a worker and connect its signals
+    # Create the worker
     worker = ProfileLoadWorker(profile_id)
-    worker.profile_loaded_signal.connect(lambda settings: on_profile_loaded(settings, main_window, index))
-
+    main_window.worker_refs[index] = worker
+    # Connect signals to slots
+    worker.signals.profile_loaded.connect(lambda settings: on_profile_loaded(settings, main_window, index))
+    worker.signals.error.connect(lambda error: print(f"Error: {error}"))
 
     # Run the worker using QThreadPool
     QThreadPool.globalInstance().start(worker)
@@ -904,11 +903,13 @@ def on_profile_loaded(settings, main_window, index):
     :param main_window: The main application window containing widgets.
     :param index: The index of the profile page to load controls for.
     """
-    print("Inside profile loaded")
+    # print(index, settings)
+
     page_emu = getattr(main_window.widgets, f"page_emu_{index}", None)
     if not page_emu:
         print(f"Page for index {index} not found!")
         return
+
 
     # Update widgets with loaded settings
     for widget_type, widgets_data in settings.items():
@@ -917,27 +918,36 @@ def on_profile_loaded(settings, main_window, index):
             value = widget_data.get("value")
 
             # Find the widget by its object name
-            widget = getattr(main_window.widgets,f"{object_name}{index}")
+            widget = getattr(main_window.widgets,f"{object_name}{index}",None)
             if not widget:
                 continue
 
-            # Update the widget
-            if isinstance(widget, QCheckBox):
-                widget.setChecked(value)
-            elif isinstance(widget, QLineEdit):
-                widget.setText(value)
-            elif isinstance(widget, QSpinBox):
-                widget.setValue(value)
-            elif isinstance(widget, QTimeEdit):
-                time = QTime.fromString(value, "HH:mm")
-                if time.isValid():
-                    widget.setTime(time)
-            # elif isinstance(widget, QComboBox):
-            #     index = widget.findText(value)
-            #     if index != -1:
-            #         widget.setCurrentIndex(index)
+            # print(widget.objectName())
+            # print(f"{widget.objectName()} :: {widget.__class__.__name__}")
 
-    print("Profile loaded successfully!")
+            # Update the widget
+            try:
+                if isinstance(widget, QCheckBox):
+                    widget.setChecked(value)
+                    # print(widget.objectName(),value)
+                elif isinstance(widget, QLineEdit):
+                    widget.setText(value)
+                elif isinstance(widget, QSpinBox):
+                    widget.setValue(value)
+                elif isinstance(widget, QTimeEdit):
+                    time = QTime.fromString(value, "HH:mm")
+                    if time.isValid():
+                        widget.setTime(time)
+                # elif isinstance(widget, QComboBox):
+                #     index = widget.findText(value)
+                #     if index != -1:
+                #         widget.setCurrentIndex(index)
+            except Exception as e:
+                print(e)
+
+    main_window.worker_refs[index] = None
+
+
 
 
 
