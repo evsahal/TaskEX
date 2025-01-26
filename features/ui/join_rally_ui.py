@@ -70,6 +70,12 @@ def load_join_rally_ui(instance_ui,main_window,index):
     for button in buttons:
         button.toggled.connect(lambda checked, btn=button: on_button_toggled(btn, buttons))
 
+    # Set Auto Use Stamina Combobox
+    auto_use_stamina_options = getattr(instance_ui,"jr_auto_use_stamina_options___")
+    auto_use_stamina_options.addItem("Min Stamina",1)
+    auto_use_stamina_options.addItem("Max Stamina",2)
+    auto_use_stamina_options.setCurrentIndex(0)
+
     # Access the march speed config button
     march_speed_configure_btn = getattr(instance_ui, "jr_march_speed_configure___")
     march_speed_configure_btn.setProperty('type','value')

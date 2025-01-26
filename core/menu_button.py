@@ -1,14 +1,8 @@
 import sys
-from operator import indexOf
-from turtledemo.sorting_animate import ssort
 
 from PySide6.QtCore import QSize, Qt, QSettings
 from PySide6.QtGui import QIcon, QCursor, QFont, QPalette
-from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget, QLabel, QVBoxLayout, QLineEdit, QHBoxLayout, \
-    QSpacerItem, QMessageBox
-from numpy.lib.npyio import savez
-from requests import session
-from sqlalchemy.orm.loading import instances
+from PySide6.QtWidgets import QPushButton, QSizePolicy, QWidget
 
 from core.controllers.emulator_controller import handle_run_button
 from core.instance_manager import add_instance_controls

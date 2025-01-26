@@ -427,7 +427,7 @@ QPushButton:pressed {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="run_tab_">
       <attribute name="title">
@@ -1724,16 +1724,6 @@ border-radius: 5px;</string>
                           <height>40</height>
                          </size>
                         </property>
-                        <item>
-                         <property name="text">
-                          <string>Min Stamina</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>Max Stamina</string>
-                         </property>
-                        </item>
                        </widget>
                       </item>
                      </layout>

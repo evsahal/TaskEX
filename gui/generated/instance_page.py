@@ -1049,8 +1049,6 @@ class Ui_InstancePage(object):
         self.verticalLayout_168.setObjectName(u"verticalLayout_168")
         self.verticalLayout_168.setContentsMargins(0, 7, 0, 0)
         self.jr_auto_use_stamina_options___ = QComboBox(self.widget_37)
-        self.jr_auto_use_stamina_options___.addItem("")
-        self.jr_auto_use_stamina_options___.addItem("")
         self.jr_auto_use_stamina_options___.setObjectName(u"jr_auto_use_stamina_options___")
         self.jr_auto_use_stamina_options___.setMinimumSize(QSize(0, 40))
 
@@ -1279,7 +1277,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
@@ -1329,9 +1327,6 @@ class Ui_InstancePage(object):
         self.jr_march_speed___.setText(QCoreApplication.translate("InstancePage", u"Boost March Speed", None))
         self.jr_march_speed_configure___.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
         self.jr_auto_use_stamina___.setText(QCoreApplication.translate("InstancePage", u"Auto Use Stamina", None))
-        self.jr_auto_use_stamina_options___.setItemText(0, QCoreApplication.translate("InstancePage", u"Min Stamina", None))
-        self.jr_auto_use_stamina_options___.setItemText(1, QCoreApplication.translate("InstancePage", u"Max Stamina", None))
-
         self.label_234.setText(QCoreApplication.translate("InstancePage", u"Select March Preset", None))
 #if QT_CONFIG(tooltip)
         self.jr_rotate_preset_settings_.setToolTip(QCoreApplication.translate("InstancePage", u"Preset Settings", None))

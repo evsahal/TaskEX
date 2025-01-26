@@ -858,7 +858,7 @@ def return_widget_data(widget, object_name):
                     selected_values.append(widget.itemData(i))
             widget_data = {"object_name": object_name, "value": selected_values}
     elif isinstance(widget, QComboBox):
-        widget_data = {"object_name": object_name, "value": widget.currentText()}
+        widget_data = {"object_name": object_name, "value": widget.currentData()}
     elif isinstance(widget, QPushButton):
         widget_data = {"object_name": object_name, 'type': widget.property('type')}
         if widget.property('type') == 'checkable':
@@ -871,8 +871,8 @@ def return_widget_data(widget, object_name):
             # print(f"Object Name: {widget.objectName()}")
     else:
         # Optionally log unsupported widget types for debugging
-        # print(f"Unsupported widget type: {widget.__class__.__name__}")
-        pass
+        print(f"Unsupported widget type: {widget.__class__.__name__} (run_tab_controller)")
+
 
     return widget_data
 
@@ -886,6 +886,7 @@ def load_profile_controls(main_window, index,profile_id):
     """
     # Create the worker
     worker = ProfileLoadWorker(profile_id)
+    # Store the ref in main_window to keep the worker alive
     main_window.worker_refs[index] = worker
     # Connect signals to slots
     worker.signals.profile_loaded.connect(lambda settings: on_profile_loaded(settings, main_window, index))
@@ -910,7 +911,6 @@ def on_profile_loaded(settings, main_window, index):
         print(f"Page for index {index} not found!")
         return
 
-
     # Update widgets with loaded settings
     for widget_type, widgets_data in settings.items():
         for widget_data in widgets_data:
@@ -926,25 +926,48 @@ def on_profile_loaded(settings, main_window, index):
             # print(f"{widget.objectName()} :: {widget.__class__.__name__}")
 
             # Update the widget
-            try:
-                if isinstance(widget, QCheckBox):
+            if isinstance(widget, QCheckBox):
+                widget.setChecked(value)
+                # print(widget.objectName(),value)
+            elif isinstance(widget, QLineEdit):
+                widget.setText(value)
+            elif isinstance(widget, QSpinBox):
+                widget.setValue(value)
+            elif isinstance(widget, QTimeEdit):
+                time = QTime.fromString(value, "hh:mm:ss")
+                if time.isValid():
+                    widget.setTime(time)
+            elif isinstance(widget, QCheckComboBox):
+                # Check if the value is an empty list, meaning all options should be unchecked
+                if not value:  # Empty list
+                    for i in range(widget.count()):
+                        widget.setItemCheckState(i, Qt.Unchecked)
+                else:  # Loop through the options and check if the item's data matches the saved value
+                    for i in range(widget.count()):
+                        item_data = widget.itemData(i)  # Get itemData for each option
+                        if item_data in value:
+                            widget.setItemCheckState(i, Qt.Checked)  # Check the option
+                        else:
+                            widget.setItemCheckState(i, Qt.Unchecked)  # Uncheck the option
+            elif isinstance(widget, QComboBox):
+                # Loop through all items in the QComboBox
+                for i in range(widget.count()):
+                    # Get the item data for the current index
+                    item_data = widget.itemData(i)
+                    # Check if the stored value matches the item's data
+                    if item_data == value:
+                        # Set the current index to the matching item
+                        widget.setCurrentIndex(i)
+                        break
+            elif isinstance(widget, QPushButton):
+                button_type = widget.property('type')  # Get the type of the button
+                if button_type == 'checkable':
+                    # Set the button's checked state
                     widget.setChecked(value)
-                    # print(widget.objectName(),value)
-                elif isinstance(widget, QLineEdit):
-                    widget.setText(value)
-                elif isinstance(widget, QSpinBox):
-                    widget.setValue(value)
-                elif isinstance(widget, QTimeEdit):
-                    time = QTime.fromString(value, "HH:mm")
-                    if time.isValid():
-                        widget.setTime(time)
-                # elif isinstance(widget, QComboBox):
-                #     index = widget.findText(value)
-                #     if index != -1:
-                #         widget.setCurrentIndex(index)
-            except Exception as e:
-                print(e)
-
+                elif button_type == 'value':
+                    # Set the button's 'value' property
+                    widget.setProperty('value', value)
+    # Destroy the worker
     main_window.worker_refs[index] = None
 
 
