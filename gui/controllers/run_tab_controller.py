@@ -121,6 +121,7 @@ def update_instance_profile(main_window, index):
             if instance:
                 instance.profile_id = selected_profile_id
                 session.commit()
+                load_profile_controls(main_window, index, selected_profile_id)
         finally:
             session.close()
 
