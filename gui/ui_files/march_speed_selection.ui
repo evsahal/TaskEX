@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
+    <width>444</width>
     <height>402</height>
    </rect>
   </property>
@@ -551,10 +551,10 @@ QGroupBox::title { color: rgb(161, 110, 235); }
          <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
+         <item alignment="Qt::AlignmentFlag::AlignHCenter">
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Note: New boost settings will be applied each time you start the instance</string>
+            <string>New boost settings will be applied each time you start the instance</string>
            </property>
           </widget>
          </item>
@@ -609,7 +609,7 @@ QGroupBox::title { color: rgb(161, 110, 235); }
             </size>
            </property>
            <property name="text">
-            <string>Exit</string>
+            <string>Cancel</string>
            </property>
           </widget>
          </item>

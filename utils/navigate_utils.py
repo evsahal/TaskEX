@@ -105,7 +105,7 @@ def ensure_and_setup_pvp_war_window_screen(thread):
 
     # Check again if the battle logs button is present, if not then return false
     if not is_template_match(src_img, battle_logs_btn_img):
-        # print("Cannot find the battle logs btn")
+        print("Cannot find the battle logs btn")
         return False
 
     # Now verify only Monster War option is selected

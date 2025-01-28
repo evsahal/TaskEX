@@ -45,7 +45,7 @@ def get_join_rally_controls(main_window, index):
             elif logic_id == 4: # for logic 4
                 # Fetch the corresponding button
                 button = getattr(main_window.widgets,f"jr_button_boss{checkbox.property('boss_id')}___{index}")
-                skipped_levels = button.property('selected_ids')
+                skipped_levels = button.property('value')
                 remaining_levels = session.execute(
                     select(MonsterLevel.id).where(
                         boss_id == MonsterLevel.boss_monster_id,MonsterLevel.id.notin_(skipped_levels))

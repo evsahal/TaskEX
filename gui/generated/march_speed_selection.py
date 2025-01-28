@@ -23,7 +23,7 @@ class Ui_MarchSpeedSelectionJRDialog(object):
     def setupUi(self, MarchSpeedSelectionJRDialog):
         if not MarchSpeedSelectionJRDialog.objectName():
             MarchSpeedSelectionJRDialog.setObjectName(u"MarchSpeedSelectionJRDialog")
-        MarchSpeedSelectionJRDialog.resize(404, 402)
+        MarchSpeedSelectionJRDialog.resize(444, 402)
         MarchSpeedSelectionJRDialog.setStyleSheet(u"QDialog{\n"
 "	background-color: rgb(40, 44, 52);\n"
 "	border: 1px solid rgb(44, 49, 58);\n"
@@ -448,7 +448,7 @@ class Ui_MarchSpeedSelectionJRDialog(object):
         self.label = QLabel(self.frame_4)
         self.label.setObjectName(u"label")
 
-        self.horizontalLayout_3.addWidget(self.label)
+        self.horizontalLayout_3.addWidget(self.label, 0, Qt.AlignmentFlag.AlignHCenter)
 
 
         self.verticalLayout_2.addWidget(self.frame_4)
@@ -506,8 +506,8 @@ class Ui_MarchSpeedSelectionJRDialog(object):
         self.label_3.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"hour(s)", None))
         self.label_4.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"Repeat up to", None))
         self.label_5.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"time(s)", None))
-        self.label.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"Note: New boost settings will be applied each time you start the instance", None))
-        self.exit_btn.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"Exit", None))
+        self.label.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"New boost settings will be applied each time you start the instance", None))
+        self.exit_btn.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"Cancel", None))
         self.update_settings_btn.setText(QCoreApplication.translate("MarchSpeedSelectionJRDialog", u"Update", None))
     # retranslateUi
 
