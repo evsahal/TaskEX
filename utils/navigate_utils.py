@@ -43,7 +43,6 @@ def navigate_generals_window(thread):
 def navigate_join_rally_window(thread):
     # Check if it already opened the right window by checking for the battle logs button and verify the options selected
     inside_alliance_war = ensure_and_setup_pvp_war_window_screen(thread)
-
     # Else, then make sure the game screen is inside alliance city or world map
     if inside_alliance_war is False and not ensure_alliance_city_or_world_map_screen(thread):
         return False
@@ -57,12 +56,10 @@ def navigate_join_rally_window(thread):
         # Tap the ongoing rally button and return success
         thread.adb_manager.tap(ongoing_rally_btn_match[0], ongoing_rally_btn_match[1])
         time.sleep(1)
-        src_img = thread.capture_and_validate_screen()
         # Now Make sure it opened the right window
         if not ensure_and_setup_pvp_war_window_screen(thread):
             return False
         return True
-
     # if no ongoing rally, manually navigate to the alliance war window
     alliance_btn_img = cv2.imread('assets/540p/other/alliance_btn.png')
     alliance_btn_match = template_match_coordinates(src_img, alliance_btn_img)
@@ -89,8 +86,7 @@ def ensure_and_setup_pvp_war_window_screen(thread):
     pvp_war_tab_img = cv2.imread('assets/540p/join rally/pvp_war_tab.png')
 
     src_img = thread.capture_and_validate_screen()
-
-    # Make sure it opened the right window
+    # Make sure it opened the right window, return false it not
     if not is_template_match(src_img, alliance_war_window_tag_img):
         return False
 

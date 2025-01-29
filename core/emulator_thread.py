@@ -149,7 +149,6 @@ class EmulatorThread(QThread):
         """
         Code to be executed when the thread starts. Runs in a separate thread.
         """
-        print("Starting of the run method")
         try:
             if not self.validate_run():
                 self._running = False

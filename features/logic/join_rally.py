@@ -5,7 +5,9 @@ from utils.navigate_utils import navigate_join_rally_window
 def run_join_rally(thread):
     controls = get_join_rally_controls(thread.main_window, thread.index)
     # print(controls)
-    navigate_join_rally_window(thread)
+    if not navigate_join_rally_window(thread):
+        # print("Cannot navigate to join rally window")
+        return False
 
     count = 0
     while thread._running:
