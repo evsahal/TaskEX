@@ -41,53 +41,61 @@ class EmulatorThread(QThread):
         self.logger = self.configure_logger()
         self.game_settings = {}
 
-    def configure_logger(self, console=True):
+    def configure_logger(self):
         """
-        Configures and returns a logger based on the operation type and ensures unique logger instances.
-        Logs to a file and optionally to a QTextEdit widget for "emu" if `console` is True.
-
-        Parameters:
-            console (bool): If True, logs are printed to the bot's QTextEdit console. Default is True.
+        Configures and returns a logger with separate file and console handlers.
         """
-        # Create a unique logger name based on operation_type and index
-        if self.operation_type == "emu":
-            # Get the emulator name from the LineEdit
-            emulator_name = getattr(self.main_window.widgets, f"emu_name_{self.index}").text()
-            logger_name = f"{emulator_name}"
-        else:
-            logger_name = f"{self.operation_type}"
-
-        # Create a logger with the unique name
+        logger_name = self.operation_type if self.operation_type != "emu" else getattr(self.main_window.widgets,
+                                                                                       f"emu_name_{self.index}").text()
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
 
         # Ensure handlers are not duplicated
-        if not logger.handlers:  # Only add handlers if none exist
-            # File handler
+        if not logger.handlers:
+            # File handler setup
             log_file_path = f"logs.log"
-            # Create the file if it does not exist
             if not os.path.exists(log_file_path):
                 with open(log_file_path, "w") as f:
-                    pass  # Create an empty file
+                    pass  # Create an empty log file
             file_handler = logging.FileHandler(log_file_path, mode="a")
             file_formatter = logging.Formatter('[%(name)s] [%(asctime)s] [%(levelname)s]: %(message)s')
             file_handler.setFormatter(file_formatter)
             logger.addHandler(file_handler)
 
-            # QTextEdit handler (for "emu" only if console is True)
-            if self.operation_type == "emu" and console:
-                console_widget = getattr(self.main_window.widgets, f"console_{self.index}", None)
-                if console_widget:
-                    class QTextEditHandler(logging.Handler):
-                        def emit(self, record):
-                            msg = self.format(record)
-                            console_widget.append(msg)
+            # QTextEdit handler setup
+            console_widget = getattr(self.main_window.widgets, f"console_{self.index}", None)
+            if console_widget:
+                class QTextEditHandler(logging.Handler):
+                    def emit(self, record):
+                        msg = self.format(record)
+                        console_widget.append(msg)
 
-                    text_edit_handler = QTextEditHandler()
-                    text_edit_handler.setFormatter(file_formatter)
-                    logger.addHandler(text_edit_handler)
+                self.console_handler = QTextEditHandler()
+                self.console_handler.setFormatter(file_formatter)
+                logger.addHandler(self.console_handler)
 
         return logger
+
+    def log_message(self, message: str, level: str = "info", console: bool = True):
+        """
+        Logs a message at the specified level and optionally to the console.
+
+        :param message: The log message.
+        :param level: Log level ("info", "debug", "warning", "error", "critical").
+        :param console: Whether to log to the QTextEdit console.
+        """
+        # Temporarily detach the console handler if console logging is disabled
+        if not console and hasattr(self, 'console_handler'):
+            self.logger.removeHandler(self.console_handler)
+
+        # Dynamically get the log method based on the level
+        log_method = getattr(self.logger, level.lower(), self.logger.info)
+        log_method(message)  # Perform the logging
+
+        # Reattach the console handler if it was temporarily removed
+        if not console and hasattr(self, 'console_handler'):
+            self.logger.addHandler(self.console_handler)
+
 
     def validate_run(self):
         """
@@ -101,7 +109,7 @@ class EmulatorThread(QThread):
         # Check if the device is connected
         if not self.adb_manager.device:
             error_message = f"No device found on port {self.port}"
-            self.logger.error(error_message)
+            self.log_message(error_message,"error")
             if self.index == 999:
                 self.scan_general_console.emit(error_message)
                 self.scan_general_error.emit()
@@ -113,7 +121,7 @@ class EmulatorThread(QThread):
 
         # Validate screen resolution
         resolution = self.adb_manager.get_screen_resolution()
-        print(resolution)
+        # print(resolution)
         if resolution != (540, 960) and resolution != (960, 540):
             error_message = f"Unsupported screen resolution: {resolution[0]}x{resolution[1]}. Expected: 540x960."
             self.logger.error(error_message)
@@ -168,7 +176,7 @@ class EmulatorThread(QThread):
                 start_simulate_monster_click(self)
 
         except Exception as e:
-            self.logger.exception("An error occurred during the emulator thread execution.")
+            self.log_message(f"Thread Run : {e}",level="error",console=False)
             self.error.emit(self.index, str(e))
         finally:
             self.finished.emit(self.index, self._running)

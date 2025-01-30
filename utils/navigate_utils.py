@@ -44,9 +44,10 @@ def navigate_join_rally_window(thread):
     # Check if it already opened the right window by checking for the battle logs button and verify the options selected
     inside_alliance_war = ensure_and_setup_pvp_war_window_screen(thread)
     # Else, then make sure the game screen is inside alliance city or world map
-    if inside_alliance_war is False and not ensure_alliance_city_or_world_map_screen(thread):
+    if inside_alliance_war:
+        return True
+    elif not ensure_alliance_city_or_world_map_screen(thread):
         return False
-
     # Take the ss
     src_img = thread.capture_and_validate_screen()
 
@@ -77,19 +78,19 @@ def navigate_join_rally_window(thread):
     thread.adb_manager.tap(alliance_war_window_option_match[0], alliance_war_window_option_match[1])
     time.sleep(1)
     # src_img = thread.capture_and_validate_screen()
-    ensure_and_setup_pvp_war_window_screen(thread)
-    return True
+    if ensure_and_setup_pvp_war_window_screen(thread):
+        return True
+    else:
+        return False
 
 def ensure_and_setup_pvp_war_window_screen(thread):
     alliance_war_window_tag_img = cv2.imread('assets/540p/join rally/alliance_war_window_tag.png')
     battle_logs_btn_img = cv2.imread('assets/540p/join rally/battle_logs_btn.png')
     pvp_war_tab_img = cv2.imread('assets/540p/join rally/pvp_war_tab.png')
-
     src_img = thread.capture_and_validate_screen()
     # Make sure it opened the right window, return false it not
     if not is_template_match(src_img, alliance_war_window_tag_img):
         return False
-
     # Make sure battle logs button is present
     if not is_template_match(src_img, battle_logs_btn_img):
         pvp_war_tab_match = template_match_coordinates(src_img,pvp_war_tab_img)
@@ -101,9 +102,8 @@ def ensure_and_setup_pvp_war_window_screen(thread):
 
     # Check again if the battle logs button is present, if not then return false
     if not is_template_match(src_img, battle_logs_btn_img):
-        print("Cannot find the battle logs btn")
+        # print("Cannot find the battle logs btn")
         return False
-
     # Now verify only Monster War option is selected
     war_checked_img = cv2.imread('assets/540p/join rally/war_checked.png')
     war_unchecked_img = cv2.imread('assets/540p/join rally/war_unchecked.png')
@@ -138,6 +138,7 @@ def ensure_and_setup_pvp_war_window_screen(thread):
         if war_checkbox_match:
             # print("Unchecking the war checkbox")
             thread.adb_manager.tap(war_checkbox_match[0]+piece_width, war_checkbox_match[1])
+    return True
 
 
 def ensure_alliance_city_or_world_map_screen(thread, ac=True, wm=True):
