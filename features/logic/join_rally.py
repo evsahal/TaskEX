@@ -21,32 +21,48 @@ def run_join_rally(thread):
 
     swipe_iteration  = 0
     max_swipe_iteration  = 0
-    checked_rallies = []
+    # Initialize the cache to store the skipped monster cords images
+    thread.cache['join_rally_controls'].setdefault('cache', {}).setdefault('skipped_monster_cords_img', [])
+
     while thread.thread_status():
-        # TODO Process rally here
-        print(f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
-        time.sleep(1)
-
-        # swipe based on the direction
-        scroll_through_rallies(thread, swipe_direction)
-
-        # update iterations
-        swipe_iteration += 1
-        max_swipe_iteration += 1
-
-        # Switch direction if limit reached
-        if swipe_iteration == 5:
-            swipe_direction = not swipe_direction
-            swipe_iteration = 0
-
-        # Reset navigation after reaching max iteration
-        if max_swipe_iteration >= 20:
-            # print("Reached swipe iteration limit. Resetting navigation...")
-            thread.adb_manager.press_back()
+        try:
+            # Process boss monster rallies
+            process_monster_rallies(thread,join_oldest_rallies_first)
+            print(
+                f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
             time.sleep(1)
-            if not navigate_join_rally_window(thread):
-                break
-            max_swipe_iteration = 0
+
+            # Swipe based on the direction
+            scroll_through_rallies(thread, swipe_direction)
+
+            # Update iterations
+            swipe_iteration += 1
+            max_swipe_iteration += 1
+
+            # Switch direction if limit reached
+            if swipe_iteration == 5:
+                swipe_direction = not swipe_direction
+                swipe_iteration = 0
+
+            # Reset navigation after reaching max iteration
+            if max_swipe_iteration >= 20:
+                # Clear skipped cords images
+                thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
+                # Press back
+                thread.adb_manager.press_back()
+                time.sleep(1)
+                if not navigate_join_rally_window(thread):
+                    break
+                # Update the swipe to scroll down
+                swipe_direction = True
+                max_swipe_iteration = 0
+        finally:
+            # Clear skipped cords images
+            thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
+
+def process_monster_rallies(thread,scan_direction):
+    pass
+
 
 
 def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = False):
