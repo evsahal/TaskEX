@@ -127,28 +127,66 @@ def template_match_multiple_sizes(src_image, template_image, scales, return_cent
 
     return None, None
 
+
 def is_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
     """
-    Check if the template is found in the source image.
+    Check for exact template matches with basic noise handling
+
+    :param src_image: Source image (BGR format)
+    :param template_image: Template image (BGR format)
+    :param convert_gray: Convert to grayscale for matching
+    :param threshold: Confidence threshold (0-1)
+    :return: True if exact match found, False otherwise
+    """
+    # Basic dimension check
+    if src_image.shape[0] < template_image.shape[0] or \
+            src_image.shape[1] < template_image.shape[1]:
+        return False
+
+    # Convert to grayscale if requested
+    if convert_gray:
+        src = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
+        template = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+    else:
+        src = src_image.copy()
+        template = template_image.copy()
+
+    # Apply basic noise reduction
+    src = cv2.GaussianBlur(src, (3, 3), 0)
+    template = cv2.GaussianBlur(template, (3, 3), 0)
+
+    # Template matching using normalized correlation
+    result = cv2.matchTemplate(src, template, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+    return max_val >= threshold
+
+def draw_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
+    """
+    Check if the template is found in the source image and draw a rectangle around the matched area.
 
     :param src_image: Source image where the template will be searched.
     :param template_image: Template image to search for in the source image.
     :param convert_gray: Convert both images to grayscale if True.
     :param threshold: Matching threshold (0 to 1).
-    :return: True if template match is found, otherwise False.
+    :return: The image with a rectangle drawn around the matched area, or the original image if no match is found.
     """
     # Convert both images to grayscale if convert_gray is True
     if convert_gray:
         src_image = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
         template_image = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
-
     # Perform template matching
     result = cv2.matchTemplate(src_image, template_image, cv2.TM_CCOEFF_NORMED)
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    # If the match exceeds the threshold, draw a rectangle around the matched area
+    if max_val >= threshold:
+        # Get the width and height of the template image
+        h, w = template_image.shape[:2]
 
-    # Return True if the maximum correlation value is greater than or equal to the threshold
-    return max_val >= threshold
-
+        # Draw a rectangle on the source image
+        cv2.rectangle(src_image, max_loc, (max_loc[0] + w, max_loc[1] + h), (0, 255, 0), 2)
+    # Return the image with the rectangle drawn (or the original image if no match)
+    return src_image
 
 # Apply filtering to the image based on the specified filter type
 def apply_filter(src_image, filter_type=None, **kwargs):

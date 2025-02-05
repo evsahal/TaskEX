@@ -40,6 +40,7 @@ class EmulatorThread(QThread):
         self.adb_manager = ADBManager(port)
         self.logger = self.configure_logger()
         self.game_settings = {}
+        self.cache = {}
 
     def configure_logger(self):
         """
@@ -189,7 +190,11 @@ class EmulatorThread(QThread):
         if self._running:
             self._running = False
             self.adb_manager.disconnect_device()
+            self.cache = {}
             self.logger.info("Thread stopped and disconnected.")
+
+    def thread_status(self):
+        return self._running
 
     def run_emulator_instance(self):
         """

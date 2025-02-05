@@ -984,44 +984,6 @@ class Ui_InstancePage(object):
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setHorizontalSpacing(7)
         self.gridLayout_3.setContentsMargins(0, 0, 25, 0)
-        self.frame_19 = QFrame(self.frame_18)
-        self.frame_19.setObjectName(u"frame_19")
-        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_18 = QVBoxLayout(self.frame_19)
-        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
-        self.widget = QWidget(self.frame_19)
-        self.widget.setObjectName(u"widget")
-        self.horizontalLayout_14 = QHBoxLayout(self.widget)
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
-        self.jr_march_speed___ = QCheckBox(self.widget)
-        self.jr_march_speed___.setObjectName(u"jr_march_speed___")
-
-        self.horizontalLayout_14.addWidget(self.jr_march_speed___)
-
-
-        self.verticalLayout_18.addWidget(self.widget)
-
-        self.widget_2 = QWidget(self.frame_19)
-        self.widget_2.setObjectName(u"widget_2")
-        self.horizontalLayout_15 = QHBoxLayout(self.widget_2)
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.horizontalLayout_15.setContentsMargins(0, 7, 0, 0)
-        self.jr_march_speed_configure___ = QPushButton(self.widget_2)
-        self.jr_march_speed_configure___.setObjectName(u"jr_march_speed_configure___")
-        self.jr_march_speed_configure___.setMinimumSize(QSize(0, 40))
-        icon5 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
-        self.jr_march_speed_configure___.setIcon(icon5)
-
-        self.horizontalLayout_15.addWidget(self.jr_march_speed_configure___)
-
-
-        self.verticalLayout_18.addWidget(self.widget_2)
-
-
-        self.gridLayout_3.addWidget(self.frame_19, 0, 2, 1, 1)
-
         self.frame_749 = QFrame(self.frame_18)
         self.frame_749.setObjectName(u"frame_749")
         self.frame_749.setFrameShape(QFrame.Shape.StyledPanel)
@@ -1087,9 +1049,9 @@ class Ui_InstancePage(object):
         self.jr_rotate_preset_settings_.setObjectName(u"jr_rotate_preset_settings_")
         self.jr_rotate_preset_settings_.setMinimumSize(QSize(25, 25))
         self.jr_rotate_preset_settings_.setMaximumSize(QSize(25, 25))
-        icon6 = QIcon()
-        icon6.addFile(u":/icons/images/icons/cil-settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.jr_rotate_preset_settings_.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/images/icons/cil-settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.jr_rotate_preset_settings_.setIcon(icon5)
         self.jr_rotate_preset_settings_.setCheckable(False)
 
         self.horizontalLayout_769.addWidget(self.jr_rotate_preset_settings_)
@@ -1198,45 +1160,65 @@ class Ui_InstancePage(object):
 
         self.gridLayout_3.addWidget(self.frame_748, 0, 0, 1, 1)
 
-        self.frame_20 = QFrame(self.frame_18)
-        self.frame_20.setObjectName(u"frame_20")
-        self.frame_20.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_20.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_19 = QVBoxLayout(self.frame_20)
-        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
-        self.widget_4 = QWidget(self.frame_20)
-        self.widget_4.setObjectName(u"widget_4")
-        self.horizontalLayout_17 = QHBoxLayout(self.widget_4)
-        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
-        self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
-        self.jr_prioritize_rallies___ = QCheckBox(self.widget_4)
-        self.jr_prioritize_rallies___.setObjectName(u"jr_prioritize_rallies___")
-        self.jr_prioritize_rallies___.setEnabled(False)
+        self.frame_21 = QFrame(self.frame_18)
+        self.frame_21.setObjectName(u"frame_21")
+        self.frame_21.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_21.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_20 = QVBoxLayout(self.frame_21)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.widget_5 = QWidget(self.frame_21)
+        self.widget_5.setObjectName(u"widget_5")
+        self.verticalLayout_21 = QVBoxLayout(self.widget_5)
+        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.verticalLayout_21.setContentsMargins(0, 5, 0, 0)
+        self.jr_join_oldest_rallies_first___ = QCheckBox(self.widget_5)
+        self.jr_join_oldest_rallies_first___.setObjectName(u"jr_join_oldest_rallies_first___")
 
-        self.horizontalLayout_17.addWidget(self.jr_prioritize_rallies___)
-
-
-        self.verticalLayout_19.addWidget(self.widget_4)
-
-        self.widget_3 = QWidget(self.frame_20)
-        self.widget_3.setObjectName(u"widget_3")
-        self.widget_3.setMinimumSize(QSize(0, 0))
-        self.horizontalLayout_16 = QHBoxLayout(self.widget_3)
-        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.horizontalLayout_16.setContentsMargins(0, 7, 0, 0)
-        self.jr_prioritize_rallies_config_btn_ = QPushButton(self.widget_3)
-        self.jr_prioritize_rallies_config_btn_.setObjectName(u"jr_prioritize_rallies_config_btn_")
-        self.jr_prioritize_rallies_config_btn_.setEnabled(False)
-        self.jr_prioritize_rallies_config_btn_.setMinimumSize(QSize(150, 40))
-        self.jr_prioritize_rallies_config_btn_.setIcon(icon5)
-
-        self.horizontalLayout_16.addWidget(self.jr_prioritize_rallies_config_btn_)
+        self.verticalLayout_21.addWidget(self.jr_join_oldest_rallies_first___)
 
 
-        self.verticalLayout_19.addWidget(self.widget_3)
+        self.verticalLayout_20.addWidget(self.widget_5, 0, Qt.AlignmentFlag.AlignTop)
 
 
-        self.gridLayout_3.addWidget(self.frame_20, 0, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.frame_21, 0, 3, 1, 1)
+
+        self.frame_19 = QFrame(self.frame_18)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_18 = QVBoxLayout(self.frame_19)
+        self.verticalLayout_18.setObjectName(u"verticalLayout_18")
+        self.widget = QWidget(self.frame_19)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_14 = QHBoxLayout(self.widget)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.jr_march_speed___ = QCheckBox(self.widget)
+        self.jr_march_speed___.setObjectName(u"jr_march_speed___")
+
+        self.horizontalLayout_14.addWidget(self.jr_march_speed___)
+
+
+        self.verticalLayout_18.addWidget(self.widget)
+
+        self.widget_2 = QWidget(self.frame_19)
+        self.widget_2.setObjectName(u"widget_2")
+        self.horizontalLayout_15 = QHBoxLayout(self.widget_2)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 7, 0, 0)
+        self.jr_march_speed_configure___ = QPushButton(self.widget_2)
+        self.jr_march_speed_configure___.setObjectName(u"jr_march_speed_configure___")
+        self.jr_march_speed_configure___.setMinimumSize(QSize(0, 40))
+        icon6 = QIcon(QIcon.fromTheme(QIcon.ThemeIcon.DocumentProperties))
+        self.jr_march_speed_configure___.setIcon(icon6)
+
+        self.horizontalLayout_15.addWidget(self.jr_march_speed_configure___)
+
+
+        self.verticalLayout_18.addWidget(self.widget_2)
+
+
+        self.gridLayout_3.addWidget(self.frame_19, 0, 2, 1, 1)
 
 
         self.verticalLayout_16.addWidget(self.frame_18, 0, Qt.AlignmentFlag.AlignLeft)
@@ -1277,7 +1259,7 @@ class Ui_InstancePage(object):
 
         self.retranslateUi(InstancePage)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.emu_profile_.setCurrentIndex(-1)
         self.preset_combo_.setCurrentIndex(-1)
 
@@ -1324,8 +1306,6 @@ class Ui_InstancePage(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.general_tab_), QCoreApplication.translate("InstancePage", u"General", None))
         self.skip_monsters_gb.setTitle(QCoreApplication.translate("InstancePage", u"Skip Monsters", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("InstancePage", u"Join Settings", None))
-        self.jr_march_speed___.setText(QCoreApplication.translate("InstancePage", u"Boost March Speed", None))
-        self.jr_march_speed_configure___.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
         self.jr_auto_use_stamina___.setText(QCoreApplication.translate("InstancePage", u"Auto Use Stamina", None))
         self.label_234.setText(QCoreApplication.translate("InstancePage", u"Select March Preset", None))
 #if QT_CONFIG(tooltip)
@@ -1364,8 +1344,9 @@ class Ui_InstancePage(object):
         self.rotate_preset_8___.setToolTip(QCoreApplication.translate("InstancePage", u"Use Preset 8", None))
 #endif // QT_CONFIG(tooltip)
         self.rotate_preset_8___.setText(QCoreApplication.translate("InstancePage", u"8", None))
-        self.jr_prioritize_rallies___.setText(QCoreApplication.translate("InstancePage", u"Boss Join Priority", None))
-        self.jr_prioritize_rallies_config_btn_.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
+        self.jr_join_oldest_rallies_first___.setText(QCoreApplication.translate("InstancePage", u"Join Oldest Rallies First", None))
+        self.jr_march_speed___.setText(QCoreApplication.translate("InstancePage", u"Boost March Speed", None))
+        self.jr_march_speed_configure___.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_setter_tab_), QCoreApplication.translate("InstancePage", u"Monster Setter", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.resource_gathering_tab_), QCoreApplication.translate("InstancePage", u"Resource Gathering", None))

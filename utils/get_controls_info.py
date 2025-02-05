@@ -165,6 +165,9 @@ def get_join_rally_controls(main_window, index):
         "option": None if not march_speed_boost_checkbox.isChecked() else march_speed_boost_config_btn.property('config_values')
     }
 
+    # Join Oldest Rallies First Checkbox
+    join_oldest_rallies_checkbox = getattr(main_window.widgets, f"jr_join_oldest_rallies_first___{index}")
+    settings['join_oldest_rallies_first'] = join_oldest_rallies_checkbox.isChecked()
     # combine the dict to return the values
     join_rally_controls = {
         "data": levels,
