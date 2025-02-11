@@ -2,6 +2,7 @@ import ctypes
 import os
 import re
 import shutil
+from datetime import timedelta
 
 from PySide6.QtWidgets import QFileDialog
 
@@ -71,3 +72,21 @@ def get_screen_resolution():
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
     return f"{screen_width}x{screen_height}"
+
+
+def parse_timer_to_timedelta(timer_text):
+    """
+    Convert timer text in the format 'HH:MM:SS' or 'MM:SS' to a timedelta object.
+    """
+    parts = timer_text.split(":")
+
+    # Handle different formats
+    if len(parts) == 3:  # 'HH:MM:SS' format
+        hours, minutes, seconds = map(int, parts)
+    elif len(parts) == 2:  # 'MM:SS' format
+        hours = 0
+        minutes, seconds = map(int, parts)
+    else:
+        return None
+
+    return timedelta(hours=hours, minutes=minutes, seconds=seconds)

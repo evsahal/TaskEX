@@ -39,7 +39,6 @@ def template_match_coordinates(src_image, template_image, return_center=True, co
         return max_loc
     return None
 
-
 def template_match_coordinates_all(src_image, template_image, return_center=False, convert_gray=True, threshold=0.85):
     """
     Get the coordinates of all template matches in the source image.
@@ -127,7 +126,6 @@ def template_match_multiple_sizes(src_image, template_image, scales, return_cent
 
     return None, None
 
-
 def is_template_match(src_image, template_image, convert_gray=True, threshold=0.8):
     """
     Check for exact template matches with basic noise handling
@@ -202,7 +200,6 @@ def apply_filter(src_image, filter_type=None, **kwargs):
         return apply_threshold_filter(src_image, **kwargs)
     else:
         return src_image  # If no filter is specified, return the original image
-
 
 # Apply thresholding filter
 def apply_threshold_filter(src_image, threshold_value=150, max_value=255, threshold_type=cv2.THRESH_BINARY_INV):
