@@ -9,7 +9,7 @@ from utils.helper_utils import parse_timer_to_timedelta
 from utils.image_recognition_utils import is_template_match, draw_template_match, template_match_coordinates_all, \
     template_match_coordinates
 from utils.navigate_utils import navigate_join_rally_window
-from utils.text_extraction_util import extract_time_from_image
+from utils.text_extraction_util import extract_time_from_image, extract_timer_white_text
 
 
 def run_join_rally(thread):
@@ -34,7 +34,6 @@ def run_join_rally(thread):
             process_monster_rallies(thread,join_oldest_rallies_first)
             print(
                 f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
-            time.sleep(1)
 
             # Swipe based on the direction
             scroll_through_rallies(thread, swipe_direction)
@@ -65,10 +64,8 @@ def run_join_rally(thread):
             thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
 
 def process_monster_rallies(thread,scan_direction):
-    # Capture the current screen
-    src_img = thread.capture_and_validate_screen(ads=False)
 
-    rally_cords = get_valid_rallies_area_cords(src_img)
+    rally_cords = get_valid_rallies_area_cords(thread)
     # Reorder the cords based on the scan direction
     if scan_direction:
         rally_cords.reverse()
@@ -79,11 +76,9 @@ def process_monster_rallies(thread,scan_direction):
         print(f"Count: {len(rally_cords)} :: {cords}")
         x1, y1, x2, y2 = cords
         roi_src = src_img[y1:y2, x1:x2]
-
         # validate before joining the rally
-        if not validate_rallies(thread,roi_src):
+        if not check_skipped_rallies(thread,roi_src):
             continue
-
         # Click on the rally
         thread.adb_manager.tap(x1, y2)
         time.sleep(1)
@@ -92,8 +87,21 @@ def process_monster_rallies(thread,scan_direction):
         rally_info = scan_rally_info(thread,roi_src)
 
         if not rally_info:
+            thread.adb_manager.press_back()
+            time.sleep(1)
             continue
 
+        # Proceed to join the rally
+        join_alliance_war_btn_img = cv2.imread("assets/540p/join rally/join_alliance_war_btn.png")
+        join_alliance_war_btn_match = template_match_coordinates(src_img, join_alliance_war_btn_img)
+        if not join_alliance_war_btn_match:
+            # print("Cannot find the alliance war join button")
+            return False
+        thread.adb_manager.tap(*join_alliance_war_btn_match)
+
+        time.sleep(1)
+        thread.adb_manager.press_back()
+        time.sleep(1)
         thread.adb_manager.press_back()
         time.sleep(1)
 
@@ -113,27 +121,38 @@ def scan_rally_info(thread,roi_src):
     if not is_template_match(src_img,boss_monster_flag_img):
         # print("Not an ongoing rally")
         return False
-
     # Make sure there is enough time to join the rally
     remaining_time = get_remaining_rally_time(src_img)
-    print(f"Remaining time {remaining_time}")
     if not remaining_time:
         # print("Skipping, not enough time to join/invalid time/cant read time")
         return False
-
     # Check whether the timer is above 5 mins
     if remaining_time > timedelta(minutes=5):
         # print("Timer is more than 5 mins")
         return False
-
-    # Get the Timer on the join rally button
+    # Get the Timer on the join rally button TODO fix the code to extract the correct timer always
     march_time = get_march_join_time(roi_src)
-    print(f"March Time {march_time}")
     if not march_time:
-        # print("Invalid March time")
+        print("Invalid March time")
+        return False
+    print(f"Remaining Time: {remaining_time} :: March Time {march_time}")
+    # Add buffer time to march time
+    total_march_time = march_time + timedelta(seconds=10)
+    print(f"Total march time {total_march_time}")
+    # Check if march time + buffer is within remaining rally time
+    if total_march_time >= remaining_time:
+        print("Cant join the rally on time")
+        # TODO Store the cords img to cache to avoid opening the rally again
         return False
 
+    # Now verify the boss
+    read_monster_data(src_img.copy())
+
+
     return True
+
+def read_monster_data(src_img):
+    monster_power_icon_img = cv2.imread("assets/540p/join rally/monster_power_icon.png")
 
 
 def get_march_join_time(src_img):
@@ -156,11 +175,8 @@ def get_march_join_time(src_img):
 
     # Perform cropping
     src_img = src_img[y1_new+2:y2-6, join_btn_match[0]+10:x2-10]
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\test.png",src_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
     return parse_timer_to_timedelta(extract_time_from_image(src_img))
-
-
-
 
 
 def get_remaining_rally_time(src_img):
@@ -174,25 +190,26 @@ def get_remaining_rally_time(src_img):
     return  parse_timer_to_timedelta(extract_time_from_image(src_img))
 
 
-def validate_rallies(thread,src_img):
+def check_skipped_rallies(thread,src_img):
     """
     Validate before proceeding to join
     """
+
     # Check skipped list
     for cords_img in thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']:
         if is_template_match(src_img, cords_img):
             # print("Already skipped one")
             return False
 
-
-    # TODO Check join time is valid
-
     return True
 
-def get_valid_rallies_area_cords(src_img):
+def get_valid_rallies_area_cords(thread):
     """
     Return the cords of the image area which contains the monster tag, cords(map icon) and join button with time
     """
+    # Capture the current screen
+    src_img = thread.capture_and_validate_screen(ads=False)
+
     # Load template images
     boss_monster_tag_img = cv2.imread("assets/540p/join rally/boss_monster_tag.png")
     join_btn_img = cv2.imread("assets/540p/join rally/join_btn.png")

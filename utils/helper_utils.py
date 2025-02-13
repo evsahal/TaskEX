@@ -2,10 +2,7 @@ import ctypes
 import os
 import re
 import shutil
-from datetime import timedelta
-
-from PySide6.QtWidgets import QFileDialog
-
+from datetime import timedelta, datetime
 
 
 def extract_number_from_string(string: str) -> int:
@@ -77,16 +74,29 @@ def get_screen_resolution():
 def parse_timer_to_timedelta(timer_text):
     """
     Convert timer text in the format 'HH:MM:SS' or 'MM:SS' to a timedelta object.
+    Handles different cases like None, empty strings, or incorrect formats.
     """
+    if not timer_text or not isinstance(timer_text, str):
+        return None  # Return None if input is None or not a string
+
     parts = timer_text.split(":")
 
-    # Handle different formats
-    if len(parts) == 3:  # 'HH:MM:SS' format
-        hours, minutes, seconds = map(int, parts)
-    elif len(parts) == 2:  # 'MM:SS' format
-        hours = 0
-        minutes, seconds = map(int, parts)
-    else:
-        return None
+    try:
+        # Handle different formats
+        if len(parts) == 3:  # 'HH:MM:SS' format
+            hours, minutes, seconds = map(int, parts)
+        elif len(parts) == 2:  # 'MM:SS' format
+            hours = 0
+            minutes, seconds = map(int, parts)
+        else:
+            return None  # Return None for invalid format
 
-    return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+    except ValueError:
+        return None  # Return None if conversion to int fails
+
+def get_current_datetime_string():
+    """
+    Returns the current datetime as a formatted string.
+    """
+    return datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
