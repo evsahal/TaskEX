@@ -5,7 +5,7 @@ from datetime import timedelta
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height
 from utils.get_controls_info import get_join_rally_controls
-from utils.helper_utils import parse_timer_to_timedelta
+from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, draw_template_match, template_match_coordinates_all, \
     template_match_coordinates
 from utils.navigate_utils import navigate_join_rally_window
@@ -154,6 +154,12 @@ def scan_rally_info(thread,roi_src):
 def read_monster_data(src_img):
     monster_power_icon_img = cv2.imread("assets/540p/join rally/monster_power_icon.png")
 
+    # Get image dimensions
+    height, width = src_img.shape[:2]
+
+    # # Get the right half where the monster power icon is located
+    second_half = src_img[:height // 2,  width // 2:]
+    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\second_h_{get_current_datetime_string()}.png",second_half)
 
 def get_march_join_time(src_img):
     join_btn = cv2.imread("assets/540p/join rally/join_btn.png")
