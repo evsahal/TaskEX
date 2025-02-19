@@ -7,6 +7,7 @@ from sqlalchemy import func
 
 from db.db_setup import get_session
 from db.models import MonsterLevel
+from utils.helper_utils import get_current_datetime_string
 
 
 def crop_middle_portion(image, mode):
@@ -138,29 +139,40 @@ def extract_monster_name_from_image(src_img):
 
 
     # cv2.imwrite(r"C:\Users\evsah\Jupyter\assets\output\boss_name.png",processed)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_filter_{get_current_datetime_string()}.png",
+    #             processed)
+
     # OCR Configuration (allow letters & numbers, but not special characters except .)
-    custom_config = '--oem 3 --psm 6 -c tessedit_char_whitelist=a-zA-Z0-9.'
-    monster_info_text = pytesseract.image_to_string(processed, config=custom_config).replace(" ", "").replace("\n",
-                                                                                                                  "").lower()
-    pattern = re.compile(r'[^a-zA-Z0-9\s]+') # TODO fix regex coding
-    monster_info_text = re.sub(pattern, '', monster_info_text)
+    custom_config = '--oem 3 --psm 6 -c tessedit_char_whitelist="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789."'
+    monster_info_text = pytesseract.image_to_string(processed,config=custom_config).replace(" ", "").replace("\n","").lower()
     return monster_info_text
 
-def lookup_boss_by_name(extracted_text):
+
+
+def lookup_boss_by_name(extracted_monster_name):
+    """
+    Finds all MonsterLevel objects where the name column matches the extracted monster name.
+    The extracted name is already normalized (lowercase, alphanumeric + periods).
+    """
     session = get_session()
-    # Apply normalization to the database values at query time
-    bosses = session.query(MonsterLevel).filter(
-        func.lower(
-            func.regexp_replace(
-                MonsterLevel.name, r'[^a-zA-Z0-9]', '', 'g'  # Remove special chars & spaces
-            )
-        ).like(f"%{extracted_text}%")
-    ).all()
+    # Query MonsterLevel and normalize the name dynamically in the query
+    matching_monsters = (
+        session.query(MonsterLevel)
+        .filter(
+            func.lower(
+                func.replace(
+                    func.replace(
+                        func.replace(
+                            func.replace(MonsterLevel.name, ' ', ''), '-', ''
+                        ), '(', ''
+                    ), ')', ''
+                )
+            ) == extracted_monster_name
+        )
+        .all()
+    )
 
-    if not bosses:
-        return None
-
-    return bosses
+    return matching_monsters
 
 
 

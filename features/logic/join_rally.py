@@ -147,27 +147,37 @@ def scan_rally_info(thread,roi_src):
         return False
 
     # Now verify the boss
-    read_monster_data(src_img.copy())
+    read_and_verify_monster_data(src_img.copy())
 
 
     return True
 
-def read_monster_data(src_img):
+def read_and_verify_monster_data(src_img):
     monster_power_icon_img = cv2.imread("assets/540p/join rally/monster_power_icon.png")
 
     boss_text_img = crop_boss_text_area(src_img)
     # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_{get_current_datetime_string()}.png",boss_text_img)
 
     # Get the text from the image
-    extracted_text = extract_monster_name_from_image(boss_text_img)
-    print(extracted_text)
+    extracted_monster_name = extract_monster_name_from_image(boss_text_img)
+    print(f" Extracted Text: {extracted_monster_name}")
+
+    # Check and skip dawn monster
+    if "dawn" in extracted_monster_name:
+        # print("Skipping Dawn Monsters")
+        return None
+
+
 
     # Get the all the matching boss objects from the extracted text
-    bosses = lookup_boss_by_name(extracted_text)
+    bosses = lookup_boss_by_name(extracted_monster_name)
 
     if not bosses:
         # print("Cannot find the boss in the db \ read wrong name")
         return None
+
+    for boss in bosses:
+        print(f"Matched Boss: {boss.name}, Level: {boss.level}")
 
 
 
