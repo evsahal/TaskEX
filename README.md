@@ -60,7 +60,7 @@ This means:
 ❌ Any modifications or derived works must also be released under GPL-3.0.
 
 
-📜 You can read the full license details [here]().
+📜 You can read the full license details [here](https://github.com/evsahal/TaskEX/blob/master/LICENSE).
 
 ## Contact 
 
