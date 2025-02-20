@@ -55,7 +55,7 @@ This means:
 
 ✅ You are free to use, modify, and distribute this software.
 
-❌ You CANNOT copy, modify, or redistribute this software as a closed-source or commercial product.
+❌ You CANNOT copy, modify, or redistribute this software as a closed-source.
 
 ❌ Any modifications or derived works must also be released under GPL-3.0.
 
