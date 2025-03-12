@@ -10,7 +10,8 @@ from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_st
 from utils.image_recognition_utils import is_template_match, draw_template_match, template_match_coordinates_all, \
     template_match_coordinates
 from utils.navigate_utils import navigate_join_rally_window
-from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image
+from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image, \
+    extract_monster_power_from_image
 
 
 def run_join_rally(thread):
@@ -159,10 +160,10 @@ def scan_rally_info(thread,roi_src):
     return True
 
 def read_monster_data(thread,src_img):
-    monster_power_icon_img = cv2.imread("assets/540p/join rally/monster_power_icon.png")
 
     boss_text_img = crop_boss_text_area(src_img)
     # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_{get_current_datetime_string()}.png",boss_text_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\src_img_{get_current_datetime_string()}.png",src_img)
 
     # Get the text from the image
     extracted_monster_name = extract_monster_name_from_image(boss_text_img)
@@ -186,18 +187,26 @@ def read_monster_data(thread,src_img):
         if boss.boss_monster_id not in selected_boss_levels:
             print(f"❌ Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
             return None
-        print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
+        # print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
 
-        # DO the logic check
-        if logic == 1: # TODO also check its only one monster data returned for logic 1
-            # Single level
-            return
+        # Get selected level IDs for this boss
+        selected_levels = selected_boss_levels[boss.boss_monster_id]
+        print(f"Selected  levels {(selected_levels)}")
+        # Do the logic check
+        if logic == 1 or logic == 3:
+            # Single level & Variant level Check
+            if len(bosses) == 1:
+                print(f"✅ Match Found: {boss.name} (Level {boss.level})")
+                print(extract_monster_power_from_image(src_img.copy()))
+                return True
+            return None
         elif logic == 2:
-            # Multi level
+            # Multi level Check
+            # Read the monster power
+            power = extract_monster_power_from_image(src_img.copy())
+            print(power)
             return
-        elif logic == 3:
-            # Variant level
-            return
+
         elif logic == 4:
             # Custom level
             return

@@ -45,6 +45,67 @@ def extract_join_rally_time_from_image(img):
     # TODO work on this
     return "00:00:01"
 
+def extract_monster_power_from_image(img):
+    monster_power_icon_img = cv2.imread("assets/540p/join rally/monster_power_icon.png")
+
+    # Get image dimensions
+    height, width = img.shape[:2]
+
+    # Crop the top-right quadrant
+    x_start = width // 2  # Start from the middle horizontally
+    y_start = 0  # Start from the top
+    x_end = width  # End at full width
+    y_end = height // 2  # End at the middle vertically
+    top_right_img = img[y_start:y_end, x_start:x_end]  # Crop top-right quadrant
+
+    # Convert top-right image to grayscale for template matching
+    src_gray = cv2.cvtColor(top_right_img, cv2.COLOR_BGR2GRAY)
+    icon_gray = cv2.cvtColor(monster_power_icon_img, cv2.COLOR_BGR2GRAY)
+
+    # Perform template matching to find the power icon
+    result = cv2.matchTemplate(src_gray, icon_gray, cv2.TM_CCOEFF_NORMED)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+
+    threshold = 0.8  # Match confidence threshold
+    if max_val < threshold:
+        print("⚠️ Power icon not found in the image.")
+        return None
+
+    # Crop the power text based on the icon's position
+    match_x, match_y = max_loc  # Top-left coordinates of the match
+    icon_h, icon_w = icon_gray.shape[:2]
+
+    x1 = match_x + icon_w  # Start just after the icon
+    y1 = match_y  # Align with the icon
+    x2 = x1 + 150  # Approximate width for power text
+    y2 = y1 + icon_h  # Keep same height as icon
+
+    cropped_power_text = top_right_img[y1:y2, x1:x2]  # Crop the power text area
+
+    # Refine the cropped image (trim extra right-side parts)
+    hsv = cv2.cvtColor(cropped_power_text, cv2.COLOR_BGR2HSV)
+    lower_blue = np.array([90, 50, 50])
+    upper_blue = np.array([130, 255, 255])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+
+    cols = np.any(mask, axis=0)  # Find blue background columns
+    if np.any(cols):
+        x2 = np.max(np.where(cols))  # Get rightmost blue pixel
+    else:
+        x2 = cropped_power_text.shape[1]  # Default to full width if no blue detected
+
+    refined_cropped_power_text = cropped_power_text[:, :x2]  # Crop up to the detected blue area
+
+    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\crop_{get_current_datetime_string()}.png", refined_cropped_power_text)
+
+    # Extract text using OCR
+    gray = cv2.cvtColor(refined_cropped_power_text, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    extracted_text = pytesseract.image_to_string(binary, config="--psm 7").strip()
+
+    return extracted_text
+
 def preprocess_white_text(img):
     """
     Extracts white text from an image using thresholding.
