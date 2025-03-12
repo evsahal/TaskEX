@@ -26,21 +26,24 @@ def filter_general_name(text):
 
     return text
 
-def extract_time_from_image(img):
+def extract_remaining_rally_time_from_image(img):
     thresh = cv2.threshold(img, 200, 255, cv2.THRESH_BINARY_INV)[1]
-
-
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\rt_og_{get_current_datetime_string()}.png", img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\rt_thresh{get_current_datetime_string()}.png", thresh)
     # Configure Tesseract for numeric detection
-    custom_config = r'--oem 3 --psm 6 outputbase digits -c tessedit_char_whitelist=012345789:'
+    custom_config = r'--oem 3 --psm 6 outputbase digits -c tessedit_char_whitelist=0123456789:'
     extracted_text = pytesseract.image_to_string(thresh, config=custom_config).strip()
-    # print(f"Ext Text remaining time: {extracted_text}")
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\remaining_timer{get_current_datetime_string()}.png", thresh)
+    print(f"Remaining march time::before {extracted_text}")
+
     # Match 00:00:00 or 00:00 format
     match = re.search(r'\b\d{2}:\d{2}:\d{2}\b', extracted_text) or re.search(r'\b\d{2}:\d{2}\b', extracted_text)
 
-    # print(f"Remaining time {match.group(0) if match else None}")
+    print(f"Remaining march time::after {match.group(0) if match else None}")
     return match.group(0) if match else None
 
+def extract_join_rally_time_from_image(img):
+    # TODO work on this
+    return "00:00:01"
 
 def preprocess_white_text(img):
     """

@@ -6,7 +6,7 @@ from pytesseract import pytesseract
 from sqlalchemy import func
 
 from db.db_setup import get_session
-from db.models import MonsterLevel
+from db.models import MonsterLevel, BossMonster
 from utils.helper_utils import get_current_datetime_string
 
 
@@ -155,24 +155,35 @@ def lookup_boss_by_name(extracted_monster_name):
     The extracted name is already normalized (lowercase, alphanumeric + periods).
     """
     session = get_session()
-    # Query MonsterLevel and normalize the name dynamically in the query
-    matching_monsters = (
-        session.query(MonsterLevel)
-        .filter(
-            func.lower(
-                func.replace(
-                    func.replace(
-                        func.replace(
-                            func.replace(MonsterLevel.name, ' ', ''), '-', ''
-                        ), '(', ''
-                    ), ')', ''
-                )
-            ) == extracted_monster_name
+    # Fetch all boss IDs and names
+    monster_levels = session.query(MonsterLevel.id, MonsterLevel.name, MonsterLevel.boss_monster_id).all()
+
+    # Normalize database names and find matches locally
+    matching_ids = [
+        monster.id for monster in monster_levels
+        if normalize_boss_text(monster.name) == extracted_monster_name
+    ]
+
+    # Fetch MonsterLevel with `monster_logic_id` attached directly in the query
+    if matching_ids:
+        bosses = (
+            session.query(
+                MonsterLevel,  # Retrieve the full MonsterLevel object
+                BossMonster.monster_logic_id.label("logic_id")  # Attach logic_id dynamically
+            )
+            .join(BossMonster, BossMonster.id == MonsterLevel.boss_monster_id)
+            .filter(MonsterLevel.id.in_(matching_ids))
+            .all()
         )
-        .all()
-    )
+        # The list contains tuples: (MonsterLevel object, logic_id)
+        return bosses
 
-    return matching_monsters
+    # Return empty list if no matches found
+    return None
 
-
+def normalize_boss_text(text):
+    """
+    Removes spaces, dashes, and parentheses, keeping only alphanumeric + periods.
+    """
+    return text.replace(" ", "").replace("-", "").replace("(", "").replace(")", "").lower()
 
