@@ -8,6 +8,7 @@ from sqlalchemy import func
 from db.db_setup import get_session
 from db.models import MonsterLevel, BossMonster
 from utils.helper_utils import get_current_datetime_string
+from utils.image_recognition_utils import template_match_coordinates
 
 
 def crop_middle_portion(image, mode):
@@ -187,3 +188,13 @@ def normalize_boss_text(text):
     """
     return text.replace(" ", "").replace("-", "").replace("(", "").replace(")", "").lower()
 
+
+def click_join_alliance_war_btn(thread):
+    join_alliance_war_btn_img = cv2.imread("assets/540p/join rally/join_alliance_war_btn.png")
+
+    src_img = thread.capture_and_validate_screen(ads=False)
+    join_alliance_war_btn_match = template_match_coordinates(src_img, join_alliance_war_btn_img)
+    if not join_alliance_war_btn_match:
+        # print("Cannot find the alliance war join button")
+        return False
+    thread.adb_manager.tap(*join_alliance_war_btn_match)

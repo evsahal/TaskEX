@@ -4,10 +4,10 @@ from datetime import timedelta
 
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
-    extract_monster_name_from_image, lookup_boss_by_name
+    extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
-from utils.image_recognition_utils import is_template_match, draw_template_match, template_match_coordinates_all, \
+from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
     template_match_coordinates
 from utils.navigate_utils import navigate_join_rally_window
 from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image, \
@@ -92,16 +92,31 @@ def process_monster_rallies(thread,scan_direction):
             thread.adb_manager.press_back()
             time.sleep(1)
             continue
-
+        src_img = thread.capture_and_validate_screen(ads=False)
+        # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\src_img_{get_current_datetime_string()}.png", src_img)
         # Proceed to join the rally
         join_alliance_war_btn_img = cv2.imread("assets/540p/join rally/join_alliance_war_btn.png")
         join_alliance_war_btn_match = template_match_coordinates(src_img, join_alliance_war_btn_img)
+
         if not join_alliance_war_btn_match:
-            # print("Cannot find the alliance war join button")
+            print("Cannot find the alliance war join button")
             return False
+
+        # CLick the join alliance war to proceed with the rallies
         thread.adb_manager.tap(*join_alliance_war_btn_match)
 
         time.sleep(1)
+        src_img = thread.capture_and_validate_screen(ads=False)
+
+        # Select the preset based on the settings
+        is_preset_selection_valid = validate_preset_selection(thread,src_img)
+
+        if not is_preset_selection_valid:
+            print("Preset Selection/Validation Failed")
+            return False
+
+
+        time.sleep(3)
         thread.adb_manager.press_back()
         time.sleep(1)
         thread.adb_manager.press_back()
@@ -152,9 +167,10 @@ def scan_rally_info(thread,roi_src):
     if not extracted_boss_data:
         return False
 
-    # Verify if the boss is in the selected join list
-    if not verify_monster_join(thread,extracted_boss_data):
-        return False
+    # # TODO Remove this later: debugging
+    # thread.adb_manager.press_back()
+    # time.sleep(1)
+    # ## -- TILL HERE --
 
 
     return True
@@ -183,42 +199,47 @@ def read_monster_data(thread,src_img):
 
     selected_boss_levels = thread.cache['join_rally_controls']['data']
     # print(selected_boss_levels)
+    extracted_power = None
     for boss,logic in bosses:
         if boss.boss_monster_id not in selected_boss_levels:
-            print(f"❌ Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
+            print(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
             return None
         # print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
 
         # Get selected level IDs for this boss
         selected_levels = selected_boss_levels[boss.boss_monster_id]
-        print(f"Selected  levels {(selected_levels)}")
+        # print(f"Selected  levels {(selected_levels)}")
         # Do the logic check
-        if logic == 1 or logic == 3:
-            # Single level & Variant level Check
+        if logic == 1 or logic == 3:# Single level & Variant level Check
+            # Make sure there is only one data is found
             if len(bosses) == 1:
-                print(f"✅ Match Found: {boss.name} (Level {boss.level})")
-                print(extract_monster_power_from_image(src_img.copy()))
+                print(f"Match Found: {boss.name} (Level {boss.level})")
+                # print(extract_monster_power_from_image(src_img.copy()))
                 return True
             return None
-        elif logic == 2:
-            # Multi level Check
+        elif logic == 2 or logic == 4: # Multi level & Custom Level Check
             # Read the monster power
-            power = extract_monster_power_from_image(src_img.copy())
-            print(power)
-            return
+            if not extracted_power:
+                extracted_power = extract_monster_power_from_image(src_img.copy()).strip().lower()
+                print(extracted_power)
 
-        elif logic == 4:
-            # Custom level
-            return
+            # Check if extracted power matches any boss in the matched list
+            if boss.power.strip().lower() == extracted_power:
+                print(
+                    f"Power '{extracted_power}' matches Boss: {boss.name} (Level {boss.level})")
 
-    return bosses
+                # Ensure the matched level is in the selected list
+                if boss.id in selected_levels:
+                    print(f"Level {boss.level} is selected. Proceeding with rally!")
+                    return True
 
-def verify_monster_join(thread,extracted_boss_data):
+                print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
+                return None
+
+    return None
+
+def validate_preset_selection(thread,src_img):
     pass
-
-
-
-
 
 
 def get_march_join_time(src_img):
