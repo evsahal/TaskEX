@@ -198,3 +198,15 @@ def click_join_alliance_war_btn(thread):
         # print("Cannot find the alliance war join button")
         return False
     thread.adb_manager.tap(*join_alliance_war_btn_match)
+
+def preset_option_use_selected_generals(thread,src_img):
+    pass
+
+def preset_option_skip_no_general(thread,src_img):
+    select_general_btn_img = cv2.imread("assets/540p/join rally/select_general_btn.png")
+    no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
+    no_assistant_general_img = cv2.imread("assets/540p/join rally/no_assistant_general.png")
+    pass
+
+def preset_option_reset_to_one_troop(thread,src_img):
+    pass

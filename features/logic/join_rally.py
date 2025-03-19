@@ -286,7 +286,7 @@ def validate_preset_and_join(thread):
         # Check skip no general option
         if preset_settings['skip_no_general']:
             print("Skip no general")
-            # if not is_general_available(src_img, current_preset):  # Template matching to be added later
+            # if not is_general_available(src_img, current_preset):
             #     print(f"Preset {current_preset}: No general found. Skipping...")
             #     continue  # Move to next preset
 
