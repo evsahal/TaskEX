@@ -1,4 +1,4 @@
-
+import glob
 import time
 from datetime import timedelta
 
@@ -104,12 +104,12 @@ def process_monster_rallies(thread,scan_direction):
 
         # CLick the join alliance war to proceed with the rallies
         thread.adb_manager.tap(*join_alliance_war_btn_match)
-
         time.sleep(1)
-        src_img = thread.capture_and_validate_screen(ads=False)
+
+        # TODO Check if it opens the preset selection window
 
         # Select the preset based on the settings
-        is_preset_selection_valid = validate_preset_selection(thread,src_img)
+        is_preset_selection_valid = validate_preset_and_join(thread)
 
         if not is_preset_selection_valid:
             print("Preset Selection/Validation Failed")
@@ -238,8 +238,76 @@ def read_monster_data(thread,src_img):
 
     return None
 
-def validate_preset_selection(thread,src_img):
-    pass
+def validate_preset_and_join(thread):
+
+    # Take the ss of the new window
+    src_img = thread.capture_and_validate_screen(ads=False)
+
+    # Get selected presets
+    selected_presets = thread.cache['join_rally_controls']['settings']['selected_presets']['presets']
+    preset_list = list(selected_presets.keys())  # Ordered list of selected presets
+
+    # Get last used preset
+    last_preset = thread.cache['join_rally_controls']['cache'].get('previous_preset_number')
+
+    # If no previous preset, start from the first one
+    if last_preset is None:
+        current_index = 0
+    else:
+        current_index = preset_list.index(last_preset)  # Get index of last used preset
+
+    # Loop through presets in cycle
+    for _ in range(len(preset_list)):  # Ensures it check all presets once
+        # Move to the next preset in order (cycling through)
+        current_index = (current_index + 1) % len(preset_list)
+        current_preset = preset_list[current_index]
+        preset_settings = selected_presets[current_preset]
+
+        # Check if the preset is present to select (loop through all 8 possible icons)
+        preset_icons = glob.glob(f"assets/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
+        preset_match = None
+        for icon in preset_icons:
+            preset_match = template_match_coordinates(src_img, icon,threshold=0.9)
+            if preset_match:
+                print("Preset match found")
+                thread.adb_manager.tap(*preset_match)
+                time.sleep(1)
+                break
+        if not preset_match:
+            print(f"Preset {current_preset} is disabled. Skipping...")
+            continue  # Move to next preset
+
+
+
+        # TODO Use selected general
+        if preset_settings['use_selected_generals']:
+            print("Do selected general")
+
+        # Check skip no general option
+        if preset_settings['skip_no_general']:
+            print("Skip no general")
+            # if not is_general_available(src_img, current_preset):  # Template matching to be added later
+            #     print(f"Preset {current_preset}: No general found. Skipping...")
+            #     continue  # Move to next preset
+
+        # Check reset to one troop option
+        if preset_settings['reset_to_one_troop']:
+            print("Reset to one troop")
+
+        # If a valid preset is found, update cache and click on the march button
+        thread.cache['join_rally_controls']['cache']['previous_preset_number'] = current_preset
+        march_btn = cv2.imread("assets/540p/join rally/march_btn.png")
+        march_btn_match = template_match_coordinates(src_img,march_btn,convert_gray=False)
+        if not march_btn_match:
+            return None
+        thread.adb_manager.tap(*march_btn_match)
+        time.sleep(1)
+        # TODO Validate the stamina pop up
+        return True
+
+    # If no presets are valid
+    print("Preset validation failed... Skipping the rally.")
+    return None
 
 
 def get_march_join_time(src_img):

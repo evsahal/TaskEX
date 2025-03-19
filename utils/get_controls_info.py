@@ -177,7 +177,7 @@ def get_join_rally_controls(main_window, index):
         "data": selected_boss_levels,
         "settings": settings
     }
-
+    # print(join_rally_controls)
     return join_rally_controls
 
 def get_game_settings_controls(main_window,index):
