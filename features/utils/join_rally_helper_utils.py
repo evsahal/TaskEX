@@ -378,12 +378,96 @@ def validate_and_apply_stamina(thread):
     # If enabled, then proceed with applying the stamina
     print("Stamina will be automatically refilled to continue joining rallies.")
 
+    # Get the matched cords to tap the button
     stamina_confirm_match = template_match_coordinates(src_img,stamina_confirm_img)
 
     thread.adb_manager.tap(*stamina_confirm_match)
-    time.sleep(4)
+    time.sleep(1)
 
+    # Refill stamina
+    if not refill_stamina(thread,auto_use_stamina['option']):
+        print("No available stamina found for refill.")
+        thread.adb_manager.press_back()
+        thread.adb_manager.press_back()
+        time.sleep(1)
+        return False
+    return True
 
+def refill_stamina(thread,option):
+    stamina_packs = [{'quantity': 100, 'path': 'assets/540p/join rally/stamina_100.png'},
+                     {'quantity': 50, 'path': 'assets/540p/join rally/stamina_50.png'},
+                     {'quantity': 25, 'path': 'assets/540p/join rally/stamina_25.png'},
+                     {'quantity': 10, 'path': 'assets/540p/join rally/stamina_10.png'}]
+
+    stamina_use = cv2.imread('assets/540p/join rally/stamina_use.png')
+    confirm_use = cv2.imread('assets/540p/join rally/confirm_use.png')
+    max_stamina = cv2.imread('assets/540p/join rally/max_stamina.png')
+    add_max_stamina = cv2.imread('assets/540p/join rally/add_max_stamina.png')
+
+    thread.adb_manager.swipe(250, 810, 250, 520, 1500)
+    time.sleep(1)
+    src_img = thread.capture_and_validate_screen()
+
+    # Loop the stamina list
+    for stamina in stamina_packs:
+        if not thread.thread_status():
+            return False
+        # print(stamina['quantity'], " ", stamina['path'])
+        stamina_img = cv2.imread(stamina['path'])
+        # print(stamina['quantity'])
+        if not is_template_match(src_img, stamina_img):
+            # print(stamina['quantity'], "Pack not found")
+            print(f"{stamina['quantity']} vit stamina pack not found")
+            continue
+        result = cv2.matchTemplate(src_img, stamina_img, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+        top_left = max_loc
+        bottom_right = (top_left[0] + src_img.shape[0], top_left[1] + stamina_img.shape[1])
+        roi = (src_img[top_left[1]:bottom_right[1], 0:bottom_right[0]].copy())
+        # Cropping roi to get the second half to eliminate text "use" in the description
+        roi_h, roi_w = roi.shape[:2]
+        roi = roi[0:roi_h, roi_w // 2:roi_w]
+        # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\roi_{get_current_datetime_string()}.png", roi)
+        apply_stamina = template_match_coordinates(roi, stamina_use)
+        if not apply_stamina:
+            stamina_use = cv2.imread('assets/540p/join rally/stamina_use_alt.png')
+            apply_stamina = template_match_coordinates(roi, stamina_use)
+            if not apply_stamina:
+                print(f"{stamina['quantity']} vit stamina pack is empty")
+                continue
+        thread.adb_manager.tap(int((roi_w / 2) + apply_stamina[0]), int(apply_stamina[1] + top_left[1]))
+        time.sleep(1)
+        src_img = thread.capture_and_validate_screen()
+        if option == 'Min Stamina':
+            # print("Using just 1 stamina")
+            print("Utilizing 100 vit stamina for the operation.")
+            max_stamina_btn = template_match_coordinates(src_img, max_stamina)
+            if max_stamina_btn:
+                thread.adb_manager.tap(*max_stamina_btn)
+        else:
+            # print("Using max stamina")
+            print("Utilizing maximum stamina for the operation.")
+            max_stamina_btn = template_match_coordinates(src_img, add_max_stamina)
+            if max_stamina_btn:
+                thread.adb_manager.tap(*max_stamina_btn)
+
+        confirm_stamina = template_match_coordinates(src_img, confirm_use)
+        if confirm_stamina:
+            thread.adb_manager.tap(*confirm_stamina)
+            time.sleep(0.5)
+            thread.adb_manager.press_back()
+            time.sleep(0.5)
+            src_img = thread.capture_and_validate_screen(ads=False)
+            march_btn = cv2.imread("assets/540p/join rally/march_btn.png")
+            march_btn_match = template_match_coordinates(src_img, march_btn, convert_gray=False)
+            if not march_btn_match:
+                return False
+            thread.adb_manager.tap(*march_btn_match)
+            time.sleep(1)
+            return True
+    # If execution reaches this line, it means no stamina found/used
+    print("No Stamina Found")
+    return False
 
 
 
