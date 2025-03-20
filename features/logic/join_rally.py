@@ -4,7 +4,8 @@ from datetime import timedelta
 
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
-    extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn
+    extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn, preset_option_skip_no_general, \
+    preset_option_reset_to_one_troop
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
@@ -105,14 +106,20 @@ def process_monster_rallies(thread,scan_direction):
         # CLick the join alliance war to proceed with the rallies
         thread.adb_manager.tap(*join_alliance_war_btn_match)
         time.sleep(1)
+        src_img = thread.capture_and_validate_screen(ads=False)
 
-        # TODO Check if it opens the preset selection window
+        # Check if it opens the preset selection window
+        select_a_preset_img = cv2.imread("assets/540p/join rally/select_a_preset.png")
+
+        if not is_template_match(src_img,select_a_preset_img):
+            print("Cant locate preset selection window")
+            return False
 
         # Select the preset based on the settings
-        is_preset_selection_valid = validate_preset_and_join(thread)
+        is_preset_selection_valid = validate_preset_and_join(thread,src_img)
 
         if not is_preset_selection_valid:
-            print("Preset Selection/Validation Failed")
+            # print("Preset Selection/Validation Failed")
             return False
 
 
@@ -238,10 +245,7 @@ def read_monster_data(thread,src_img):
 
     return None
 
-def validate_preset_and_join(thread):
-
-    # Take the ss of the new window
-    src_img = thread.capture_and_validate_screen(ads=False)
+def validate_preset_and_join(thread,src_img):
 
     # Get selected presets
     selected_presets = thread.cache['join_rally_controls']['settings']['selected_presets']['presets']
@@ -253,21 +257,29 @@ def validate_preset_and_join(thread):
     # If no previous preset, start from the first one
     if last_preset is None:
         current_index = 0
+        is_first_iteration = True
     else:
         current_index = preset_list.index(last_preset)  # Get index of last used preset
+        is_first_iteration = False
 
     # Loop through presets in cycle
     for _ in range(len(preset_list)):  # Ensures it check all presets once
         # Move to the next preset in order (cycling through)
-        current_index = (current_index + 1) % len(preset_list)
+        if not is_first_iteration:
+            current_index = (current_index + 1) % len(preset_list)
+        else:
+            is_first_iteration = False
         current_preset = preset_list[current_index]
         preset_settings = selected_presets[current_preset]
+        print(f"Current preset: {current_preset}")
 
         # Check if the preset is present to select (loop through all 8 possible icons)
-        preset_icons = glob.glob(f"assets/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
+        preset_icons = glob.glob(f"assets/540p/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
         preset_match = None
         for icon in preset_icons:
-            preset_match = template_match_coordinates(src_img, icon,threshold=0.9)
+            print(icon)
+            icon_img = cv2.imread(icon)
+            preset_match = template_match_coordinates(src_img, icon_img,threshold=0.9)
             if preset_match:
                 print("Preset match found")
                 thread.adb_manager.tap(*preset_match)
@@ -277,22 +289,23 @@ def validate_preset_and_join(thread):
             print(f"Preset {current_preset} is disabled. Skipping...")
             continue  # Move to next preset
 
-
-
         # TODO Use selected general
         if preset_settings['use_selected_generals']:
             print("Do selected general")
 
         # Check skip no general option
         if preset_settings['skip_no_general']:
-            print("Skip no general")
-            # if not is_general_available(src_img, current_preset):
-            #     print(f"Preset {current_preset}: No general found. Skipping...")
-            #     continue  # Move to next preset
+            print(f"Skip no general :: {preset_settings['skip_no_general']}")
+            if not preset_option_skip_no_general(thread):
+                print(f"Preset {current_preset}: No general found. Skipping...")
+                continue  # Move to next preset
 
         # Check reset to one troop option
         if preset_settings['reset_to_one_troop']:
-            print("Reset to one troop")
+            print(f"Reset to one troop :: {preset_settings['reset_to_one_troop']}")
+            if not preset_option_reset_to_one_troop(thread):
+                print("Cannot reset to one troop")
+                continue
 
         # If a valid preset is found, update cache and click on the march button
         thread.cache['join_rally_controls']['cache']['previous_preset_number'] = current_preset

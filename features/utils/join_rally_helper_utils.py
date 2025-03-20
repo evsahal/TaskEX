@@ -8,7 +8,7 @@ from sqlalchemy import func
 from db.db_setup import get_session
 from db.models import MonsterLevel, BossMonster
 from utils.helper_utils import get_current_datetime_string
-from utils.image_recognition_utils import template_match_coordinates
+from utils.image_recognition_utils import template_match_coordinates, is_template_match
 
 
 def crop_middle_portion(image, mode):
@@ -200,13 +200,157 @@ def click_join_alliance_war_btn(thread):
     thread.adb_manager.tap(*join_alliance_war_btn_match)
 
 def preset_option_use_selected_generals(thread,src_img):
-    pass
-
-def preset_option_skip_no_general(thread,src_img):
     select_general_btn_img = cv2.imread("assets/540p/join rally/select_general_btn.png")
     no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
     no_assistant_general_img = cv2.imread("assets/540p/join rally/no_assistant_general.png")
     pass
 
-def preset_option_reset_to_one_troop(thread,src_img):
-    pass
+def preset_option_skip_no_general(thread):
+    no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
+    src_img = thread.capture_and_validate_screen(ads=False)
+    if is_template_match(src_img,no_main_general_img):
+        return False
+    return True
+
+
+def preset_option_reset_to_one_troop(thread):
+    src_img = thread.capture_and_validate_screen(ads=False)
+
+    # Check the troops count
+    troops_count = check_selected_troops_count(src_img.copy())
+    if troops_count == 1:
+        print("Troop count verified; only selected one troop")
+        return True
+
+    # If count is not 1, then set the count to 1
+    print("Troop count is not 1. Attempting to select one troop...")
+    if select_one_troop(thread, src_img):
+        # Optionally, recheck the troop count to confirm
+        src_img = thread.capture_and_validate_screen(ads=False)
+        troops_count = check_selected_troops_count(src_img.copy())
+        if troops_count == 1:
+            print("New Troop count verified; only selected one troop")
+            return True
+
+    print("Troops count template not found.")
+    return False
+
+
+def check_selected_troops_count(src_img):
+    troops_count_img = cv2.imread("assets/540p/join rally/troops_count.png")
+    # Crop the img area where the troop count is present
+    troops_count_img_match = template_match_coordinates(src_img, troops_count_img, return_center=False)
+    if troops_count_img_match:
+        x1, y1 = troops_count_img_match  # Extract top-left corner of matched template
+        w, h = troops_count_img.shape[:-1]  # Width & height of the template image
+
+        # Crop the area *after* the matched template
+        roi = src_img[y1:y1 + h, x1 + w:x1 + w + 160].copy()  # Start after the match
+
+        # Check if the troop selected already is 1
+        troops_count = pytesseract.image_to_string(roi, config='--psm 6')
+        # print(troops_count)
+        troops_count = troops_count.split('/')[0]
+        try:
+            troops_count = int(re.sub(r'\D', '', troops_count))
+        except Exception as e:
+            # change the count to a negative value
+            troops_count = -1
+        finally:
+            return troops_count
+
+
+def select_one_troop(thread, src_img):
+    """
+    Selects exactly one troop by switching to the 'One Soldier' preset and applying it.
+    The preset cycling order is: 1 Full Tiers -> Power First -> One Soldier.
+
+    Args:
+        thread: The thread object containing cache and adb_manager.
+        src_img: The source image to perform template matching on.
+
+    Returns:
+        bool: True if one troop was successfully selected, False otherwise.
+    """
+    # Template images for the three presets
+    power_first_template = cv2.imread("assets/540p/join rally/power_first_preset.png")
+    one_full_tiers_template = cv2.imread("assets/540p/join rally/one_full_tiers_preset.png")
+    one_soldier_template = cv2.imread("assets/540p/join rally/one_soldier_preset.png")
+
+    # Template images for the Reset and One Troop buttons
+    reset_btn_template = cv2.imread("assets/540p/join rally/reset_btn.png")
+    one_troop_btn_template = cv2.imread("assets/540p/join rally/one_troop_btn.png")
+
+    # Maximum attempts to cycle through presets
+    # Since the order is 1 Full Tiers -> Power First -> One Soldier,
+    # it takes at most 2 clicks to reach One Soldier from any preset:
+    # - 1 Full Tiers -> Power First -> One Soldier (2 clicks)
+    # - Power First -> One Soldier (1 click)
+    # - One Soldier -> (0 clicks)
+    max_attempts = 2
+    attempts = 0
+
+    while attempts < max_attempts:
+        # Capture the current screen
+        src_img = thread.capture_and_validate_screen(ads=False)
+
+        # Check if the One Soldier preset is already selected
+        one_soldier_match = template_match_coordinates(src_img, one_soldier_template, threshold=0.9)
+        if one_soldier_match:
+            print("One Soldier preset is already selected.")
+            # Check for the Reset button
+            reset_btn_match = template_match_coordinates(src_img, reset_btn_template, threshold=0.9)
+            if reset_btn_match:
+                print("Reset button found. Clicking to clear troop selection...")
+                thread.adb_manager.tap(*reset_btn_match)
+                time.sleep(1)  # Wait for the UI to update
+
+                # Capture the screen again to check for the One Troop button
+                src_img = thread.capture_and_validate_screen(ads=False)
+                one_troop_btn_match = template_match_coordinates(src_img, one_troop_btn_template, threshold=0.9)
+                if one_troop_btn_match:
+                    print("One Troop button found. Clicking to select one troop...")
+                    thread.adb_manager.tap(*one_troop_btn_match)
+                    time.sleep(1)
+                    return True
+                else:
+                    print("One Troop button not found after resetting.")
+                    return False
+            else:
+                # If no Reset button, check for the One Troop button directly
+                one_troop_btn_match = template_match_coordinates(src_img, one_troop_btn_template, threshold=0.9)
+                if one_troop_btn_match:
+                    print("One Troop button found. Clicking to select one troop...")
+                    thread.adb_manager.tap(*one_troop_btn_match)
+                    time.sleep(1)
+                    return True
+                else:
+                    print("Neither Reset nor One Troop button found.")
+                    return False
+
+        # If One Soldier preset is not selected, check for the other presets
+        # Check 1 Full Tiers first (since it requires 2 clicks to reach One Soldier)
+        one_full_tiers_match = template_match_coordinates(src_img, one_full_tiers_template, threshold=0.9)
+        if one_full_tiers_match:
+            print("1 Full Tiers preset is selected. Clicking to cycle to Power First...")
+            thread.adb_manager.tap(*one_full_tiers_match)
+            time.sleep(1)
+            attempts += 1
+            continue
+
+        # Check Power First (requires 1 click to reach One Soldier)
+        power_first_match = template_match_coordinates(src_img, power_first_template, threshold=0.9)
+        if power_first_match:
+            print("Power First preset is selected. Clicking to cycle to One Soldier...")
+            thread.adb_manager.tap(*power_first_match)
+            time.sleep(1)
+            attempts += 1
+            continue
+
+        # If none of the presets are found, something is wrong
+        print("No preset template matched. Unable to cycle presets.")
+        return False
+
+    print("Max attempts reached while trying to cycle to One Soldier preset.")
+    return False
+
