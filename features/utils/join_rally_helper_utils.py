@@ -1,4 +1,5 @@
 import re
+import time
 
 import cv2
 import numpy as np
@@ -224,7 +225,7 @@ def preset_option_reset_to_one_troop(thread):
 
     # If count is not 1, then set the count to 1
     print("Troop count is not 1. Attempting to select one troop...")
-    if select_one_troop(thread, src_img):
+    if select_one_troop(thread):
         # Optionally, recheck the troop count to confirm
         src_img = thread.capture_and_validate_screen(ads=False)
         troops_count = check_selected_troops_count(src_img.copy())
@@ -258,28 +259,29 @@ def check_selected_troops_count(src_img):
             troops_count = -1
         finally:
             return troops_count
+    else:
+        return -1
 
 
-def select_one_troop(thread, src_img):
+def select_one_troop(thread):
     """
     Selects exactly one troop by switching to the 'One Soldier' preset and applying it.
     The preset cycling order is: 1 Full Tiers -> Power First -> One Soldier.
 
     Args:
         thread: The thread object containing cache and adb_manager.
-        src_img: The source image to perform template matching on.
 
     Returns:
         bool: True if one troop was successfully selected, False otherwise.
     """
     # Template images for the three presets
-    power_first_template = cv2.imread("assets/540p/join rally/power_first_preset.png")
-    one_full_tiers_template = cv2.imread("assets/540p/join rally/one_full_tiers_preset.png")
-    one_soldier_template = cv2.imread("assets/540p/join rally/one_soldier_preset.png")
+    power_first_template = cv2.imread("assets/540p/join rally/preset_power_first_img.png")
+    one_full_tiers_template = cv2.imread("assets/540p/join rally/preset_one_full_tiers_img.png")
+    one_soldier_template = cv2.imread("assets/540p/join rally/preset_one_soldier_img.png")
 
     # Template images for the Reset and One Troop buttons
-    reset_btn_template = cv2.imread("assets/540p/join rally/reset_btn.png")
-    one_troop_btn_template = cv2.imread("assets/540p/join rally/one_troop_btn.png")
+    reset_btn_template = cv2.imread("assets/540p/join rally/preset_reset_btn.png")
+    one_troop_btn_template = cv2.imread("assets/540p/join rally/preset_one_soldier_btn.png")
 
     # Maximum attempts to cycle through presets
     # Since the order is 1 Full Tiers -> Power First -> One Soldier,
@@ -303,7 +305,7 @@ def select_one_troop(thread, src_img):
             if reset_btn_match:
                 print("Reset button found. Clicking to clear troop selection...")
                 thread.adb_manager.tap(*reset_btn_match)
-                time.sleep(1)  # Wait for the UI to update
+                time.sleep(1)
 
                 # Capture the screen again to check for the One Troop button
                 src_img = thread.capture_and_validate_screen(ads=False)
@@ -353,4 +355,39 @@ def select_one_troop(thread, src_img):
 
     print("Max attempts reached while trying to cycle to One Soldier preset.")
     return False
+
+def validate_and_apply_stamina(thread):
+    src_img = thread.capture_and_validate_screen(ads=False)
+    stamina_confirm_img = cv2.imread("assets/540p/join rally/confirm_btn.png")
+
+    if not is_template_match(src_img,stamina_confirm_img):
+        # print("Stamina already available")
+        return True
+
+    print("Insufficient stamina to join the rally.")
+
+    # Get auto use stamina settings
+    auto_use_stamina = thread.cache['join_rally_controls']['settings']['auto_use_stamina']
+
+    # If auto_use_stamina is not enabled
+    if not auto_use_stamina['enabled']:
+        print("Auto-use stamina option is not enabled, so skipping the operation")
+        thread.adb_manager.press_back()
+        return False
+
+    # If enabled, then proceed with applying the stamina
+    print("Stamina will be automatically refilled to continue joining rallies.")
+
+    stamina_confirm_match = template_match_coordinates(src_img,stamina_confirm_img)
+
+    thread.adb_manager.tap(*stamina_confirm_match)
+    time.sleep(4)
+
+
+
+
+
+
+
+
 

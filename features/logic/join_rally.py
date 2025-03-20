@@ -5,7 +5,7 @@ from datetime import timedelta
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
     extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn, preset_option_skip_no_general, \
-    preset_option_reset_to_one_troop
+    preset_option_reset_to_one_troop, validate_and_apply_stamina
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
@@ -120,14 +120,11 @@ def process_monster_rallies(thread,scan_direction):
 
         if not is_preset_selection_valid:
             # print("Preset Selection/Validation Failed")
+            thread.adb_manager.press_back()
+            thread.adb_manager.press_back()
+            time.sleep(1)
             return False
 
-
-        time.sleep(3)
-        thread.adb_manager.press_back()
-        time.sleep(1)
-        thread.adb_manager.press_back()
-        time.sleep(1)
 
 
 
@@ -277,13 +274,14 @@ def validate_preset_and_join(thread,src_img):
         preset_icons = glob.glob(f"assets/540p/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
         preset_match = None
         for icon in preset_icons:
-            print(icon)
+            # print(icon)
             icon_img = cv2.imread(icon)
             preset_match = template_match_coordinates(src_img, icon_img,threshold=0.9)
             if preset_match:
                 print("Preset match found")
                 thread.adb_manager.tap(*preset_match)
                 time.sleep(1)
+                # TODO if the preset is not set, then skip it
                 break
         if not preset_match:
             print(f"Preset {current_preset} is disabled. Skipping...")
@@ -315,7 +313,9 @@ def validate_preset_and_join(thread,src_img):
             return None
         thread.adb_manager.tap(*march_btn_match)
         time.sleep(1)
-        # TODO Validate the stamina pop up
+        # Validate and apply the stamina
+        if not validate_and_apply_stamina(thread):
+            return False
         return True
 
     # If no presets are valid
