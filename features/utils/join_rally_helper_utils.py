@@ -193,7 +193,7 @@ def normalize_boss_text(text):
 def click_join_alliance_war_btn(thread):
     join_alliance_war_btn_img = cv2.imread("assets/540p/join rally/join_alliance_war_btn.png")
 
-    src_img = thread.capture_and_validate_screen(ads=False)
+    src_img = thread.capture_and_validate_screen()
     join_alliance_war_btn_match = template_match_coordinates(src_img, join_alliance_war_btn_img)
     if not join_alliance_war_btn_match:
         # print("Cannot find the alliance war join button")
@@ -208,14 +208,14 @@ def preset_option_use_selected_generals(thread,src_img):
 
 def preset_option_skip_no_general(thread):
     no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
-    src_img = thread.capture_and_validate_screen(ads=False)
+    src_img = thread.capture_and_validate_screen()
     if is_template_match(src_img,no_main_general_img):
         return False
     return True
 
 
 def preset_option_reset_to_one_troop(thread):
-    src_img = thread.capture_and_validate_screen(ads=False)
+    src_img = thread.capture_and_validate_screen()
 
     # Check the troops count
     troops_count = check_selected_troops_count(src_img.copy())
@@ -456,14 +456,14 @@ def refill_stamina(thread,option):
             thread.adb_manager.tap(*confirm_stamina)
             time.sleep(0.5)
             thread.adb_manager.press_back()
-            time.sleep(0.5)
+            time.sleep(1)
             src_img = thread.capture_and_validate_screen(ads=False)
             march_btn = cv2.imread("assets/540p/join rally/march_btn.png")
             march_btn_match = template_match_coordinates(src_img, march_btn, convert_gray=False)
             if not march_btn_match:
                 return False
             thread.adb_manager.tap(*march_btn_match)
-            time.sleep(1)
+            time.sleep(2)
             return True
     # If execution reaches this line, it means no stamina found/used
     print("No Stamina Found")

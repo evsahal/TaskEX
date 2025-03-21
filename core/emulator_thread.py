@@ -253,8 +253,11 @@ class EmulatorThread(QThread):
                             if not is_template_match(src_img, pair_image):
                                 continue
                         # print("Ads found")
-                        self.logger.info("Closing the ads/pop-ups")
+
                         ads_match = template_match_coordinates(src_img, ads_img)
+                        if not ads_match:
+                            continue
+                        self.logger.info("Closing the ads/pop-ups")
                         self.adb_manager.tap(ads_match[0], ads_match[1])
                         time.sleep(1)
                         src_img = self.adb_manager.take_screenshot()
