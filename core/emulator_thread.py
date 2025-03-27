@@ -17,6 +17,7 @@ from utils.adb_manager import ADBManager
 import logging
 
 from utils.get_controls_info import get_game_settings_controls
+from utils.helper_utils import get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates
 
 
@@ -163,9 +164,11 @@ class EmulatorThread(QThread):
                 self._running = False
                 return
 
+            # Load the game settings
+            self.game_settings = get_game_settings_controls(self.main_window, self.index)
+
             # Perform the operation based on the type
             if self.operation_type == "emu":
-                self.game_settings = get_game_settings_controls(self.main_window,self.index)
                 self.run_emulator_instance()
             elif self.operation_type == "scan_general":
                 start_scan_generals(self)
@@ -207,10 +210,12 @@ class EmulatorThread(QThread):
             src_img = self.adb_manager.take_screenshot()
             restart_img = cv2.imread("assets/540p/other/restart_btn.png")
             world_map_btn = cv2.imread("assets/540p/other/explore_world_map_btn.png")
-            if kick_timer and is_template_match(src_img, restart_img):
-                # print("kick timer activated")
+
+            if kick_timer and is_template_match(src_img, restart_img,threshold=0.9):
+                # print(f"kick timer activated {self.game_settings['kick_reload']}")
                 self.logger.info(f"Kick & Reload activated for {self.game_settings['kick_reload']} min(s)")
                 time.sleep(self.game_settings['kick_reload'] * 60)
+
                 # print("kick timer done")
                 self.logger.info("Kick timer done. Restart initiated")
                 # Restart the game
@@ -227,6 +232,7 @@ class EmulatorThread(QThread):
                     self.adb_manager.launch_evony(True)
                 start_time = time.time()
                 timeout = 60
+
                 while not is_template_match(src_img, world_map_btn):
                     # Wait a bit before the next screenshot to reduce CPU usage
                     time.sleep(1)

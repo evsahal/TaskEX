@@ -9,12 +9,10 @@ from utils.image_recognition_utils import is_template_match, template_match_coor
 template_loc = os.path.join('assets', '540p', 'other')
 
 def select_general_view(thread,view):
-
     view_templates={
         "details view"  : f"{template_loc}\\details_view.png",
         "list view": f"{template_loc}\\list_view.png"
     }
-
     # Capture a screenshot
     src_img = thread.capture_and_validate_screen(ads=False)
 

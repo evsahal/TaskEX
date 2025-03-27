@@ -90,6 +90,7 @@ def start_scan_generals(thread):
     else:
         scan_generals_list_view(thread,pending_generals)
 
+
 def scan_generals_details_view(thread):
     main_window = thread.main_window
     scan_types = main_window.widgets.scan_generals_type

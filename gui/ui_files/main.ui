@@ -2102,6 +2102,9 @@ QComboBox QAbstractItemView {
                                      <height>45</height>
                                     </size>
                                    </property>
+                                   <property name="currentIndex">
+                                    <number>-1</number>
+                                   </property>
                                    <property name="placeholderText">
                                     <string>Scan Type</string>
                                    </property>
@@ -2463,7 +2466,7 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>966</width>
+                                   <width>1166</width>
                                    <height>513</height>
                                   </rect>
                                  </property>
@@ -2590,7 +2593,7 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>966</width>
+                                   <width>1166</width>
                                    <height>646</height>
                                   </rect>
                                  </property>
@@ -2655,7 +2658,7 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>966</width>
+                                   <width>1166</width>
                                    <height>646</height>
                                   </rect>
                                  </property>

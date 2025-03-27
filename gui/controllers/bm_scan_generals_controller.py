@@ -66,6 +66,9 @@ def init_scan_general_ui(main_window):
 
     # Ensure all items are unchecked when initialized
     for i in range(main_window.widgets.scan_generals_type.count()):
+        if i ==0: # Check the first option (Exception)
+            main_window.widgets.scan_generals_type.setItemCheckState(i, Qt.Checked)
+            continue
         main_window.widgets.scan_generals_type.setItemCheckState(i, Qt.Unchecked)
     for i in range(main_window.widgets.scan_generals_filter.count()):
         main_window.widgets.scan_generals_filter.setItemCheckState(i, Qt.Unchecked)

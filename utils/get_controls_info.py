@@ -181,7 +181,10 @@ def get_join_rally_controls(main_window, index):
     return join_rally_controls
 
 def get_game_settings_controls(main_window,index):
+    try:
+        kick_reload_spinbox = getattr(main_window.widgets, f"kick_reload_spinbox___{index}")
+    except Exception as e:
+        return {'kick_reload': 5}  # Default 5 mins
 
-    kick_reload_spinbox = getattr(main_window.widgets, f"kick_reload_spinbox___{index}")
-    game_settings = {'kick_reload':kick_reload_spinbox.value()}
-    return game_settings
+    return {'kick_reload': kick_reload_spinbox.value()}
+
