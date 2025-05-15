@@ -5,7 +5,7 @@ from datetime import timedelta
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
     extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn, preset_option_skip_no_general, \
-    preset_option_reset_to_one_troop, validate_and_apply_stamina
+    preset_option_reset_to_one_troop, validate_and_apply_stamina, preset_option_use_selected_generals
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
@@ -287,9 +287,12 @@ def validate_preset_and_join(thread,src_img):
             print(f"Preset {current_preset} is disabled. Skipping...")
             continue  # Move to next preset
 
-        # TODO Use selected general
+        # Use selected general if selected
         if preset_settings['use_selected_generals']:
             print("Do selected general")
+            if not preset_option_use_selected_generals(thread):
+                print(f"Cannot Select the General from the list. Skipping..")
+                continue # Move to next preset
 
         # Check skip no general option
         if preset_settings['skip_no_general']:

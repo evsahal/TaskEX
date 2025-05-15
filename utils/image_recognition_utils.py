@@ -39,16 +39,19 @@ def template_match_coordinates(src_image, template_image, return_center=True, co
         return max_loc
     return None
 
-def template_match_coordinates_all(src_image, template_image, return_center=False, convert_gray=True, threshold=0.85):
+
+def template_match_coordinates_all(src_image, template_image, return_center=False, convert_gray=True, threshold=0.85,
+                                   nms_distance=5):
     """
-    Get the coordinates of all template matches in the source image.
+    Get the coordinates of all template matches in the source image, with non-maximum suppression to filter overlapping matches.
 
     :param src_image: Source image where the template will be searched.
     :param template_image: Template image to search for in the source image.
     :param return_center: Whether to return the center coordinates of the match.
     :param convert_gray: Convert both images to grayscale if True.
     :param threshold: Matching threshold (0 to 1).
-    :return: List of (x, y) coordinates of all matches above the threshold, sorted by top-to-bottom.
+    :param nms_distance: Maximum distance (in pixels) between matches to consider them overlapping.
+    :return: List of (x, y) coordinates of distinct matches above the threshold, sorted by top-to-bottom.
     """
     if convert_gray:
         src_image = cv2.cvtColor(src_image, cv2.COLOR_BGR2GRAY)
@@ -57,25 +60,55 @@ def template_match_coordinates_all(src_image, template_image, return_center=Fals
     # Perform template matching
     result = cv2.matchTemplate(src_image, template_image, cv2.TM_CCOEFF_NORMED)
 
-    # Get locations above the threshold
+    # Get locations and scores above the threshold
     loc = np.where(result >= threshold)
-
     matches = []
+    scores = []
     h, w = template_image.shape[:2]
 
-    # Iterate through all matches
+    # Collect all matches and their scores
     for pt in zip(*loc[::-1]):  # Switch to x, y order
+        x, y = pt
+        score = result[y, x]  # Get the correlation score at this location
         if return_center:
-            center_x = pt[0] + w // 2
-            center_y = pt[1] + h // 2
+            center_x = x + w // 2
+            center_y = y + h // 2
             matches.append((center_x, center_y))
         else:
-            matches.append(pt)
+            matches.append((x, y))
+        scores.append(score)
 
-    # Sort matches by the y-coordinate (top to bottom)
-    matches = sorted(matches, key=lambda x: x[1])
+    if not matches:
+        return []
 
-    return matches
+    # Combine matches and scores into a list of tuples: (x, y, score)
+    matches_with_scores = [(match[0], match[1], score) for match, score in zip(matches, scores)]
+
+    # Sort by score (highest first) for non-maximum suppression
+    matches_with_scores = sorted(matches_with_scores, key=lambda x: x[2], reverse=True)
+
+    # Apply non-maximum suppression
+    filtered_matches = []
+    while matches_with_scores:
+        # Take the match with the highest score
+        best_match = matches_with_scores[0]
+        filtered_matches.append((best_match[0], best_match[1]))  # Keep only the (x, y) coordinates
+        matches_with_scores = matches_with_scores[1:]
+
+        # Filter out matches that are too close to the best match
+        matches_to_keep = []
+        for match in matches_with_scores:
+            x1, y1 = best_match[0], best_match[1]
+            x2, y2 = match[0], match[1]
+            distance = np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+            if distance > nms_distance:
+                matches_to_keep.append(match)
+        matches_with_scores = matches_to_keep
+
+    # Sort filtered matches by y-coordinate (top to bottom)
+    filtered_matches = sorted(filtered_matches, key=lambda x: x[1])
+
+    return filtered_matches
 
 def template_match_multiple_sizes(src_image, template_image, scales, return_center=True, convert_gray=True, threshold=0.85):
     """

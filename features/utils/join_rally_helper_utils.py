@@ -8,6 +8,7 @@ from sqlalchemy import func
 
 from db.db_setup import get_session
 from db.models import MonsterLevel, BossMonster
+from features.utils.use_selected_generals_utils import open_general_selection_list, select_general_from_list
 from utils.helper_utils import get_current_datetime_string
 from utils.image_recognition_utils import template_match_coordinates, is_template_match
 
@@ -200,11 +201,42 @@ def click_join_alliance_war_btn(thread):
         return False
     thread.adb_manager.tap(*join_alliance_war_btn_match)
 
-def preset_option_use_selected_generals(thread,src_img):
-    select_general_btn_img = cv2.imread("assets/540p/join rally/select_general_btn.png")
-    no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
-    no_assistant_general_img = cv2.imread("assets/540p/join rally/no_assistant_general.png")
-    pass
+def preset_option_use_selected_generals(thread):
+    selected_preset = thread.cache['join_rally_controls']['settings']['selected_presets']
+
+    # Loop over main and assistant general in order
+    for general_type in [True,False]:
+        generals_list = selected_preset.get('main_generals' if general_type else 'assistant_generals', [])
+
+        # Check if the list contains any main general in it
+        if not generals_list and not general_type:
+            print("At least one main general should be selected to continue using the selected general option")
+            return False
+        # Check if the list contains any assistant general in it
+        if not generals_list and not general_type:
+            print("No assistant generals to select, skipping.")
+            continue  # Skip assistant selection if no assistants and not main
+
+        # Open general selection window
+        open_general_selection_window = open_general_selection_list(thread,general_type)
+        # When main general selection window is not opened (assistant is optional)
+        if not open_general_selection_window and general_type:
+            return False
+
+        # Select the general
+        if open_general_selection_window:
+            general_selected = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'])
+            # when main general is not selected, then skip the preset (assistant is not mandatory)
+            if not general_selected and general_type:
+                return False
+
+            return True
+
+        return False
+
+
+
+
 
 def preset_option_skip_no_general(thread):
     no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
