@@ -50,7 +50,6 @@ def open_general_selection_list(thread,main_general):
 
 
 def select_general_from_list(thread,generals_list,general_preset_config):
-    # TODO Fix logger and pass it to the generals utils methods
     # General Category
     select_general_category(thread, general_preset_config['general_category'])
     # General View
