@@ -60,21 +60,43 @@ class EmulatorThread(QThread):
                 with open(log_file_path, "w") as f:
                     pass  # Create an empty log file
             file_handler = logging.FileHandler(log_file_path, mode="a")
-            file_formatter = logging.Formatter('[%(name)s] [%(asctime)s] [%(levelname)s]: %(message)s')
+            if self.operation_type == "emu":
+                file_formatter = logging.Formatter('[%(name)s] [%(asctime)s] [%(levelname)s]: %(message)s')
+            elif self.operation_type == "scan_general":
+                file_formatter = logging.Formatter('%(message)s')
+
             file_handler.setFormatter(file_formatter)
             logger.addHandler(file_handler)
 
-            # QTextEdit handler setup
-            console_widget = getattr(self.main_window.widgets, f"console_{self.index}", None)
-            if console_widget:
-                class QTextEditHandler(logging.Handler):
-                    def emit(self, record):
-                        msg = self.format(record)
-                        console_widget.append(msg)
+            # Emulator console handler setup (for operation_type == "emu" with QTextEdit)
+            if self.operation_type == "emu":
+                console_widget = getattr(self.main_window.widgets, f"console_{self.index}", None)
+                if console_widget:
+                    class QTextEditHandler(logging.Handler):
+                        def emit(self, record):
+                            msg = self.format(record)
+                            console_widget.append(msg)
 
-                self.console_handler = QTextEditHandler()
-                self.console_handler.setFormatter(file_formatter)
-                logger.addHandler(self.console_handler)
+                    self.console_handler = QTextEditHandler()
+                    self.console_handler.setFormatter(file_formatter)
+                    logger.addHandler(self.console_handler)
+
+            # General scan console handler setup (for operation_type == "scan_general" with QPlainTextEdit)
+            if self.operation_type == "scan_general":
+                console_widget = getattr(self.main_window.widgets, "scan_general_console", None)
+                if console_widget:
+                    class GeneralScanHandler(logging.Handler):
+                        def __init__(self, thread):
+                            super().__init__()
+                            self.thread = thread
+
+                        def emit(self, record):
+                            msg = self.format(record)
+                            console_widget.appendPlainText(msg)
+
+                    self.console_handler = GeneralScanHandler(self)
+                    self.console_handler.setFormatter(file_formatter)
+                    logger.addHandler(self.console_handler)
 
         return logger
 

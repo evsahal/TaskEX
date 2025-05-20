@@ -21,7 +21,7 @@ def select_general_view(thread,view):
 
     # Check if the view is already selected or not
     if is_template_match(src_img,template_img,threshold=0.9):
-        thread.main_window.scan_general_console.emit(f"{view.capitalize()} is already selected.")
+        thread.logger.info(f"{view.capitalize()} is already selected.")
         return True
 
     # Select the opposite view
@@ -39,7 +39,7 @@ def select_general_view(thread,view):
 
     if view_match:
         thread.adb_manager.tap(view_match[0], view_match[1])
-        thread.main_window.scan_general_console.emit(f"Selecting {opposite_view}.")
+        thread.logger.info(f"Selecting {opposite_view}.")
         return True
     return False
 
@@ -62,7 +62,7 @@ def select_general_category(thread,category):
 
     # Check if the category is already selected or not
     if is_template_match(src_img,template_img):
-        thread.main_window.scan_general_console.emit(f"Category {category} is already selected.")
+        thread.logger.info(f"Category {category} is already selected.")
         return True
 
     # Load the template image to select
@@ -73,11 +73,11 @@ def select_general_category(thread,category):
 
     if category_match:
         thread.adb_manager.tap(category_match[0],category_match[1])
-        thread.main_window.scan_general_console.emit(f"Selecting {category.capitalize()} category.")
+        thread.logger.info(f"Selecting {category.capitalize()} category.")
         return True
     return False
 
-def apply_general_filter(thread,favorite=False, idle=False,signal=None):
+def apply_general_filter(thread,favorite=False, idle=False):
 
 
     # Define all the template images
@@ -92,57 +92,49 @@ def apply_general_filter(thread,favorite=False, idle=False,signal=None):
     if favorite:
         # Check if favorite is checked,if not check it
         if is_template_match(src_img, favorite_checked_img):
-            if signal:
-                signal.emit("Favorite filter is already applied.")
+            thread.logger.info("Favorite filter is already applied.")
             # print("Favorite already selected")
         else:
             src_img_match = template_match_coordinates(src_img, favorite_unchecked_img)
             if src_img_match:
-                if signal:
-                    signal.emit("Applying favorite filter now.")
+                thread.logger.info("Applying favorite filter now.")
                 # print("Selecting Favorite Filter")
                 # self.invokeScanGeneralsConsole("Applying the favorite filter")
                 thread.adb_manager.tap(src_img_match[0],src_img_match[1])
     else:
         # Check if favorite is unchecked,if not uncheck it
         if is_template_match(src_img, favorite_unchecked_img):
-            if signal:
-                signal.emit("Favorite filter is not applied already.")
+            thread.logger.info("Favorite filter is not applied already.")
                 # print("Favorite already not selected")
         else:
             src_img_match = template_match_coordinates(src_img, favorite_checked_img)
             if src_img_match:
                 # print("Clearing Favorite Filter")
-                if signal:
-                    signal.emit("Clearing the favorite filter.")
+                thread.logger.info("Clearing the favorite filter.")
                 thread.adb_manager.tap(src_img_match[0],src_img_match[1])
 
     if idle:
         # Check if idle is checked,if not check it
         if is_template_match(src_img, idle_checked_img):
-            if signal:
-                signal.emit("Idle filter is already applied.")
+            thread.logger.info("Idle filter is already applied.")
             # print("Idle already selected")
             # self.invokeScanGeneralsConsole("Idle filter is already applied")
         else:
             src_img_match = template_match_coordinates(src_img, idle_unchecked_img)
             if src_img_match:
-                if signal:
-                    signal.emit("Applying idle filter now.")
+                thread.logger.info("Applying idle filter now.")
                 # print("Selecting Idle Filter")
                 # self.invokeScanGeneralsConsole("Applying the idle filter")
                 thread.adb_manager.tap(src_img_match[0], src_img_match[1])
     else:
         # Check if idle is unchecked,if not uncheck it
         if is_template_match(src_img, idle_unchecked_img):
-            if signal:
-                signal.emit("Idle filter is not applied already.")
+            thread.logger.info("Idle filter is not applied already.")
             # print("Idle already not selected")
         else:
             src_img_match = template_match_coordinates(src_img, idle_checked_img)
             if src_img_match:
-                if signal:
-                    signal.emit("Clearing the idle filter.")
+                thread.logger.info("Clearing the idle filter.")
                 # print("Clearing Idle Filter")
                 thread.adb_manager.tap(src_img_match[0], src_img_match[1])
 

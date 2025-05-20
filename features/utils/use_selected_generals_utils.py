@@ -2,6 +2,7 @@ import time
 
 import cv2
 
+from utils.generals_utils import select_general_category
 from utils.image_recognition_utils import template_match_coordinates_all, template_match_coordinates
 
 
@@ -49,6 +50,14 @@ def open_general_selection_list(thread,main_general):
 
 
 def select_general_from_list(thread,generals_list,general_preset_config):
+    # TODO Fix logger and pass it to the generals utils methods
+    # General Category
+    select_general_category(thread, general_preset_config['general_category'])
+    # General View
+
+    # General Filter
+
+    # Swipe Attempts
     pass
 
 

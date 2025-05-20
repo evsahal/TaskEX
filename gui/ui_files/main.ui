@@ -2466,8 +2466,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1166</width>
-                                   <height>513</height>
+                                   <width>68</width>
+                                   <height>22</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -2593,8 +2593,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1166</width>
-                                   <height>646</height>
+                                   <width>68</width>
+                                   <height>22</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -2658,8 +2658,8 @@ border-radius: 5px;</string>
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>1166</width>
-                                   <height>646</height>
+                                   <width>68</width>
+                                   <height>22</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_18">
