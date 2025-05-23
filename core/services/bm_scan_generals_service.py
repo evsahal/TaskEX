@@ -388,9 +388,17 @@ def get_general_scan_frames(options):
             "top_left": cv2.imread(os.path.join(template_loc, "epic_gold_frame_top_2.png")),
             "bottom_right": cv2.imread(os.path.join(template_loc, "epic_frame_bottom.png")),
         },
-        "legendary_purple": {
+        "epic_gold_3": {
+            "top_left": cv2.imread(os.path.join(template_loc, "epic_gold_frame_top_1.png")),
+            "bottom_right": cv2.imread(os.path.join(template_loc, "epic_frame_bottom_2.png")),
+        },
+        "legendary_purple_1": {
             "top_left": cv2.imread(os.path.join(template_loc, "legendary_frame_top.png")),
             "bottom_right": cv2.imread(os.path.join(template_loc, "legendary_frame_bottom.png")),
+        },
+        "legendary_purple_2": {
+            "top_left": cv2.imread(os.path.join(template_loc, "legendary_frame_top.png")),
+            "bottom_right": cv2.imread(os.path.join(template_loc, "legendary_frame_bottom_2.png")),
         }
     }
 
@@ -405,7 +413,8 @@ def get_general_scan_frames(options):
 
     # If 1 is in options, add legendary frames
     if 1 in options:
-        selected_frames["legendary_purple"] = frame_templates["legendary_purple"]
+        selected_frames["legendary_purple_1"] = frame_templates["legendary_purple_1"]
+        selected_frames["legendary_purple_2"] = frame_templates["legendary_purple_2"]
 
     return selected_frames
 
