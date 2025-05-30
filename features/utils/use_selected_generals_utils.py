@@ -2,7 +2,7 @@ import time
 
 import cv2
 
-from utils.generals_utils import select_general_category
+from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
 from utils.image_recognition_utils import template_match_coordinates_all, template_match_coordinates
 
 
@@ -50,14 +50,57 @@ def open_general_selection_list(thread,main_general):
 
 
 def select_general_from_list(thread,generals_list,general_preset_config):
+
     # General Category
-    select_general_category(thread, general_preset_config['general_category'])
+    general_category = select_general_category(thread, general_preset_config['general_category'].lower())
+    if not general_category:
+        return False
+
     # General View
+    general_view = select_general_view(thread, general_preset_config['general_view'].lower())
+    if not general_view:
+        return False
 
     # General Filter
+    apply_general_filter(thread,'favorite' in general_preset_config['general_filter'], 'idle' in general_preset_config['general_filter'])
 
-    # Swipe Attempts
-    pass
+    # Search for the general in the list
+    swipe_limit = general_preset_config['swipe_attempts']
+    swipe_count = 0
+    general_selected = False
+    selected_view = True if 'details' in general_preset_config['general_view'].lower() else False
+
+    while swipe_count < swipe_limit and not general_selected:
+        # Capture the current screen
+        src_img = thread.capture_and_validate_screen()
+
+        # Loop through general templates
+        for general in generals_list:
+            general_template = general['details_image'] if selected_view else general['list_image']
+            general_match = template_match_coordinates(src_img, general_template, threshold=0.9)
+            if general_match:
+                # General found, select it based on the view type
+                thread.log_message(f"Found general {general['name']}. Selecting...")
+                # TODO Select based on the view
+                thread.adb_manager.tap(general_match[0], general_match[1])
+                time.sleep(1)  # Wait for selection to register
+                general_selected = True
+                break
+
+        if general_selected:
+            break
+
+        # General not found, swipe the list to reveal more generals
+        thread.adb_manager.swipe(480, 400, 480, 200, duration=500)
+        time.sleep(1)  # Wait for the list to settle
+        swipe_count += 1
+
+    # Check if a general was selected
+    if not general_selected:
+        print("Reached swipe limit without finding any general from the list.")
+        return False
+
+    return True
 
 
 def find_corresponding_coordinates(x_match, y_match, image_height, image_width):

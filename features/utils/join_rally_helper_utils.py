@@ -9,6 +9,7 @@ from sqlalchemy import func
 from db.db_setup import get_session
 from db.models import MonsterLevel, BossMonster
 from features.utils.use_selected_generals_utils import open_general_selection_list, select_general_from_list
+from utils.generals_utils import extract_general_template_image
 from utils.helper_utils import get_current_datetime_string
 from utils.image_recognition_utils import template_match_coordinates, is_template_match
 
@@ -217,6 +218,18 @@ def preset_option_use_selected_generals(thread):
             print("No assistant generals to select, skipping.")
             continue  # Skip assistant selection if no assistants and not main
 
+        # load general template images
+        for general in generals_list:
+            # Details View
+            details_image_path = f"assets\\540p\\generals\\{general.get('details_image_name')}"
+            details_image = extract_general_template_image(cv2.imread(details_image_path))
+            general['details_image'] = details_image
+
+            # List View
+            list_image_path = f"assets\\540p\\generals\\{general.get('list_image_name')}"
+            list_image = extract_general_template_image(cv2.imread(list_image_path), view=False)
+            general['list_image'] = list_image
+
         # Open general selection window
         open_general_selection_window = open_general_selection_list(thread,general_type)
         # When main general selection window is not opened (assistant is optional)
@@ -228,6 +241,8 @@ def preset_option_use_selected_generals(thread):
             general_selected = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'])
             # when main general is not selected, then skip the preset (assistant is not mandatory)
             if not general_selected and general_type:
+                # thread.adb_manager.press_back()
+                # time.sleep(1)
                 return False
 
             return True

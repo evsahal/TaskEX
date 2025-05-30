@@ -33,6 +33,7 @@ def run_join_rally(thread):
 
     while thread.thread_status():
         try:
+            # print(thread.cache['join_rally_controls']['settings']['selected_presets']['general_preset_config'])
             # Process boss monster rallies
             process_monster_rallies(thread,join_oldest_rallies_first)
             print(

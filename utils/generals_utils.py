@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 
 import cv2
@@ -40,6 +41,7 @@ def select_general_view(thread,view):
     if view_match:
         thread.adb_manager.tap(view_match[0], view_match[1])
         thread.logger.info(f"Selecting {opposite_view}.")
+        time.sleep(0.5)
         return True
     return False
 
@@ -74,6 +76,7 @@ def select_general_category(thread,category):
     if category_match:
         thread.adb_manager.tap(category_match[0],category_match[1])
         thread.logger.info(f"Selecting {category.capitalize()} category.")
+        time.sleep(0.5)
         return True
     return False
 
@@ -162,3 +165,45 @@ def crop_general_template_list_view(image):
     cropped_img = image[top:bottom, left:right]
 
     return cropped_img
+
+def extract_general_template_image(image,view=True):
+    """
+        Extracts a portion of the general image (e.g., head area) based on the view type.
+        view : True - > Details View, False - > List View
+    """
+    try:
+        # Get image dimensions
+        height, width = image.shape[:2]
+
+        # Define crop dimensions based on view type
+        if view:  # Details view
+            crop_width = 50  # Larger area for details view
+            crop_height = 50
+        else:  # List view
+            crop_width = 30  # Smaller area for list view
+            crop_height = 30
+
+        # Calculate the center x-coordinate
+        center_x = width // 2
+
+        # Calculate x-coordinates for cropping (middle portion)
+        x_start = max(0, center_x - (crop_width // 2))
+        x_end = min(width, x_start + crop_width)
+
+        # Adjust x_start if x_end hits the image boundary
+        if x_end == width:
+            x_start = width - crop_width
+
+        # Calculate y-coordinates (top portion)
+        y_start = 40  # Start from the top
+        y_end = min(height, y_start + crop_height)
+
+        # Crop the image
+        image = image[y_start:y_end, x_start:x_end]
+
+        return image
+
+    except Exception as e:
+        print(f"Error extracting image portion: {e}")
+        return None
+
