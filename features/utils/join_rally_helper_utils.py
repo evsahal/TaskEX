@@ -234,7 +234,11 @@ def preset_option_use_selected_generals(thread):
         open_general_selection_window = open_general_selection_list(thread,general_type)
         # When main general selection window is not opened (assistant is optional)
         if not open_general_selection_window and general_type:
+            print("Failed to open main general selection window")
             return False
+        elif not open_general_selection_window and not general_type:
+            print("Failed to open assistant general selection window(no assistant general enabled)")
+            continue
 
         # Select the general
         if open_general_selection_window:
@@ -245,9 +249,7 @@ def preset_option_use_selected_generals(thread):
                 # time.sleep(1)
                 return False
 
-            return True
-
-        return False
+    return True
 
 
 

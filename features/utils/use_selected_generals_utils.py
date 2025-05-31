@@ -3,7 +3,7 @@ import time
 import cv2
 
 from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
-from utils.image_recognition_utils import template_match_coordinates_all, template_match_coordinates
+from utils.image_recognition_utils import template_match_coordinates_all, template_match_coordinates, is_template_match
 
 
 def open_general_selection_list(thread,main_general):
@@ -51,14 +51,14 @@ def open_general_selection_list(thread,main_general):
 
 def select_general_from_list(thread,generals_list,general_preset_config):
 
-    # General Category
-    general_category = select_general_category(thread, general_preset_config['general_category'].lower())
-    if not general_category:
-        return False
-
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
     if not general_view:
+        return False
+
+    # General Category
+    general_category = select_general_category(thread, general_preset_config['general_category'].lower())
+    if not general_category:
         return False
 
     # General Filter
@@ -77,14 +77,12 @@ def select_general_from_list(thread,generals_list,general_preset_config):
         # Loop through general templates
         for general in generals_list:
             general_template = general['details_image'] if selected_view else general['list_image']
-            general_match = template_match_coordinates(src_img, general_template, threshold=0.9)
-            if general_match:
-                # General found, select it based on the view type
-                thread.log_message(f"Found general {general['name']}. Selecting...")
-                # TODO Select based on the view
-                thread.adb_manager.tap(general_match[0], general_match[1])
-                time.sleep(1)  # Wait for selection to register
-                general_selected = True
+            if is_template_match(src_img, general_template, threshold=0.9):
+                # General match found, select it based on the view type
+                if selected_view:
+                    general_selected = details_view_select_general(thread, src_img, general)
+                else:
+                    general_selected = list_view_select_general(thread, src_img, general)
                 break
 
         if general_selected:
@@ -101,6 +99,40 @@ def select_general_from_list(thread,generals_list,general_preset_config):
         return False
 
     return True
+
+def list_view_select_general(thread, src_img, general):
+    select_a_general_tag_img = cv2.imread("assets/540p/other/select_a_general_tag.png")
+    general_template_match = template_match_coordinates(src_img, general['list_image'])
+    if general_template_match:
+        thread.adb_manager.tap(*general_template_match)
+        print(f"Selecting {general['name']}")
+        time.sleep(1)
+        # Check if the general is already selected
+        src_img = thread.capture_and_validate_screen(ads=False)
+        if is_template_match(src_img,select_a_general_tag_img):
+            print(f"General {general['name']} is already selected")
+            thread.adb_manager.press_back()
+            time.sleep(1)
+        return True
+
+    return False
+
+def details_view_select_general(thread, src_img, general):
+
+    select_general_btn_img = cv2.imread("assets/540p/other/select_general_btn.png")
+    resign_general_btn_img = cv2.imread("assets/540p/other/resign_general_btn.png")
+    general_template_match = template_match_coordinates(src_img, general['list_image'])
+    print("CP - 2")
+    if general_template_match:
+        print("CP - 2.1")
+        # get the coordinates to crop the matched location
+        y1, y2, x1, x2 = general_template_match[2] + 230, general_template_match[2] + 320, general_template_match[1] + 250, 540
+        roi = src_img[y1:y2, x1:x2].copy()
+        print("CP - 2.2")
+        print("Saving...")
+        cv2.imwrite("temp/test/general.png",roi)
+    print("CP - 3")
+    return False
 
 
 def find_corresponding_coordinates(x_match, y_match, image_height, image_width):

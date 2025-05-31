@@ -63,7 +63,10 @@ def select_general_category(thread,category):
     template_img = cv2.imread(f"{category_templates[category]}_selected.png")
 
     # Check if the category is already selected or not
-    if is_template_match(src_img,template_img):
+    category_selected_match = template_match_coordinates(src_img,template_img)
+    if category_selected_match:
+        # Click on the match to remove the popup shown when the view is in list view
+        thread.adb_manager.tap(category_selected_match[0], category_selected_match[1])
         thread.logger.info(f"Category {category} is already selected.")
         return True
 

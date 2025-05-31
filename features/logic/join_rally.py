@@ -107,11 +107,10 @@ def process_monster_rallies(thread,scan_direction):
         # CLick the join alliance war to proceed with the rallies
         thread.adb_manager.tap(*join_alliance_war_btn_match)
         time.sleep(1)
-        src_img = thread.capture_and_validate_screen(ads=False)
 
         # Check if it opens the preset selection window
+        src_img = thread.capture_and_validate_screen(ads=False)
         select_a_preset_img = cv2.imread("assets/540p/join rally/select_a_preset.png")
-
         if not is_template_match(src_img,select_a_preset_img):
             print("Cant locate preset selection window")
             return False
@@ -125,8 +124,6 @@ def process_monster_rallies(thread,scan_direction):
             thread.adb_manager.press_back()
             time.sleep(1)
             return False
-
-
 
 
 
@@ -290,7 +287,6 @@ def validate_preset_and_join(thread,src_img):
 
         # Use selected general if selected
         if preset_settings['use_selected_generals']:
-            print("Do selected general")
             if not preset_option_use_selected_generals(thread):
                 print(f"Cannot Select the General from the list. Skipping..")
                 continue # Move to next preset
