@@ -5,14 +5,14 @@ from datetime import timedelta
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
     extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn, preset_option_skip_no_general, \
-    preset_option_reset_to_one_troop, validate_and_apply_stamina, preset_option_use_selected_generals
+    preset_option_reset_to_one_troop, validate_and_apply_stamina, preset_option_use_selected_generals, \
+    extract_monster_power_from_image
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
     template_match_coordinates
 from utils.navigate_utils import navigate_join_rally_window
-from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image, \
-    extract_monster_power_from_image
+from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image
 
 
 def run_join_rally(thread):
@@ -168,12 +168,6 @@ def scan_rally_info(thread,roi_src):
     extracted_boss_data = read_monster_data(thread,src_img.copy())
     if not extracted_boss_data:
         return False
-
-    # # TODO Remove this later: debugging
-    # thread.adb_manager.press_back()
-    # time.sleep(1)
-    # ## -- TILL HERE --
-
 
     return True
 

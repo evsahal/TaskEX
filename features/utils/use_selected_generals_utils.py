@@ -62,7 +62,9 @@ def select_general_from_list(thread,generals_list,general_preset_config):
         return False
 
     # General Filter
-    apply_general_filter(thread,'favorite' in general_preset_config['general_filter'], 'idle' in general_preset_config['general_filter'])
+    favorite_filter = False if general_preset_config.get('general_filter') is None else 'favorite' in general_preset_config.get('general_filter', '')
+    idle_filter = False if general_preset_config.get('general_filter') is None else 'idle' in general_preset_config.get('general_filter', '')
+    apply_general_filter(thread,favorite_filter, idle_filter)
 
     # Search for the general in the list
     swipe_limit = general_preset_config['swipe_attempts']
@@ -123,6 +125,8 @@ def details_view_select_general(thread, src_img, general):
     resign_general_btn_img = cv2.imread("assets/540p/other/resign_general_btn.png")
     general_template_match = template_match_coordinates(src_img, general['list_image'])
     print("CP - 2")
+    cv2.imwrite("temp/test/src.png", src_img)
+    cv2.imwrite("temp/test/template.png", general['list_image'])
     if general_template_match:
         print("CP - 2.1")
         # get the coordinates to crop the matched location

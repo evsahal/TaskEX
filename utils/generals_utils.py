@@ -85,7 +85,6 @@ def select_general_category(thread,category):
 
 def apply_general_filter(thread,favorite=False, idle=False):
 
-
     # Define all the template images
     favorite_checked_img = cv2.imread(f"{template_loc}\\favorite_checked.png")
     favorite_unchecked_img = cv2.imread(f"{template_loc}\\favorite_unchecked.png")
