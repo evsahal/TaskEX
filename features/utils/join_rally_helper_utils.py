@@ -565,19 +565,23 @@ def extract_monster_power_from_image(img):
 
     # Refine the cropped image (trim extra right-side parts)
     hsv = cv2.cvtColor(cropped_power_text, cv2.COLOR_BGR2HSV)
-    lower_blue = np.array([90, 50, 50])
-    upper_blue = np.array([130, 255, 255])
-    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    # lower_blue = np.array([90, 50, 50])
+    # upper_blue = np.array([130, 255, 255])
+    # mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    # Define HSV range for white
+    lower_white = np.array([0, 0, 200])  # Low hue, low saturation, high value (brightness)
+    upper_white = np.array([180, 50, 255])  # Full hue range, low saturation, max brightness
+    mask = cv2.inRange(hsv, lower_white, upper_white)
 
-    cols = np.any(mask, axis=0)  # Find blue background columns
+    cols = np.any(mask, axis=0)  # Find white background columns
     if np.any(cols):
-        x2 = np.max(np.where(cols))  # Get rightmost blue pixel
+        x2 = np.max(np.where(cols)) + 3  # Get rightmost white pixel
     else:
-        x2 = cropped_power_text.shape[1]  # Default to full width if no blue detected
+        x2 = cropped_power_text.shape[1]  # Default to full width if no white detected
 
-    refined_cropped_power_text = cropped_power_text[:, :x2]  # Crop up to the detected blue area
+    refined_cropped_power_text = cropped_power_text[:, :x2]  # Crop up to the detected white area
 
-    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\crop_{get_current_datetime_string()}.png", refined_cropped_power_text)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\crop_{get_current_datetime_string()}.png", refined_cropped_power_text)
 
     # Extract text using OCR
     gray = cv2.cvtColor(refined_cropped_power_text, cv2.COLOR_BGR2GRAY)

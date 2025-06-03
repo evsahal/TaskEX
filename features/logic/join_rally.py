@@ -52,7 +52,7 @@ def run_join_rally(thread):
                 swipe_iteration = 0
 
             # Reset navigation after reaching max iteration
-            if max_swipe_iteration >= 20:
+            if max_swipe_iteration >= 40:
                 # Clear skipped cords images
                 thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
                 # Press back
@@ -130,8 +130,7 @@ def process_monster_rallies(thread,scan_direction):
 def scan_rally_info(thread,roi_src):
     # Load template images
     boss_monster_flag_img = cv2.imread("assets/540p/join rally/boss_monster_flag.png")
-    map_pinpoint_img = cv2.imread("assets/540p/join rally/map_pinpoint_tag.png")
-
+    # map_pinpoint_img = cv2.imread("assets/540p/join rally/map_pinpoint_tag.png")
 
     # Capture the current screen
     src_img = thread.capture_and_validate_screen(ads=False)
@@ -183,7 +182,7 @@ def read_monster_data(thread,src_img):
 
     # Check and skip dawn monster
     if "dawn" in extracted_monster_name:
-        print("Skipping Dawn Monsters")
+        print("Skipping Shadow of Dawn Monsters")
         return None
 
     # Get the all the matching boss objects from the extracted text
@@ -448,6 +447,7 @@ def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = 
         if is_template_match(src_img, background_img,False, 0.95):
             # print("No more rallies in the list")
             # cv2.imwrite(r"E:\Projects\PyCharmProjects\TaskEX\temp\demo.png",draw_template_match(src_img, background_img,False, 0.95))
+            time.sleep(1.5)
             break
         thread.adb_manager.swipe(*swipe_cords, 1500)
         time.sleep(1)
