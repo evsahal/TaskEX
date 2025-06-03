@@ -204,13 +204,15 @@ def click_join_alliance_war_btn(thread):
 
 def preset_option_use_selected_generals(thread):
     selected_preset = thread.cache['join_rally_controls']['settings']['selected_presets']
-
+    # Empty the selected main general cache
+    thread.cache['join_rally_controls']['cache']['selected_main_general_id'] = None
+    selected_main_general_id = thread.cache['join_rally_controls']['cache']['selected_main_general_id']
     # Loop over main and assistant general in order
     for general_type in [True,False]:
         generals_list = selected_preset.get('main_generals' if general_type else 'assistant_generals', [])
-
+        # print(f"{'Main Gen' if general_type else 'Assistant Gen'} :: {selected_main_general_id}")
         # Check if the list contains any main general in it
-        if not generals_list and not general_type:
+        if not generals_list and general_type:
             print("At least one main general should be selected to continue using the selected general option")
             return False
         # Check if the list contains any assistant general in it
@@ -218,8 +220,13 @@ def preset_option_use_selected_generals(thread):
             print("No assistant generals to select, skipping.")
             continue  # Skip assistant selection if no assistants and not main
 
-        # load general template images
+        # load general template images, also remove selected main general from the assistant general list
         for general in generals_list:
+            # Remove selected main general from the assistant general list
+            if selected_main_general_id and not general_type and selected_main_general_id:
+                generals_list[:] = [gen for gen in generals_list if gen['id'] != selected_main_general_id]
+                selected_main_general_id = None
+
             # Details View
             details_image_path = f"assets\\540p\\generals\\{general.get('details_image_name')}"
             details_image = extract_general_template_image(cv2.imread(details_image_path))
@@ -242,7 +249,7 @@ def preset_option_use_selected_generals(thread):
 
         # Select the general
         if open_general_selection_window:
-            general_selected = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'])
+            general_selected, selected_main_general_id = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'])
             # when main general is not selected, then skip the preset (assistant is not mandatory)
             if not general_selected and general_type:
                 # thread.adb_manager.press_back()

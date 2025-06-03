@@ -183,7 +183,7 @@ def read_monster_data(thread,src_img):
 
     # Check and skip dawn monster
     if "dawn" in extracted_monster_name:
-        # print("Skipping Dawn Monsters")
+        print("Skipping Dawn Monsters")
         return None
 
     # Get the all the matching boss objects from the extracted text

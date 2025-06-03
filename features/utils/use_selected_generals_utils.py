@@ -50,7 +50,7 @@ def open_general_selection_list(thread,main_general):
 
 
 def select_general_from_list(thread,generals_list,general_preset_config):
-
+    selected_main_general_id = None
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
     if not general_view:
@@ -85,12 +85,14 @@ def select_general_from_list(thread,generals_list,general_preset_config):
                     general_selected = details_view_select_general(thread, src_img, general)
                 else:
                     general_selected = list_view_select_general(thread, src_img, general)
+                selected_main_general_id = general['id']
                 break
 
         if general_selected:
             break
 
         # General not found, swipe the list to reveal more generals
+        # TODO Fix the swipe
         thread.adb_manager.swipe(480, 400, 480, 200, duration=500)
         time.sleep(1)  # Wait for the list to settle
         swipe_count += 1
@@ -98,9 +100,9 @@ def select_general_from_list(thread,generals_list,general_preset_config):
     # Check if a general was selected
     if not general_selected:
         print("Reached swipe limit without finding any general from the list.")
-        return False
+        return False, None
 
-    return True
+    return True, selected_main_general_id
 
 def list_view_select_general(thread, src_img, general):
     select_a_general_tag_img = cv2.imread("assets/540p/other/select_a_general_tag.png")
@@ -115,6 +117,7 @@ def list_view_select_general(thread, src_img, general):
             print(f"General {general['name']} is already selected")
             thread.adb_manager.press_back()
             time.sleep(1)
+
         return True
 
     return False
