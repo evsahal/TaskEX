@@ -121,6 +121,7 @@ def process_monster_rallies(thread,scan_direction):
         if not is_preset_selection_valid:
             # print("Preset Selection/Validation Failed")
             thread.adb_manager.press_back()
+            time.sleep(0.4)
             thread.adb_manager.press_back()
             time.sleep(1)
             return False
@@ -137,7 +138,7 @@ def scan_rally_info(thread,roi_src):
 
     # Make sure the rally is in progress
     if not is_template_match(src_img,boss_monster_flag_img):
-        # print("Not an ongoing rally")
+        print("Not an ongoing rally(Rally march already started)")
         return False
     # Make sure there is enough time to join the rally
     remaining_time = get_remaining_rally_time(src_img)
@@ -189,7 +190,7 @@ def read_monster_data(thread,src_img):
     bosses = lookup_boss_by_name(extracted_monster_name)
 
     if not bosses:
-        # print("Cannot find the boss in the db \ read wrong name")
+        print("Cannot find the boss in the db \ read wrong name")
         return None
 
     selected_boss_levels = thread.cache['join_rally_controls']['data']
@@ -359,7 +360,7 @@ def check_skipped_rallies(thread,src_img):
     # Check skipped list
     for cords_img in thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']:
         if is_template_match(src_img, cords_img):
-            # print("Already skipped one")
+            print("Already skipped one")
             return False
 
     return True
@@ -430,6 +431,7 @@ def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = 
     """
     swipe_direction True = scroll down, False = scroll up
     """
+    # TODO fix swipe's end based on the rallies found(ss repeating) instead of iterations
     # Swipe coordinates based on direction
     swipe_cords = [250, 810, 250, 320] if swipe_direction else [250, 320, 250, 810]
     # Navigate to the alliance war window

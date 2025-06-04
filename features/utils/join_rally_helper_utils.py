@@ -90,6 +90,9 @@ def crop_boss_text_area(src_img):
     # Crop the region of interest (ROI)
     cropped_img = src_img[top:bottom, left:right]
 
+
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_{get_current_datetime_string()}.png",
+    #             cropped_img)
     return cropped_img
 
 
