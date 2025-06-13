@@ -3,6 +3,7 @@ import time
 import cv2
 
 from utils.generals_utils import select_general_category, select_general_view, apply_general_filter
+from utils.helper_utils import get_current_datetime_string
 from utils.image_recognition_utils import template_match_coordinates_all, template_match_coordinates, is_template_match
 
 
@@ -126,20 +127,78 @@ def details_view_select_general(thread, src_img, general):
 
     select_general_btn_img = cv2.imread("assets/540p/other/select_general_btn.png")
     resign_general_btn_img = cv2.imread("assets/540p/other/resign_general_btn.png")
-    general_template_match = template_match_coordinates(src_img, general['list_image'])
-    print("CP - 2")
-    cv2.imwrite("temp/test/src.png", src_img)
-    cv2.imwrite("temp/test/template.png", general['list_image'])
-    if general_template_match:
-        print("CP - 2.1")
-        # get the coordinates to crop the matched location
-        y1, y2, x1, x2 = general_template_match[2] + 230, general_template_match[2] + 320, general_template_match[1] + 250, 540
-        roi = src_img[y1:y2, x1:x2].copy()
-        print("CP - 2.2")
-        print("Saving...")
-        cv2.imwrite("temp/test/general.png",roi)
-    print("CP - 3")
+
+    general_template_match = template_match_coordinates(src_img, general['details_image'])
+    if not general_template_match:
+        return False
+    # cv2.imwrite(f"temp/src_{get_current_datetime_string()}.png", src_img)
+    # cv2.imwrite(f"temp/template_{get_current_datetime_string()}.png", general['details_image'])
+
+    print(f"Match found : {general['name']}")
+    # Get the coordinates to crop the matched location
+    match_x, match_y = general_template_match[0], general_template_match[1]  # Top-left of match
+    template_h, template_w = general['details_image'].shape[:2]  # Height and width of template
+
+    # Define search region: from bottom of general match to end of image
+    y1 = match_y + template_h  # Start just below the template
+    x1 = match_x  # Start at the match's x
+    y2 = src_img.shape[0]  # End at the bottom of the image
+    x2 = src_img.shape[1]  # End at the right edge of the image
+    roi = src_img[y1:y2, x1:x2].copy()
+
+    cv2.imwrite(f"temp/cropped_area_{get_current_datetime_string()}.png", roi)
+
+    # Perform template matching for both buttons in the ROI
+    resign_match = template_match_coordinates_all(roi, resign_general_btn_img,convert_gray=False)
+    select_match = template_match_coordinates_all(roi, select_general_btn_img, convert_gray=False)
+
+    # Check if any matches are found
+    if not resign_match and not select_match:
+        print("No Resign or Select button found, skipping.")
+        return False
+
+    # Initialize variables for first match coordinates
+    resign_x, resign_y = None, float('inf')  # Default to infinity if no match
+    select_x, select_y = None, float('inf')  # Default to infinity if no match
+
+    # Extract first match if present
+    if resign_match:
+        resign_x, resign_y = resign_match[0]
+    if select_match:
+        select_x, select_y = select_match[0]
+
+    # Determine action based on matches
+    if resign_y != float('inf') and select_y != float('inf'):
+        # Both buttons found, compare y coordinates to find the closest
+        general_bottom_y = match_y + template_h
+        resign_distance = abs(resign_y - general_bottom_y)
+        select_distance = abs(select_y - general_bottom_y)
+
+        if resign_distance < select_distance:
+            print("Resign button is closer, backing.")
+            thread.adb_manager.press_back()
+            time.sleep(1)
+            return True
+        else:
+            print("Select button is closer, tapping.")
+            thread.adb_manager.tap(select_x + x1, select_y + y1)  # Adjust for ROI offset
+            time.sleep(1)
+            return True
+    elif resign_y != float('inf'):
+        # Only Resign button found
+        print("Resign button found, tapping.")
+        thread.adb_manager.press_back()
+        time.sleep(1)
+        return True
+    elif select_y != float('inf'):
+        # Only Select button found
+        print("Select button found, tapping.")
+        thread.adb_manager.tap(select_x + x1, select_y + y1)  # Adjust for ROI offset
+        time.sleep(1)
+        return True
+
     return False
+
 
 
 def find_corresponding_coordinates(x_match, y_match, image_height, image_width):

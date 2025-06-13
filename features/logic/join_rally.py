@@ -102,6 +102,7 @@ def process_monster_rallies(thread,scan_direction):
 
         if not join_alliance_war_btn_match:
             print("Cannot find the alliance war join button")
+            thread.adb_manager.press_back()
             return False
 
         # CLick the join alliance war to proceed with the rallies
@@ -190,7 +191,7 @@ def read_monster_data(thread,src_img):
     bosses = lookup_boss_by_name(extracted_monster_name)
 
     if not bosses:
-        print("Cannot find the boss in the db \ read wrong name")
+        print("Cannot find the boss in the db. read wrong name")
         return None
 
     selected_boss_levels = thread.cache['join_rally_controls']['data']
