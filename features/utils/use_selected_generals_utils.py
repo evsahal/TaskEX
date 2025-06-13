@@ -146,7 +146,7 @@ def details_view_select_general(thread, src_img, general):
     x2 = src_img.shape[1]  # End at the right edge of the image
     roi = src_img[y1:y2, x1:x2].copy()
 
-    cv2.imwrite(f"temp/cropped_area_{get_current_datetime_string()}.png", roi)
+    # cv2.imwrite(f"temp/cropped_area_{get_current_datetime_string()}.png", roi)
 
     # Perform template matching for both buttons in the ROI
     resign_match = template_match_coordinates_all(roi, resign_general_btn_img,convert_gray=False)

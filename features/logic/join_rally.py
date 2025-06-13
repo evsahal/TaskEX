@@ -1,6 +1,7 @@
 import glob
 import time
 from datetime import timedelta
+from time import sleep
 
 import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
@@ -237,8 +238,11 @@ def read_monster_data(thread,src_img):
 
 def validate_preset_and_join(thread,src_img):
 
+    confirm_btn = cv2.imread("assets/540p/join rally/confirm_btn.png")
+
     # Get selected presets
     selected_presets = thread.cache['join_rally_controls']['settings']['selected_presets']['presets']
+
     preset_list = list(selected_presets.keys())  # Ordered list of selected presets
 
     # Get last used preset
@@ -267,14 +271,27 @@ def validate_preset_and_join(thread,src_img):
         preset_icons = glob.glob(f"assets/540p/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
         preset_match = None
         for icon in preset_icons:
+            print(selected_presets)
             # print(icon)
             icon_img = cv2.imread(icon)
             preset_match = template_match_coordinates(src_img, icon_img,threshold=0.9)
             if preset_match:
-                print("Preset match found")
                 thread.adb_manager.tap(*preset_match)
                 time.sleep(1)
-                # TODO if the preset is not set, then skip it
+                # if the preset is not set, then skip it
+                src_img = thread.capture_and_validate_screen()
+                if is_template_match(src_img,confirm_btn):
+                    thread.adb_manager.press_back()
+                    time.sleep(1)
+                    src_img = thread.capture_and_validate_screen()
+                    # Remove the preset from the selected options
+                    if len(thread.cache['join_rally_controls']['settings']['selected_presets']['presets']) > 1:
+                        print("Preset not set... removing it from the selected options")
+                        thread.cache['join_rally_controls']['settings']['selected_presets']['presets'].pop(current_preset,None)
+                    else:
+                        print("Current preset is not set")
+                    continue
+                print("Preset match found")
                 break
         if not preset_match:
             print(f"Preset {current_preset} is disabled. Skipping...")

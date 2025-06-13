@@ -263,8 +263,6 @@ def preset_option_use_selected_generals(thread):
 
 
 
-
-
 def preset_option_skip_no_general(thread):
     no_main_general_img = cv2.imread("assets/540p/join rally/no_main_general.png")
     src_img = thread.capture_and_validate_screen()
