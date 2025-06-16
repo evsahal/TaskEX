@@ -42,9 +42,17 @@ def extract_remaining_rally_time_from_image(img):
     return match.group(0) if match else None
 
 def extract_join_rally_time_from_image(img):
-    # TODO work on this
-    return "00:00:01"
+    # Convert to grayscale and apply threshold for better OCR
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
+    # Extract text using OCR
+    extracted_text = pytesseract.image_to_string(binary, config="--psm 7 --oem 3").strip()
+    if extracted_text and ':' in extracted_text:
+        print(f"Timer extracted: {extracted_text}")
+        return extracted_text
+    else:
+        return None
 
 def preprocess_white_text(img):
     """

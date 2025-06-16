@@ -11,7 +11,7 @@ from features.utils.join_rally_helper_utils import crop_middle_portion, crop_ima
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
-    template_match_coordinates
+    template_match_coordinates, detect_red_color
 from utils.navigate_utils import navigate_join_rally_window
 from utils.text_extraction_util import extract_remaining_rally_time_from_image, extract_join_rally_time_from_image
 
@@ -149,9 +149,9 @@ def scan_rally_info(thread,roi_src):
         return False
     # Check whether the timer is above 5 mins
     if remaining_time > timedelta(minutes=5):
-        # print("Timer is more than 5 mins")
+        print("Timer is more than 5 mins")
         return False
-    # Get the Timer on the join rally button TODO fix the code to extract the correct timer always
+    # Get the Timer on the join rally button
     march_time = get_march_join_time(roi_src)
     if not march_time:
         print("Invalid March time")
@@ -159,7 +159,7 @@ def scan_rally_info(thread,roi_src):
     print(f"Remaining Time: {remaining_time} :: March Time {march_time}")
     # Add buffer time to march time
     total_march_time = march_time + timedelta(seconds=10)
-    print(f"Total march time {total_march_time}")
+    print(f"Total march time after adding a buffer seconds {total_march_time}")
     # Check if march time + buffer is within remaining rally time
     if total_march_time >= remaining_time:
         print("Cant join the rally on time")
@@ -355,7 +355,13 @@ def get_march_join_time(src_img):
 
     # Perform cropping
     src_img = src_img[y1_new+2:y2-6, join_btn_match[0]+10:x2-10]
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
+    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
+
+    # Check if the join time is already exceeded (red text)
+    if detect_red_color(src_img):
+        print("Red color, join time exceeded the march time to join the rally")
+        return False
+
     return parse_timer_to_timedelta(extract_join_rally_time_from_image(src_img))
 
 
@@ -366,7 +372,7 @@ def get_remaining_rally_time(src_img):
     src_img = crop_middle_portion(src_img,False)
     # Crop the image with a fixed height of 50 pixels to extract just the timer portion
     src_img = crop_image_fixed_height(src_img,50)
-
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\timer{get_current_datetime_string()}.png", src_img)
     return  parse_timer_to_timedelta(extract_remaining_rally_time_from_image(src_img))
 
 

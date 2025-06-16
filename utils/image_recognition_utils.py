@@ -277,3 +277,28 @@ def crop_image(image: np.ndarray,selection_area) -> np.ndarray:
     """Crop the image based on the selection area."""
     x, y, w, h = selection_area
     return image[y:y + h, x:x + w]
+
+
+def detect_red_color(image):
+    # Convert to HSV color space
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # Define HSV range for red (split into two ranges due to hue wrapping at 180)
+    lower_red1 = np.array([0, 100, 100])
+    upper_red1 = np.array([10, 255, 255])
+    lower_red2 = np.array([170, 100, 100])
+    upper_red2 = np.array([180, 255, 255])
+
+    # Create red mask
+    mask_red1 = cv2.inRange(hsv, lower_red1, upper_red1)
+    mask_red2 = cv2.inRange(hsv, lower_red2, upper_red2)
+    mask_red = cv2.bitwise_or(mask_red1, mask_red2)
+
+    # Count non-zero red pixels
+    red_count = cv2.countNonZero(mask_red)
+
+    # Check if red text is present
+    if red_count > 0:
+        return True
+
+    return False
