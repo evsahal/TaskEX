@@ -118,7 +118,7 @@ def process_monster_rallies(thread,scan_direction):
             return False
 
         # Select the preset based on the settings
-        is_preset_selection_valid = validate_preset_and_join(thread,src_img)
+        is_preset_selection_valid = validate_preset_and_join(thread)
 
         if not is_preset_selection_valid:
             # print("Preset Selection/Validation Failed")
