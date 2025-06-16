@@ -236,7 +236,7 @@ def read_monster_data(thread,src_img):
 
     return None
 
-def validate_preset_and_join(thread,src_img):
+def validate_preset_and_join(thread):
 
     confirm_btn = cv2.imread("assets/540p/join rally/confirm_btn.png")
 
@@ -258,6 +258,8 @@ def validate_preset_and_join(thread,src_img):
 
     # Loop through presets in cycle
     for _ in range(len(preset_list)):  # Ensures it check all presets once
+        src_img = thread.capture_and_validate_screen()
+
         # Move to the next preset in order (cycling through)
         if not is_first_iteration:
             current_index = (current_index + 1) % len(preset_list)
@@ -271,7 +273,7 @@ def validate_preset_and_join(thread,src_img):
         preset_icons = glob.glob(f"assets/540p/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
         preset_match = None
         for icon in preset_icons:
-            print(selected_presets)
+            # print(selected_presets)
             # print(icon)
             icon_img = cv2.imread(icon)
             preset_match = template_match_coordinates(src_img, icon_img,threshold=0.9)
@@ -355,7 +357,7 @@ def get_march_join_time(src_img):
 
     # Perform cropping
     src_img = src_img[y1_new+2:y2-6, join_btn_match[0]+10:x2-10]
-    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
 
     # Check if the join time is already exceeded (red text)
     if detect_red_color(src_img):

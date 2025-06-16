@@ -252,11 +252,11 @@ def preset_option_use_selected_generals(thread):
 
         # Select the general
         if open_general_selection_window:
-            general_selected, selected_main_general_id = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'])
+            general_selected, selected_main_general_id = select_general_from_list(thread, generals_list, selected_preset['general_preset_config'],general_type)
             # when main general is not selected, then skip the preset (assistant is not mandatory)
             if not general_selected and general_type:
-                # thread.adb_manager.press_back()
-                # time.sleep(1)
+                thread.adb_manager.press_back()
+                time.sleep(1)
                 return False
 
     return True

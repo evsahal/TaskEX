@@ -50,7 +50,7 @@ def open_general_selection_list(thread,main_general):
     return False
 
 
-def select_general_from_list(thread,generals_list,general_preset_config):
+def select_general_from_list(thread,generals_list,general_preset_config,general_type):
     selected_main_general_id = None
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
@@ -84,6 +84,10 @@ def select_general_from_list(thread,generals_list,general_preset_config):
                 # General match found, select it based on the view type
                 if selected_view:
                     general_selected = details_view_select_general(thread, src_img, general)
+                    # If buffer swipe added to adjust the select/resign button, call the function again
+                    if general_selected is None:
+                        src_img = thread.capture_and_validate_screen()
+                        general_selected = details_view_select_general(thread, src_img, general)
                 else:
                     general_selected = list_view_select_general(thread, src_img, general)
                 selected_main_general_id = general['id']
@@ -93,8 +97,11 @@ def select_general_from_list(thread,generals_list,general_preset_config):
             break
 
         # General not found, swipe the list to reveal more generals
-        # TODO Fix the swipe
-        thread.adb_manager.swipe(480, 400, 480, 200, duration=500)
+        if general_type: # Main general
+            thread.adb_manager.swipe(270, 750, 270, 250, duration=1000)
+        else: # Assistant general
+            thread.adb_manager.swipe(480, 400, 480, 200, duration=500)
+
         time.sleep(1)  # Wait for the list to settle
         swipe_count += 1
 
@@ -154,8 +161,10 @@ def details_view_select_general(thread, src_img, general):
 
     # Check if any matches are found
     if not resign_match and not select_match:
-        print("No Resign or Select button found, skipping.")
-        return False
+        print("No Resign or Select button found, adjusting the swipe.")
+        thread.adb_manager.swipe(270, 750, 270, 650, duration=1000)
+        time.sleep(1)
+        return None
 
     # Initialize variables for first match coordinates
     resign_x, resign_y = None, float('inf')  # Default to infinity if no match
