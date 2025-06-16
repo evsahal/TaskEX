@@ -96,11 +96,11 @@ def apply_general_filter(thread,favorite=False, idle=False):
 
     if favorite:
         # Check if favorite is checked,if not check it
-        if is_template_match(src_img, favorite_checked_img):
+        if is_template_match(src_img, favorite_checked_img,convert_gray=False):
             thread.logger.info("Favorite filter is already applied.")
             # print("Favorite already selected")
         else:
-            src_img_match = template_match_coordinates(src_img, favorite_unchecked_img)
+            src_img_match = template_match_coordinates(src_img, favorite_unchecked_img,convert_gray=False)
             if src_img_match:
                 thread.logger.info("Applying favorite filter now.")
                 # print("Selecting Favorite Filter")
@@ -108,11 +108,11 @@ def apply_general_filter(thread,favorite=False, idle=False):
                 thread.adb_manager.tap(src_img_match[0],src_img_match[1])
     else:
         # Check if favorite is unchecked,if not uncheck it
-        if is_template_match(src_img, favorite_unchecked_img):
+        if is_template_match(src_img, favorite_unchecked_img,convert_gray=False):
             thread.logger.info("Favorite filter is not applied already.")
                 # print("Favorite already not selected")
         else:
-            src_img_match = template_match_coordinates(src_img, favorite_checked_img)
+            src_img_match = template_match_coordinates(src_img, favorite_checked_img,convert_gray=False)
             if src_img_match:
                 # print("Clearing Favorite Filter")
                 thread.logger.info("Clearing the favorite filter.")
@@ -120,12 +120,12 @@ def apply_general_filter(thread,favorite=False, idle=False):
 
     if idle:
         # Check if idle is checked,if not check it
-        if is_template_match(src_img, idle_checked_img):
+        if is_template_match(src_img, idle_checked_img,convert_gray=False):
             thread.logger.info("Idle filter is already applied.")
             # print("Idle already selected")
             # self.invokeScanGeneralsConsole("Idle filter is already applied")
         else:
-            src_img_match = template_match_coordinates(src_img, idle_unchecked_img)
+            src_img_match = template_match_coordinates(src_img, idle_unchecked_img,convert_gray=False)
             if src_img_match:
                 thread.logger.info("Applying idle filter now.")
                 # print("Selecting Idle Filter")
@@ -133,11 +133,11 @@ def apply_general_filter(thread,favorite=False, idle=False):
                 thread.adb_manager.tap(src_img_match[0], src_img_match[1])
     else:
         # Check if idle is unchecked,if not uncheck it
-        if is_template_match(src_img, idle_unchecked_img):
+        if is_template_match(src_img, idle_unchecked_img,convert_gray=False):
             thread.logger.info("Idle filter is not applied already.")
             # print("Idle already not selected")
         else:
-            src_img_match = template_match_coordinates(src_img, idle_checked_img)
+            src_img_match = template_match_coordinates(src_img, idle_checked_img,convert_gray=False)
             if src_img_match:
                 thread.logger.info("Clearing the idle filter.")
                 # print("Clearing Idle Filter")
