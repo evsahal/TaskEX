@@ -50,7 +50,7 @@ def open_general_selection_list(thread,main_general):
     return False
 
 
-def select_general_from_list(thread,generals_list,general_preset_config,general_type):
+def select_general_from_list(thread,generals_list,general_preset_config):
     selected_main_general_id = None
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
@@ -97,10 +97,10 @@ def select_general_from_list(thread,generals_list,general_preset_config,general_
             break
 
         # General not found, swipe the list to reveal more generals
-        if general_type: # Main general
+        if selected_view: # Detail View
             thread.adb_manager.swipe(270, 750, 270, 250, duration=1000)
-        else: # Assistant general
-            thread.adb_manager.swipe(480, 400, 480, 200, duration=500)
+        else: # List View
+            thread.adb_manager.swipe(270, 800, 270, 250, duration=1000)
 
         time.sleep(1)  # Wait for the list to settle
         swipe_count += 1
