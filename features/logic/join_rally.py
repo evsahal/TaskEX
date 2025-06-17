@@ -37,10 +37,11 @@ def run_join_rally(thread):
             # print(thread.cache['join_rally_controls']['settings']['selected_presets']['general_preset_config'])
             # Process boss monster rallies
             process_monster_rallies(thread,join_oldest_rallies_first)
+
             # print(f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
 
             # Swipe based on the direction
-            scroll_through_rallies(thread, swipe_direction)
+            scroll_through_rallies(thread, swipe_direction,swipe_limit=1)
 
             # Update iterations
             swipe_iteration += 1
@@ -381,7 +382,7 @@ def get_march_join_time(thread, src_img):
 
     # Perform cropping
     src_img = src_img[y1_new+2:y2-6, join_btn_match[0]+10:x2-10]
-    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
 
     # Check if the join time is already exceeded (red text)
     if detect_red_color(src_img):
