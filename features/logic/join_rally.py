@@ -129,6 +129,8 @@ def process_monster_rallies(thread,scan_direction):
             time.sleep(1)
             return False
 
+        thread.log_message("Joining...",level="info")
+
 
 
 def scan_rally_info(thread,roi_src):
@@ -189,7 +191,7 @@ def read_monster_data(thread,src_img):
     # Get the text from the image
     extracted_monster_name = extract_monster_name_from_image(boss_text_img)
     # print(f" Extracted Text: {extracted_monster_name}")
-    thread.log_message(f"Debug: Extracted monster name is {extracted_monster_name}", level="info")
+    thread.log_message(f"Extracted monster name is {extracted_monster_name}", level="debug")
 
     # Check and skip dawn monster
     if "dawn" in extracted_monster_name:
@@ -232,18 +234,20 @@ def read_monster_data(thread,src_img):
             if not extracted_power:
                 extracted_power = extract_monster_power_from_image(src_img.copy()).strip().lower()
                 # print(extracted_power)
-
+            # print(f"Category :: {boss.boss_monster.monster_category_id}")
             # Check if extracted power matches any boss in the matched list
             if boss.power.strip().lower() == extracted_power:
                 # print(f"Power '{extracted_power}' matches Boss: {boss.name} (Level {boss.level})")
                 # Ensure the matched level is in the selected list
                 if boss.id in selected_levels:
                     # print(f"Level {boss.level} is selected. Proceeding with rally!")
-                    thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
+                    msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is in the selected list. Attempting to join rally."
+                    thread.log_message(msg, level="info")
                     return True
 
                 # print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
-                thread.log_message(f"Lv{boss.level} {boss.name} is not in the selected rally list. Skipping this rally.", level="info")
+                msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is not in the selected rally list. Skipping this rally."
+                thread.log_message(msg, level="info")
                 return None
 
     return None
@@ -377,7 +381,7 @@ def get_march_join_time(thread, src_img):
 
     # Perform cropping
     src_img = src_img[y1_new+2:y2-6, join_btn_match[0]+10:x2-10]
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
+    cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\jb_{get_current_datetime_string()}.png",src_img)
 
     # Check if the join time is already exceeded (red text)
     if detect_red_color(src_img):
