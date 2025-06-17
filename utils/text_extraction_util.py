@@ -33,12 +33,12 @@ def extract_remaining_rally_time_from_image(img):
     # Configure Tesseract for numeric detection
     custom_config = r'--oem 3 --psm 6 outputbase digits -c tessedit_char_whitelist=0123456789:'
     extracted_text = pytesseract.image_to_string(thresh, config=custom_config).strip()
-    print(f"Remaining march time::before {extracted_text}")
+    # print(f"Remaining march time::before {extracted_text}")
 
     # Match 00:00:00 or 00:00 format
     match = re.search(r'\b\d{2}:\d{2}:\d{2}\b', extracted_text) or re.search(r'\b\d{2}:\d{2}\b', extracted_text)
 
-    print(f"Remaining march time::after {match.group(0) if match else None}")
+    # print(f"Remaining march time::after {match.group(0) if match else None}")
     return match.group(0) if match else None
 
 def extract_join_rally_time_from_image(img):
@@ -49,7 +49,7 @@ def extract_join_rally_time_from_image(img):
     # Extract text using OCR
     extracted_text = pytesseract.image_to_string(binary, config="--psm 7 --oem 3").strip()
     if extracted_text and ':' in extracted_text:
-        print(f"Timer extracted: {extracted_text}")
+        # print(f"Timer extracted: {extracted_text}")
         return extracted_text
     else:
         return None
@@ -75,7 +75,7 @@ def extract_timer_white_text(img):
 
     # Clean unwanted characters and ensure valid format
     extracted_text = ''.join(filter(lambda x: x in '0123456789:', extracted_text))
-    print(f"Ext Text march time: {extracted_text}")
+    # print(f"Ext Text march time: {extracted_text}")
 
     # If the extracted text is purely numeric, insert a colon (MM:SS format or H:MM:SS if needed)
     if extracted_text.isdigit():
@@ -88,6 +88,6 @@ def extract_timer_white_text(img):
             extracted_text = f"{extracted_text[0]}:{extracted_text[1:3]}:{extracted_text[3:]}"
 
     match = re.search(r'\b(?:\d{1,2}:)?\d{2}:\d{2}\b', extracted_text)
-    print(f"March time {match.group(0) if match else None}")
+    # print(f"March time {match.group(0) if match else None}")
 
     return match.group(0) if match else None

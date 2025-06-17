@@ -23,7 +23,7 @@ def run_join_rally(thread):
     # print(thread.cache['join_rally_controls']['settings']['join_oldest_rallies_first'])
     join_oldest_rallies_first = thread.cache['join_rally_controls']['settings']['join_oldest_rallies_first']
     # Set the rally joining position based on the oldest rallies checkbox value
-    scroll_through_rallies(thread,join_oldest_rallies_first,5,True)
+    scroll_through_rallies(thread,join_oldest_rallies_first,4,True)
     # Switch the swipe direction after setting up the join_oldest_rallies_first option
     swipe_direction = False if join_oldest_rallies_first else True
 
@@ -37,8 +37,7 @@ def run_join_rally(thread):
             # print(thread.cache['join_rally_controls']['settings']['selected_presets']['general_preset_config'])
             # Process boss monster rallies
             process_monster_rallies(thread,join_oldest_rallies_first)
-            print(
-                f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
+            # print(f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
 
             # Swipe based on the direction
             scroll_through_rallies(thread, swipe_direction)
@@ -78,7 +77,7 @@ def process_monster_rallies(thread,scan_direction):
     for cords in rally_cords:
         # Recapture the  screen
         src_img = thread.capture_and_validate_screen(ads=False)
-        print(f"Count: {len(rally_cords)} :: {cords}")
+        # print(f"Count: {len(rally_cords)} :: {cords}")
         x1, y1, x2, y2 = cords
         roi_src = src_img[y1:y2, x1:x2]
         # validate before joining the rally
@@ -102,7 +101,8 @@ def process_monster_rallies(thread,scan_direction):
         join_alliance_war_btn_match = template_match_coordinates(src_img, join_alliance_war_btn_img)
 
         if not join_alliance_war_btn_match:
-            print("Cannot find the alliance war join button")
+            # print("Unable to locate the alliance war join button. Joining next rally.")
+            thread.log_message(f"Unable to locate the alliance war join button. Joining next rally.", level="info")
             thread.adb_manager.press_back()
             return False
 
@@ -114,7 +114,8 @@ def process_monster_rallies(thread,scan_direction):
         src_img = thread.capture_and_validate_screen(ads=False)
         select_a_preset_img = cv2.imread("assets/540p/join rally/select_a_preset.png")
         if not is_template_match(src_img,select_a_preset_img):
-            print("Cant locate preset selection window")
+            # print("Cant locate preset selection window")
+            thread.log_message(f"Unable to open preset selection window. Skipping rally.", level="info")
             return False
 
         # Select the preset based on the settings
@@ -140,29 +141,35 @@ def scan_rally_info(thread,roi_src):
 
     # Make sure the rally is in progress
     if not is_template_match(src_img,boss_monster_flag_img):
-        print("Not an ongoing rally(Rally march already started)")
+        # print("Not an ongoing rally(Rally march already started)")
+        thread.log_message(f"Rally has already departed; cannot join at this time.", level="info")
         return False
     # Make sure there is enough time to join the rally
     remaining_time = get_remaining_rally_time(src_img)
     if not remaining_time:
         # print("Skipping, not enough time to join/invalid time/cant read time")
+        thread.log_message(f"Unable to read remaining join time; Joining next rally.", level="info")
         return False
     # Check whether the timer is above 5 mins
     if remaining_time > timedelta(minutes=5):
-        print("Timer is more than 5 mins")
+        # print("Timer is more than 5 mins")
+        thread.log_message(f"Time exceeds 5 mins; Joining next rally.", level="info")
         return False
     # Get the Timer on the join rally button
-    march_time = get_march_join_time(roi_src)
+    march_time = get_march_join_time(thread,roi_src)
     if not march_time:
-        print("Invalid March time")
+        # print("Invalid March time")
+        thread.log_message(f"Unable to read march join time; Joining next rally.", level="info")
         return False
-    print(f"Remaining Time: {remaining_time} :: March Time {march_time}")
+    # print(f"Remaining Time: {remaining_time} :: March Time {march_time}")
     # Add buffer time to march time
     total_march_time = march_time + timedelta(seconds=10)
-    print(f"Total march time after adding a buffer seconds {total_march_time}")
+    # print(f"Total march time after adding buffer seconds {total_march_time}")
+    thread.log_message(f"Total march time is {total_march_time} with 10 sec buffer time", level="info")
     # Check if march time + buffer is within remaining rally time
     if total_march_time >= remaining_time:
-        print("Cant join the rally on time")
+        # print("March exceeds join time; Unable to join.")
+        thread.log_message(f"March exceeds join time; Unable to join.", level="info")
         # TODO Store the cords img to cache to avoid opening the rally again
         return False
 
@@ -181,18 +188,21 @@ def read_monster_data(thread,src_img):
 
     # Get the text from the image
     extracted_monster_name = extract_monster_name_from_image(boss_text_img)
-    print(f" Extracted Text: {extracted_monster_name}")
+    # print(f" Extracted Text: {extracted_monster_name}")
+    thread.log_message(f"Debug: Extracted monster name is {extracted_monster_name}", level="info")
 
     # Check and skip dawn monster
     if "dawn" in extracted_monster_name:
-        print("Skipping Shadow of Dawn Monsters")
+        # print("Skipping Shadow of Dawn Monsters")
+        thread.log_message(f"Skipping Shadow of Dawn Monsters; Joining next rally.", level="info")
         return None
 
     # Get the all the matching boss objects from the extracted text
     bosses = lookup_boss_by_name(extracted_monster_name)
 
     if not bosses:
-        print("Cannot find the boss in the db. read wrong name")
+        # print("Cannot find the boss in the db")
+        thread.log_message(f"Cannot locate the monster in the system; Joining next rally.", level="info")
         return None
 
     selected_boss_levels = thread.cache['join_rally_controls']['data']
@@ -200,7 +210,8 @@ def read_monster_data(thread,src_img):
     extracted_power = None
     for boss,logic in bosses:
         if boss.boss_monster_id not in selected_boss_levels:
-            print(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
+            # print(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
+            thread.log_message(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join. Joining next rally.", level="info")
             return None
         # print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
 
@@ -211,7 +222,8 @@ def read_monster_data(thread,src_img):
         if logic == 1 or logic == 3:# Single level & Variant level Check
             # Make sure there is only one data is found
             if len(bosses) == 1:
-                print(f"Match Found: {boss.name} (Level {boss.level})")
+                # print(f"Match Found: {boss.name} (Level {boss.level})")
+                thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
                 # print(extract_monster_power_from_image(src_img.copy()))
                 return True
             return None
@@ -219,19 +231,19 @@ def read_monster_data(thread,src_img):
             # Read the monster power
             if not extracted_power:
                 extracted_power = extract_monster_power_from_image(src_img.copy()).strip().lower()
-                print(extracted_power)
+                # print(extracted_power)
 
             # Check if extracted power matches any boss in the matched list
             if boss.power.strip().lower() == extracted_power:
-                print(
-                    f"Power '{extracted_power}' matches Boss: {boss.name} (Level {boss.level})")
-
+                # print(f"Power '{extracted_power}' matches Boss: {boss.name} (Level {boss.level})")
                 # Ensure the matched level is in the selected list
                 if boss.id in selected_levels:
-                    print(f"Level {boss.level} is selected. Proceeding with rally!")
+                    # print(f"Level {boss.level} is selected. Proceeding with rally!")
+                    thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
                     return True
 
-                print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
+                # print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
+                thread.log_message(f"Lv{boss.level} {boss.name} is not in the selected rally list. Skipping this rally.", level="info")
                 return None
 
     return None
@@ -267,7 +279,7 @@ def validate_preset_and_join(thread):
             is_first_iteration = False
         current_preset = preset_list[current_index]
         preset_settings = selected_presets[current_preset]
-        print(f"Current preset: {current_preset}")
+        # print(f"Current preset: {current_preset}")
 
         # Check if the preset is present to select (loop through all 8 possible icons)
         preset_icons = glob.glob(f"assets/540p/presets/march_{current_preset}_*.png") # Get all matching preset icon files dynamically
@@ -288,35 +300,42 @@ def validate_preset_and_join(thread):
                     src_img = thread.capture_and_validate_screen()
                     # Remove the preset from the selected options
                     if len(thread.cache['join_rally_controls']['settings']['selected_presets']['presets']) > 1:
-                        print("Preset not set... removing it from the selected options")
+                        # print("Preset not set... removing it from the selected options")
+                        thread.log_message(f"Preset {current_index} is not configured. It will no longer be used for rally joins.", level="info")
                         thread.cache['join_rally_controls']['settings']['selected_presets']['presets'].pop(current_preset,None)
                     else:
-                        print("Current preset is not set")
+                        # print("Current preset is not set")
+                        thread.log_message(f"Preset {current_preset} is not set.", level="info")
                     continue
-                print("Preset match found")
+                # print("Preset match found")
+                thread.log_message(f"Preset {current_preset} found in selection. Proceeding with it.", level="info")
                 break
         if not preset_match:
-            print(f"Preset {current_preset} is disabled. Skipping...")
+            # print(f"Preset {current_preset} is disabled. Skipping...")
+            thread.log_message(f"Preset {current_preset} is locked or disabled. Skipping this preset.", level="info")
             continue  # Move to next preset
 
         # Use selected general if selected
         if preset_settings['use_selected_generals']:
             if not preset_option_use_selected_generals(thread):
-                print(f"Cannot Select the General from the list. Skipping..")
+                # print(f"Cannot Select the General from the list. Skipping..")
+                thread.log_message(f"Cannot Select the General from the list. Trying the next available preset.", level="info")
                 continue # Move to next preset
 
         # Check skip no general option
         if preset_settings['skip_no_general']:
-            print(f"Skip no general :: {preset_settings['skip_no_general']}")
+            # print(f"Skip no general :: {preset_settings['skip_no_general']}")
             if not preset_option_skip_no_general(thread):
-                print(f"Preset {current_preset}: No general found. Skipping...")
+                # print(f"Preset {current_preset}: No general found. Skipping...")
+                thread.log_message(f"No general selected. Trying the next available preset.", level="info")
                 continue  # Move to next preset
 
         # Check reset to one troop option
         if preset_settings['reset_to_one_troop']:
-            print(f"Reset to one troop :: {preset_settings['reset_to_one_troop']}")
+            # print(f"Reset to one troop :: {preset_settings['reset_to_one_troop']}")
             if not preset_option_reset_to_one_troop(thread):
-                print("Cannot reset to one troop")
+                # print("Cannot reset to one troop. Trying the next available preset.")
+                thread.log_message(f"Unable to reset to one troop. Trying the next available preset.", level="info")
                 continue
 
         # If a valid preset is found, update cache and click on the march button
@@ -333,11 +352,12 @@ def validate_preset_and_join(thread):
         return True
 
     # If no presets are valid
-    print("Preset validation failed... Skipping the rally.")
+    # print("Preset validation failed... Skipping the rally.")
+    thread.log_message(f"Preset check unsuccessful. Skipping the rally.", level="info")
     return None
 
 
-def get_march_join_time(src_img):
+def get_march_join_time(thread, src_img):
     join_btn = cv2.imread("assets/540p/join rally/join_btn.png")
     join_btn_match = template_match_coordinates(src_img,join_btn,return_center=False)
     if not join_btn_match:
@@ -361,7 +381,8 @@ def get_march_join_time(src_img):
 
     # Check if the join time is already exceeded (red text)
     if detect_red_color(src_img):
-        print("Red color, join time exceeded the march time to join the rally")
+        # print("Red color, join time exceeded the march time to join the rally")
+        thread.log_message(f"Join timer turned red; not enough time left to join.", level="info")
         return False
 
     return parse_timer_to_timedelta(extract_join_rally_time_from_image(src_img))
@@ -453,7 +474,7 @@ def get_valid_rallies_area_cords(thread):
 
     return valid_cords
 
-def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = False):
+def scroll_through_rallies(thread,swipe_direction,swipe_limit=4,initial_swipe = False):
     """
     swipe_direction True = scroll down, False = scroll up
     """
@@ -462,7 +483,8 @@ def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = 
     swipe_cords = [250, 810, 250, 320] if swipe_direction else [250, 320, 250, 810]
     # Navigate to the alliance war window
     if not navigate_join_rally_window(thread):
-        print("Cannot navigate to join rally window")
+        # print("Cannot navigate to join rally window")
+        thread.log_message(f"Unable to locate join rally window", level="info")
         return False
     # If the join oldest rally is not checked, then skip this.
     if initial_swipe and not swipe_direction:

@@ -216,11 +216,13 @@ def preset_option_use_selected_generals(thread):
         # print(f"{'Main Gen' if general_type else 'Assistant Gen'} :: {selected_main_general_id}")
         # Check if the list contains any main general in it
         if not generals_list and general_type:
-            print("At least one main general should be selected to continue using the selected general option")
+            # print("At least one main general should be selected to continue using the selected general option")
+            thread.log_message(f"No main general selected. At least one must be chosen to use the selected general option.", level="info")
             return False
         # Check if the list contains any assistant general in it
         if not generals_list and not general_type:
-            print("No assistant generals to select, skipping.")
+            # print("No assistant generals to select, skipping.")
+            thread.log_message(f"No assistant generals selected. Proceeding without assistant generals.", level="info")
             continue  # Skip assistant selection if no assistants and not main
 
         # load general template images, also remove selected main general from the assistant general list
@@ -244,10 +246,12 @@ def preset_option_use_selected_generals(thread):
         open_general_selection_window = open_general_selection_list(thread,general_type)
         # When main general selection window is not opened (assistant is optional)
         if not open_general_selection_window and general_type:
-            print("Failed to open main general selection window")
+            # print("Failed to open main general selection window")
+            thread.log_message(f"Unable to open main general selection window.", level="info")
             return False
         elif not open_general_selection_window and not general_type:
-            print("Failed to open assistant general selection window(no assistant general enabled)")
+            # print("Failed to open assistant general selection window(no assistant general enabled)")
+            thread.log_message(f"No assistant generals available for the selected main general. Skipping assistant selection.", level="info")
             continue
 
         # Select the general
@@ -277,20 +281,22 @@ def preset_option_reset_to_one_troop(thread):
     # Check the troops count
     troops_count = check_selected_troops_count(src_img.copy())
     if troops_count == 1:
-        print("Troop count verified; only selected one troop")
+        # print("Troop count verified; only selected one troop")
+        thread.log_message(f"Troop count verified. Only one troop is selected as required.", level="info")
         return True
 
     # If count is not 1, then set the count to 1
-    print("Troop count is not 1. Attempting to select one troop...")
+    # print("Troop count is not 1. Attempting to select one troop...")
+    thread.log_message(f"Troop count is not 1. Attempting to select only one troop.", level="info")
     if select_one_troop(thread):
         # Optionally, recheck the troop count to confirm
         src_img = thread.capture_and_validate_screen(ads=False)
         troops_count = check_selected_troops_count(src_img.copy())
         if troops_count == 1:
-            print("New Troop count verified; only selected one troop")
+            # print("New Troop count verified; only selected one troop")
+            thread.log_message(f"Troop selection adjusted. Only one troop is now selected.", level="info")
             return True
 
-    print("Troops count template not found.")
     return False
 
 
@@ -421,19 +427,22 @@ def validate_and_apply_stamina(thread):
         # print("Stamina already available")
         return True
 
-    print("Insufficient stamina to join the rally.")
+    # print("Insufficient stamina to join the rally.")
+    thread.log_message(f"Insufficient stamina to join the rally.", level="info")
 
     # Get auto use stamina settings
     auto_use_stamina = thread.cache['join_rally_controls']['settings']['auto_use_stamina']
 
     # If auto_use_stamina is not enabled
     if not auto_use_stamina['enabled']:
-        print("Auto-use stamina option is not enabled, so skipping the operation")
+        # print("Auto-use stamina option is not enabled, so skipping the operation")
+        thread.log_message(f"Auto-use stamina is disabled. Skipping operation due to insufficient stamina.", level="info")
         thread.adb_manager.press_back()
         return False
 
     # If enabled, then proceed with applying the stamina
-    print("Stamina will be automatically refilled to continue joining rallies.")
+    # print("Stamina will be automatically refilled to continue joining rallies.")
+    thread.log_message(f"Auto-use stamina is enabled. Refilling stamina to continue joining rallies.", level="info")
 
     # Get the matched cords to tap the button
     stamina_confirm_match = template_match_coordinates(src_img,stamina_confirm_img)
@@ -443,7 +452,8 @@ def validate_and_apply_stamina(thread):
 
     # Refill stamina
     if not refill_stamina(thread,auto_use_stamina['option']):
-        print("No available stamina found for refill.")
+        # print("No available stamina found for refill.")
+        thread.log_message(f"No available stamina found for refill.", level="info")
         thread.adb_manager.press_back()
         thread.adb_manager.press_back()
         time.sleep(1)
@@ -474,7 +484,8 @@ def refill_stamina(thread,option):
         # print(stamina['quantity'])
         if not is_template_match(src_img, stamina_img):
             # print(stamina['quantity'], "Pack not found")
-            print(f"{stamina['quantity']} vit stamina pack not found")
+            # print(f"{stamina['quantity']} vit stamina pack not found")
+            thread.log_message(f"{stamina['quantity']} vit stamina pack not found.", level="info")
             continue
         result = cv2.matchTemplate(src_img, stamina_img, cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
@@ -490,20 +501,21 @@ def refill_stamina(thread,option):
             stamina_use = cv2.imread('assets/540p/join rally/stamina_use_alt.png')
             apply_stamina = template_match_coordinates(roi, stamina_use)
             if not apply_stamina:
-                print(f"{stamina['quantity']} vit stamina pack is empty")
+                # print(f"{stamina['quantity']} vit stamina pack is empty")
+                thread.log_message(f"{stamina['quantity']} vit stamina pack is empty", level="info")
                 continue
         thread.adb_manager.tap(int((roi_w / 2) + apply_stamina[0]), int(apply_stamina[1] + top_left[1]))
         time.sleep(1)
         src_img = thread.capture_and_validate_screen()
         if option == 'Min Stamina':
-            # print("Using just 1 stamina")
-            print("Utilizing 100 vit stamina for the operation.")
+            # print("Utilizing upto 100 vit stamina for the operation.")
+            thread.log_message(f"Utilizing upto 100 vit stamina for the operation.", level="info")
             max_stamina_btn = template_match_coordinates(src_img, max_stamina)
             if max_stamina_btn:
                 thread.adb_manager.tap(*max_stamina_btn)
         else:
-            # print("Using max stamina")
-            print("Utilizing maximum stamina for the operation.")
+            # print("Utilizing maximum stamina for the operation.")
+            thread.log_message(f"Utilizing maximum stamina for the operation.", level="info")
             max_stamina_btn = template_match_coordinates(src_img, add_max_stamina)
             if max_stamina_btn:
                 thread.adb_manager.tap(*max_stamina_btn)
@@ -523,7 +535,7 @@ def refill_stamina(thread,option):
             time.sleep(2)
             return True
     # If execution reaches this line, it means no stamina found/used
-    print("No Stamina Found")
+    # print("No Stamina Found")
     return False
 
 

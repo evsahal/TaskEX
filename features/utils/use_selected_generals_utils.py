@@ -107,7 +107,8 @@ def select_general_from_list(thread,generals_list,general_preset_config):
 
     # Check if a general was selected
     if not general_selected:
-        print("Reached swipe limit without finding any general from the list.")
+        # print("Reached swipe limit without finding any general from the list. Moving on.")
+        thread.log_message(f"Reached swipe limit without finding any general from the list.", level="info")
         return False, None
 
     return True, selected_main_general_id
@@ -117,12 +118,14 @@ def list_view_select_general(thread, src_img, general):
     general_template_match = template_match_coordinates(src_img, general['list_image'])
     if general_template_match:
         thread.adb_manager.tap(*general_template_match)
-        print(f"Selecting {general['name']}")
+        # print(f"Selecting {general['name']}")
+        thread.log_message(f"Selecting {general['name']}.", level="info")
         time.sleep(1)
         # Check if the general is already selected
         src_img = thread.capture_and_validate_screen(ads=False)
         if is_template_match(src_img,select_a_general_tag_img):
-            print(f"General {general['name']} is already selected")
+            # print(f"General {general['name']} is already selected")
+            thread.log_message(f"General {general['name']} is already selected. Continuing.", level="info")
             thread.adb_manager.press_back()
             time.sleep(1)
 
@@ -141,7 +144,8 @@ def details_view_select_general(thread, src_img, general):
     # cv2.imwrite(f"temp/src_{get_current_datetime_string()}.png", src_img)
     # cv2.imwrite(f"temp/template_{get_current_datetime_string()}.png", general['details_image'])
 
-    print(f"Match found : {general['name']}")
+    # print(f"Match found : {general['name']}")
+    thread.log_message(f"Selecting {general['name']}.", level="info")
     # Get the coordinates to crop the matched location
     match_x, match_y = general_template_match[0], general_template_match[1]  # Top-left of match
     template_h, template_w = general['details_image'].shape[:2]  # Height and width of template
@@ -161,7 +165,8 @@ def details_view_select_general(thread, src_img, general):
 
     # Check if any matches are found
     if not resign_match and not select_match:
-        print("No Resign or Select button found, adjusting the swipe.")
+        # print("No Resign or Select button found, adjusting the swipe.")
+        thread.log_message(f"No Resign or Select button found, adjusting the swipe.", level="info")
         thread.adb_manager.swipe(270, 750, 270, 650, duration=1000)
         time.sleep(1)
         return None
@@ -184,24 +189,26 @@ def details_view_select_general(thread, src_img, general):
         select_distance = abs(select_y - general_bottom_y)
 
         if resign_distance < select_distance:
-            print("Resign button is closer, backing.")
+            # print("Resign button is closer, backing.")
+            thread.log_message(f"General {general['name']} is already selected. Continuing.", level="info")
             thread.adb_manager.press_back()
             time.sleep(1)
             return True
         else:
-            print("Select button is closer, tapping.")
+            # print("Select button is closer, tapping.")
             thread.adb_manager.tap(select_x + x1, select_y + y1)  # Adjust for ROI offset
             time.sleep(1)
             return True
     elif resign_y != float('inf'):
         # Only Resign button found
-        print("Resign button found, tapping.")
+        # print("Resign button found, tapping.")
+        thread.log_message(f"General {general['name']} is already selected. Continuing.", level="info")
         thread.adb_manager.press_back()
         time.sleep(1)
         return True
     elif select_y != float('inf'):
         # Only Select button found
-        print("Select button found, tapping.")
+        # print("Select button found, tapping.")
         thread.adb_manager.tap(select_x + x1, select_y + y1)  # Adjust for ROI offset
         time.sleep(1)
         return True
@@ -214,7 +221,7 @@ def find_corresponding_coordinates(x_match, y_match, image_height, image_width):
     # Find corresponding coordinate to find the general icon to open the general selection list
     # Validate input coordinates
     if not (0 <= x_match < image_width and 0 <= y_match < image_height):
-        print(f"Invalid coordinates: ({x_match}, {y_match}) for image size {image_width}x{image_height}")
+        # print(f"Invalid coordinates: ({x_match}, {y_match}) for image size {image_width}x{image_height}")
         return None
 
     # Calculate the midpoint of the image (split vertically into two equal halves)
@@ -239,7 +246,7 @@ def find_corresponding_coordinates(x_match, y_match, image_height, image_width):
 
     # Ensure the corresponding x-coordinate is within bounds
     if not (0 <= x_corresponding < image_width):
-        print(f"Corresponding x-coordinate {x_corresponding} is out of bounds for image width {image_width}")
+        # print(f"Corresponding x-coordinate {x_corresponding} is out of bounds for image width {image_width}")
         return None
 
     return x_corresponding, y_corresponding
