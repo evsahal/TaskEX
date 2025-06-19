@@ -41,7 +41,7 @@ def run_join_rally(thread):
             # print(f"Swipe Direction : {swipe_direction} :: iteration : {swipe_iteration} itr cap : {max_swipe_iteration}")
 
             # Swipe based on the direction
-            scroll_through_rallies(thread, swipe_direction,swipe_limit=1)
+            scroll_through_rallies(thread, swipe_direction)
 
             # Update iterations
             swipe_iteration += 1
@@ -136,7 +136,6 @@ def process_monster_rallies(thread,scan_direction):
         thread.log_message("Joining...",level="info")
 
 
-
 def scan_rally_info(thread,roi_src):
     # Load template images
     boss_monster_flag_img = cv2.imread("assets/540p/join rally/boss_monster_flag.png")
@@ -227,11 +226,12 @@ def read_monster_data(thread,src_img):
         # Do the logic check
         if logic == 1 or logic == 3:# Single level & Variant level Check
             # Make sure there is only one data is found
-            if len(bosses) == 1:
+            if len(bosses) == 1 and boss.id in selected_levels:
                 # print(f"Match Found: {boss.name} (Level {boss.level})")
                 thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
                 # print(extract_monster_power_from_image(src_img.copy()))
                 return True
+            thread.log_message(f"{boss.name} is not in the selected rally list. Skipping this rally.", level="info")
             return None
         elif logic == 2 or logic == 4: # Multi level & Custom Level Check
             # Read the monster power
@@ -481,11 +481,11 @@ def get_valid_rallies_area_cords(thread):
 
     return valid_cords
 
-def scroll_through_rallies(thread,swipe_direction,swipe_limit=4,initial_swipe = False):
+def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = False):
     """
     swipe_direction True = scroll down, False = scroll up
+    Dynamically swipes through rallies, changing direction when the end is reached.
     """
-    # TODO fix swipe's end based on the rallies found(ss repeating) instead of iterations
     # Swipe coordinates based on direction
     swipe_cords = [250, 810, 250, 320] if swipe_direction else [250, 320, 250, 810]
     # Navigate to the alliance war window

@@ -55,21 +55,8 @@ def extract_join_rally_time_from_image(img):
     if is_valid_timer_format(extracted_text):
         # print(f"Timer extracted (Method 1): {extracted_text}")
         return extracted_text
-    else:
-        # print(f"Method 1 failed: Invalid timer format - {extracted_text}")
-        pass
-
-    # Method 2: Edge detection and morphological enhancement
-    edges = cv2.Canny(gray_full, 50, 150)
-    kernel = np.ones((3, 3), np.uint8)
-    dilated = cv2.dilate(edges, kernel, iterations=1)
-    extracted_text2 = pytesseract.image_to_string(dilated, config="--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789:").strip()
-    if is_valid_timer_format(extracted_text2):
-        # print(f"Timer extracted (Method 2): {extracted_text2}")
-        return extracted_text2
-    else:
-        # print(f"Method 2 failed: Invalid timer format - {extracted_text2}")
-        pass
+    # else:
+    #     print(f"Method 1 failed: Invalid timer format - {extracted_text}")
 
     # print("No valid timer format detected with any method.")
     return None
