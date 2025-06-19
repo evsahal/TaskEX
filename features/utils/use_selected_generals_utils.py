@@ -51,17 +51,18 @@ def open_general_selection_list(thread,main_general):
 
 
 def select_general_from_list(thread,generals_list,general_preset_config):
+    print("CP - 8.1")
     selected_main_general_id = None
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
     if not general_view:
         return False
-
+    print("CP - 8.2")
     # General Category
     general_category = select_general_category(thread, general_preset_config['general_category'].lower())
     if not general_category:
         return False
-
+    print("CP - 8.3")
     # General Filter
     favorite_filter = False if general_preset_config.get('general_filter') is None else 'favorite' in general_preset_config.get('general_filter', '')
     idle_filter = False if general_preset_config.get('general_filter') is None else 'idle' in general_preset_config.get('general_filter', '')
@@ -73,7 +74,7 @@ def select_general_from_list(thread,generals_list,general_preset_config):
     general_selected = False
     selected_view = True if 'details' in general_preset_config['general_view'].lower() else False
 
-    while swipe_count < swipe_limit and not general_selected:
+    while swipe_count <= swipe_limit and not general_selected:
         # Capture the current screen
         src_img = thread.capture_and_validate_screen()
 
@@ -94,6 +95,9 @@ def select_general_from_list(thread,generals_list,general_preset_config):
                 break
 
         if general_selected:
+            break
+
+        if swipe_count == swipe_limit:
             break
 
         # General not found, swipe the list to reveal more generals
