@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from pytesseract import pytesseract
 
-from utils.helper_utils import get_current_datetime_string
+from utils.helper_utils import get_current_datetime_string, is_valid_timer_format
 
 
 def filter_general_name(text):
@@ -41,18 +41,36 @@ def extract_remaining_rally_time_from_image(img):
     # print(f"Remaining march time::after {match.group(0) if match else None}")
     return match.group(0) if match else None
 
-def extract_join_rally_time_from_image(img):
-    # Convert to grayscale and apply threshold for better OCR
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-    # Extract text using OCR
+def extract_join_rally_time_from_image(img):
+    # Method 1: Grayscale with contrast enhancement and Otsu thresholding
+    gray_full = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Enhance contrast
+    alpha = 1.5  # Contrast control (1.0-3.0)
+    beta = 0     # Brightness control
+    contrasted = cv2.convertScaleAbs(gray_full, alpha=alpha, beta=beta)
+    _, binary = cv2.threshold(contrasted, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
     extracted_text = pytesseract.image_to_string(binary, config="--psm 7 --oem 3").strip()
-    if extracted_text and ':' in extracted_text:
-        # print(f"Timer extracted: {extracted_text}")
+    if is_valid_timer_format(extracted_text):
+        print(f"Timer extracted (Method 1): {extracted_text}")
         return extracted_text
     else:
-        return None
+        print(f"Method 1 failed: Invalid timer format - {extracted_text}")
+
+    # Method 2: Edge detection and morphological enhancement
+    edges = cv2.Canny(gray_full, 50, 150)
+    kernel = np.ones((3, 3), np.uint8)
+    dilated = cv2.dilate(edges, kernel, iterations=1)
+    extracted_text2 = pytesseract.image_to_string(dilated, config="--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789:").strip()
+    if is_valid_timer_format(extracted_text2):
+        print(f"Timer extracted (Method 2): {extracted_text2}")
+        return extracted_text2
+    else:
+        print(f"Method 2 failed: Invalid timer format - {extracted_text2}")
+
+    print("No valid timer format detected with any method.")
+    return None
 
 def preprocess_white_text(img):
     """

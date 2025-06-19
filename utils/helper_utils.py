@@ -70,6 +70,14 @@ def get_screen_resolution():
     screen_height = user32.GetSystemMetrics(1)
     return f"{screen_width}x{screen_height}"
 
+def is_valid_timer_format(text):
+    # Check if text matches a timer format (e.g., HH:MM:SS or H:MM:SS)
+    if not text or len(text.split(':')) != 3:
+        return False
+    hours, minutes, seconds = text.split(':')
+    return (hours.isdigit() and 0 <= int(hours) <= 23 and
+            minutes.isdigit() and 0 <= int(minutes) <= 59 and
+            seconds.isdigit() and 0 <= int(seconds) <= 59)
 
 def parse_timer_to_timedelta(timer_text):
     """
