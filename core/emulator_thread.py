@@ -7,7 +7,6 @@ import ntplib
 import numpy as np
 from PySide6.QtCore import QThread, Signal
 
-from config.settings import get_expire
 from core.services.bm_monsters_service import start_simulate_monster_click, \
     generate_template_image, capture_template_ss
 from core.services.bm_scan_generals_service import start_scan_generals
@@ -109,27 +108,24 @@ class EmulatorThread(QThread):
         :param console: Whether to log to the QTextEdit console.
         """
         # Temporarily detach the console handler if console logging is disabled
-        if not console and hasattr(self, 'console_handler'):
-            self.logger.removeHandler(self.console_handler)
-
-        # Dynamically get the log method based on the level
-        log_method = getattr(self.logger, level.lower(), self.logger.info)
-        log_method(message)  # Perform the logging
-
-        # Reattach the console handler if it was temporarily removed
-        if not console and hasattr(self, 'console_handler'):
-            self.logger.addHandler(self.console_handler)
+        # if not console and hasattr(self, 'console_handler'):
+        #     self.logger.removeHandler(self.console_handler)
+        #
+        # # Dynamically get the log method based on the level
+        # log_method = getattr(self.logger, level.lower(), self.logger.info)
+        # log_method(message)  # Perform the logging
+        #
+        # # Reattach the console handler if it was temporarily removed
+        # if not console and hasattr(self, 'console_handler'):
+        #     self.logger.addHandler(self.console_handler)
+        pass
 
 
     def validate_run(self):
         """
         Validates the emulator environment before running operations.
-        Checks expiry, device connection and screen resolution.
+        Checks device connection and screen resolution.
         """
-        # Check expiry date
-        if not self.validate_expiry():
-            return False
-
         # Check if the device is connected
         if not self.adb_manager.device:
             error_message = f"No device found on port {self.port}"
@@ -155,27 +151,6 @@ class EmulatorThread(QThread):
         self.logger.info("Validation passed. Device is now connected.")
         return True
 
-    def validate_expiry(self):
-        """
-        Validates the bot's expiry date using an NTP server.
-        Returns True if valid, False if expired or unable to verify.
-        """
-        try:
-            # Query current time from NTP server
-            ntp_client = ntplib.NTPClient()
-            response = ntp_client.request('pool.ntp.org', version=3)
-            current_utc = datetime.utcfromtimestamp(response.tx_time)
-        except Exception as e:
-            self.logger.error(f"Error fetching time from NTP server: {e}")
-            return False  # Validation fails if unable to fetch time
-
-        # Compare current date with expiry date
-        expiry_date = datetime.strptime(get_expire(), "%Y-%m-%d")
-        if current_utc.date() > expiry_date.date():
-            self.logger.error(f"Bot expired on {expiry_date.date()}")
-            return False
-        # self.logger.info(f"Expiry check passed. Current date: {current_utc.date()}, Expiry date: {expiry_date.date()}.")
-        return True
 
     def run(self):
         """
