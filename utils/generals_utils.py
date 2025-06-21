@@ -1,6 +1,5 @@
 import os
 import time
-from pathlib import Path
 
 import cv2
 
@@ -10,7 +9,6 @@ from utils.image_recognition_utils import is_template_match, template_match_coor
 template_loc = os.path.join('assets', '540p', 'other')
 
 def select_general_view(thread,view):
-    print("CP - 1")
     view_templates={
         "details view"  : f"{template_loc}\\details_view.png",
         "list view": f"{template_loc}\\list_view.png"
@@ -20,12 +18,12 @@ def select_general_view(thread,view):
 
     #  Load the template image
     template_img = cv2.imread(view_templates[view])
-    print("CP - 2")
+
     # Check if the view is already selected or not
     if is_template_match(src_img,template_img,threshold=0.9):
         # thread.logger.info(f"{view.capitalize()} is already selected.")
         return True
-    print("CP - 3")
+
     # Select the opposite view
     opposite_view = None
     if view == "details view":
@@ -38,13 +36,12 @@ def select_general_view(thread,view):
 
     # Select the view
     view_match = template_match_coordinates(src_img, template_img,threshold=0.9)
-    print("CP - 4")
+
     if view_match:
         thread.adb_manager.tap(view_match[0], view_match[1])
         thread.logger.info(f"Selecting {opposite_view}.")
         time.sleep(0.5)
         return True
-    print("CP - 5")
     return False
 
 def select_general_category(thread,category):
