@@ -108,17 +108,16 @@ class EmulatorThread(QThread):
         :param console: Whether to log to the QTextEdit console.
         """
         # Temporarily detach the console handler if console logging is disabled
-        # if not console and hasattr(self, 'console_handler'):
-        #     self.logger.removeHandler(self.console_handler)
-        #
-        # # Dynamically get the log method based on the level
-        # log_method = getattr(self.logger, level.lower(), self.logger.info)
-        # log_method(message)  # Perform the logging
-        #
-        # # Reattach the console handler if it was temporarily removed
-        # if not console and hasattr(self, 'console_handler'):
-        #     self.logger.addHandler(self.console_handler)
-        pass
+        if not console and hasattr(self, 'console_handler'):
+            self.logger.removeHandler(self.console_handler)
+
+        # Dynamically get the log method based on the level
+        log_method = getattr(self.logger, level.lower(), self.logger.info)
+        log_method(message)  # Perform the logging
+
+        # Reattach the console handler if it was temporarily removed
+        if not console and hasattr(self, 'console_handler'):
+            self.logger.addHandler(self.console_handler)
 
 
     def validate_run(self):
