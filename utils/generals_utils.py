@@ -23,7 +23,7 @@ def select_general_view(thread,view):
     print("CP - 2")
     # Check if the view is already selected or not
     if is_template_match(src_img,template_img,threshold=0.9):
-        thread.logger.info(f"{view.capitalize()} is already selected.")
+        # thread.logger.info(f"{view.capitalize()} is already selected.")
         return True
     print("CP - 3")
     # Select the opposite view
@@ -69,7 +69,7 @@ def select_general_category(thread,category):
     if category_selected_match:
         # Click on the match to remove the popup shown when the view is in list view
         thread.adb_manager.tap(category_selected_match[0], category_selected_match[1])
-        thread.logger.info(f"Category {category} is already selected.")
+        # thread.logger.info(f"Category {category} is already selected.")
         return True
 
     # Load the template image to select
@@ -99,8 +99,9 @@ def apply_general_filter(thread,favorite=False, idle=False):
     if favorite:
         # Check if favorite is checked,if not check it
         if is_template_match(src_img, favorite_checked_img,convert_gray=False):
-            thread.logger.info("Favorite filter is already applied.")
+            # thread.logger.info("Favorite filter is already applied.")
             # print("Favorite already selected")
+            pass
         else:
             src_img_match = template_match_coordinates(src_img, favorite_unchecked_img,convert_gray=False)
             if src_img_match:
@@ -111,8 +112,9 @@ def apply_general_filter(thread,favorite=False, idle=False):
     else:
         # Check if favorite is unchecked,if not uncheck it
         if is_template_match(src_img, favorite_unchecked_img,convert_gray=False):
-            thread.logger.info("Favorite filter is not applied already.")
+            # thread.logger.info("Favorite filter is not applied already.")
                 # print("Favorite already not selected")
+            pass
         else:
             src_img_match = template_match_coordinates(src_img, favorite_checked_img,convert_gray=False)
             if src_img_match:
@@ -123,9 +125,10 @@ def apply_general_filter(thread,favorite=False, idle=False):
     if idle:
         # Check if idle is checked,if not check it
         if is_template_match(src_img, idle_checked_img,convert_gray=False):
-            thread.logger.info("Idle filter is already applied.")
+            # thread.logger.info("Idle filter is already applied.")
             # print("Idle already selected")
             # self.invokeScanGeneralsConsole("Idle filter is already applied")
+            pass
         else:
             src_img_match = template_match_coordinates(src_img, idle_unchecked_img,convert_gray=False)
             if src_img_match:
@@ -136,8 +139,9 @@ def apply_general_filter(thread,favorite=False, idle=False):
     else:
         # Check if idle is unchecked,if not uncheck it
         if is_template_match(src_img, idle_unchecked_img,convert_gray=False):
-            thread.logger.info("Idle filter is not applied already.")
+            # thread.logger.info("Idle filter is not applied already.")
             # print("Idle already not selected")
+            pass
         else:
             src_img_match = template_match_coordinates(src_img, idle_checked_img,convert_gray=False)
             if src_img_match:

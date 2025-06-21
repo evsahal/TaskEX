@@ -55,12 +55,12 @@ def select_general_from_list(thread,generals_list,general_preset_config):
     # General View
     general_view = select_general_view(thread, general_preset_config['general_view'].lower())
     if not general_view:
-        return False
+        return False, None
 
     # General Category
     general_category = select_general_category(thread, general_preset_config['general_category'].lower())
     if not general_category:
-        return False
+        return False, None
 
     # General Filter
     favorite_filter = False if general_preset_config.get('general_filter') is None else 'favorite' in general_preset_config.get('general_filter', '')
