@@ -7,7 +7,7 @@ import cv2
 from features.utils.join_rally_helper_utils import crop_middle_portion, crop_image_fixed_height, crop_boss_text_area, \
     extract_monster_name_from_image, lookup_boss_by_name, click_join_alliance_war_btn, preset_option_skip_no_general, \
     preset_option_reset_to_one_troop, validate_and_apply_stamina, preset_option_use_selected_generals, \
-    extract_monster_power_from_image
+    extract_monster_power_from_image, get_valid_rallies_area_cords, check_skipped_rallies, add_rally_cord_to_skip_list
 from utils.get_controls_info import get_join_rally_controls
 from utils.helper_utils import parse_timer_to_timedelta, get_current_datetime_string
 from utils.image_recognition_utils import is_template_match, template_match_coordinates_all, \
@@ -64,9 +64,9 @@ def run_join_rally(thread):
                 # Update the swipe to scroll down
                 swipe_direction = True
                 max_swipe_iteration = 0
-        finally:
-            # Clear skipped cords images
-            thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
+        except Exception as e:
+            print(e)
+
 
 def process_monster_rallies(thread,scan_direction):
 
@@ -144,6 +144,9 @@ def scan_rally_info(thread,roi_src):
     # Capture the current screen
     src_img = thread.capture_and_validate_screen(ads=False)
 
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\roi_img_{get_current_datetime_string()}.png", roi_src)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\src_img_{get_current_datetime_string()}.png", src_img)
+
     # Make sure the rally is in progress
     if not is_template_match(src_img,boss_monster_flag_img):
         # print("Not an ongoing rally(Rally march already started)")
@@ -159,6 +162,8 @@ def scan_rally_info(thread,roi_src):
     if remaining_time > timedelta(minutes=5):
         # print("Timer is more than 5 mins")
         thread.log_message(f"Time exceeds 5 mins; Joining next rally.", level="info")
+        # Add rally to skipped list
+        add_rally_cord_to_skip_list(thread,src_img)
         return False
     # Get the Timer on the join rally button
     march_time = get_march_join_time(thread,roi_src)
@@ -175,7 +180,8 @@ def scan_rally_info(thread,roi_src):
     if total_march_time >= remaining_time:
         # print("March exceeds join time; Unable to join.")
         thread.log_message(f"March exceeds join time; Unable to join.", level="info")
-        # TODO Store the cords img to cache to avoid opening the rally again
+        # Add rally to skipped list
+        add_rally_cord_to_skip_list(thread, src_img)
         return False
 
     # Read the boss
@@ -200,6 +206,8 @@ def read_monster_data(thread,src_img):
     if "dawn" in extracted_monster_name:
         # print("Skipping Shadow of Dawn Monsters")
         thread.log_message(f"Skipping Shadow of Dawn Monsters; Joining next rally.", level="info")
+        # Add rally to skipped list
+        add_rally_cord_to_skip_list(thread, src_img)
         return None
 
     # Get the all the matching boss objects from the extracted text
@@ -217,6 +225,8 @@ def read_monster_data(thread,src_img):
         if boss.boss_monster_id not in selected_boss_levels:
             # print(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
             thread.log_message(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join. Joining next rally.", level="info")
+            # Add rally to skipped list
+            add_rally_cord_to_skip_list(thread, src_img)
             return None
         # print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
 
@@ -232,6 +242,8 @@ def read_monster_data(thread,src_img):
                 # print(extract_monster_power_from_image(src_img.copy()))
                 return True
             thread.log_message(f"{boss.name} is not in the selected rally list. Skipping this rally.", level="info")
+            # Add rally to skipped list
+            add_rally_cord_to_skip_list(thread, src_img)
             return None
         elif logic == 2 or logic == 4: # Multi level & Custom Level Check
             # Read the monster power
@@ -252,6 +264,8 @@ def read_monster_data(thread,src_img):
                 # print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
                 msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is not in the selected rally list. Skipping this rally."
                 thread.log_message(msg, level="info")
+                # Add rally to skipped list
+                add_rally_cord_to_skip_list(thread, src_img)
                 return None
 
     return None
@@ -405,81 +419,6 @@ def get_remaining_rally_time(src_img):
     # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\timer{get_current_datetime_string()}.png", src_img)
     return  parse_timer_to_timedelta(extract_remaining_rally_time_from_image(src_img))
 
-
-def check_skipped_rallies(thread,src_img):
-    """
-    Validate before proceeding to join
-    """
-
-    # Check skipped list
-    for cords_img in thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']:
-        if is_template_match(src_img, cords_img):
-            print("Already skipped one")
-            return False
-
-    return True
-
-def get_valid_rallies_area_cords(thread):
-    """
-    Return the cords of the image area which contains the monster tag, cords(map icon) and join button with time
-    """
-    # Capture the current screen
-    src_img = thread.capture_and_validate_screen(ads=False)
-
-    # Load template images
-    boss_monster_tag_img = cv2.imread("assets/540p/join rally/boss_monster_tag.png")
-    join_btn_img = cv2.imread("assets/540p/join rally/join_btn.png")
-    map_pinpoint_img = cv2.imread("assets/540p/join rally/map_pinpoint_tag.png")
-
-    # Get the boss monster rallies matches
-    boss_monster_tag_matches = template_match_coordinates_all(src_img, boss_monster_tag_img)
-    valid_cords = []
-    # Loop through each boss monster tag match
-    for (x1, y1) in boss_monster_tag_matches:
-        # Define a limited ROI: From (x1, y1) to (end of width, y1 + 200)
-        roi_y_end = min(y1 + 200, src_img.shape[0])  # Ensure it wont exceed the image height to avoid wrong set matching
-        roi = src_img[y1:roi_y_end, x1:]
-
-        # Check for join button within the ROI
-        join_btn_matches = template_match_coordinates(roi, join_btn_img, False)
-
-        if not join_btn_matches:
-            continue
-
-        # Get the first match coordinates for join_btn inside the ROI
-        match_x1, match_y1 = join_btn_matches
-
-        # Define the region for the cords icon(map pinpoint icon) template match
-        combined_roi_x1 = x1
-        combined_roi_y1 = y1
-        combined_roi_x2 = x1 + match_x1 + join_btn_img.shape[1]  # add join_btn_img width
-        combined_roi_y2 = y1 + match_y1 + join_btn_img.shape[0] * 2  # add join_btn_img height twice
-
-        # Create an image area to scan for the map pinpoint icon (to get the cords of the monsters)
-        combined_roi = src_img[combined_roi_y1:combined_roi_y2, combined_roi_x1:combined_roi_x2]
-
-        # Search for the map pinpoint icon inside the combined ROI
-        map_pinpoint_match = template_match_coordinates(combined_roi, map_pinpoint_img, False)
-
-        if not map_pinpoint_match:
-            continue
-
-        # Get the map pinpoint coordinates relative to the combined ROI
-        map_pinpoint_x1, map_pinpoint_y1 = map_pinpoint_match
-
-        # Adjust combined ROI to start from the map pinpoint match coordinates
-        adjusted_x1 = combined_roi_x1 + map_pinpoint_x1
-        adjusted_y1 = combined_roi_y1 + map_pinpoint_y1
-        adjusted_x2 = combined_roi_x2  # Keep the previous x2 boundary
-        adjusted_y2 = combined_roi_y2  # Keep the previous y2 boundary
-
-        # Create the adjusted combined ROI
-        # adjusted_combined_roi = src_img[adjusted_y1:adjusted_y2, adjusted_x1:adjusted_x2]
-        # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\{x1},{y1}.png",adjusted_combined_roi)
-
-        valid_cords.append((adjusted_x1, adjusted_y1, adjusted_x2, adjusted_y2))
-
-    return valid_cords
 
 def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = False):
     """

@@ -74,31 +74,27 @@ class GeneralNameLineEdit(QLineEdit):
 
     def name_exists_in_db(self, name):
         """Check if the name exists in the database."""
-        session = get_session()
-        try:
-            # Query the General table to check if the name already exists
-            general_exists = session.query(General).filter(General.name == name).first()
-            return general_exists is not None
-        except Exception as e:
-            print(f"Error checking database: {e}")
-            return False
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                # Query the General table to check if the name already exists
+                general_exists = session.query(General).filter(General.name == name).first()
+                return general_exists is not None
+            except Exception as e:
+                print(f"Error checking database: {e}")
+                return False
 
     def update_general_name_in_db(self, new_name):
         """Update the general's name in the database."""
-        session = get_session()
-        try:
-            # Query the general by ID and update the name
-            general = session.query(General).filter(General.id == self.property('general_id')).first()
-            if general:
-                general.name = new_name
-                session.commit()
-                self.scan_console.emit(f"General name updated to '{new_name}'.")
-            else:
-                self.scan_console.emit(f"Error: General with ID {self.property('general_id')} not found.")
-        except Exception as e:
-            session.rollback()  # Roll back if something goes wrong
-            self.scan_console.emit(f"Error updating name: {e}")
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                # Query the general by ID and update the name
+                general = session.query(General).filter(General.id == self.property('general_id')).first()
+                if general:
+                    general.name = new_name
+                    session.commit()
+                    self.scan_console.emit(f"General name updated to '{new_name}'.")
+                else:
+                    self.scan_console.emit(f"Error: General with ID {self.property('general_id')} not found.")
+            except Exception as e:
+                session.rollback()  # Roll back if something goes wrong
+                self.scan_console.emit(f"Error updating name: {e}")

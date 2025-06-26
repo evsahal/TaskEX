@@ -200,6 +200,8 @@ class EmulatorThread(QThread):
         Runs the emulator instance based on the mode.
         """
         run_join_rally(self)
+        # Clear the cache
+        self.cache['join_rally_controls']['cache']['skipped_monster_cords_img'] = []
 
     def capture_and_validate_screen(self,kick_timer=True, ads=True):
         try:

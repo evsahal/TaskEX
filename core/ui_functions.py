@@ -295,14 +295,12 @@ class UIFunctions():
 
     def setup_screen_dpi_ui(main_window):
         screen_resolution = get_screen_resolution()
-        session = get_session()
-        try:
-            # Check if the resolution exists in the database
-            screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
-            dpi = screen_config.dpi
-            main_window.widgets.dpi_spinbox.setValue(dpi)
-        except Exception as e:
-            print(e)
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                # Check if the resolution exists in the database
+                screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
+                dpi = screen_config.dpi
+                main_window.widgets.dpi_spinbox.setValue(dpi)
+            except Exception as e:
+                print(e)
 

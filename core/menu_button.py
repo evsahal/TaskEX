@@ -92,18 +92,17 @@ def connect_buttons(main_window):
     main_window.widgets.dpi_spinbox.valueChanged.connect(lambda :save_screen_dpi(main_window.widgets.dpi_spinbox))
 
 def save_screen_dpi(dpi_spinbox):
-    session = get_session()
-    dpi = dpi_spinbox.value()
-    screen_resolution = get_screen_resolution()
-    try:
-        screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
-        screen_config.dpi = dpi  # Update the DPI value
-        print(f"Updated DPI for {screen_resolution} to {dpi}")
-    except Exception as e:
-        print(e)
-    finally:
-        session.commit()
-        session.close()
+    with get_session() as session:
+        dpi = dpi_spinbox.value()
+        screen_resolution = get_screen_resolution()
+        try:
+            screen_config = session.query(ScreenConfig).filter_by(screen_resolution=screen_resolution).one()
+            screen_config.dpi = dpi  # Update the DPI value
+            print(f"Updated DPI for {screen_resolution} to {dpi}")
+        except Exception as e:
+            print(e)
+        finally:
+            session.commit()
 
 
 def logout():
@@ -209,19 +208,17 @@ def add_new_instance_page(main_window,index,instance):
 
     # Connect delete instance button
     getattr(main_window.widgets, f"delete_instance_{index}").clicked.connect(lambda :delete_instance_check(main_window,index))
-    session = get_session()
-    try:
-        # if instance is None, then create a new entry
-        if instance is None:
-            instance = Instance(emulator_name=f'Emulator {index}')
-            session.add(instance)
-            session.commit()
-        # store the instance id to the delete instance button as a property
-        getattr(main_window.widgets, f"delete_instance_{index}").setProperty('instance_id',instance.id)
-    except Exception as e:
-        print(e)
-    finally:
-        session.close()
+    with get_session() as session:
+        try:
+            # if instance is None, then create a new entry
+            if instance is None:
+                instance = Instance(emulator_name=f'Emulator {index}')
+                session.add(instance)
+                session.commit()
+            # store the instance id to the delete instance button as a property
+            getattr(main_window.widgets, f"delete_instance_{index}").setProperty('instance_id', instance.id)
+        except Exception as e:
+            print(e)
 
     # Setup Run Tab
     init_run_tab(main_window,index,instance)
@@ -243,18 +240,16 @@ def delete_instance_check(main_window,index):
     else:
         if show_confirmation_dialog(main_window,"confirm","Are you sure you want to delete this instance?"):
             instance_id = getattr(main_window.widgets, f"delete_instance_{index}").property('instance_id')
-            session = get_session()
-            try:
-                # Query the instance by ID
-                instance = session.query(Instance).get(instance_id)
-                if instance:
-                    session.delete(instance)  # Delete the instance
-                    session.commit()  # Commit the transaction
-                    delete_instance(main_window,index)
-            except Exception as e:
-                session.rollback()  # Roll back in case of an error
-            finally:
-                session.close()  # Close the session
+            with get_session() as session:
+                try:
+                    # Query the instance by ID
+                    instance = session.query(Instance).get(instance_id)
+                    if instance:
+                        session.delete(instance)  # Delete the instance
+                        session.commit()  # Commit the transaction
+                        delete_instance(main_window, index)
+                except Exception as e:
+                    session.rollback()  # Roll back in case of an error
 
 
 def delete_instance(main_window,index):

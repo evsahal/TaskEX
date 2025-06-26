@@ -290,8 +290,7 @@ def get_boss_levels(boss_id):
     :param boss_id: ID of the boss to fetch levels for.
     :return: List of MonsterLevel objects.
     """
-    session = get_session()
-    try:
+    with get_session() as session:
         # Query and return MonsterLevel instances
         levels = (
             session.query(MonsterLevel)
@@ -300,8 +299,6 @@ def get_boss_levels(boss_id):
             .all()
         )
         return levels
-    finally:
-        session.close()
 
 def get_boss_preview_name(boss_id):
     """
@@ -310,8 +307,7 @@ def get_boss_preview_name(boss_id):
     :param boss_id: ID of the boss.
     :return: Preview name of the boss or None if not found.
     """
-    session = get_session()
-    try:
+    with get_session() as session:
         # Query the preview_name from the BossMonster table
         preview_name = (
             session.query(BossMonster.preview_name)
@@ -319,5 +315,3 @@ def get_boss_preview_name(boss_id):
             .scalar()
         )
         return preview_name
-    finally:
-        session.close()

@@ -154,19 +154,17 @@ class MainWindow(QMainWindow):
 
     def init_instance(self):
 
-        session = get_session()
-        # Query all instances from the database
-        instances = session.query(Instance).all()
+        with get_session() as session:
+            # Query all instances from the database
+            instances = session.query(Instance).all()
 
-        if not instances:
-            # Load the Default Instances when no data found in db
-            initialize_instances(self)
-        else:
-            # Load the instance from db when there are some data in db
-            for instance in instances:
-                initialize_instances(self,instance)
-
-        session.close()
+            if not instances:
+                # Load the Default Instances when no data found in db
+                initialize_instances(self)
+            else:
+                # Load the instance from db when there are some data in db
+                for instance in instances:
+                    initialize_instances(self,instance)
 
 
     def finalize_setup(self):

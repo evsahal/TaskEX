@@ -31,24 +31,23 @@ def start_scan_generals(thread):
     # Check if scan view is list view and some generals are already present in the DB
     pending_generals = None
     if main_window.widgets.scan_generals_view.currentText() == "List View":
-        session = get_session()
-        # Get checked types for generals to search
-        scan_types = main_window.widgets.scan_generals_type.checkedIndices()
+        with get_session() as session:
+            # Get checked types for generals to search
+            scan_types = main_window.widgets.scan_generals_type.checkedIndices()
 
-        # Convert them to pass the types to the query
-        general_type_filter = []
-        if 0 in scan_types:
-            general_type_filter.append(GeneralType.epic)
-        if 1 in scan_types:
-            general_type_filter.append(GeneralType.legendary)
-        # If both 0 (Epic) and 1 (Legendary) are selected, return both types
-        if len(general_type_filter) == 2:
-            # No filter, returns both
-            pending_generals = General.find_pending_list_view_generals(session)
-        elif len(general_type_filter) == 1:
-            # Filter by selected type
-            pending_generals = General.find_pending_list_view_generals(session, general_type_filter[0])
-        session.close()
+            # Convert them to pass the types to the query
+            general_type_filter = []
+            if 0 in scan_types:
+                general_type_filter.append(GeneralType.epic)
+            if 1 in scan_types:
+                general_type_filter.append(GeneralType.legendary)
+            # If both 0 (Epic) and 1 (Legendary) are selected, return both types
+            if len(general_type_filter) == 2:
+                # No filter, returns both
+                pending_generals = General.find_pending_list_view_generals(session)
+            elif len(general_type_filter) == 1:
+                # Filter by selected type
+                pending_generals = General.find_pending_list_view_generals(session, general_type_filter[0])
         if not pending_generals:
             # Console message and exit the scan
             thread.scan_general_console.emit("No generals pending for list view scan.")
@@ -180,12 +179,11 @@ def scan_generals_details_view(thread):
 
 
 
-def scan_generals_list_view(thread,pending_generals):
+def scan_generals_list_view(thread, pending_generals):
     main_window = thread.main_window
 
     # Define the directory to save the image
     image_directory = os.path.join("assets", "540p", "generals")
-
 
     # Get all the frame templates to scan
     selected_frames = get_general_scan_frames([0, 1])
@@ -193,85 +191,83 @@ def scan_generals_list_view(thread,pending_generals):
     # Set up the scale array to resize the template image for matching
     scales = np.arange(0.65, 1, 0.01)
     previous_src_img = None
-    session = get_session()
-    try:
-        swipe_counter = 0
-        while True:
-            sleep(1)
-            # Take screenshot
-            src_img = thread.capture_and_validate_screen(ads=False)
+    with get_session() as session:
+        try:
+            swipe_counter = 0
+            while True:
+                sleep(1)
+                # Take screenshot
+                src_img = thread.capture_and_validate_screen(ads=False)
 
-            # Get all the generals with frames
-            cropped_generals = extract_general_with_frames(src_img,selected_frames)
+                # Get all the generals with frames
+                cropped_generals = extract_general_with_frames(src_img, selected_frames)
 
-            # loop through the cropped images to find the match
-            for crop_img in cropped_generals:
-                # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{i}.png",crop_img)
-                # Match the cropped images with the pending_generals images
-                for general in pending_generals:
-                    # print(general)
-                    # <General(name=Elektra, type=Epic Historic General, resolution=540p, details_image=tElkare_ECa50.png,list_image=None)>
-                    # Crop the detail view general template image to match
-                    template_image = crop_general_template_list_view(cv2.imread(f"{image_directory}\\{general.details_image_name}"))
-                    # Match the template in the src_img
-                    match_cords, best_scale = template_match_multiple_sizes(crop_img, template_image, scales)
-                    if not match_cords:
-                        continue
-                    # print(match_cords, best_scale)
-                    # When a match found, update the data to db and save the image
-                    general.scale = best_scale
-                    general.list_image_name = general.details_image_name.replace(".png", "_lv.png")
-                    # print(f"BEFORE: {general}")
-                    # Save the changes to the database
-                    session.add(general)
-                    # Save the image to the path
-                    cv2.imwrite(f"{image_directory}\\{general.list_image_name}",crop_img)
-                    session.commit()
-                    thread.scan_general_console.emit(f"Updated list view template for {general.name}.")
-                    # Update the warning button
-                    getattr(thread.main_window.widgets,f"general_profile_{general.id}").update_warning_button_visibility(general.scale)
-                    # Update the list view ui,
-                    # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
-                    toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
-                    getattr(main_window.widgets, f"general_profile_{general.id}").update_data.emit(general)
-                    getattr(main_window.widgets, f"general_profile_{general.id}").update_view.emit(general.id,toggle)
+                # loop through the cropped images to find the match
+                for crop_img in cropped_generals:
+                    # cv2.imwrite(f"E:\\Projects\\PyCharmProjects\\TaskEX\\temp\\{i}.png",crop_img)
+                    # Match the cropped images with the pending_generals images
+                    for general in pending_generals:
+                        # print(general)
+                        # <General(name=Elektra, type=Epic Historic General, resolution=540p, details_image=tElkare_ECa50.png,list_image=None)>
+                        # Crop the detail view general template image to match
+                        template_image = crop_general_template_list_view(cv2.imread(f"{image_directory}\\{general.details_image_name}"))
+                        # Match the template in the src_img
+                        match_cords, best_scale = template_match_multiple_sizes(crop_img, template_image, scales)
+                        if not match_cords:
+                            continue
+                        # print(match_cords, best_scale)
+                        # When a match found, update the data to db and save the image
+                        general.scale = best_scale
+                        general.list_image_name = general.details_image_name.replace(".png", "_lv.png")
+                        # print(f"BEFORE: {general}")
+                        # Save the changes to the database
+                        session.add(general)
+                        # Save the image to the path
+                        cv2.imwrite(f"{image_directory}\\{general.list_image_name}", crop_img)
+                        session.commit()
+                        thread.scan_general_console.emit(f"Updated list view template for {general.name}.")
+                        # Update the warning button
+                        getattr(thread.main_window.widgets, f"general_profile_{general.id}").update_warning_button_visibility(general.scale)
+                        # Update the list view ui,
+                        # print(getattr(main_window.widgets, "toggle_general_view").isChecked())
+                        toggle = getattr(main_window.widgets, "toggle_general_view").isChecked()
+                        getattr(main_window.widgets, f"general_profile_{general.id}").update_data.emit(general)
+                        getattr(main_window.widgets, f"general_profile_{general.id}").update_view.emit(general.id, toggle)
 
-                    # Remove that general from the loop list
-                    pending_generals.remove(general)
+                        # Remove that general from the loop list
+                        pending_generals.remove(general)
 
-            # if pending generals are empty
-            if len(pending_generals) == 0:
-                # After scanning is complete, stop the thread and emit the finished signal
-                thread.scan_general_finished.emit()  # Emit finished signal to indicate success
-                thread.stop()  # Stop the thread properly
-                return True
-
-            # Swipe for scrolling through the list
-            y_end = 350 if swipe_counter == 0 else 320
-            thread.adb_manager.swipe(330, 780, 330, y_end, 3800)
-
-            # Check the end of generals list
-            if previous_src_img is not None:
-                if is_template_match(crop_bottom_half(src_img), previous_src_img, threshold=0.95):
-                    # print("Reached the end of generals list")
-                    thread.scan_general_console.emit("Reached the end of generals list.")
-                    # Stop the search
+                # if pending generals are empty
+                if len(pending_generals) == 0:
                     # After scanning is complete, stop the thread and emit the finished signal
                     thread.scan_general_finished.emit()  # Emit finished signal to indicate success
                     thread.stop()  # Stop the thread properly
                     return True
-            previous_src_img = crop_bottom_half(src_img)
-            swipe_counter += 1
 
-    except Exception as e:
-        print(e)
-        # emit scan stop
-        thread.scan_general_error.emit()
-        # Stop the thread
-        thread.stop()
+                # Swipe for scrolling through the list
+                y_end = 350 if swipe_counter == 0 else 320
+                thread.adb_manager.swipe(330, 780, 330, y_end, 3800)
 
-    finally:
-        session.close()
+                # Check the end of generals list
+                if previous_src_img is not None:
+                    if is_template_match(crop_bottom_half(src_img), previous_src_img, threshold=0.95):
+                        # print("Reached the end of generals list")
+                        thread.scan_general_console.emit("Reached the end of generals list.")
+                        # Stop the search
+                        # After scanning is complete, stop the thread and emit the finished signal
+                        thread.scan_general_finished.emit()  # Emit finished signal to indicate success
+                        thread.stop()  # Stop the thread properly
+                        return True
+                previous_src_img = crop_bottom_half(src_img)
+                swipe_counter += 1
+
+        except Exception as e:
+            print(e)
+            # emit scan stop
+            thread.scan_general_error.emit()
+            # Stop the thread
+            thread.stop()
+
 
 def extract_general_with_frames(src_img,selected_frames):
     # variable to store all the cropped images
@@ -313,18 +309,16 @@ def is_general_name_exists(general_name):
     :param general_name: Name of the general to check.
     :return: True if the general exists, False otherwise.
     """
-    session = get_session()
-    try:
-        # Query the database to check if a general with the given name exists
-        exists = session.query(General).filter_by(name=general_name).first()
+    with get_session() as session:
+        try:
+            # Query the database to check if a general with the given name exists
+            exists = session.query(General).filter_by(name=general_name).first()
 
-        # Return True if a record is found, otherwise return False
-        return exists is not None
-    except Exception as e:
-        # print(f"Error checking general name: {e}")
-        return False
-    finally:
-        session.close()
+            # Return True if a record is found, otherwise return False
+            return exists is not None
+        except Exception as e:
+            # print(f"Error checking general name: {e}")
+            return False
 
 def generate_random_general_image_name(general_name):
     # Normalize the general's name (NFKD form separates accents from letters)
@@ -353,22 +347,19 @@ def save_general_to_db(general,image):
     # Create the directory if it doesn't exist
     os.makedirs(image_directory, exist_ok=True)
 
-    # Add and commit the new record to the database
-    session = get_session()
-    try:
-        session.add(general)
-        session.commit()
-        # print(f"General '{general.name}' saved successfully.")
-        # Save the image
-        cv2.imwrite(f"{image_directory}\\{general.details_image_name}", image)
-        # print(f"{image_directory}\\{general.details_image_name}")
-        return general
-    except Exception as e:
-        session.rollback()  # Rollback in case of error
-        # print(f"Error saving general: {e}")
-        return None
-    finally:
-        session.close()
+    with get_session() as session:
+        try:
+            session.add(general)
+            session.commit()
+            # print(f"General '{general.name}' saved successfully.")
+            # Save the image
+            cv2.imwrite(f"{image_directory}\\{general.details_image_name}", image)
+            # print(f"{image_directory}\\{general.details_image_name}")
+            return general
+        except Exception as e:
+            session.rollback()  # Rollback in case of error
+            # print(f"Error saving general: {e}")
+            return None
 
 def get_general_scan_frames(options):
     # Define the template location
