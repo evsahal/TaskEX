@@ -189,21 +189,19 @@ class BlackMarketProfileWidget(QWidget):
             QMessageBox.Yes | QMessageBox.No, QMessageBox.No
         )
         if reply == QMessageBox.Yes:
-            session = get_session()
+            with get_session() as session:
+                # Merge the data to ensure it's attached to the current session
+                blackmarket = session.merge(self.data)
 
-            # Merge the data to ensure it's attached to the current session
-            blackmarket = session.merge(self.data)
+                # Delete related templates from disk
+                for item in blackmarket.items:
+                    file_path = os.path.join(ASSETS_PATH, item.item_image)
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
 
-            # Delete related templates from disk
-            for item in blackmarket.items:
-                file_path = os.path.join(ASSETS_PATH, item.item_image)
-                if os.path.exists(file_path):
-                    os.remove(file_path)
-
-            # Delete the blackmarket profile (items will be deleted due to cascade)
-            session.delete(blackmarket)
-            session.commit()
-            session.close()
+                # Delete the blackmarket profile (items will be deleted due to cascade)
+                session.delete(blackmarket)
+                session.commit()
 
             QMessageBox.information(self, "Deleted", "Black market profile deleted successfully!")
 

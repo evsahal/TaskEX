@@ -24,8 +24,8 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         self.populate_generals_widgets()
 
     def load_all_generals(self):
-        session = get_session()
-        self.all_generals = session.query(General).filter(General.scale.isnot(None)).all()
+        with get_session() as session:
+            self.all_generals = session.query(General).filter(General.scale.isnot(None)).all()
 
     def populate_generals_widgets(self):
         """
@@ -37,32 +37,29 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         self.all_generals_assistant.clear()
         self.selected_generals_assistant.clear()
 
-        session = get_session()
+        with get_session() as session:
+            # Query for all selected generals (both main and assistant) for the given preset_id
+            selected_generals = session.query(General.name, PresetGeneralAssignment.is_main_general).join(
+                PresetGeneralAssignment).filter(
+                PresetGeneralAssignment.preset_id == self.preset_id
+            ).all()
 
-        # Query for all selected generals (both main and assistant) for the given preset_id
-        selected_generals = session.query(General.name, PresetGeneralAssignment.is_main_general).join(
-            PresetGeneralAssignment).filter(
-            PresetGeneralAssignment.preset_id == self.preset_id
-        ).all()
+            # Separate the selected generals into main and assistant
+            selected_generals_main_names = [general.name for general in selected_generals if general.is_main_general]
+            selected_generals_assistant_names = [general.name for general in selected_generals if
+                                                 not general.is_main_general]
 
-        # Separate the selected generals into main and assistant
-        selected_generals_main_names = [general.name for general in selected_generals if general.is_main_general]
-        selected_generals_assistant_names = [general.name for general in selected_generals if
-                                             not general.is_main_general]
+            # Iterate through all generals and populate the widgets
+            for general in self.all_generals:
+                if general.name in selected_generals_main_names:
+                    self.selected_generals_main.addItem(general.name)
+                else:
+                    self.all_generals_main.addItem(general.name)
 
-        # Iterate through all generals and populate the widgets
-        for general in self.all_generals:
-            if general.name in selected_generals_main_names:
-                self.selected_generals_main.addItem(general.name)
-            else:
-                self.all_generals_main.addItem(general.name)
-
-            if general.name in selected_generals_assistant_names:
-                self.selected_generals_assistant.addItem(general.name)
-            else:
-                self.all_generals_assistant.addItem(general.name)
-
-        session.close()
+                if general.name in selected_generals_assistant_names:
+                    self.selected_generals_assistant.addItem(general.name)
+                else:
+                    self.all_generals_assistant.addItem(general.name)
 
     def connect_preset_buttons(self):
         # Initialize event connections
@@ -77,71 +74,63 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         """
         Load all presets from the database and populate the combo box.
         """
+        with get_session() as session:
+            # Query for all GeneralPresets
+            presets = session.query(GeneralPreset).all()
 
-        session = get_session()
+            # Populate the combo box with preset names
+            for preset in presets:
+                self.preset_combobox.addItem(preset.name)
 
-        # Query for all GeneralPresets
-        presets = session.query(GeneralPreset).all()
-
-        # Populate the combo box with preset names
-        for preset in presets:
-            self.preset_combobox.addItem(preset.name)
-
-        # After populating, select the default option based on self.preset_id
-        if self.preset_id is None:
-            # If preset_id is None, select the first item (index 0)
-            self.preset_combobox.setCurrentIndex(0)
-            # Set self.preset_id to the ID of the first preset
-            self.preset_id = presets[0].id
-        else:
-            # If preset_id is not None, find the preset by ID and select it
-            for index, preset in enumerate(presets):
-                if preset.id == self.preset_id:
-                    self.preset_combobox.setCurrentIndex(index)
-                    break
-
-
-        session.close()
+            # After populating, select the default option based on self.preset_id
+            if self.preset_id is None:
+                # If preset_id is None, select the first item (index 0)
+                self.preset_combobox.setCurrentIndex(0)
+                # Set self.preset_id to the ID of the first preset
+                self.preset_id = presets[0].id
+            else:
+                # If preset_id is not None, find the preset by ID and select it
+                for index, preset in enumerate(presets):
+                    if preset.id == self.preset_id:
+                        self.preset_combobox.setCurrentIndex(index)
+                        break
 
     def on_preset_changed(self):
         """
         Handle the event when the preset is changed.
         Update the UI with settings based on the selected preset.
         """
-        # Get the selected preset name
-        selected_preset_name = self.preset_combobox.currentText()
+        with get_session() as session:
+            # Get the selected preset name
+            selected_preset_name = self.preset_combobox.currentText()
 
-        session = get_session()
+            # Fetch the preset object based on the selected name
+            selected_preset = session.query(GeneralPreset).filter_by(name=selected_preset_name).first()
 
-        # Fetch the preset object based on the selected name
-        selected_preset = session.query(GeneralPreset).filter_by(name=selected_preset_name).first()
+            if selected_preset:
+                self.preset_id = selected_preset.id
+                # Set category_combobox value
+                self.category_combobox.setCurrentText(selected_preset.general_category.value)
 
-        if selected_preset:
-            self.preset_id = selected_preset.id
-            # Set category_combobox value
-            self.category_combobox.setCurrentText(selected_preset.general_category.value)
+                # Set view_combobox value
+                self.view_combobox.setCurrentText(selected_preset.general_view.value)
 
-            # Set view_combobox value
-            self.view_combobox.setCurrentText(selected_preset.general_view.value)
+                # Set filter_combobox value (custom combobox with checkboxes)
+                filter_values = selected_preset.general_filter.split(",") if selected_preset.general_filter else []
+                for index in range(self.filter_combobox.count()):
+                    item_text = self.filter_combobox.itemText(index)
+                    if item_text.lower() in filter_values:
+                        self.filter_combobox.setItemCheckState(index, Qt.Checked)
+                    else:
+                        self.filter_combobox.setItemCheckState(index, Qt.Unchecked)
+                # Ensure the placeholder text is updated with the selected items by repainting the widget
+                self.filter_combobox.repaint()
 
-            # Set filter_combobox value (custom combobox with checkboxes)
-            filter_values = selected_preset.general_filter.split(",") if selected_preset.general_filter else []
-            for index in range(self.filter_combobox.count()):
-                item_text = self.filter_combobox.itemText(index)
-                if item_text.lower() in filter_values:
-                    self.filter_combobox.setItemCheckState(index, Qt.Checked)
-                else:
-                    self.filter_combobox.setItemCheckState(index, Qt.Unchecked)
-            # Ensure the placeholder text is updated with the selected items by repainting the widget
-            self.filter_combobox.repaint()
+                # Set swipe_attempts_spinbox value
+                self.swipe_attempts_spinbox.setValue(selected_preset.swipe_attempts)
 
-            # Set swipe_attempts_spinbox value
-            self.swipe_attempts_spinbox.setValue(selected_preset.swipe_attempts)
-
-            # Update the general list widgets
-            self.populate_generals_widgets()
-
-        session.close()
+                # Update the general list widgets
+                self.populate_generals_widgets()
 
     def add_new_preset(self):
         """
@@ -199,126 +188,120 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         """
         Update the GeneralPreset and PresetGeneralAssignment data based on the current UI.
         """
-        session = get_session()
+        with get_session() as session:
+            try:
+                # Fetch the current GeneralPreset
+                preset = session.query(GeneralPreset).filter_by(id=self.preset_id).first()
 
-        try:
-            # Fetch the current GeneralPreset
-            preset = session.query(GeneralPreset).filter_by(id=self.preset_id).first()
+                if not preset:
+                    QMessageBox.warning(self, "Error", "Preset not found in the database.")
+                    return
 
-            if not preset:
-                QMessageBox.warning(self, "Error", "Preset not found in the database.")
-                return
+                # Update GeneralPreset fields
+                preset.general_category = GeneralCategory[
+                    self.category_combobox.currentText().replace(" ", "_").lower()]
+                preset.general_view = GeneralView[self.view_combobox.currentText().replace(" ", "_").lower()]
+                # Update general_filter field
+                selected_filters = [
+                    self.filter_combobox.itemText(i).lower()
+                    for i in range(self.filter_combobox.count())
+                    if self.filter_combobox.itemCheckState(i) == Qt.Checked
+                ]
+                preset.general_filter = ",".join(selected_filters) if selected_filters else None
+                preset.swipe_attempts = self.swipe_attempts_spinbox.value()
 
-            # Update GeneralPreset fields
-            preset.general_category = GeneralCategory[self.category_combobox.currentText().replace(" ", "_").lower()]
-            preset.general_view = GeneralView[self.view_combobox.currentText().replace(" ", "_").lower()]
-            # Update general_filter field
-            selected_filters = [
-                self.filter_combobox.itemText(i).lower()
-                for i in range(self.filter_combobox.count())
-                if self.filter_combobox.itemCheckState(i) == Qt.Checked
-            ]
-            preset.general_filter = ",".join(selected_filters) if selected_filters else None
-            preset.swipe_attempts = self.swipe_attempts_spinbox.value()
+                # Commit changes to GeneralPreset
+                session.commit()
 
-            # Commit changes to GeneralPreset
-            session.commit()
+                # Fetch existing PresetGeneralAssignment records
+                existing_assignments = session.query(PresetGeneralAssignment).filter_by(preset_id=self.preset_id).all()
 
-            # Fetch existing PresetGeneralAssignment records
-            existing_assignments = session.query(PresetGeneralAssignment).filter_by(preset_id=self.preset_id).all()
+                # Organize existing assignments by general name and role
+                existing_main_generals = {
+                    assignment.general.name for assignment in existing_assignments if assignment.is_main_general
+                }
+                existing_assistant_generals = {
+                    assignment.general.name for assignment in existing_assignments if not assignment.is_main_general
+                }
 
-            # Organize existing assignments by general name and role
-            existing_main_generals = {
-                assignment.general.name for assignment in existing_assignments if assignment.is_main_general
-            }
-            existing_assistant_generals = {
-                assignment.general.name for assignment in existing_assignments if not assignment.is_main_general
-            }
+                # Get selected generals from the list widgets
+                selected_main_generals = {
+                    self.selected_generals_main.item(i).text() for i in range(self.selected_generals_main.count())
+                }
+                selected_assistant_generals = {
+                    self.selected_generals_assistant.item(i).text() for i in
+                    range(self.selected_generals_assistant.count())
+                }
 
-            # Get selected generals from the list widgets
-            selected_main_generals = {
-                self.selected_generals_main.item(i).text() for i in range(self.selected_generals_main.count())
-            }
-            selected_assistant_generals = {
-                self.selected_generals_assistant.item(i).text() for i in range(self.selected_generals_assistant.count())
-            }
+                # Determine additions and deletions
+                new_main_generals = selected_main_generals - existing_main_generals
+                new_assistant_generals = selected_assistant_generals - existing_assistant_generals
+                removed_main_generals = existing_main_generals - selected_main_generals
+                removed_assistant_generals = existing_assistant_generals - selected_assistant_generals
 
-            # Determine additions and deletions
-            new_main_generals = selected_main_generals - existing_main_generals
-            new_assistant_generals = selected_assistant_generals - existing_assistant_generals
-            removed_main_generals = existing_main_generals - selected_main_generals
-            removed_assistant_generals = existing_assistant_generals - selected_assistant_generals
+                # Remove old assignments
+                for general_name in removed_main_generals | removed_assistant_generals:
+                    assignment = session.query(PresetGeneralAssignment).join(General).filter(
+                        PresetGeneralAssignment.preset_id == self.preset_id,
+                        General.name == general_name,
+                    ).first()
+                    if assignment:
+                        session.delete(assignment)
 
-            # Remove old assignments
-            for general_name in removed_main_generals | removed_assistant_generals:
-                assignment = session.query(PresetGeneralAssignment).join(General).filter(
-                    PresetGeneralAssignment.preset_id == self.preset_id,
-                    General.name == general_name,
-                ).first()
-                if assignment:
-                    session.delete(assignment)
+                # Add new assignments
+                for general_name in new_main_generals:
+                    general = session.query(General).filter_by(name=general_name).first()
+                    if general:
+                        new_assignment = PresetGeneralAssignment(
+                            preset_id=self.preset_id, general_id=general.id, is_main_general=True
+                        )
+                        session.add(new_assignment)
 
-            # Add new assignments
-            for general_name in new_main_generals:
-                general = session.query(General).filter_by(name=general_name).first()
-                if general:
-                    new_assignment = PresetGeneralAssignment(
-                        preset_id=self.preset_id, general_id=general.id, is_main_general=True
-                    )
-                    session.add(new_assignment)
+                for general_name in new_assistant_generals:
+                    general = session.query(General).filter_by(name=general_name).first()
+                    if general:
+                        new_assignment = PresetGeneralAssignment(
+                            preset_id=self.preset_id, general_id=general.id, is_main_general=False
+                        )
+                        session.add(new_assignment)
 
-            for general_name in new_assistant_generals:
-                general = session.query(General).filter_by(name=general_name).first()
-                if general:
-                    new_assignment = PresetGeneralAssignment(
-                        preset_id=self.preset_id, general_id=general.id, is_main_general=False
-                    )
-                    session.add(new_assignment)
+                # Commit changes to PresetGeneralAssignment
+                session.commit()
 
-            # Commit changes to PresetGeneralAssignment
-            session.commit()
+                QMessageBox.information(self, "Success", "Preset updated successfully.")
 
-            QMessageBox.information(self, "Success", "Preset updated successfully.")
-
-        except Exception as e:
-            session.rollback()
-            QMessageBox.critical(self, "Error", f"An error occurred while updating the preset: {str(e)}")
-
-        finally:
-            session.close()
+            except Exception as e:
+                session.rollback()
+                QMessageBox.critical(self, "Error", f"An error occurred while updating the preset: {str(e)}")
 
     def save_new_preset_name(self, preset_line_edit):
         """
         Save the new preset entered by the user.
         """
-        new_name = preset_line_edit.text().strip()
+        with get_session() as session:
+            new_name = preset_line_edit.text().strip()
 
-        if not new_name:  # Check if the name is empty
-            QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
-            return
+            if not new_name:  # Check if the name is empty
+                QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
+                return
 
-        session = get_session()
+            # Check if the preset name already exists in the database
+            existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
+            if existing_preset:
+                QMessageBox.warning(self, "Error", "A preset with this name already exists.")
+                return
 
-        # Check if the preset name already exists in the database
-        existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
-        if existing_preset:
-            QMessageBox.warning(self, "Error", "A preset with this name already exists.")
-            session.close()
-            return
+            # Create a new preset entry in the database
+            new_preset = GeneralPreset(name=new_name)
+            session.add(new_preset)
+            session.commit()
 
-        # Create a new preset entry in the database
-        new_preset = GeneralPreset(name=new_name)
-        session.add(new_preset)
-        session.commit()
+            # Add the new preset to the combo box and select it
+            self.preset_combobox.addItem(new_name)
+            self.preset_combobox.setCurrentIndex(self.preset_combobox.count() - 1)
 
-        # Add the new preset to the combo box and select it
-        self.preset_combobox.addItem(new_name)
-        self.preset_combobox.setCurrentIndex(self.preset_combobox.count() - 1)
-
-        # Set the current preset ID to the newly created preset's ID
-        self.preset_id = new_preset.id
-
-        session.close()
+            # Set the current preset ID to the newly created preset's ID
+            self.preset_id = new_preset.id
 
         # Clean up and show the original UI
         self.remove_preset_edit_widgets()
@@ -383,48 +366,44 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         """
         Save the edited preset name.
         """
-        new_name = preset_line_edit.text().strip()
+        with get_session() as session:
+            new_name = preset_line_edit.text().strip()
 
-        if not new_name:  # Check if the name is empty
-            QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
-            return
+            if not new_name:  # Check if the name is empty
+                QMessageBox.warning(self, "Error", "Preset name cannot be empty.")
+                return
 
-        # Get the current preset from the combo box
-        current_index = self.preset_combobox.currentIndex()
-        current_name = self.preset_combobox.itemText(current_index)
+            # Get the current preset from the combo box
+            current_index = self.preset_combobox.currentIndex()
+            current_name = self.preset_combobox.itemText(current_index)
 
-        # Skip validation if the name hasn't changed
-        if new_name == current_name:
-            self.remove_preset_edit_widgets()
-            self.preset_combobox.show()
-            self.edit_btn.show()
-            self.delete_btn.show()
-            self.add_btn.show()
-            return
+            # Skip validation if the name hasn't changed
+            if new_name == current_name:
+                self.remove_preset_edit_widgets()
+                self.preset_combobox.show()
+                self.edit_btn.show()
+                self.delete_btn.show()
+                self.add_btn.show()
+                return
 
-        session = get_session()
+            # Check if a preset with the new name already exists in the database
+            existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
+            if existing_preset:
+                QMessageBox.warning(self, "Error", "A preset with this name already exists.")
+                return
 
-        # Check if a preset with the new name already exists in the database
-        existing_preset = session.query(GeneralPreset).filter_by(name=new_name).first()
-        if existing_preset:
-            QMessageBox.warning(self, "Error", "A preset with this name already exists.")
-            session.close()
-            return
+            # Fetch the current preset from the database
+            selected_preset = session.query(GeneralPreset).filter_by(name=current_name).first()
 
-        # Fetch the current preset from the database
-        selected_preset = session.query(GeneralPreset).filter_by(name=current_name).first()
+            # Update the preset name in the database
+            selected_preset.name = new_name
+            session.commit()
 
-        # Update the preset name in the database
-        selected_preset.name = new_name
-        session.commit()
+            # Update combo box with the new name
+            self.preset_combobox.setItemText(current_index, new_name)
 
-        # Update combo box with the new name
-        self.preset_combobox.setItemText(current_index, new_name)
-
-        # Update the current preset ID
-        self.preset_id = selected_preset.id
-
-        session.close()
+            # Update the current preset ID
+            self.preset_id = selected_preset.id
 
         # Clean up edit mode
         self.remove_preset_edit_widgets()
@@ -471,60 +450,55 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
         """
         Delete the currently selected preset from the combo box and the database.
         """
-        current_index = self.preset_combobox.currentIndex()
+        with get_session() as session:
+            current_index = self.preset_combobox.currentIndex()
 
-        # Ensure a preset is selected
-        if current_index == -1:
-            QMessageBox.warning(self, "Error", "No preset selected to delete.")
-            return
-
-        # Ensure there's more than one preset in the combo box
-        if self.preset_combobox.count() == 1:
-            QMessageBox.warning(self, "Error", "At least one preset must remain. Cannot delete the last preset.")
-            return
-
-        # Get the current preset name
-        preset_name = self.preset_combobox.itemText(current_index)
-
-        # Show confirmation dialog
-        confirm = QMessageBox.question(
-            self,
-            "Delete Preset",
-            f"Are you sure you want to delete the preset '{preset_name}'?",
-            QMessageBox.Yes | QMessageBox.No,
-        )
-
-        if confirm != QMessageBox.Yes:
-            return  # User chose not to delete
-
-        session = get_session()
-
-        try:
-            # Fetch the preset from the database
-            preset = session.query(GeneralPreset).filter_by(name=preset_name).first()
-
-            if not preset:
-                QMessageBox.warning(self, "Error", "Selected preset not found in the database.")
+            # Ensure a preset is selected
+            if current_index == -1:
+                QMessageBox.warning(self, "Error", "No preset selected to delete.")
                 return
 
-            # Delete the preset (related rows in PresetGeneralAssignment are removed automatically)
-            session.delete(preset)
-            session.commit()
+            # Ensure there's more than one preset in the combo box
+            if self.preset_combobox.count() == 1:
+                QMessageBox.warning(self, "Error", "At least one preset must remain. Cannot delete the last preset.")
+                return
 
-            # Remove the preset from the combo box
-            self.preset_combobox.removeItem(current_index)
+            # Get the current preset name
+            preset_name = self.preset_combobox.itemText(current_index)
 
-            # Update the preset_id with the newly selected preset
-            new_selected_name = self.preset_combobox.currentText()  # Get the name of the newly selected preset
-            new_selected_preset = session.query(GeneralPreset).filter_by(name=new_selected_name).first()
+            # Show confirmation dialog
+            confirm = QMessageBox.question(
+                self,
+                "Delete Preset",
+                f"Are you sure you want to delete the preset '{preset_name}'?",
+                QMessageBox.Yes | QMessageBox.No,
+            )
 
-            if new_selected_preset:
-                self.preset_id = new_selected_preset.id
+            if confirm != QMessageBox.Yes:
+                return  # User chose not to delete
 
+            try:
+                # Fetch the preset from the database
+                preset = session.query(GeneralPreset).filter_by(name=preset_name).first()
 
-        except Exception as e:
-            session.rollback()
-            QMessageBox.critical(self, "Error", f"An error occurred while deleting the preset: {str(e)}")
+                if not preset:
+                    QMessageBox.warning(self, "Error", "Selected preset not found in the database.")
+                    return
 
-        finally:
-            session.close()
+                # Delete the preset (related rows in PresetGeneralAssignment are removed automatically)
+                session.delete(preset)
+                session.commit()
+
+                # Remove the preset from the combo box
+                self.preset_combobox.removeItem(current_index)
+
+                # Update the preset_id with the newly selected preset
+                new_selected_name = self.preset_combobox.currentText()  # Get the name of the newly selected preset
+                new_selected_preset = session.query(GeneralPreset).filter_by(name=new_selected_name).first()
+
+                if new_selected_preset:
+                    self.preset_id = new_selected_preset.id
+
+            except Exception as e:
+                session.rollback()
+                QMessageBox.critical(self, "Error", f"An error occurred while deleting the preset: {str(e)}")

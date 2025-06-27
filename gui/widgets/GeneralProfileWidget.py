@@ -63,41 +63,38 @@ class GeneralProfileWidget(QWidget):
 
         # Confirm with the user
         if show_confirmation_dialog(self, "confirm", f"Are you sure you want to remove {self.ui.edit_general.text()}?"):
-            session = get_session()
+            with get_session() as session:
+                try:
+                    # Query the database to find the general by its ID
+                    general = session.query(General).filter(
+                        General.id == self.ui.edit_general.property('general_id')).first()
+                    # print(self.ui.edit_general.property('general_id'))
+                    if general:
+                        # Delete the general's record from the database
+                        session.delete(general)
+                        session.commit()  # Commit the transaction to apply changes
+                        self.scan_console.emit(
+                            f"General '{self.ui.edit_general.text()}' has been removed.")
 
-            try:
-                # Query the database to find the general by its ID
-                general = session.query(General).filter(General.id == self.ui.edit_general.property('general_id')).first()
-                # print(self.ui.edit_general.property('general_id'))
-                if general:
-                    # Delete the general's record from the database
-                    session.delete(general)
-                    session.commit()  # Commit the transaction to apply changes
-                    self.scan_console.emit(
-                        f"General '{self.ui.edit_general.text()}' has been removed.")
+                        # Check if the image file exists and delete it
+                        general_details_img = os.path.join(str(self.image_path), self.data.details_image_name)
+                        general_list_img = os.path.join(str(self.image_path),
+                                                        self.data.list_image_name) if self.data.list_image_name else None
 
-                    # Check if the image file exists and delete it
-                    general_details_img = os.path.join(str(self.image_path), self.data.details_image_name)
-                    general_list_img = os.path.join(str(self.image_path),
-                                                    self.data.list_image_name) if self.data.list_image_name else None
+                        # Delete the details view image if it exists
+                        if os.path.exists(general_details_img):
+                            os.remove(general_details_img)
 
-                    # Delete the details view image if it exists
-                    if os.path.exists(general_details_img):
-                        os.remove(general_details_img)
+                        # Delete the list view image if the file path is valid and the image exists
+                        if general_list_img and os.path.exists(general_list_img):
+                            os.remove(general_list_img)
+                    else:
+                        self.scan_console.emit(
+                            f"Error: General '{self.ui.edit_general.text()}' not found in the database.")
 
-                    # Delete the list view image if the file path is valid and the image exists
-                    if general_list_img and os.path.exists(general_list_img):
-                        os.remove(general_list_img)
-                else:
-                    self.scan_console.emit(
-                        f"Error: General '{self.ui.edit_general.text()}' not found in the database.")
-
-            except Exception as e:
-                session.rollback()  # Rollback in case of error
-                self.scan_console.emit(f"Error deleting general: {e}")
-
-            finally:
-                session.close()
+                except Exception as e:
+                    session.rollback()  # Rollback in case of error
+                    self.scan_console.emit(f"Error deleting general: {e}")
 
             # Remove the widget from the UI
             if self.flow_layout:

@@ -225,28 +225,26 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
 
     def populate_field_data(self):
         """Populate category and logic combo boxes, and load existing monster data if editing."""
-        session = get_session()
-        categories = session.query(MonsterCategory).all()
-        logics = session.query(MonsterLogic).all()
+        with get_session() as session:
+            categories = session.query(MonsterCategory).all()
+            logics = session.query(MonsterLogic).all()
 
-        # Populate category combo box
-        self.category_combo_box.clear()
-        for category in categories:
-            self.category_combo_box.addItem(category.name, category.id)
+            # Populate category combo box
+            self.category_combo_box.clear()
+            for category in categories:
+                self.category_combo_box.addItem(category.name, category.id)
 
-        # Populate logic combo box
-        self.logic_combo_box.clear()
-        for logic in logics:
-            self.logic_combo_box.addItem(logic.logic, logic.id)
+            # Populate logic combo box
+            self.logic_combo_box.clear()
+            for logic in logics:
+                self.logic_combo_box.addItem(logic.logic, logic.id)
 
-        # Load monster data if editing an existing one
-        if self.monster_id is not None:
-            monster_data = self.get_monster_data(session)
-            self.load_monster_data(monster_data)
-        elif self.monster_to_edit:
-            self.load_monster_data(self.monster_to_edit)
-
-        session.close()
+            # Load monster data if editing an existing one
+            if self.monster_id is not None:
+                monster_data = self.get_monster_data(session)
+                self.load_monster_data(monster_data)
+            elif self.monster_to_edit:
+                self.load_monster_data(self.monster_to_edit)
 
     def load_monster_data(self, monster_data):
         """Load the existing data for the selected boss monster."""
@@ -457,70 +455,69 @@ class MonsterEditDialog(QDialog, Ui_Monster_Edit_Dialog):
             # QMessageBox.warning(self, "Validation Error", "Please fill in all required fields.")
             return
 
-        session = get_session()
-        # print(self.monster_to_edit)
-        if not self.monster_id and not self.monster_to_edit:
-            # print("New Monster")
-            # Create new monster
-            self.monster = BossMonster()
-            self.monster.monster_image = MonsterImage()
-        elif self.monster_to_edit:
-            # print("Edit New Monster")
-            self.monster = self.monster_to_edit
-        else:
-            # print("Edit Monster")
-            # Edit existing monster
-            self.monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
+        with get_session() as session:
+            # print(self.monster_to_edit)
+            if not self.monster_id and not self.monster_to_edit:
+                # print("New Monster")
+                # Create new monster
+                self.monster = BossMonster()
+                self.monster.monster_image = MonsterImage()
+            elif self.monster_to_edit:
+                # print("Edit New Monster")
+                self.monster = self.monster_to_edit
+            else:
+                # print("Edit Monster")
+                # Edit existing monster
+                self.monster = session.query(BossMonster).filter(BossMonster.id == self.monster_id).one()
 
-        # Store basic info
-        self.monster.preview_name = self.preview_name_line_edit.text()
-        self.monster.monster_category_id = self.category_combo_box.currentData()
-        self.monster.monster_logic_id = self.logic_combo_box.currentData()
-        self.monster.enable_map_scan = self.map_scan_checkbox.isChecked()
+            # Store basic info
+            self.monster.preview_name = self.preview_name_line_edit.text()
+            self.monster.monster_category_id = self.category_combo_box.currentData()
+            self.monster.monster_logic_id = self.logic_combo_box.currentData()
+            self.monster.enable_map_scan = self.map_scan_checkbox.isChecked()
 
-        # Store image data
-        self.monster.monster_image.preview_image = self.preview_image_line_edit.text()
-        if self.monster.enable_map_scan:
-            self.monster.monster_image.img_540p = self.p540_image_line_edit.text()
-            self.monster.monster_image.img_threshold = self.threshold_spin_box.value()
-            self.monster.monster_image.click_pos = f"{self.click_x_spin_box.value()},{self.click_y_spin_box.value()}"
-        else:
-            self.monster.monster_image.img_540p = None
-            self.monster.monster_image.img_threshold = None
-            self.monster.monster_image.click_pos = None
+            # Store image data
+            self.monster.monster_image.preview_image = self.preview_image_line_edit.text()
+            if self.monster.enable_map_scan:
+                self.monster.monster_image.img_540p = self.p540_image_line_edit.text()
+                self.monster.monster_image.img_threshold = self.threshold_spin_box.value()
+                self.monster.monster_image.click_pos = f"{self.click_x_spin_box.value()},{self.click_y_spin_box.value()}"
+            else:
+                self.monster.monster_image.img_540p = None
+                self.monster.monster_image.img_threshold = None
+                self.monster.monster_image.click_pos = None
 
-        # Store monster levels
-        self.update_monster_levels(session)
+            # Store monster levels
+            self.update_monster_levels(session)
 
-        # Return the new monster object without saving
-        if not self.monster_id:
-            # Close  the dialog
-            self.accept()
-            self.monster.preview_img_path = self.preview_image_line_edit.property("file_path")
-            self.monster.p540_img_path = self.p540_image_line_edit.property("file_path")
-            return self.monster
-        # Commit changes for existing monsters
-        try:
-            session.add(self.monster)
-            # Move the file to the preview folder if file picker is used:
-            file_path = self.preview_image_line_edit.property("file_path")
-            if file_path:
-                copy_image_to_preview(file_path,self.monster.monster_image.preview_image)
-            # Move the file to the 540p template if file picker is used:
-            file_path = self.p540_image_line_edit.property("file_path")
-            if file_path:
-                copy_image_to_template(file_path, self.monster.monster_image.img_540p)
+            # Return the new monster object without saving
+            if not self.monster_id:
+                # Close the dialog
+                self.accept()
+                self.monster.preview_img_path = self.preview_image_line_edit.property("file_path")
+                self.monster.p540_img_path = self.p540_image_line_edit.property("file_path")
+                return self.monster
+            # Commit changes for existing monsters
+            try:
+                session.add(self.monster)
+                # Move the file to the preview folder if file picker is used:
+                file_path = self.preview_image_line_edit.property("file_path")
+                if file_path:
+                    copy_image_to_preview(file_path, self.monster.monster_image.preview_image)
+                # Move the file to the 540p template if file picker is used:
+                file_path = self.p540_image_line_edit.property("file_path")
+                if file_path:
+                    copy_image_to_template(file_path, self.monster.monster_image.img_540p)
 
-            # Commit changes in db
-            session.commit()
-            self.monster_updated.emit(self.monster_id)
-            QMessageBox.information(self, "Success", "Monster updated successfully!")
-        except Exception as e:
-            session.rollback()
-            QMessageBox.critical(self, "Error", f"Failed to save the monster: {e}")
-        finally:
-            session.close()
-            self.accept()
+                # Commit changes in db
+                session.commit()
+                self.monster_updated.emit(self.monster_id)
+                QMessageBox.information(self, "Success", "Monster updated successfully!")
+            except Exception as e:
+                session.rollback()
+                QMessageBox.critical(self, "Error", f"Failed to save the monster: {e}")
+            finally:
+                self.accept()
 
     def update_monster_levels(self,session):
         """
