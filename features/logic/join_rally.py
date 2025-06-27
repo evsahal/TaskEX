@@ -260,7 +260,6 @@ def read_monster_data(thread,src_img):
                     msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is in the selected list. Attempting to join rally."
                     thread.log_message(msg, level="info")
                     return True
-
                 # print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
                 msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is not in the selected rally list. Skipping this rally."
                 thread.log_message(msg, level="info")

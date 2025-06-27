@@ -4,6 +4,7 @@ import time
 import cv2
 import numpy as np
 from pytesseract import pytesseract
+from sqlalchemy.orm import joinedload
 
 from db.db_setup import get_session
 from db.models import MonsterLevel, BossMonster
@@ -180,6 +181,7 @@ def lookup_boss_by_name(extracted_monster_name):
                 )
                 .join(BossMonster, BossMonster.id == MonsterLevel.boss_monster_id)
                 .filter(MonsterLevel.id.in_(matching_ids))
+                .options(joinedload(MonsterLevel.boss_monster))
                 .all()
             )
             # The list contains tuples: (MonsterLevel object, logic_id)
