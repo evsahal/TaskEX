@@ -317,7 +317,7 @@ def is_general_name_exists(general_name):
             # Return True if a record is found, otherwise return False
             return exists is not None
         except Exception as e:
-            # print(f"Error checking general name: {e}")
+            print(f"Error checking general name: {e}")
             return False
 
 def generate_random_general_image_name(general_name):
@@ -358,7 +358,7 @@ def save_general_to_db(general,image):
             return general
         except Exception as e:
             session.rollback()  # Rollback in case of error
-            # print(f"Error saving general: {e}")
+            print(f"Error saving general: {e}")
             return None
 
 def get_general_scan_frames(options):

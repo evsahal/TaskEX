@@ -199,6 +199,7 @@ def find_emulator_ports():
                         emulator_ports.append((emulator_player_names[process_name], local_port))
 
             except (psutil.NoSuchProcess, psutil.AccessDenied, AttributeError):
+                print(e)
                 continue
 
     return emulator_ports

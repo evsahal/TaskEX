@@ -685,6 +685,7 @@ def add_new_profile(main_window, index, profile_line_edit):
         session.add(new_profile)
         session.commit()
     except Exception as e:
+        print(e)
         session.rollback()
         QMessageBox.critical(main_window, "Error", f"Error saving profile to database")
         return

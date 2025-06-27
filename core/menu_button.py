@@ -249,6 +249,7 @@ def delete_instance_check(main_window,index):
                         session.commit()  # Commit the transaction
                         delete_instance(main_window, index)
                 except Exception as e:
+                    print(e)
                     session.rollback()  # Roll back in case of an error
 
 

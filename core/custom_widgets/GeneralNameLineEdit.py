@@ -96,5 +96,6 @@ class GeneralNameLineEdit(QLineEdit):
                 else:
                     self.scan_console.emit(f"Error: General with ID {self.property('general_id')} not found.")
             except Exception as e:
+                print(e)
                 session.rollback()  # Roll back if something goes wrong
                 self.scan_console.emit(f"Error updating name: {e}")
