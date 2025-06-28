@@ -80,36 +80,31 @@ def update_monster_profile_ui(main_window, boss_id):
     monster_profile_widget = main_window.findChild(QWidget, f"monster_profile_{boss_id}")
 
     if monster_profile_widget:
-        session = get_session()
-        # Fetch updated monster data (e.g., from the database or dialog)
-        updated_monster = session.query(BossMonster).filter(BossMonster.id == boss_id).one()
+        with get_session() as session:
+            # Fetch updated monster data (e.g., from the database or dialog)
+            updated_monster = session.query(BossMonster).filter(BossMonster.id == boss_id).one()
 
-        # Update the UI with the new data
+            # Update the UI with the new data
+            preview_path = os.path.join('assets', 'preview')
 
-        preview_path = os.path.join( 'assets', 'preview')
+            # Setup Monster Preview
+            monster_profile_widget.ui.monster_name_label.setText(updated_monster.preview_name)
+            monster_preview = os.path.join(str(preview_path), updated_monster.monster_image.preview_image)
+            if not os.path.isfile(monster_preview):
+                monster_preview = os.path.join(str(preview_path), "default_preview.png")
+            pixmap = QPixmap(monster_preview)
+            pixmap = pixmap.scaledToHeight(92)
+            monster_profile_widget.ui.monster_icon_label.setPixmap(pixmap)
 
-        # Setup Monster Preview
-        monster_profile_widget.ui.monster_name_label.setText(updated_monster.preview_name)
-        monster_preview = os.path.join(str(preview_path), updated_monster.monster_image.preview_image)
-        if not os.path.isfile(monster_preview):
-            monster_preview = os.path.join(str(preview_path), "default_preview.png")
-        pixmap = QPixmap(monster_preview)
-        # half_height = int(pixmap.height() / 2)
-        # print(half_height) #92
-        pixmap = pixmap.scaledToHeight(92)
-        monster_profile_widget.ui.monster_icon_label.setPixmap(pixmap)
+            # Update the frame
+            # Get the corresponding color for the logic ID
+            logic_color = logic_colors.get(updated_monster.monster_logic_id, '#000000')  # Default to black if not found
 
-        # Update the frame
-        # Get the corresponding color for the logic ID
-        logic_color = logic_colors.get(updated_monster.monster_logic_id, '#000000')  # Default to black if not found
-
-        # Setup the Monster Bottom Frame Color
-        monster_profile_widget.ui.bottom_color_frame.setStyleSheet(f"""
-                    background-color: rgb(29, 33, 38);
-                    border-bottom: 2px solid {logic_color};
-                """)
-
-        session.close()
+            # Setup the Monster Bottom Frame Color
+            monster_profile_widget.ui.bottom_color_frame.setStyleSheet(f"""
+                        background-color: rgb(29, 33, 38);
+                        border-bottom: 2px solid {logic_color};
+                    """)
 
 def open_upload_dialog(main_window):
     # Create an instance of the dialog class

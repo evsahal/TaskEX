@@ -37,18 +37,16 @@ def init_run_tab(main_window, index, instance):
 
 
 def populate_profile_combo(combobox):
-    session = get_session()
-    try:
-        # Query all profiles from the database
-        profiles = session.query(Profile).all()
+    with get_session() as session:
+        try:
+            # Query all profiles from the database
+            profiles = session.query(Profile).all()
 
-        # Add profiles to the combobox
-        for profile in profiles:
-            combobox.addItem(profile.name, profile.id)
-
-    finally:
-        # Close the session to avoid connection leaks
-        session.close()
+            # Add profiles to the combobox
+            for profile in profiles:
+                combobox.addItem(profile.name, profile.id)
+        except Exception as e:
+            print(e)
 
 def load_instance_data(main_window,instance,index ):
     # Select the profile
@@ -115,15 +113,15 @@ def update_instance_profile(main_window, index):
     selected_profile_id = profile_combobox.currentData()
 
     if instance_id is not None:
-        session = get_session()
-        try:
-            instance = session.query(Instance).get(instance_id)
-            if instance:
-                instance.profile_id = selected_profile_id
-                session.commit()
-                load_profile_controls(main_window, index, selected_profile_id)
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                instance = session.query(Instance).get(instance_id)
+                if instance:
+                    instance.profile_id = selected_profile_id
+                    session.commit()
+                    load_profile_controls(main_window, index, selected_profile_id)
+            except Exception as e:
+                print(e)
 
 def update_instance_emulator_name(main_window, index):
     """
@@ -143,16 +141,15 @@ def update_instance_emulator_name(main_window, index):
         new_name = default_name
         emulator_name_ledit.setText(new_name)
 
-
     if instance_id is not None:
-        session = get_session()
-        try:
-            instance = session.query(Instance).get(instance_id)
-            if instance:
-                instance.emulator_name = new_name
-                session.commit()
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                instance = session.query(Instance).get(instance_id)
+                if instance:
+                    instance.emulator_name = new_name
+                    session.commit()
+            except Exception as e:
+                print(e)
 
 def update_instance_emulator_port(main_window, index):
     """
@@ -167,14 +164,14 @@ def update_instance_emulator_port(main_window, index):
     new_port = emulator_port_ledit.text()
 
     if instance_id is not None:
-        session = get_session()
-        try:
-            instance = session.query(Instance).get(instance_id)
-            if instance:
-                instance.emulator_port = int(new_port) if new_port.isdigit() else None
-                session.commit()
-        finally:
-            session.close()
+        with get_session() as session:
+            try:
+                instance = session.query(Instance).get(instance_id)
+                if instance:
+                    instance.emulator_port = int(new_port) if new_port.isdigit() else None
+                    session.commit()
+            except Exception as e:
+                print(e)
 
 
 ### PRESET WIDGETS FUNCTIONALITIES ###
@@ -477,20 +474,18 @@ def save_profile_name(main_window, index, profile_line_edit):
         QMessageBox.critical(main_window, "Error", "Profile name cannot be empty!")
         return
 
-    # Check if the new name already exists in the database
-    session = get_session()
-    existing_profile = session.query(Profile).filter(Profile.name == new_name).first()
-    if existing_profile and existing_profile.id != profile_id:
-        QMessageBox.critical(main_window, "Error", "A profile with this name already exists!")
-        session.close()
-        return
+    with get_session() as session:
+        # Check if the new name already exists in the database
+        existing_profile = session.query(Profile).filter(Profile.name == new_name).first()
+        if existing_profile and existing_profile.id != profile_id:
+            QMessageBox.critical(main_window, "Error", "A profile with this name already exists!")
+            return
 
-    # Update the profile name in the database
-    profile = session.query(Profile).filter_by(id=profile_id).first()
-    if profile:
-        profile.name = new_name
-        session.commit()
-    session.close()
+        # Update the profile name in the database
+        profile = session.query(Profile).filter_by(id=profile_id).first()
+        if profile:
+            profile.name = new_name
+            session.commit()
 
     # Update all instance combo boxes with the new profile name
     from core.menu_button import get_active_instance_indexes
@@ -566,15 +561,12 @@ def delete_profile(main_window, index):
 
     # Get the current profile ID
     profile_id = profile_combo.itemData(current_index)
-    session = get_session()
-
-    # Query and delete the profile from the database using the ID
-    profile = session.query(Profile).filter_by(id=profile_id).first()
-    if profile:
-        session.delete(profile)
-        session.commit()
-    session.close()
-
+    with get_session() as session:
+        # Query and delete the profile from the database using the ID
+        profile = session.query(Profile).filter_by(id=profile_id).first()
+        if profile:
+            session.delete(profile)
+            session.commit()
 
     # Update the combo boxes
     from core.menu_button import get_active_instance_indexes
@@ -595,7 +587,6 @@ def delete_profile(main_window, index):
                 emu_profile_combo.setCurrentIndex(1)
         # Remove the profile from the emulator profile combo box
         emu_profile_combo.removeItem(current_index)
-
 
     # Show success dialog
     QMessageBox.information(main_window, "Profile", f"Profile '{profile_name}' deleted successfully!")
@@ -663,7 +654,6 @@ def add_new_profile(main_window, index, profile_line_edit):
         main_window: The main window containing widgets.
         index: The index of the current tab.
         profile_line_edit: QLineEdit containing the new profile name.
-        session: SQLAlchemy session for database operations.
     """
 
     # Get the new profile name from the line edit
@@ -673,83 +663,82 @@ def add_new_profile(main_window, index, profile_line_edit):
     if not new_profile_name:
         QMessageBox.critical(main_window, "Error", "Profile name cannot be empty.")
         return
-    session = get_session()
-    # Check if the profile name already exists in the database
-    if session.query(Profile).filter_by(name=new_profile_name).first():
-        QMessageBox.critical(main_window, "Error", f"The profile '{new_profile_name}' already exists.")
-        return
 
-    # Add the new profile to the database
-    try:
-        new_profile = Profile(name=new_profile_name)
-        session.add(new_profile)
-        session.commit()
-    except Exception as e:
-        print(e)
-        session.rollback()
-        QMessageBox.critical(main_window, "Error", f"Error saving profile to database")
-        return
+    with get_session() as session:
+        # Check if the profile name already exists in the database
+        if session.query(Profile).filter_by(name=new_profile_name).first():
+            QMessageBox.critical(main_window, "Error", f"The profile '{new_profile_name}' already exists.")
+            return
 
-    # Update the combo boxes
-    from core.menu_button import get_active_instance_indexes
-    instance_indexes = get_active_instance_indexes(main_window)
-    for instance_index in instance_indexes:
-        # Access the combo boxes
-        profile_combo = getattr(main_window.widgets, f"profile_combobox_{instance_index}")
-        emu_profile_combo = getattr(main_window.widgets, f"emu_profile_{instance_index}")
-
-        profile_combo.addItem(new_profile.name,new_profile.id)
-        if instance_index == index:
-            profile_combo.setCurrentText(new_profile_name)
-
-        # Temporarily disconnect the signal to avoid triggering events
+        # Add the new profile to the database
         try:
-            emu_profile_combo.blockSignals(True)
-            emu_profile_combo.addItem(new_profile.name,new_profile.id)
-        finally:
-            emu_profile_combo.blockSignals(False)
-            session.close()
+            new_profile = Profile(name=new_profile_name)
+            session.add(new_profile)
+            session.commit()
+        except Exception as e:
+            print(e)
+            session.rollback()
+            QMessageBox.critical(main_window, "Error", f"Error saving profile to database")
+            return
+
+        # Update the combo boxes
+        from core.menu_button import get_active_instance_indexes
+        instance_indexes = get_active_instance_indexes(main_window)
+        for instance_index in instance_indexes:
+            # Access the combo boxes
+            profile_combo = getattr(main_window.widgets, f"profile_combobox_{instance_index}")
+            emu_profile_combo = getattr(main_window.widgets, f"emu_profile_{instance_index}")
+
+            profile_combo.addItem(new_profile.name, new_profile.id)
+            if instance_index == index:
+                profile_combo.setCurrentText(new_profile_name)
+
+            # Temporarily disconnect the signal to avoid triggering events
+            try:
+                emu_profile_combo.blockSignals(True)
+                emu_profile_combo.addItem(new_profile.name, new_profile.id)
+            finally:
+                emu_profile_combo.blockSignals(False)
 
     # Restore the main frame
     cancel_edit_mode(main_window, index)
     QMessageBox.information(main_window, "Information", f"Profile '{new_profile.name}' has been successfully added.")
 
     # Create the default entries for preset configurations and preset options
-    session = get_session()
-    profile_id = getattr(main_window.widgets, f"profile_combobox_{index}").currentData()
+    with get_session() as session:
+        profile_id = getattr(main_window.widgets, f"profile_combobox_{index}").currentData()
 
-    # Fetch the first general preset ID
-    general_preset = session.execute(
-        select(GeneralPreset.id).order_by(GeneralPreset.id.asc()).limit(1)
-    ).scalar()
+        # Fetch the first general preset ID
+        general_preset = session.execute(
+            select(GeneralPreset.id).order_by(GeneralPreset.id.asc()).limit(1)
+        ).scalar()
 
-    # Insert a new entry into `jr_preset_configurations`
-    new_preset_configuration = JoinRallyPresetConfiguration(
-        profile_id=profile_id,
-        general_preset_id=general_preset
-    )
-    session.add(new_preset_configuration)
-    # Flush to get the new `jr_preset_configuration_id`
-    session.flush()
-
-    # Create 8 entries in `jr_preset_options`
-    preset_options = []
-    for preset_number in range(1, 9):
-        preset_options.append(
-            JoinRallyPresetOption(
-                preset_configuration_id=new_preset_configuration.id,
-                preset_number=preset_number,
-                # preset_selected=(preset_number == 1),  # True for the first preset, False for others
-                use_selected_generals=False,
-                skip_no_general=False,
-                reset_to_one_troop=False
-            )
+        # Insert a new entry into `jr_preset_configurations`
+        new_preset_configuration = JoinRallyPresetConfiguration(
+            profile_id=profile_id,
+            general_preset_id=general_preset
         )
+        session.add(new_preset_configuration)
+        # Flush to get the new `jr_preset_configuration_id`
+        session.flush()
 
-    # Bulk insert the preset options
-    session.bulk_save_objects(preset_options)
-    session.commit()
-    session.close()
+        # Create 8 entries in `jr_preset_options`
+        preset_options = []
+        for preset_number in range(1, 9):
+            preset_options.append(
+                JoinRallyPresetOption(
+                    preset_configuration_id=new_preset_configuration.id,
+                    preset_number=preset_number,
+                    # preset_selected=(preset_number == 1),  # True for the first preset, False for others
+                    use_selected_generals=False,
+                    skip_no_general=False,
+                    reset_to_one_troop=False
+                )
+            )
+
+        # Bulk insert the preset options
+        session.bulk_save_objects(preset_options)
+        session.commit()
 
 def confirm_save_controls(main_window, index):
     """
@@ -810,25 +799,24 @@ def save_profile_controls(main_window, index):
             widgets_dict.setdefault(widget.__class__.__name__, []).append(widget_data)
 
     # Save it to the db
-    profile_id = getattr(main_window.widgets,f'profile_combobox_{index}').currentData() # Get the profile id
-    session = get_session()
-    try:
-        # Check if there's already a ProfileData entry for this profile
-        profile_data = session.query(ProfileData).filter_by(profile_id=profile_id).first()
+    profile_id = getattr(main_window.widgets, f'profile_combobox_{index}').currentData()  # Get the profile id
+    with get_session() as session:
+        try:
+            # Check if there's already a ProfileData entry for this profile
+            profile_data = session.query(ProfileData).filter_by(profile_id=profile_id).first()
 
-        if profile_data:
-            # Update existing entry
-            profile_data.settings = json.dumps(widgets_dict)
-        else:
-            # Create new entry
-            profile_data = ProfileData(profile_id=profile_id, settings=json.dumps(widgets_dict))
-            session.add(profile_data)
-        # Commit changes
-        session.commit()
-    except Exception as e:
-        print(e)
-    finally:
-        session.close()
+            if profile_data:
+                # Update existing entry
+                profile_data.settings = json.dumps(widgets_dict)
+            else:
+                # Create new entry
+                profile_data = ProfileData(profile_id=profile_id, settings=json.dumps(widgets_dict))
+                session.add(profile_data)
+            # Commit changes
+            session.commit()
+        except Exception as e:
+            print(e)
+            session.rollback()  # Added rollback on exception to maintain database consistency
 
     # print(widgets_dict)
 

@@ -61,33 +61,36 @@ def get_all_boss_monster_data_for_bm():
     return boss_monsters
 
 
-def fetch_boss_monster_data(session, logic_id, category_id=None, order_by=None):
-    # If logic_id is a list (e.g., [2, 3, 4]), use the `in_` operator for filtering
-    if isinstance(logic_id, list):
-        query = session.query(BossMonster).join(MonsterImage).join(MonsterCategory).join(MonsterLogic).options(
-            joinedload(BossMonster.monster_image),
-            joinedload(BossMonster.monster_category),
-            joinedload(BossMonster.monster_logic),
-        ).filter(BossMonster.monster_logic_id.in_(logic_id))
-    else:
-        query = session.query(BossMonster).join(MonsterImage).join(MonsterCategory).join(MonsterLogic).options(
-            joinedload(BossMonster.monster_image),
-            joinedload(BossMonster.monster_category),
-            joinedload(BossMonster.monster_logic),
-        ).filter(BossMonster.monster_logic_id == logic_id)
+def fetch_boss_monster_data(logic_id, category_id=None, order_by=None):
+    with get_session() as session:
+        # If logic_id is a list (e.g., [2, 3, 4]), use the `in_` operator for filtering
+        if isinstance(logic_id, list):
+            query = session.query(BossMonster).join(MonsterImage).join(MonsterCategory).join(MonsterLogic).options(
+                joinedload(BossMonster.monster_image),
+                joinedload(BossMonster.monster_category),
+                joinedload(BossMonster.monster_logic),
+                joinedload(BossMonster.levels),
+            ).filter(BossMonster.monster_logic_id.in_(logic_id))
+        else:
+            query = session.query(BossMonster).join(MonsterImage).join(MonsterCategory).join(MonsterLogic).options(
+                joinedload(BossMonster.monster_image),
+                joinedload(BossMonster.monster_category),
+                joinedload(BossMonster.monster_logic),
+                joinedload(BossMonster.levels),
+            ).filter(BossMonster.monster_logic_id == logic_id)
 
-    # Category filter logic
-    if category_id is not None:
-        query = query.filter(BossMonster.monster_category_id == category_id)
-    elif logic_id == 1 and category_id is None:
-        # Exclude Category 1 if category_id is None for logic 1
-        query = query.filter(BossMonster.monster_category_id != 1)
+        # Category filter logic
+        if category_id is not None:
+            query = query.filter(BossMonster.monster_category_id == category_id)
+        elif logic_id == 1 and category_id is None:
+            # Exclude Category 1 if category_id is None for logic 1
+            query = query.filter(BossMonster.monster_category_id != 1)
 
-    # Ordering logic
-    if order_by:
-        query = query.order_by(BossMonster.preview_name)
+        # Ordering logic
+        if order_by:
+            query = query.order_by(BossMonster.preview_name)
 
-    return query.all()
+        return query.all()
 
 
 

@@ -17,11 +17,10 @@ def init_bm_blackmarket_ui(main_window):
     setattr(main_window.widgets, flow_layout.objectName(), flow_layout)
     blackmarket_list_frame.setLayout(flow_layout)
 
-    session = get_session()
-    items = session.query(BlackMarket).all()
-    for item in items:
-        add_blackmarket_item_to_frame(main_window, item)
-    session.close()
+    with get_session() as session:
+        items = session.query(BlackMarket).all()
+        for item in items:
+            add_blackmarket_item_to_frame(main_window, item)
 
     # Add one empty profile widget by default
     add_blackmarket_item_to_frame(main_window)

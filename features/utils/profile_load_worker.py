@@ -26,16 +26,15 @@ class ProfileLoadWorker(QRunnable):
         """
         Perform the database fetch operation.
         """
-        try:
-            session = get_session()
-            profile_data = session.query(ProfileData).filter_by(profile_id=self.profile_id).first()
-            session.close()
-            # Parse the JSON settings or return an empty dict if no data
-            settings = json.loads(profile_data.settings) if profile_data else {}
-            # Emit the signal with the loaded data
-            # print(f"Emitting profile_loaded signal with settings: {settings}")
-            self.signals.profile_loaded.emit(settings)
-        except Exception as e:
-            error_message = f"Error loading profile data: {e}"
-            print(error_message)
-            self.signals.error.emit(error_message)
+        with get_session() as session:
+            try:
+                profile_data = session.query(ProfileData).filter_by(profile_id=self.profile_id).first()
+                # Parse the JSON settings or return an empty dict if no data
+                settings = json.loads(profile_data.settings) if profile_data else {}
+                # Emit the signal with the loaded data
+                # print(f"Emitting profile_loaded signal with settings: {settings}")
+                self.signals.profile_loaded.emit(settings)
+            except Exception as e:
+                error_message = f"Error loading profile data: {e}"
+                print(error_message)
+                self.signals.error.emit(error_message)

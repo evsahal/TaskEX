@@ -117,58 +117,55 @@ class BlackMarketProfileWidget(QWidget):
 
         # TODO Validate before saving
 
-        session = get_session()
+        with get_session() as session:
+            # Fetch existing profile or create new one
+            if self.data:
+                blackmarket = session.merge(self.data)  # Reattach to session
+            else:
+                blackmarket = BlackMarket()
 
-        # Fetch existing profile or create new one
-        if self.data:
-            blackmarket = session.merge(self.data)  # Reattach to session
-        else:
-            blackmarket = BlackMarket()
+            blackmarket.item_name = self.ui.name_lineEdit.text()
+            blackmarket.purchase_rss = self.ui.rss_btn.isChecked()
+            blackmarket.purchase_gems = self.ui.gems_btn.isChecked()
+            blackmarket.purchase_gold = self.ui.gold_btn.isChecked()
 
-        blackmarket.item_name = self.ui.name_lineEdit.text()
-        blackmarket.purchase_rss = self.ui.rss_btn.isChecked()
-        blackmarket.purchase_gems = self.ui.gems_btn.isChecked()
-        blackmarket.purchase_gold = self.ui.gold_btn.isChecked()
+            session.add(blackmarket)
+            session.commit()
 
-        session.add(blackmarket)
-        session.commit()
+            # Handle new or modified templates
+            for template in self.templates:
+                file_path = template["file_path"]
+                filename = os.path.basename(file_path)
+                dest_path = os.path.join(ASSETS_PATH, filename)
 
-        # Handle new or modified templates
-        for template in self.templates:
-            file_path = template["file_path"]
-            filename = os.path.basename(file_path)
-            dest_path = os.path.join(ASSETS_PATH, filename)
+                if not self.is_same_file(file_path, dest_path):
+                    shutil.copy(file_path, dest_path)
 
-            if not self.is_same_file(file_path, dest_path):
-                shutil.copy(file_path, dest_path)
+                if not any(item.item_image == filename for item in blackmarket.items):
+                    new_item = BlackMarketItem(blackmarket_id=blackmarket.id, item_image=filename)
+                    session.add(new_item)
 
-            if not any(item.item_image == filename for item in blackmarket.items):
-                new_item = BlackMarketItem(blackmarket_id=blackmarket.id, item_image=filename)
-                session.add(new_item)
+            # Handle removed templates
+            for removed_file in self.removed_templates:
+                filename = os.path.basename(removed_file)
+                item = session.query(BlackMarketItem).filter_by(
+                    blackmarket_id=blackmarket.id, item_image=filename).one_or_none()
+                if item:
+                    session.delete(item)
 
-        # Handle removed templates
-        for removed_file in self.removed_templates:
-            filename = os.path.basename(removed_file)
-            item = session.query(BlackMarketItem).filter_by(
-                blackmarket_id=blackmarket.id, item_image=filename).one_or_none()
-            if item:
-                session.delete(item)
+                file_path = os.path.join(ASSETS_PATH, filename)
+                if os.path.exists(file_path):
+                    os.remove(file_path)
 
-            file_path = os.path.join(ASSETS_PATH, filename)
-            if os.path.exists(file_path):
-                os.remove(file_path)
+            # Add a new empty profile only if it’s a new profile
+            if not self.data:
+                self.add_new_empty_profile()
 
-        # Add a new empty profile only if it’s a new profile
-        if not self.data:
-            self.add_new_empty_profile()
+            # Now update self.data with the saved profile instance
+            if not self.data:
+                self.data = blackmarket  # Assign the saved instance to self.data
 
-        # Now update self.data with the saved profile instance
-        if not self.data:
-            self.data = blackmarket  # Assign the saved instance to self.data
-
-        session.commit()
-        session.close()
-
+            session.commit()
 
         QMessageBox.information(self, "Saved", "Black market profile saved successfully!")
 

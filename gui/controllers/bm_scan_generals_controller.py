@@ -13,7 +13,6 @@ from gui.widgets.GeneralsSelectionDialog import GeneralsSelectionDialog
 
 
 def init_scan_general_ui(main_window):
-
     # Connect Manage General Presets Button
     getattr(main_window.widgets, "general_preset_btn").clicked.connect(lambda: open_manage_general_presets_dialog(main_window))
 
@@ -35,16 +34,14 @@ def init_scan_general_ui(main_window):
     # Add the toggle label frame to the main layout
     toggle_layout.addWidget(toggle_label_frame)
 
-
     # Create an instance of QToggle
     toggle_general_view = QToggle()
     toggle_general_view.setObjectName("toggle_general_view")
     setattr(main_window.widgets, toggle_general_view.objectName(), toggle_general_view)
-    toggle_general_view.toggled.connect(lambda checked: change_general_ui_view(main_window,checked))
+    toggle_general_view.toggled.connect(lambda checked: change_general_ui_view(main_window, checked))
 
     # Add the QToggle button to the frame's layout
     toggle_layout.addWidget(toggle_general_view)
-
 
     # Set up the Layout for generals
     generals_list_frame = main_window.widgets.generals_list_frame
@@ -58,15 +55,13 @@ def init_scan_general_ui(main_window):
     generals_list_frame.setLayout(flow_layout)
 
     # Load Existing Generals
-    session = get_session()
-
-    # Query all records from the generals table
-    generals = session.query(General).all()
-    session.close()
+    with get_session() as session:
+        # Query all records from the generals table
+        generals = session.query(General).all()
 
     # Ensure all items are unchecked when initialized
     for i in range(main_window.widgets.scan_generals_type.count()):
-        if i ==0: # Check the first option (Exception)
+        if i == 0:  # Check the first option (Exception)
             main_window.widgets.scan_generals_type.setItemCheckState(i, Qt.Checked)
             continue
         main_window.widgets.scan_generals_type.setItemCheckState(i, Qt.Unchecked)
@@ -75,7 +70,7 @@ def init_scan_general_ui(main_window):
 
     # Pass the data to add the widgets
     for general in generals:
-        add_general_to_frame(main_window,general)
+        add_general_to_frame(main_window, general)
 
 def open_manage_general_presets_dialog(main_window):
     general_selection_dialog = GeneralsSelectionDialog(main_window)
@@ -119,11 +114,10 @@ def update_scan_general_view(main_window,general_id,checked):
     getattr(main_window.widgets, f"general_profile_{general_id}").switch_view(checked)
 
 
-def update_scan_general_data(main_window,general):
-    session = get_session()
-    general = session.merge(general)
-    getattr(main_window.widgets, f"general_profile_{general.id}").data = general
-    session.close()
+def update_scan_general_data(main_window, general):
+    with get_session() as session:
+        general = session.merge(general)
+        getattr(main_window.widgets, f"general_profile_{general.id}").data = general
 
 def update_scan_console(main_window,message):
     main_window.widgets.scan_general_console.appendPlainText(message)
