@@ -90,9 +90,7 @@ def crop_boss_text_area(src_img):
     # Crop the region of interest (ROI)
     cropped_img = src_img[top:bottom, left:right]
 
-
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_{get_current_datetime_string()}.png",
-    #             cropped_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\boss_text_img_{get_current_datetime_string()}.png", cropped_img)
     return cropped_img
 
 
@@ -614,18 +612,6 @@ def extract_monster_power_from_image(img):
     return extracted_text
 
 
-def check_skipped_rallies(thread,src_img):
-    """
-    Validate before proceeding to join
-    """
-
-    # Check skipped list
-    for cords_img in thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']:
-        if is_template_match(src_img, cords_img):
-            print("Already skipped one")
-            return False
-
-    return True
 
 def get_valid_rallies_area_cords(thread):
     """
@@ -689,6 +675,43 @@ def get_valid_rallies_area_cords(thread):
 
     return valid_cords
 
+def check_skipped_rallies(thread,src_img):
+    """
+    Validate before proceeding to join
+    """
 
-def add_rally_cord_to_skip_list(thread, src_img):
-    pass
+    # Check skipped list
+    for i, cords_img in enumerate(thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']):
+        cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\skipped_cords_{get_current_datetime_string()}.png",
+                    src_img)
+
+        if is_template_match(src_img, cords_img):
+            print("Already skipped one")
+            return False
+
+    return True
+
+def add_rally_cord_to_skip_list(thread, boss_text_img):
+    map_pinpoint_tag_img = cv2.imread("assets/540p/join rally/map_pinpoint_tag.png")
+
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\skip_rally_{get_current_datetime_string()}.png", boss_text_img)
+
+    # Find the top-left corner of the match
+    map_pinpoint_match = template_match_coordinates(boss_text_img, map_pinpoint_tag_img, return_center=False)
+    if map_pinpoint_match is None:
+        # print("No match found.")
+        return None
+
+    # Unpack the top-left corner (x1, y1)
+    x1, y1 = map_pinpoint_match
+
+    # Set x2 and y2 to the bottom-right corner of the boss_text_img
+    h, w = boss_text_img.shape[:2]
+    x2 = w
+    y2 = h
+
+    # Crop the image from (x1, y1) to the end of the image
+    cropped_img = boss_text_img[y1:y2, x1:x2]
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\skipped_cords_{get_current_datetime_string()}.png", cropped_img)
+
+    thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'].append(cropped_img)

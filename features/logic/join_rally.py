@@ -139,10 +139,12 @@ def process_monster_rallies(thread,scan_direction):
 def scan_rally_info(thread,roi_src):
     # Load template images
     boss_monster_flag_img = cv2.imread("assets/540p/join rally/boss_monster_flag.png")
-    # map_pinpoint_img = cv2.imread("assets/540p/join rally/map_pinpoint_tag.png")
 
     # Capture the current screen
     src_img = thread.capture_and_validate_screen(ads=False)
+
+    # Get the boss monster text area
+    boss_text_img = crop_boss_text_area(src_img)
 
     # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\roi_img_{get_current_datetime_string()}.png", roi_src)
     # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\src_img_{get_current_datetime_string()}.png", src_img)
@@ -163,13 +165,14 @@ def scan_rally_info(thread,roi_src):
         # print("Timer is more than 5 mins")
         thread.log_message(f"Time exceeds 5 mins; Joining next rally.", level="info")
         # Add rally to skipped list
-        add_rally_cord_to_skip_list(thread,src_img)
+        add_rally_cord_to_skip_list(thread,boss_text_img)
         return False
     # Get the Timer on the join rally button
     march_time = get_march_join_time(thread,roi_src)
     if not march_time:
         # print("Invalid March time")
         thread.log_message(f"Unable to read march join time; Joining next rally.", level="info")
+        add_rally_cord_to_skip_list(thread, boss_text_img)
         return False
     # print(f"Remaining Time: {remaining_time} :: March Time {march_time}")
     # Add buffer time to march time
@@ -181,7 +184,7 @@ def scan_rally_info(thread,roi_src):
         # print("March exceeds join time; Unable to join.")
         thread.log_message(f"March exceeds join time; Unable to join.", level="info")
         # Add rally to skipped list
-        add_rally_cord_to_skip_list(thread, src_img)
+        add_rally_cord_to_skip_list(thread, boss_text_img)
         return False
 
     # Read the boss
@@ -207,7 +210,7 @@ def read_monster_data(thread,src_img):
         # print("Skipping Shadow of Dawn Monsters")
         thread.log_message(f"Skipping Shadow of Dawn Monsters; Joining next rally.", level="info")
         # Add rally to skipped list
-        add_rally_cord_to_skip_list(thread, src_img)
+        add_rally_cord_to_skip_list(thread, boss_text_img)
         return None
 
     # Get the all the matching boss objects from the extracted text
@@ -226,7 +229,7 @@ def read_monster_data(thread,src_img):
             # print(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join.")
             thread.log_message(f"Boss {boss.boss_monster.preview_name} is not in the selected list to join. Joining next rally.", level="info")
             # Add rally to skipped list
-            add_rally_cord_to_skip_list(thread, src_img)
+            add_rally_cord_to_skip_list(thread, boss_text_img)
             return None
         # print(f"Matched Boss: {boss.name}, Level: {boss.level} Logic: {logic}")
 
@@ -241,9 +244,10 @@ def read_monster_data(thread,src_img):
                 thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
                 # print(extract_monster_power_from_image(src_img.copy()))
                 return True
-            thread.log_message(f"{boss.name} is not in the selected rally list. Skipping this rally.", level="info")
+
+            thread.log_message(f"Lv{boss.level} {boss.name} is not in the selected rally list. Skipping this rally.", level="info")
             # Add rally to skipped list
-            add_rally_cord_to_skip_list(thread, src_img)
+            add_rally_cord_to_skip_list(thread, boss_text_img)
             return None
         elif logic == 2 or logic == 4: # Multi level & Custom Level Check
             # Read the monster power
@@ -257,14 +261,20 @@ def read_monster_data(thread,src_img):
                 # Ensure the matched level is in the selected list
                 if boss.id in selected_levels:
                     # print(f"Level {boss.level} is selected. Proceeding with rally!")
-                    msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is in the selected list. Attempting to join rally."
-                    thread.log_message(msg, level="info")
+                    # msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is in the selected list. Attempting to join rally."
+                    if boss.boss_monster.monster_category_id == 3 and boss.boss_monster.monster_logic_id == 4:  # (for viking)
+                        thread.log_message(f"Lv{boss.level} {boss.boss_monster.preview_name} is in the selected list. Attempting to join rally.", level="info")
+                    else:
+                        thread.log_message(f"Lv{boss.level} {boss.name} is in the selected list. Attempting to join rally.", level="info")
+
                     return True
                 # print(f"Lv{boss.level} {boss.name} is NOT in the selected list.")
-                msg = f"{f'Lv{boss.level} ' if boss.boss_monster.monster_category_id != 3 else ''}{boss.name} is not in the selected rally list. Skipping this rally."
-                thread.log_message(msg, level="info")
+                if boss.boss_monster.monster_category_id == 3 and boss.boss_monster.monster_logic_id == 4:  # (for viking)
+                    thread.log_message(f"Lv{boss.level} {boss.boss_monster.preview_name} is  not in the selected rally list. Skipping this rally.", level="info")
+                else:
+                    thread.log_message(f"{boss.name} is not in the selected rally list. Skipping this rally.", level="info")
                 # Add rally to skipped list
-                add_rally_cord_to_skip_list(thread, src_img)
+                add_rally_cord_to_skip_list(thread, boss_text_img)
                 return None
 
     return None
