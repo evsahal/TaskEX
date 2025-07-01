@@ -135,6 +135,10 @@ def template_match_multiple_sizes(src_image, template_image, scales, return_cent
         # Resize the template
         resized_template = cv2.resize(template_image, None, fx=scale, fy=scale, interpolation=cv2.INTER_LINEAR)
 
+        # Skip if resized template is larger than source image
+        if resized_template.shape[0] > src_image.shape[0] or resized_template.shape[1] > src_image.shape[1]:
+            continue
+
         # Perform template matching
         result = cv2.matchTemplate(src_image, resized_template, cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)

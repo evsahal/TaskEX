@@ -11,7 +11,8 @@ from db.models import MonsterLevel, BossMonster
 from features.utils.use_selected_generals_utils import open_general_selection_list, select_general_from_list
 from utils.generals_utils import extract_general_template_image
 from utils.helper_utils import get_current_datetime_string
-from utils.image_recognition_utils import template_match_coordinates, is_template_match, template_match_coordinates_all
+from utils.image_recognition_utils import template_match_coordinates, is_template_match, template_match_coordinates_all, \
+    template_match_multiple_sizes
 
 
 def crop_middle_portion(image, mode):
@@ -679,14 +680,16 @@ def check_skipped_rallies(thread,src_img):
     """
     Validate before proceeding to join
     """
+    scales = np.arange(0.3, 1, 0.01)
 
     # Check skipped list
     for i, cords_img in enumerate(thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img']):
-        cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\skipped_cords_{get_current_datetime_string()}.png",
-                    src_img)
+        # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\src_img_{get_current_datetime_string()}.png", src_img)
 
-        if is_template_match(src_img, cords_img):
-            print("Already skipped one")
+        match_result, _ = template_match_multiple_sizes(src_img, cords_img, scales, return_center=False, convert_gray=False)
+
+        if match_result:
+            # print("Already skipped one")
             return False
 
     return True
@@ -707,11 +710,11 @@ def add_rally_cord_to_skip_list(thread, boss_text_img):
 
     # Set x2 and y2 to the bottom-right corner of the boss_text_img
     h, w = boss_text_img.shape[:2]
-    x2 = w
+    x2 = w - 23
     y2 = h
 
     # Crop the image from (x1, y1) to the end of the image
     cropped_img = boss_text_img[y1:y2, x1:x2]
-    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\skipped_cords_{get_current_datetime_string()}.png", cropped_img)
+    # cv2.imwrite(fr"E:\Projects\PyCharmProjects\TaskEX\temp\template_img_{get_current_datetime_string()}.png", cropped_img)
 
     thread.cache['join_rally_controls']['cache']['skipped_monster_cords_img'].append(cropped_img)
