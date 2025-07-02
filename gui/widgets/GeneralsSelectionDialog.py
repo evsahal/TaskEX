@@ -51,6 +51,7 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
 
             # Iterate through all generals and populate the widgets
             for general in self.all_generals:
+                # print(general.name)
                 if general.name in selected_generals_main_names:
                     self.selected_generals_main.addItem(general.name)
                 else:
@@ -197,11 +198,10 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
                     QMessageBox.warning(self, "Error", "Preset not found in the database.")
                     return
 
-                # Update GeneralPreset fields
+                # Update GeneralPreset fields (no commit yet)
                 preset.general_category = GeneralCategory[
                     self.category_combobox.currentText().replace(" ", "_").lower()]
                 preset.general_view = GeneralView[self.view_combobox.currentText().replace(" ", "_").lower()]
-                # Update general_filter field
                 selected_filters = [
                     self.filter_combobox.itemText(i).lower()
                     for i in range(self.filter_combobox.count())
@@ -210,64 +210,42 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
                 preset.general_filter = ",".join(selected_filters) if selected_filters else None
                 preset.swipe_attempts = self.swipe_attempts_spinbox.value()
 
-                # Commit changes to GeneralPreset
-                session.commit()
+                # Delete existing PresetGeneralAssignment records for this preset_id
+                session.query(PresetGeneralAssignment).filter_by(preset_id=self.preset_id).delete()
 
-                # Fetch existing PresetGeneralAssignment records
-                existing_assignments = session.query(PresetGeneralAssignment).filter_by(preset_id=self.preset_id).all()
+                # Get selected generals from the list widgets, preserving UI order
+                selected_main_generals = [
+                    self.selected_generals_main.item(i).text()
+                    for i in range(self.selected_generals_main.count())
+                ]
+                selected_assistant_generals = [
+                    self.selected_generals_assistant.item(i).text()
+                    for i in range(self.selected_generals_assistant.count())
+                ]
 
-                # Organize existing assignments by general name and role
-                existing_main_generals = {
-                    assignment.general.name for assignment in existing_assignments if assignment.is_main_general
-                }
-                existing_assistant_generals = {
-                    assignment.general.name for assignment in existing_assignments if not assignment.is_main_general
-                }
-
-                # Get selected generals from the list widgets
-                selected_main_generals = {
-                    self.selected_generals_main.item(i).text() for i in range(self.selected_generals_main.count())
-                }
-                selected_assistant_generals = {
-                    self.selected_generals_assistant.item(i).text() for i in
-                    range(self.selected_generals_assistant.count())
-                }
-
-                # Determine additions and deletions
-                new_main_generals = selected_main_generals - existing_main_generals
-                new_assistant_generals = selected_assistant_generals - existing_assistant_generals
-                removed_main_generals = existing_main_generals - selected_main_generals
-                removed_assistant_generals = existing_assistant_generals - selected_assistant_generals
-
-                # Remove old assignments
-                for general_name in removed_main_generals | removed_assistant_generals:
-                    assignment = session.query(PresetGeneralAssignment).join(General).filter(
-                        PresetGeneralAssignment.preset_id == self.preset_id,
-                        General.name == general_name,
-                    ).first()
-                    if assignment:
-                        session.delete(assignment)
-
-                # Add new assignments
-                for general_name in new_main_generals:
+                # Add new assignments in UI order
+                for general_name in selected_main_generals:
                     general = session.query(General).filter_by(name=general_name).first()
                     if general:
                         new_assignment = PresetGeneralAssignment(
-                            preset_id=self.preset_id, general_id=general.id, is_main_general=True
+                            preset_id=self.preset_id,
+                            general_id=general.id,
+                            is_main_general=True
                         )
                         session.add(new_assignment)
 
-                for general_name in new_assistant_generals:
+                for general_name in selected_assistant_generals:
                     general = session.query(General).filter_by(name=general_name).first()
                     if general:
                         new_assignment = PresetGeneralAssignment(
-                            preset_id=self.preset_id, general_id=general.id, is_main_general=False
+                            preset_id=self.preset_id,
+                            general_id=general.id,
+                            is_main_general=False
                         )
                         session.add(new_assignment)
 
-                # Commit changes to PresetGeneralAssignment
+                # Commit all changes if successful
                 session.commit()
-
                 QMessageBox.information(self, "Success", "Preset updated successfully.")
 
             except Exception as e:
