@@ -142,8 +142,8 @@ def get_join_rally_controls(main_window, index):
                         }
                         for gen in assistant_generals
                     ]
-                    print(settings["selected_presets"]["main_generals"])
-                    print(settings["selected_presets"]["assistant_generals"])
+                    # print(settings["selected_presets"]["main_generals"])
+                    # print(settings["selected_presets"]["assistant_generals"])
         except Exception as e:
             print(e)
 
