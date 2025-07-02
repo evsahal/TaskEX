@@ -39,27 +39,28 @@ class GeneralsSelectionDialog(QDialog, Ui_GeneralsSelectionDialog):
 
         with get_session() as session:
             # Query for all selected generals (both main and assistant) for the given preset_id
-            selected_generals = session.query(General.name, PresetGeneralAssignment.is_main_general).join(
+            selected_generals = session.query(General.name, PresetGeneralAssignment.id, PresetGeneralAssignment.is_main_general).join(
                 PresetGeneralAssignment).filter(
                 PresetGeneralAssignment.preset_id == self.preset_id
-            ).all()
+            ).order_by(PresetGeneralAssignment.id.asc()).all()
 
-            # Separate the selected generals into main and assistant
-            selected_generals_main_names = [general.name for general in selected_generals if general.is_main_general]
-            selected_generals_assistant_names = [general.name for general in selected_generals if
-                                                 not general.is_main_general]
+            # Set of all selected general names for efficient lookup
+            selected_names = {general[0] for general in selected_generals}
 
-            # Iterate through all generals and populate the widgets
+            # Populate selected generals widgets from selected_generals
+            for name, _, is_main in selected_generals:
+                if is_main:
+                    self.selected_generals_main.addItem(name)
+                else:
+                    self.selected_generals_assistant.addItem(name)
+
+            # Populate all generals widgets with non-selected generals
             for general in self.all_generals:
-                # print(general.name)
-                if general.name in selected_generals_main_names:
-                    self.selected_generals_main.addItem(general.name)
-                else:
+                # Check if the general is not in the selected names for main generals
+                if general.name not in {gen[0] for gen in selected_generals if gen[2]}:
                     self.all_generals_main.addItem(general.name)
-
-                if general.name in selected_generals_assistant_names:
-                    self.selected_generals_assistant.addItem(general.name)
-                else:
+                # Check if the general is not in the selected names for assistant generals
+                if general.name not in {gen[0] for gen in selected_generals if not gen[2]}:
                     self.all_generals_assistant.addItem(general.name)
 
     def connect_preset_buttons(self):
