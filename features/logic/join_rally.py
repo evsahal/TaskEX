@@ -272,7 +272,7 @@ def read_monster_data(thread,src_img):
                 if boss.boss_monster.monster_category_id == 3 and boss.boss_monster.monster_logic_id == 4:  # (for viking)
                     thread.log_message(f"Lv{boss.level} {boss.boss_monster.preview_name} is  not in the selected rally list. Skipping this rally.", level="info")
                 else:
-                    thread.log_message(f"{boss.name} is not in the selected rally list. Skipping this rally.", level="info")
+                    thread.log_message(f"Lv{boss.level} {boss.name} is not in the selected rally list. Skipping this rally.", level="info")
                 # Add rally to skipped list
                 add_rally_cord_to_skip_list(thread, boss_text_img)
                 return None
