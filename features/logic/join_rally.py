@@ -440,6 +440,8 @@ def scroll_through_rallies(thread,swipe_direction,swipe_limit=1,initial_swipe = 
     if not navigate_join_rally_window(thread):
         # print("Cannot navigate to join rally window")
         thread.log_message(f"Unable to locate join rally window", level="info")
+        thread.adb_manager.press_back()
+        time.sleep(1)
         return False
     # If the join oldest rally is not checked, then skip this.
     if initial_swipe and not swipe_direction:
