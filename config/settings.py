@@ -5,7 +5,8 @@ from pathlib import Path
 # APP TEXTS
 TITLE = "TaskEX"
 TITLE_DESCRIPTION = "Ultimate Edition"
-VERSION = "v0.0.0"
+VERSION = "v1.0.0"
+TESTED_ON = "Evony v5.0.2"
 CREDITS = "By: MwoNuZzz"
 
 # Project base directory

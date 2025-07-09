@@ -1260,12 +1260,12 @@ class Ui_MainWindow(object):
         self.widget_9.setSizePolicy(sizePolicy6)
         self.horizontalLayout_32 = QHBoxLayout(self.widget_9)
         self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
-        self.label_13 = QLabel(self.widget_9)
-        self.label_13.setObjectName(u"label_13")
-        sizePolicy6.setHeightForWidth(self.label_13.sizePolicy().hasHeightForWidth())
-        self.label_13.setSizePolicy(sizePolicy6)
+        self.about_version_label = QLabel(self.widget_9)
+        self.about_version_label.setObjectName(u"about_version_label")
+        sizePolicy6.setHeightForWidth(self.about_version_label.sizePolicy().hasHeightForWidth())
+        self.about_version_label.setSizePolicy(sizePolicy6)
 
-        self.horizontalLayout_32.addWidget(self.label_13)
+        self.horizontalLayout_32.addWidget(self.about_version_label)
 
 
         self.horizontalLayout_30.addWidget(self.widget_9)
@@ -1300,10 +1300,10 @@ class Ui_MainWindow(object):
         self.widget_12.setSizePolicy(sizePolicy6)
         self.horizontalLayout_35 = QHBoxLayout(self.widget_12)
         self.horizontalLayout_35.setObjectName(u"horizontalLayout_35")
-        self.label_15 = QLabel(self.widget_12)
-        self.label_15.setObjectName(u"label_15")
+        self.about_tested_on_label = QLabel(self.widget_12)
+        self.about_tested_on_label.setObjectName(u"about_tested_on_label")
 
-        self.horizontalLayout_35.addWidget(self.label_15)
+        self.horizontalLayout_35.addWidget(self.about_tested_on_label)
 
 
         self.horizontalLayout_33.addWidget(self.widget_12)
@@ -2213,9 +2213,9 @@ class Ui_MainWindow(object):
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Name", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"TaskenforcerX", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Version", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"1.0.0", None))
+        self.about_version_label.setText(QCoreApplication.translate("MainWindow", u"1.0.0", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Tested on", None))
-        self.label_15.setText(QCoreApplication.translate("MainWindow", u"Evony v5.0.2", None))
+        self.about_tested_on_label.setText(QCoreApplication.translate("MainWindow", u"Evony v0.0.0", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Developed By", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"MwoNuZzz", None))
         self.label_18.setText(QCoreApplication.translate("MainWindow", u"Source Code", None))

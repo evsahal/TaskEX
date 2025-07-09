@@ -2165,7 +2165,7 @@ QTableWidget::item {
                                             </property>
                                             <layout class="QHBoxLayout" name="horizontalLayout_32">
                                              <item>
-                                              <widget class="QLabel" name="label_13">
+                                              <widget class="QLabel" name="about_version_label">
                                                <property name="sizePolicy">
                                                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                                                  <horstretch>0</horstretch>
@@ -2239,9 +2239,9 @@ QTableWidget::item {
                                             </property>
                                             <layout class="QHBoxLayout" name="horizontalLayout_35">
                                              <item>
-                                              <widget class="QLabel" name="label_15">
+                                              <widget class="QLabel" name="about_tested_on_label">
                                                <property name="text">
-                                                <string>Evony v5.0.2</string>
+                                                <string>Evony v0.0.0</string>
                                                </property>
                                               </widget>
                                              </item>
