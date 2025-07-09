@@ -12,6 +12,7 @@ from db.models import Instance
 from gui.controllers.bm_blackmarket_controller import init_bm_blackmarket_ui
 from gui.controllers.bm_monsters_controller import init_bm_monster_ui
 from gui.controllers.bm_scan_generals_controller import init_scan_general_ui, update_scan_console
+from gui.controllers.home_controller import init_home_ui
 from gui.generated.ui_main import Ui_MainWindow
 from utils.adb_manager import ADBManager
 from utils.image_recognition_utils import setup_tesseract
@@ -92,6 +93,9 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.scroll_area)  # Scroll area next
         # layout.addStretch()
         layout.addWidget(self.widgets.bottomMenu)  # Instance Manager at the bottom
+
+        # Setup Home UI
+        init_home_ui(self)
 
         # Setup BM Scan Generals UI
         init_scan_general_ui(self)
