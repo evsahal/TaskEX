@@ -1954,7 +1954,7 @@ QTableWidget::item {
                           <item>
                            <widget class="QFrame" name="instruction_frame">
                             <property name="sizePolicy">
-                             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                               <horstretch>0</horstretch>
                               <verstretch>0</verstretch>
                              </sizepolicy>

@@ -1156,11 +1156,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_25.setContentsMargins(0, 0, 0, 0)
         self.instruction_frame = QFrame(self.frame_12)
         self.instruction_frame.setObjectName(u"instruction_frame")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.instruction_frame.sizePolicy().hasHeightForWidth())
-        self.instruction_frame.setSizePolicy(sizePolicy4)
+        sizePolicy2.setHeightForWidth(self.instruction_frame.sizePolicy().hasHeightForWidth())
+        self.instruction_frame.setSizePolicy(sizePolicy2)
         self.instruction_frame.setStyleSheet(u"#instruction_frame{\n"
 "	border: 1px solid  rgb(255, 121, 198); \n"
 "	border-radius: 5px; \n"
@@ -1182,6 +1179,9 @@ class Ui_MainWindow(object):
 
         self.about_donation_frame = QFrame(self.frame_12)
         self.about_donation_frame.setObjectName(u"about_donation_frame")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.about_donation_frame.sizePolicy().hasHeightForWidth())
         self.about_donation_frame.setSizePolicy(sizePolicy4)
         self.about_donation_frame.setFrameShape(QFrame.Shape.NoFrame)
