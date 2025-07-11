@@ -4,30 +4,52 @@ from cx_Freeze import setup, Executable
 
 from config.settings import VERSION, TITLE_DESCRIPTION
 
-# ADD FILES
-files = ['icon.ico','platform-tools/', 'Tesseract-OCR/', 'assets/', 'db/task_ex.db']
+# === Add project folders and files ===
+include_files = [
+    'icon.ico',
+    'platform-tools/',
+    'Tesseract-OCR/',
+    'assets/',
+    'db/task_ex.db',
+    'LICENSE',
+]
 
-# TARGET
-target = Executable(
-    script="main.py",
-    base="Win32GUI",
-    icon="icon.ico"
-)
+# === Dependencies that might be missed automatically ===
+packages = [
+    'sqlalchemy',
+    'sqlalchemy.dialects.sqlite',
+    'PySide6',
+    'PySide6.QtWidgets',
+    'PySide6.QtGui',
+    'PySide6.QtCore',
+]
 
+# === Main executable ===
+base = "Win32GUI"
 
+executables = [
+    Executable(
+        script="main.py",
+        base=base,
+        icon="icon.ico"
+    )
+]
 
-
-# SETUP CX FREEZE
+# === Final setup ===
 setup(
-    name = "TaskEnforcerX",
-    version = VERSION,
-    description = TITLE_DESCRIPTION,
-    author = "MwoNuZzz",
-    options = {'build_exe' : {'include_files' : files , 'packages': ['sqlalchemy.dialects.sqlite'],}},
-    executables = [target]
-    
+    name="TaskEnforcerX",
+    version=VERSION,
+    description=TITLE_DESCRIPTION,
+    author="MwoNuZzz",
+    options={
+        'build_exe': {
+            'include_files': include_files,
+            'packages': packages,
+            'excludes': ['tkinter'],  # Optional
+            'optimize': 1,
+        }
+    },
+    executables=executables
 )
 
-#venv\Scripts\activate
-
-#python setup.py build > output.txt
+# python setup.py build > build_log.txt 2>&1

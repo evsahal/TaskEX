@@ -1322,6 +1322,9 @@ border-radius: 5px;</string>
                                </property>
                                <item>
                                 <widget class="QCheckBox" name="add_break_checkbox___">
+                                 <property name="enabled">
+                                  <bool>false</bool>
+                                 </property>
                                  <property name="text">
                                   <string>Add Break (Local Time)</string>
                                  </property>
@@ -1353,6 +1356,9 @@ border-radius: 5px;</string>
                                </property>
                                <item row="1" column="3">
                                 <widget class="QTimeEdit" name="break_end_time___">
+                                 <property name="enabled">
+                                  <bool>false</bool>
+                                 </property>
                                  <property name="minimumSize">
                                   <size>
                                    <width>110</width>
@@ -1366,6 +1372,9 @@ border-radius: 5px;</string>
                                </item>
                                <item row="1" column="1">
                                 <widget class="QTimeEdit" name="break_start_time___">
+                                 <property name="enabled">
+                                  <bool>false</bool>
+                                 </property>
                                  <property name="minimumSize">
                                   <size>
                                    <width>110</width>
@@ -2077,6 +2086,9 @@ QPushButton:checked {
                       </property>
                       <item>
                        <widget class="QCheckBox" name="jr_march_speed___">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="text">
                          <string>Boost March Speed</string>
                         </property>

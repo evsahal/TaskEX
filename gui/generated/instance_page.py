@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'instance_page.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -828,6 +828,7 @@ class Ui_InstancePage(object):
         self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.add_break_checkbox___ = QCheckBox(self.frame_13)
         self.add_break_checkbox___.setObjectName(u"add_break_checkbox___")
+        self.add_break_checkbox___.setEnabled(False)
 
         self.horizontalLayout_11.addWidget(self.add_break_checkbox___)
 
@@ -843,6 +844,7 @@ class Ui_InstancePage(object):
         self.gridLayout_2.setContentsMargins(0, 5, 0, 0)
         self.break_end_time___ = QTimeEdit(self.frame_14)
         self.break_end_time___.setObjectName(u"break_end_time___")
+        self.break_end_time___.setEnabled(False)
         self.break_end_time___.setMinimumSize(QSize(110, 40))
         self.break_end_time___.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
 
@@ -850,6 +852,7 @@ class Ui_InstancePage(object):
 
         self.break_start_time___ = QTimeEdit(self.frame_14)
         self.break_start_time___.setObjectName(u"break_start_time___")
+        self.break_start_time___.setEnabled(False)
         self.break_start_time___.setMinimumSize(QSize(110, 40))
         self.break_start_time___.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
 
@@ -1195,6 +1198,7 @@ class Ui_InstancePage(object):
         self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.jr_march_speed___ = QCheckBox(self.widget)
         self.jr_march_speed___.setObjectName(u"jr_march_speed___")
+        self.jr_march_speed___.setEnabled(False)
 
         self.horizontalLayout_14.addWidget(self.jr_march_speed___)
 
