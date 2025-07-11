@@ -1873,8 +1873,27 @@ QTableWidget::item {
                        <string notr="true"/>
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_19" stretch="10,3">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
                        <item>
-                        <widget class="QFrame" name="frame_11">
+                        <widget class="QFrame" name="dashboard_frame">
+                         <property name="styleSheet">
+                          <string notr="true">#dashboard_frame{
+	border: 1px solid  rgb(255, 121, 198); 
+	border-radius: 5px; 
+	margin-top: 0.5em;
+}</string>
+                         </property>
                          <property name="frameShape">
                           <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
@@ -1886,12 +1905,24 @@ QTableWidget::item {
                        <item>
                         <widget class="QFrame" name="frame_12">
                          <property name="frameShape">
-                          <enum>QFrame::Shape::StyledPanel</enum>
+                          <enum>QFrame::Shape::NoFrame</enum>
                          </property>
                          <property name="frameShadow">
                           <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_25" stretch="5,5">
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
                           <item>
                            <widget class="QFrame" name="instruction_frame">
                             <property name="sizePolicy">
@@ -1899,6 +1930,13 @@ QTableWidget::item {
                               <horstretch>0</horstretch>
                               <verstretch>0</verstretch>
                              </sizepolicy>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">#instruction_frame{
+	border: 1px solid  rgb(255, 121, 198); 
+	border-radius: 5px; 
+	margin-top: 0.5em;
+}</string>
                             </property>
                             <property name="frameShape">
                              <enum>QFrame::Shape::StyledPanel</enum>
@@ -1972,6 +2010,9 @@ QTableWidget::item {
                                  <width>16777215</width>
                                  <height>16777215</height>
                                 </size>
+                               </property>
+                               <property name="currentIndex">
+                                <number>0</number>
                                </property>
                                <widget class="QWidget" name="about_frame_page">
                                 <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -2173,7 +2214,7 @@ QTableWidget::item {
                                                 </sizepolicy>
                                                </property>
                                                <property name="text">
-                                                <string>1.0.0</string>
+                                                <string>0.0.0</string>
                                                </property>
                                               </widget>
                                              </item>
@@ -2557,6 +2598,14 @@ QTableWidget::item {
                                               <height>280</height>
                                              </size>
                                             </property>
+                                            <property name="styleSheet">
+                                             <string notr="true">QLabel{
+    border: 2px solid rgb(189, 147, 249);
+    border-radius: 10px;
+    padding: 4px;
+    background-color: rgb(30, 30, 30);
+}</string>
+                                            </property>
                                             <property name="text">
                                              <string/>
                                             </property>
@@ -2579,6 +2628,12 @@ QTableWidget::item {
                                            <verstretch>0</verstretch>
                                           </sizepolicy>
                                          </property>
+                                         <property name="styleSheet">
+                                          <string notr="true">QFrame#line_left, QFrame#line_right {
+    background-color: rgb(68, 71, 90); /* Dracula mid tone */
+    max-height: 1px;
+}</string>
+                                         </property>
                                          <property name="frameShape">
                                           <enum>QFrame::Shape::NoFrame</enum>
                                          </property>
@@ -2599,7 +2654,7 @@ QTableWidget::item {
                                            <number>5</number>
                                           </property>
                                           <item>
-                                           <widget class="Line" name="line_3">
+                                           <widget class="Line" name="line_left">
                                             <property name="lineWidth">
                                              <number>4</number>
                                             </property>
@@ -2610,13 +2665,30 @@ QTableWidget::item {
                                           </item>
                                           <item>
                                            <widget class="QLabel" name="label_7">
+                                            <property name="styleSheet">
+                                             <string notr="true">QLabel{
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(255, 121, 198);
+    padding: 0 10px;
+}</string>
+                                            </property>
                                             <property name="text">
-                                             <string>paypal.me/taskenforcerx</string>
+                                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://paypal.me/taskenforcerx&quot;&gt;&lt;span style=&quot; color:#ff79c6;&quot;&gt;paypal.me/taskenforcerx &lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                            </property>
+                                            <property name="textFormat">
+                                             <enum>Qt::TextFormat::RichText</enum>
+                                            </property>
+                                            <property name="alignment">
+                                             <set>Qt::AlignmentFlag::AlignCenter</set>
+                                            </property>
+                                            <property name="openExternalLinks">
+                                             <bool>true</bool>
                                             </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="Line" name="line_4">
+                                           <widget class="Line" name="line_right">
                                             <property name="lineWidth">
                                              <number>4</number>
                                             </property>
@@ -2685,8 +2757,33 @@ QTableWidget::item {
                                     <height>40</height>
                                    </size>
                                   </property>
+                                  <property name="styleSheet">
+                                   <string notr="true">QPushButton {
+    background-color: rgb(40, 42, 54);
+    color: white;
+    border: 2px solid rgb(189, 147, 249);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: bold;
+    font-family: &quot;Segoe UI&quot;, sans-serif;
+    text-align: left;
+    qproperty-iconSize: 20px;
+}
+
+QPushButton:hover,
+QPushButton:checked {
+    background-color: rgb(68, 71, 90);
+    border: 2px solid rgb(255, 121, 198);
+    color: rgb(255, 121, 198);
+}
+</string>
+                                  </property>
                                   <property name="text">
                                    <string>Make a Donation</string>
+                                  </property>
+                                  <property name="icon">
+                                   <iconset resource="../../resources/resources.qrc">
+                                    <normaloff>:/icons/images/icons/cil-coffee.png</normaloff>:/icons/images/icons/cil-coffee.png</iconset>
                                   </property>
                                   <property name="checkable">
                                    <bool>true</bool>
@@ -3068,8 +3165,8 @@ QComboBox QAbstractItemView {
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>32</width>
-                                   <height>22</height>
+                                   <width>925</width>
+                                   <height>586</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">

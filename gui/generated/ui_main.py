@@ -1116,19 +1116,26 @@ class Ui_MainWindow(object):
         self.home.setStyleSheet(u"")
         self.horizontalLayout_19 = QHBoxLayout(self.home)
         self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
-        self.frame_11 = QFrame(self.home)
-        self.frame_11.setObjectName(u"frame_11")
-        self.frame_11.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_19.setContentsMargins(0, 0, 0, 0)
+        self.dashboard_frame = QFrame(self.home)
+        self.dashboard_frame.setObjectName(u"dashboard_frame")
+        self.dashboard_frame.setStyleSheet(u"#dashboard_frame{\n"
+"	border: 1px solid  rgb(255, 121, 198); \n"
+"	border-radius: 5px; \n"
+"	margin-top: 0.5em;\n"
+"}")
+        self.dashboard_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.dashboard_frame.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.horizontalLayout_19.addWidget(self.frame_11)
+        self.horizontalLayout_19.addWidget(self.dashboard_frame)
 
         self.frame_12 = QFrame(self.home)
         self.frame_12.setObjectName(u"frame_12")
-        self.frame_12.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_12.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_25 = QVBoxLayout(self.frame_12)
         self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.verticalLayout_25.setContentsMargins(0, 0, 0, 0)
         self.instruction_frame = QFrame(self.frame_12)
         self.instruction_frame.setObjectName(u"instruction_frame")
         sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
@@ -1136,6 +1143,11 @@ class Ui_MainWindow(object):
         sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.instruction_frame.sizePolicy().hasHeightForWidth())
         self.instruction_frame.setSizePolicy(sizePolicy4)
+        self.instruction_frame.setStyleSheet(u"#instruction_frame{\n"
+"	border: 1px solid  rgb(255, 121, 198); \n"
+"	border-radius: 5px; \n"
+"	margin-top: 0.5em;\n"
+"}")
         self.instruction_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.instruction_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_31 = QVBoxLayout(self.instruction_frame)
@@ -1469,6 +1481,12 @@ class Ui_MainWindow(object):
         sizePolicy7.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
         self.label_6.setSizePolicy(sizePolicy7)
         self.label_6.setMaximumSize(QSize(280, 280))
+        self.label_6.setStyleSheet(u"QLabel{\n"
+"    border: 2px solid rgb(189, 147, 249);\n"
+"    border-radius: 10px;\n"
+"    padding: 4px;\n"
+"    background-color: rgb(30, 30, 30);\n"
+"}")
         self.label_6.setPixmap(QPixmap(u":/images/images/images/paypal-qrcode.png"))
         self.label_6.setScaledContents(True)
 
@@ -1481,31 +1499,44 @@ class Ui_MainWindow(object):
         self.frame_19.setObjectName(u"frame_19")
         sizePolicy7.setHeightForWidth(self.frame_19.sizePolicy().hasHeightForWidth())
         self.frame_19.setSizePolicy(sizePolicy7)
+        self.frame_19.setStyleSheet(u"QFrame#line_left, QFrame#line_right {\n"
+"    background-color: rgb(68, 71, 90); /* Dracula mid tone */\n"
+"    max-height: 1px;\n"
+"}")
         self.frame_19.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_19.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_22 = QHBoxLayout(self.frame_19)
         self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
         self.horizontalLayout_22.setContentsMargins(0, 5, 0, 5)
-        self.line_3 = QFrame(self.frame_19)
-        self.line_3.setObjectName(u"line_3")
-        self.line_3.setLineWidth(4)
-        self.line_3.setFrameShape(QFrame.Shape.HLine)
-        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_left = QFrame(self.frame_19)
+        self.line_left.setObjectName(u"line_left")
+        self.line_left.setLineWidth(4)
+        self.line_left.setFrameShape(QFrame.Shape.HLine)
+        self.line_left.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.horizontalLayout_22.addWidget(self.line_3)
+        self.horizontalLayout_22.addWidget(self.line_left)
 
         self.label_7 = QLabel(self.frame_19)
         self.label_7.setObjectName(u"label_7")
+        self.label_7.setStyleSheet(u"QLabel{\n"
+"    font-size: 14px;\n"
+"    font-weight: bold;\n"
+"    color: rgb(255, 121, 198);\n"
+"    padding: 0 10px;\n"
+"}")
+        self.label_7.setTextFormat(Qt.TextFormat.RichText)
+        self.label_7.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_7.setOpenExternalLinks(True)
 
         self.horizontalLayout_22.addWidget(self.label_7)
 
-        self.line_4 = QFrame(self.frame_19)
-        self.line_4.setObjectName(u"line_4")
-        self.line_4.setLineWidth(4)
-        self.line_4.setFrameShape(QFrame.Shape.HLine)
-        self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_right = QFrame(self.frame_19)
+        self.line_right.setObjectName(u"line_right")
+        self.line_right.setLineWidth(4)
+        self.line_right.setFrameShape(QFrame.Shape.HLine)
+        self.line_right.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.horizontalLayout_22.addWidget(self.line_4)
+        self.horizontalLayout_22.addWidget(self.line_right)
 
 
         self.verticalLayout_28.addWidget(self.frame_19)
@@ -1539,6 +1570,28 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.donate_now_btn.sizePolicy().hasHeightForWidth())
         self.donate_now_btn.setSizePolicy(sizePolicy)
         self.donate_now_btn.setMinimumSize(QSize(0, 40))
+        self.donate_now_btn.setStyleSheet(u"QPushButton {\n"
+"    background-color: rgb(40, 42, 54);\n"
+"    color: white;\n"
+"    border: 2px solid rgb(189, 147, 249);\n"
+"    border-radius: 6px;\n"
+"    padding: 6px 14px;\n"
+"    font-weight: bold;\n"
+"    font-family: \"Segoe UI\", sans-serif;\n"
+"    text-align: left;\n"
+"    qproperty-iconSize: 20px;\n"
+"}\n"
+"\n"
+"QPushButton:hover,\n"
+"QPushButton:checked {\n"
+"    background-color: rgb(68, 71, 90);\n"
+"    border: 2px solid rgb(255, 121, 198);\n"
+"    color: rgb(255, 121, 198);\n"
+"}\n"
+"")
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/images/icons/cil-coffee.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.donate_now_btn.setIcon(icon4)
         self.donate_now_btn.setCheckable(True)
 
         self.horizontalLayout_21.addWidget(self.donate_now_btn)
@@ -1723,7 +1776,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 32, 22))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 925, 586))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -2162,6 +2215,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(0)
+        self.stacked_widget_about_donation.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         self.scan_generals_category.setCurrentIndex(0)
         self.scan_generals_view.setCurrentIndex(0)
@@ -2213,7 +2267,7 @@ class Ui_MainWindow(object):
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Name", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"TaskenforcerX", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Version", None))
-        self.about_version_label.setText(QCoreApplication.translate("MainWindow", u"1.0.0", None))
+        self.about_version_label.setText(QCoreApplication.translate("MainWindow", u"0.0.0", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Tested on", None))
         self.about_tested_on_label.setText(QCoreApplication.translate("MainWindow", u"Evony v0.0.0", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Developed By", None))
@@ -2224,7 +2278,7 @@ class Ui_MainWindow(object):
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"discord.gg/CPCcxRQn2B", None))
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Donate Now", None))
         self.label_6.setText("")
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"paypal.me/taskenforcerx", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><a href=\"https://paypal.me/taskenforcerx\"><span style=\" color:#ff79c6;\">paypal.me/taskenforcerx </span></a></p></body></html>", None))
         self.donate_now_btn.setText(QCoreApplication.translate("MainWindow", u"Make a Donation", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Collective", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Task Manager", None))
