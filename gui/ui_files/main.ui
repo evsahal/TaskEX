@@ -1900,6 +1900,34 @@ QTableWidget::item {
                          <property name="frameShadow">
                           <enum>QFrame::Shadow::Raised</enum>
                          </property>
+                         <layout class="QHBoxLayout" name="horizontalLayout_30">
+                          <item>
+                           <widget class="QLabel" name="label_5">
+                            <property name="styleSheet">
+                             <string notr="true">QLabel {
+    color: rgb(189, 147, 249);  /* Light purple */
+    font-size: 20px;
+    font-weight: bold;
+    font-family: &quot;Segoe UI&quot;, sans-serif;
+    padding: 20px;
+    qproperty-alignment: AlignCenter;
+}</string>
+                            </property>
+                            <property name="text">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:45px;&quot;&gt;Welcome to TaskEnforcerX&lt;/span&gt;&lt;br/&gt;&lt;span style=&quot; font-size:13px; font-style:italic; color:#aaaaaa;&quot;&gt;Your dashboard is still in development. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="textFormat">
+                             <enum>Qt::TextFormat::RichText</enum>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignCenter</set>
+                            </property>
+                            <property name="wordWrap">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
                         </widget>
                        </item>
                        <item>
@@ -2002,7 +2030,7 @@ QTableWidget::item {
                                <property name="minimumSize">
                                 <size>
                                  <width>0</width>
-                                 <height>300</height>
+                                 <height>250</height>
                                 </size>
                                </property>
                                <property name="maximumSize">
@@ -2063,6 +2091,34 @@ QTableWidget::item {
                                         <verstretch>0</verstretch>
                                        </sizepolicy>
                                       </property>
+                                      <property name="styleSheet">
+                                       <string notr="true">/* Added dynamic properties like key, key_value and link via add dynamic property option  */
+
+/* ====== Key Labels ====== */
+QLabel[key=&quot;true&quot;] {
+    color: rgb(189, 147, 249);  /* Light purple */
+    font-weight: bold;
+    min-width: 100px;           /* Ensures alignment */
+}
+
+/* ====== Value Labels ====== */
+QLabel[key_value=&quot;true&quot;] {
+    color: rgb(248, 248, 242);  /* Neutral light text */
+    font-weight: bold;
+}
+
+/* ====== Hyperlink Labels (GitHub, PayPal etc.) ====== */
+QLabel[link=&quot;true&quot;] {
+    color: rgb(255, 121, 198);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Optional: hover effect for link labels */
+QLabel[link=&quot;true&quot;]:hover {
+    color: rgb(255, 184, 222);
+}</string>
+                                      </property>
                                       <property name="title">
                                        <string>Info</string>
                                       </property>
@@ -2071,13 +2127,13 @@ QTableWidget::item {
                                         <number>0</number>
                                        </property>
                                        <property name="leftMargin">
-                                        <number>4</number>
+                                        <number>0</number>
                                        </property>
                                        <property name="topMargin">
                                         <number>4</number>
                                        </property>
                                        <property name="rightMargin">
-                                        <number>4</number>
+                                        <number>0</number>
                                        </property>
                                        <property name="bottomMargin">
                                         <number>4</number>
@@ -2086,10 +2142,10 @@ QTableWidget::item {
                                         <widget class="QWidget" name="widget_2" native="true">
                                          <layout class="QHBoxLayout" name="horizontalLayout_27">
                                           <property name="leftMargin">
-                                           <number>0</number>
+                                           <number>11</number>
                                           </property>
                                           <property name="topMargin">
-                                           <number>0</number>
+                                           <number>11</number>
                                           </property>
                                           <property name="rightMargin">
                                            <number>0</number>
@@ -2098,7 +2154,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_5" native="true">
+                                           <widget class="QLabel" name="label_10">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2107,44 +2163,38 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
                                             <property name="maximumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>16777215</width>
                                               <height>16777215</height>
                                              </size>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_28">
-                                             <item>
-                                              <widget class="QLabel" name="label_10">
-                                               <property name="text">
-                                                <string>Name</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>Name</string>
+                                            </property>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_6" native="true">
+                                           <widget class="QLabel" name="label_11">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_29">
-                                             <item>
-                                              <widget class="QLabel" name="label_11">
-                                               <property name="text">
-                                                <string>TaskenforcerX</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>TaskenforcerX</string>
+                                            </property>
+                                            <property name="key_value" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -2152,10 +2202,7 @@ QTableWidget::item {
                                        </item>
                                        <item>
                                         <widget class="QWidget" name="widget_7" native="true">
-                                         <layout class="QHBoxLayout" name="horizontalLayout_30">
-                                          <property name="leftMargin">
-                                           <number>0</number>
-                                          </property>
+                                         <layout class="QHBoxLayout" name="horizontalLayout_28">
                                           <property name="topMargin">
                                            <number>0</number>
                                           </property>
@@ -2166,7 +2213,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_8" native="true">
+                                           <widget class="QLabel" name="label_12">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2175,50 +2222,32 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
-                                            <property name="maximumSize">
-                                             <size>
-                                              <width>130</width>
-                                              <height>16777215</height>
-                                             </size>
+                                            <property name="text">
+                                             <string>Version</string>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_31">
-                                             <item>
-                                              <widget class="QLabel" name="label_12">
-                                               <property name="text">
-                                                <string>Version</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_9" native="true">
+                                           <widget class="QLabel" name="about_version_label">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_32">
-                                             <item>
-                                              <widget class="QLabel" name="about_version_label">
-                                               <property name="sizePolicy">
-                                                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-                                                 <horstretch>0</horstretch>
-                                                 <verstretch>0</verstretch>
-                                                </sizepolicy>
-                                               </property>
-                                               <property name="text">
-                                                <string>0.0.0</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>0.0.0</string>
+                                            </property>
+                                            <property name="key_value" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -2226,10 +2255,7 @@ QTableWidget::item {
                                        </item>
                                        <item>
                                         <widget class="QWidget" name="widget_10" native="true">
-                                         <layout class="QHBoxLayout" name="horizontalLayout_33">
-                                          <property name="leftMargin">
-                                           <number>0</number>
-                                          </property>
+                                         <layout class="QHBoxLayout" name="horizontalLayout_29">
                                           <property name="topMargin">
                                            <number>0</number>
                                           </property>
@@ -2240,7 +2266,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_11" native="true">
+                                           <widget class="QLabel" name="label_14">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2249,44 +2275,32 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
-                                            <property name="maximumSize">
-                                             <size>
-                                              <width>130</width>
-                                              <height>16777215</height>
-                                             </size>
+                                            <property name="text">
+                                             <string>Tested on</string>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_34">
-                                             <item>
-                                              <widget class="QLabel" name="label_14">
-                                               <property name="text">
-                                                <string>Tested on</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_12" native="true">
+                                           <widget class="QLabel" name="about_tested_on_label">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_35">
-                                             <item>
-                                              <widget class="QLabel" name="about_tested_on_label">
-                                               <property name="text">
-                                                <string>Evony v0.0.0</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>Evony v0.0.0</string>
+                                            </property>
+                                            <property name="key_value" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -2296,7 +2310,7 @@ QTableWidget::item {
                                         <widget class="QWidget" name="widget" native="true">
                                          <layout class="QHBoxLayout" name="horizontalLayout_24">
                                           <property name="leftMargin">
-                                           <number>0</number>
+                                           <number>11</number>
                                           </property>
                                           <property name="topMargin">
                                            <number>0</number>
@@ -2308,7 +2322,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_4" native="true">
+                                           <widget class="QLabel" name="label_8">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2317,44 +2331,32 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
-                                            <property name="maximumSize">
-                                             <size>
-                                              <width>130</width>
-                                              <height>16777215</height>
-                                             </size>
+                                            <property name="text">
+                                             <string>Developed By</string>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_26">
-                                             <item>
-                                              <widget class="QLabel" name="label_8">
-                                               <property name="text">
-                                                <string>Developed By</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_3" native="true">
+                                           <widget class="QLabel" name="label_9">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_25">
-                                             <item>
-                                              <widget class="QLabel" name="label_9">
-                                               <property name="text">
-                                                <string>MwoNuZzz</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>MwoNuZzz</string>
+                                            </property>
+                                            <property name="key_value" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -2362,10 +2364,7 @@ QTableWidget::item {
                                        </item>
                                        <item>
                                         <widget class="QWidget" name="widget_16" native="true">
-                                         <layout class="QHBoxLayout" name="horizontalLayout_39">
-                                          <property name="leftMargin">
-                                           <number>0</number>
-                                          </property>
+                                         <layout class="QHBoxLayout" name="horizontalLayout_25">
                                           <property name="topMargin">
                                            <number>0</number>
                                           </property>
@@ -2376,7 +2375,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_17" native="true">
+                                           <widget class="QLabel" name="label_18">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2385,44 +2384,32 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
-                                            <property name="maximumSize">
-                                             <size>
-                                              <width>130</width>
-                                              <height>16777215</height>
-                                             </size>
+                                            <property name="text">
+                                             <string>Source Code</string>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_40">
-                                             <item>
-                                              <widget class="QLabel" name="label_18">
-                                               <property name="text">
-                                                <string>Source Code</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_18" native="true">
+                                           <widget class="QLabel" name="label_19">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_41">
-                                             <item>
-                                              <widget class="QLabel" name="label_19">
-                                               <property name="text">
-                                                <string>github.com/evsahal/TaskEX</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>github.com/evsahal/TaskEX</string>
+                                            </property>
+                                            <property name="link" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -2430,10 +2417,7 @@ QTableWidget::item {
                                        </item>
                                        <item>
                                         <widget class="QWidget" name="widget_13" native="true">
-                                         <layout class="QHBoxLayout" name="horizontalLayout_36">
-                                          <property name="leftMargin">
-                                           <number>0</number>
-                                          </property>
+                                         <layout class="QHBoxLayout" name="horizontalLayout_26">
                                           <property name="topMargin">
                                            <number>0</number>
                                           </property>
@@ -2444,7 +2428,7 @@ QTableWidget::item {
                                            <number>0</number>
                                           </property>
                                           <item>
-                                           <widget class="QWidget" name="widget_14" native="true">
+                                           <widget class="QLabel" name="label_16">
                                             <property name="sizePolicy">
                                              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
@@ -2453,44 +2437,32 @@ QTableWidget::item {
                                             </property>
                                             <property name="minimumSize">
                                              <size>
-                                              <width>130</width>
+                                              <width>100</width>
                                               <height>0</height>
                                              </size>
                                             </property>
-                                            <property name="maximumSize">
-                                             <size>
-                                              <width>130</width>
-                                              <height>16777215</height>
-                                             </size>
+                                            <property name="text">
+                                             <string>Community</string>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_37">
-                                             <item>
-                                              <widget class="QLabel" name="label_16">
-                                               <property name="text">
-                                                <string>Community</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="key" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                           <item>
-                                           <widget class="QWidget" name="widget_15" native="true">
+                                           <widget class="QLabel" name="label_17">
                                             <property name="sizePolicy">
-                                             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                                             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                                               <horstretch>0</horstretch>
                                               <verstretch>0</verstretch>
                                              </sizepolicy>
                                             </property>
-                                            <layout class="QHBoxLayout" name="horizontalLayout_38">
-                                             <item>
-                                              <widget class="QLabel" name="label_17">
-                                               <property name="text">
-                                                <string>discord.gg/CPCcxRQn2B</string>
-                                               </property>
-                                              </widget>
-                                             </item>
-                                            </layout>
+                                            <property name="text">
+                                             <string>discord.gg/CPCcxRQn2B</string>
+                                            </property>
+                                            <property name="link" stdset="0">
+                                             <bool>true</bool>
+                                            </property>
                                            </widget>
                                           </item>
                                          </layout>
@@ -3165,8 +3137,8 @@ QComboBox QAbstractItemView {
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>925</width>
-                                   <height>586</height>
+                                   <width>32</width>
+                                   <height>22</height>
                                   </rect>
                                  </property>
                                  <layout class="QHBoxLayout" name="horizontalLayout_9">

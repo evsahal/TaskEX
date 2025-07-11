@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.1
+## Created by: Qt User Interface Compiler version 6.9.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -1126,6 +1126,24 @@ class Ui_MainWindow(object):
 "}")
         self.dashboard_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.dashboard_frame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_30 = QHBoxLayout(self.dashboard_frame)
+        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
+        self.label_5 = QLabel(self.dashboard_frame)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setStyleSheet(u"QLabel {\n"
+"    color: rgb(189, 147, 249);  /* Light purple */\n"
+"    font-size: 20px;\n"
+"    font-weight: bold;\n"
+"    font-family: \"Segoe UI\", sans-serif;\n"
+"    padding: 20px;\n"
+"    qproperty-alignment: AlignCenter;\n"
+"}")
+        self.label_5.setTextFormat(Qt.TextFormat.RichText)
+        self.label_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_5.setWordWrap(True)
+
+        self.horizontalLayout_30.addWidget(self.label_5)
+
 
         self.horizontalLayout_19.addWidget(self.dashboard_frame)
 
@@ -1177,7 +1195,7 @@ class Ui_MainWindow(object):
         self.stacked_widget_about_donation.setObjectName(u"stacked_widget_about_donation")
         sizePolicy2.setHeightForWidth(self.stacked_widget_about_donation.sizePolicy().hasHeightForWidth())
         self.stacked_widget_about_donation.setSizePolicy(sizePolicy2)
-        self.stacked_widget_about_donation.setMinimumSize(QSize(0, 300))
+        self.stacked_widget_about_donation.setMinimumSize(QSize(0, 250))
         self.stacked_widget_about_donation.setMaximumSize(QSize(16777215, 16777215))
         self.about_frame_page = QWidget()
         self.about_frame_page.setObjectName(u"about_frame_page")
@@ -1197,128 +1215,111 @@ class Ui_MainWindow(object):
         self.groupBox.setObjectName(u"groupBox")
         sizePolicy4.setHeightForWidth(self.groupBox.sizePolicy().hasHeightForWidth())
         self.groupBox.setSizePolicy(sizePolicy4)
+        self.groupBox.setStyleSheet(u"/* Added dynamic properties like key, key_value and link via add dynamic property option  */\n"
+"\n"
+"/* ====== Key Labels ====== */\n"
+"QLabel[key=\"true\"] {\n"
+"    color: rgb(189, 147, 249);  /* Light purple */\n"
+"    font-weight: bold;\n"
+"    min-width: 100px;           /* Ensures alignment */\n"
+"}\n"
+"\n"
+"/* ====== Value Labels ====== */\n"
+"QLabel[key_value=\"true\"] {\n"
+"    color: rgb(248, 248, 242);  /* Neutral light text */\n"
+"    font-weight: bold;\n"
+"}\n"
+"\n"
+"/* ====== Hyperlink Labels (GitHub, PayPal etc.) ====== */\n"
+"QLabel[link=\"true\"] {\n"
+"    color: rgb(255, 121, 198);\n"
+"    font-weight: bold;\n"
+"    text-decoration: none;\n"
+"}\n"
+"\n"
+"/* Optional: hover effect for link labels */\n"
+"QLabel[link=\"true\"]:hover {\n"
+"    color: rgb(255, 184, 222);\n"
+"}")
         self.verticalLayout_29 = QVBoxLayout(self.groupBox)
         self.verticalLayout_29.setSpacing(0)
         self.verticalLayout_29.setObjectName(u"verticalLayout_29")
-        self.verticalLayout_29.setContentsMargins(4, 4, 4, 4)
+        self.verticalLayout_29.setContentsMargins(0, 4, 0, 4)
         self.widget_2 = QWidget(self.groupBox)
         self.widget_2.setObjectName(u"widget_2")
         self.horizontalLayout_27 = QHBoxLayout(self.widget_2)
         self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
-        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
-        self.widget_5 = QWidget(self.widget_2)
-        self.widget_5.setObjectName(u"widget_5")
+        self.horizontalLayout_27.setContentsMargins(11, 11, 0, 0)
+        self.label_10 = QLabel(self.widget_2)
+        self.label_10.setObjectName(u"label_10")
         sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy5.setHorizontalStretch(0)
         sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.widget_5.sizePolicy().hasHeightForWidth())
-        self.widget_5.setSizePolicy(sizePolicy5)
-        self.widget_5.setMinimumSize(QSize(130, 0))
-        self.widget_5.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_28 = QHBoxLayout(self.widget_5)
-        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
-        self.label_10 = QLabel(self.widget_5)
-        self.label_10.setObjectName(u"label_10")
+        sizePolicy5.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy5)
+        self.label_10.setMinimumSize(QSize(100, 0))
+        self.label_10.setMaximumSize(QSize(16777215, 16777215))
+        self.label_10.setProperty(u"key", True)
 
-        self.horizontalLayout_28.addWidget(self.label_10)
+        self.horizontalLayout_27.addWidget(self.label_10)
 
-
-        self.horizontalLayout_27.addWidget(self.widget_5)
-
-        self.widget_6 = QWidget(self.widget_2)
-        self.widget_6.setObjectName(u"widget_6")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Preferred)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.widget_6.sizePolicy().hasHeightForWidth())
-        self.widget_6.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_29 = QHBoxLayout(self.widget_6)
-        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
-        self.label_11 = QLabel(self.widget_6)
+        self.label_11 = QLabel(self.widget_2)
         self.label_11.setObjectName(u"label_11")
+        sizePolicy3.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
+        self.label_11.setSizePolicy(sizePolicy3)
+        self.label_11.setProperty(u"key_value", True)
 
-        self.horizontalLayout_29.addWidget(self.label_11)
-
-
-        self.horizontalLayout_27.addWidget(self.widget_6)
+        self.horizontalLayout_27.addWidget(self.label_11)
 
 
         self.verticalLayout_29.addWidget(self.widget_2)
 
         self.widget_7 = QWidget(self.groupBox)
         self.widget_7.setObjectName(u"widget_7")
-        self.horizontalLayout_30 = QHBoxLayout(self.widget_7)
-        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
-        self.horizontalLayout_30.setContentsMargins(0, 0, 0, 0)
-        self.widget_8 = QWidget(self.widget_7)
-        self.widget_8.setObjectName(u"widget_8")
-        sizePolicy5.setHeightForWidth(self.widget_8.sizePolicy().hasHeightForWidth())
-        self.widget_8.setSizePolicy(sizePolicy5)
-        self.widget_8.setMinimumSize(QSize(130, 0))
-        self.widget_8.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_31 = QHBoxLayout(self.widget_8)
-        self.horizontalLayout_31.setObjectName(u"horizontalLayout_31")
-        self.label_12 = QLabel(self.widget_8)
+        self.horizontalLayout_28 = QHBoxLayout(self.widget_7)
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.horizontalLayout_28.setContentsMargins(-1, 0, 0, 0)
+        self.label_12 = QLabel(self.widget_7)
         self.label_12.setObjectName(u"label_12")
+        sizePolicy5.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
+        self.label_12.setSizePolicy(sizePolicy5)
+        self.label_12.setMinimumSize(QSize(100, 0))
+        self.label_12.setProperty(u"key", True)
 
-        self.horizontalLayout_31.addWidget(self.label_12)
+        self.horizontalLayout_28.addWidget(self.label_12)
 
-
-        self.horizontalLayout_30.addWidget(self.widget_8)
-
-        self.widget_9 = QWidget(self.widget_7)
-        self.widget_9.setObjectName(u"widget_9")
-        sizePolicy6.setHeightForWidth(self.widget_9.sizePolicy().hasHeightForWidth())
-        self.widget_9.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_32 = QHBoxLayout(self.widget_9)
-        self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
-        self.about_version_label = QLabel(self.widget_9)
+        self.about_version_label = QLabel(self.widget_7)
         self.about_version_label.setObjectName(u"about_version_label")
-        sizePolicy6.setHeightForWidth(self.about_version_label.sizePolicy().hasHeightForWidth())
-        self.about_version_label.setSizePolicy(sizePolicy6)
+        sizePolicy3.setHeightForWidth(self.about_version_label.sizePolicy().hasHeightForWidth())
+        self.about_version_label.setSizePolicy(sizePolicy3)
+        self.about_version_label.setProperty(u"key_value", True)
 
-        self.horizontalLayout_32.addWidget(self.about_version_label)
-
-
-        self.horizontalLayout_30.addWidget(self.widget_9)
+        self.horizontalLayout_28.addWidget(self.about_version_label)
 
 
         self.verticalLayout_29.addWidget(self.widget_7)
 
         self.widget_10 = QWidget(self.groupBox)
         self.widget_10.setObjectName(u"widget_10")
-        self.horizontalLayout_33 = QHBoxLayout(self.widget_10)
-        self.horizontalLayout_33.setObjectName(u"horizontalLayout_33")
-        self.horizontalLayout_33.setContentsMargins(0, 0, 0, 0)
-        self.widget_11 = QWidget(self.widget_10)
-        self.widget_11.setObjectName(u"widget_11")
-        sizePolicy5.setHeightForWidth(self.widget_11.sizePolicy().hasHeightForWidth())
-        self.widget_11.setSizePolicy(sizePolicy5)
-        self.widget_11.setMinimumSize(QSize(130, 0))
-        self.widget_11.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_34 = QHBoxLayout(self.widget_11)
-        self.horizontalLayout_34.setObjectName(u"horizontalLayout_34")
-        self.label_14 = QLabel(self.widget_11)
+        self.horizontalLayout_29 = QHBoxLayout(self.widget_10)
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.horizontalLayout_29.setContentsMargins(-1, 0, 0, 0)
+        self.label_14 = QLabel(self.widget_10)
         self.label_14.setObjectName(u"label_14")
+        sizePolicy5.setHeightForWidth(self.label_14.sizePolicy().hasHeightForWidth())
+        self.label_14.setSizePolicy(sizePolicy5)
+        self.label_14.setMinimumSize(QSize(100, 0))
+        self.label_14.setProperty(u"key", True)
 
-        self.horizontalLayout_34.addWidget(self.label_14)
+        self.horizontalLayout_29.addWidget(self.label_14)
 
-
-        self.horizontalLayout_33.addWidget(self.widget_11)
-
-        self.widget_12 = QWidget(self.widget_10)
-        self.widget_12.setObjectName(u"widget_12")
-        sizePolicy6.setHeightForWidth(self.widget_12.sizePolicy().hasHeightForWidth())
-        self.widget_12.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_35 = QHBoxLayout(self.widget_12)
-        self.horizontalLayout_35.setObjectName(u"horizontalLayout_35")
-        self.about_tested_on_label = QLabel(self.widget_12)
+        self.about_tested_on_label = QLabel(self.widget_10)
         self.about_tested_on_label.setObjectName(u"about_tested_on_label")
+        sizePolicy3.setHeightForWidth(self.about_tested_on_label.sizePolicy().hasHeightForWidth())
+        self.about_tested_on_label.setSizePolicy(sizePolicy3)
+        self.about_tested_on_label.setProperty(u"key_value", True)
 
-        self.horizontalLayout_35.addWidget(self.about_tested_on_label)
-
-
-        self.horizontalLayout_33.addWidget(self.widget_12)
+        self.horizontalLayout_29.addWidget(self.about_tested_on_label)
 
 
         self.verticalLayout_29.addWidget(self.widget_10)
@@ -1327,112 +1328,73 @@ class Ui_MainWindow(object):
         self.widget.setObjectName(u"widget")
         self.horizontalLayout_24 = QHBoxLayout(self.widget)
         self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
-        self.horizontalLayout_24.setContentsMargins(0, 0, 0, 0)
-        self.widget_4 = QWidget(self.widget)
-        self.widget_4.setObjectName(u"widget_4")
-        sizePolicy5.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
-        self.widget_4.setSizePolicy(sizePolicy5)
-        self.widget_4.setMinimumSize(QSize(130, 0))
-        self.widget_4.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_26 = QHBoxLayout(self.widget_4)
-        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
-        self.label_8 = QLabel(self.widget_4)
+        self.horizontalLayout_24.setContentsMargins(11, 0, 0, 0)
+        self.label_8 = QLabel(self.widget)
         self.label_8.setObjectName(u"label_8")
+        sizePolicy5.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy5)
+        self.label_8.setMinimumSize(QSize(100, 0))
+        self.label_8.setProperty(u"key", True)
 
-        self.horizontalLayout_26.addWidget(self.label_8)
+        self.horizontalLayout_24.addWidget(self.label_8)
 
-
-        self.horizontalLayout_24.addWidget(self.widget_4)
-
-        self.widget_3 = QWidget(self.widget)
-        self.widget_3.setObjectName(u"widget_3")
-        sizePolicy6.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
-        self.widget_3.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_25 = QHBoxLayout(self.widget_3)
-        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
-        self.label_9 = QLabel(self.widget_3)
+        self.label_9 = QLabel(self.widget)
         self.label_9.setObjectName(u"label_9")
+        sizePolicy3.setHeightForWidth(self.label_9.sizePolicy().hasHeightForWidth())
+        self.label_9.setSizePolicy(sizePolicy3)
+        self.label_9.setProperty(u"key_value", True)
 
-        self.horizontalLayout_25.addWidget(self.label_9)
-
-
-        self.horizontalLayout_24.addWidget(self.widget_3)
+        self.horizontalLayout_24.addWidget(self.label_9)
 
 
         self.verticalLayout_29.addWidget(self.widget)
 
         self.widget_16 = QWidget(self.groupBox)
         self.widget_16.setObjectName(u"widget_16")
-        self.horizontalLayout_39 = QHBoxLayout(self.widget_16)
-        self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
-        self.horizontalLayout_39.setContentsMargins(0, 0, 0, 0)
-        self.widget_17 = QWidget(self.widget_16)
-        self.widget_17.setObjectName(u"widget_17")
-        sizePolicy5.setHeightForWidth(self.widget_17.sizePolicy().hasHeightForWidth())
-        self.widget_17.setSizePolicy(sizePolicy5)
-        self.widget_17.setMinimumSize(QSize(130, 0))
-        self.widget_17.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_40 = QHBoxLayout(self.widget_17)
-        self.horizontalLayout_40.setObjectName(u"horizontalLayout_40")
-        self.label_18 = QLabel(self.widget_17)
+        self.horizontalLayout_25 = QHBoxLayout(self.widget_16)
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.horizontalLayout_25.setContentsMargins(-1, 0, 0, 0)
+        self.label_18 = QLabel(self.widget_16)
         self.label_18.setObjectName(u"label_18")
+        sizePolicy5.setHeightForWidth(self.label_18.sizePolicy().hasHeightForWidth())
+        self.label_18.setSizePolicy(sizePolicy5)
+        self.label_18.setMinimumSize(QSize(100, 0))
+        self.label_18.setProperty(u"key", True)
 
-        self.horizontalLayout_40.addWidget(self.label_18)
+        self.horizontalLayout_25.addWidget(self.label_18)
 
-
-        self.horizontalLayout_39.addWidget(self.widget_17)
-
-        self.widget_18 = QWidget(self.widget_16)
-        self.widget_18.setObjectName(u"widget_18")
-        sizePolicy6.setHeightForWidth(self.widget_18.sizePolicy().hasHeightForWidth())
-        self.widget_18.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_41 = QHBoxLayout(self.widget_18)
-        self.horizontalLayout_41.setObjectName(u"horizontalLayout_41")
-        self.label_19 = QLabel(self.widget_18)
+        self.label_19 = QLabel(self.widget_16)
         self.label_19.setObjectName(u"label_19")
+        sizePolicy3.setHeightForWidth(self.label_19.sizePolicy().hasHeightForWidth())
+        self.label_19.setSizePolicy(sizePolicy3)
+        self.label_19.setProperty(u"link", True)
 
-        self.horizontalLayout_41.addWidget(self.label_19)
-
-
-        self.horizontalLayout_39.addWidget(self.widget_18)
+        self.horizontalLayout_25.addWidget(self.label_19)
 
 
         self.verticalLayout_29.addWidget(self.widget_16)
 
         self.widget_13 = QWidget(self.groupBox)
         self.widget_13.setObjectName(u"widget_13")
-        self.horizontalLayout_36 = QHBoxLayout(self.widget_13)
-        self.horizontalLayout_36.setObjectName(u"horizontalLayout_36")
-        self.horizontalLayout_36.setContentsMargins(0, 0, 0, 0)
-        self.widget_14 = QWidget(self.widget_13)
-        self.widget_14.setObjectName(u"widget_14")
-        sizePolicy5.setHeightForWidth(self.widget_14.sizePolicy().hasHeightForWidth())
-        self.widget_14.setSizePolicy(sizePolicy5)
-        self.widget_14.setMinimumSize(QSize(130, 0))
-        self.widget_14.setMaximumSize(QSize(130, 16777215))
-        self.horizontalLayout_37 = QHBoxLayout(self.widget_14)
-        self.horizontalLayout_37.setObjectName(u"horizontalLayout_37")
-        self.label_16 = QLabel(self.widget_14)
+        self.horizontalLayout_26 = QHBoxLayout(self.widget_13)
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.horizontalLayout_26.setContentsMargins(-1, 0, 0, 0)
+        self.label_16 = QLabel(self.widget_13)
         self.label_16.setObjectName(u"label_16")
+        sizePolicy5.setHeightForWidth(self.label_16.sizePolicy().hasHeightForWidth())
+        self.label_16.setSizePolicy(sizePolicy5)
+        self.label_16.setMinimumSize(QSize(100, 0))
+        self.label_16.setProperty(u"key", True)
 
-        self.horizontalLayout_37.addWidget(self.label_16)
+        self.horizontalLayout_26.addWidget(self.label_16)
 
-
-        self.horizontalLayout_36.addWidget(self.widget_14)
-
-        self.widget_15 = QWidget(self.widget_13)
-        self.widget_15.setObjectName(u"widget_15")
-        sizePolicy6.setHeightForWidth(self.widget_15.sizePolicy().hasHeightForWidth())
-        self.widget_15.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_38 = QHBoxLayout(self.widget_15)
-        self.horizontalLayout_38.setObjectName(u"horizontalLayout_38")
-        self.label_17 = QLabel(self.widget_15)
+        self.label_17 = QLabel(self.widget_13)
         self.label_17.setObjectName(u"label_17")
+        sizePolicy3.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
+        self.label_17.setSizePolicy(sizePolicy3)
+        self.label_17.setProperty(u"link", True)
 
-        self.horizontalLayout_38.addWidget(self.label_17)
-
-
-        self.horizontalLayout_36.addWidget(self.widget_15)
+        self.horizontalLayout_26.addWidget(self.label_17)
 
 
         self.verticalLayout_29.addWidget(self.widget_13)
@@ -1452,11 +1414,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_32.setContentsMargins(0, 0, 0, -1)
         self.donation_frame = QFrame(self.donation_frame_page)
         self.donation_frame.setObjectName(u"donation_frame")
-        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy7.setHorizontalStretch(0)
-        sizePolicy7.setVerticalStretch(0)
-        sizePolicy7.setHeightForWidth(self.donation_frame.sizePolicy().hasHeightForWidth())
-        self.donation_frame.setSizePolicy(sizePolicy7)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.donation_frame.sizePolicy().hasHeightForWidth())
+        self.donation_frame.setSizePolicy(sizePolicy6)
         self.donation_frame.setMaximumSize(QSize(16777215, 16777215))
         self.donation_frame.setFrameShape(QFrame.Shape.NoFrame)
         self.donation_frame.setFrameShadow(QFrame.Shadow.Raised)
@@ -1469,8 +1431,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_28.setObjectName(u"verticalLayout_28")
         self.frame_15 = QFrame(self.groupBox_2)
         self.frame_15.setObjectName(u"frame_15")
-        sizePolicy7.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
-        self.frame_15.setSizePolicy(sizePolicy7)
+        sizePolicy6.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
+        self.frame_15.setSizePolicy(sizePolicy6)
         self.frame_15.setFrameShape(QFrame.Shape.NoFrame)
         self.frame_15.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_30 = QVBoxLayout(self.frame_15)
@@ -1478,8 +1440,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_30.setContentsMargins(0, 7, 0, 7)
         self.label_6 = QLabel(self.frame_15)
         self.label_6.setObjectName(u"label_6")
-        sizePolicy7.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy7)
+        sizePolicy6.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy6)
         self.label_6.setMaximumSize(QSize(280, 280))
         self.label_6.setStyleSheet(u"QLabel{\n"
 "    border: 2px solid rgb(189, 147, 249);\n"
@@ -1497,8 +1459,8 @@ class Ui_MainWindow(object):
 
         self.frame_19 = QFrame(self.groupBox_2)
         self.frame_19.setObjectName(u"frame_19")
-        sizePolicy7.setHeightForWidth(self.frame_19.sizePolicy().hasHeightForWidth())
-        self.frame_19.setSizePolicy(sizePolicy7)
+        sizePolicy6.setHeightForWidth(self.frame_19.sizePolicy().hasHeightForWidth())
+        self.frame_19.setSizePolicy(sizePolicy6)
         self.frame_19.setStyleSheet(u"QFrame#line_left, QFrame#line_right {\n"
 "    background-color: rgb(68, 71, 90); /* Dracula mid tone */\n"
 "    max-height: 1px;\n"
@@ -1553,11 +1515,11 @@ class Ui_MainWindow(object):
 
         self.donate_now_btn_frame = QFrame(self.about_donation_frame)
         self.donate_now_btn_frame.setObjectName(u"donate_now_btn_frame")
-        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy8.setHorizontalStretch(0)
-        sizePolicy8.setVerticalStretch(0)
-        sizePolicy8.setHeightForWidth(self.donate_now_btn_frame.sizePolicy().hasHeightForWidth())
-        self.donate_now_btn_frame.setSizePolicy(sizePolicy8)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.donate_now_btn_frame.sizePolicy().hasHeightForWidth())
+        self.donate_now_btn_frame.setSizePolicy(sizePolicy7)
         self.donate_now_btn_frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.donate_now_btn_frame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_21 = QHBoxLayout(self.donate_now_btn_frame)
@@ -1776,7 +1738,7 @@ class Ui_MainWindow(object):
         self.bm_generals_scroll_area.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 925, 586))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 32, 22))
         self.horizontalLayout_9 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(11, 11, 11, 11)
@@ -2263,6 +2225,7 @@ class Ui_MainWindow(object):
         self.closeAppBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Close", None))
 #endif // QT_CONFIG(tooltip)
         self.closeAppBtn.setText("")
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:45px;\">Welcome to TaskEnforcerX</span><br/><span style=\" font-size:13px; font-style:italic; color:#aaaaaa;\">Your dashboard is still in development. </span></p></body></html>", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Info", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Name", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"TaskenforcerX", None))
