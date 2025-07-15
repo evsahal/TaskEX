@@ -1351,7 +1351,7 @@ class Ui_InstancePage(object):
         self.jr_join_oldest_rallies_first___.setText(QCoreApplication.translate("InstancePage", u"Join Oldest Rallies First", None))
         self.jr_march_speed___.setText(QCoreApplication.translate("InstancePage", u"Boost March Speed", None))
         self.jr_march_speed_configure___.setText(QCoreApplication.translate("InstancePage", u"  Configure", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Join Rally", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.join_rally_tab_), QCoreApplication.translate("InstancePage", u"Rally Joiner", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.monster_setter_tab_), QCoreApplication.translate("InstancePage", u"Monster Setter", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.resource_gathering_tab_), QCoreApplication.translate("InstancePage", u"Resource Gathering", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.world_map_scan_tab_), QCoreApplication.translate("InstancePage", u"World Map Scan", None))

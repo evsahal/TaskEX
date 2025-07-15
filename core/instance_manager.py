@@ -198,7 +198,7 @@ def find_emulator_ports():
                     if local_port < 26000 and local_port != 21501 and remote_address == '0.0.0.0':
                         emulator_ports.append((emulator_player_names[process_name], local_port))
 
-            except (psutil.NoSuchProcess, psutil.AccessDenied, AttributeError):
+            except (psutil.NoSuchProcess, psutil.AccessDenied, AttributeError) as e:
                 print(e)
                 continue
 
